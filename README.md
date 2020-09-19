@@ -22,3 +22,13 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# Technology stack
+
+- vue
+- vue-router
+- vuex
+- ts
+- sass
+- eslint
+- web socket

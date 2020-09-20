@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
   env: {
-    node : true
+    node: true
   },
   extends: [
-    'plugin:vue/vue3-essential',
+    'plugin:vue/essential',
     '@vue/standard',
     '@vue/typescript/recommended'
   ],

@@ -13,7 +13,15 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
+      "webpack-env",
+      "webpack",
+      "vuetify",
+      "webpack",
       "webpack-env"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/vuetify/types"
     ],
     "paths": {
       "@/*": [

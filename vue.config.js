@@ -1,4 +1,5 @@
 module.exports = {
+  productionSourceMap: false,
   transpileDependencies: [
     'vuetify'
   ],
@@ -10,5 +11,10 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: false
     }
+  },
+
+  devServer:{
+    port : 80
+    // https:true
   }
 }

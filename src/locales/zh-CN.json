@@ -1,3 +1,10 @@
 {
-  "message": "hello i18n !!"
+  "message": "你好 i18n !!",
+  "nav-bar": {
+    "home": "主页",
+    "help": "帮助",
+    "problems": "题库",
+    "state": "状态",
+    "assignment": "作业/竞赛"
+  }
 }

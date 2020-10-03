@@ -11,10 +11,9 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-@Component({
-  name: "S-NavBar"
-})
-export default class S_NavBar extends Vue{
+
+@Component
+export default class SNavBar extends Vue{
 }
 </script>
 

@@ -6,5 +6,13 @@
     "problems": "题库",
     "state": "状态",
     "assignment": "作业/竞赛"
+  },
+  "nav-user": {
+    "profile": "个人信息",
+    "sign-out": "注销"
+  },
+  "home": {
+    "announcement": "公告",
+    "c/a": "近期比赛/作业"
   }
 }

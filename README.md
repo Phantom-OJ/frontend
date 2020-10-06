@@ -35,3 +35,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### look for icon
 https://material.iconhelper.cn/
+
+beaconAPI

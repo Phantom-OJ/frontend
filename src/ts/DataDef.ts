@@ -1,9 +1,14 @@
-export interface Avatar {
-  exist: boolean
-  src: string
-}
 
 export interface User {
   ID: string
   group: string
+  avatar: string
+}
+
+export interface LoginForm {
+
+}
+
+export interface SignOutForm {
+
 }

@@ -1,21 +1,21 @@
 <template>
   <v-app-bar app id="app-bar" color="white">
     <v-app-bar-nav-icon
-      class="hidden-md-and-up"
-      @click="$emit('toggle-side-nav')"
+      id="nav-icon"
+      @click="$store.commit('setSideNav', {v:!$store.state.sideNav})"
     >
     </v-app-bar-nav-icon>
-    <v-avatar>
+    <v-avatar id="logo-img">
       <v-img src="../assets/phantom.jpg"></v-img>
     </v-avatar>
     <label id="logo-text">
       Phantom OJ
     </label>
     <v-spacer></v-spacer>
-    <ul id="app-bar-btn-list hidden-sm-and-down" style="padding: 0">
-      <li v-for="(btn, index) in btns"
+    <ul id="app-bar-btn-list " style="padding: 0">
+      <li v-for="(btn, index) in $store.state.nav"
           :key="index"
-          class="app-bar-btn-item hidden-sm-and-down"
+          class="app-bar-btn-item hidden-md-and-down"
       >
         <v-btn
           text
@@ -31,7 +31,10 @@
       </li>
     </ul>
     <v-spacer></v-spacer>
-    <s-avatar :size="40" id="app-bar-s-avatar"></s-avatar>
+    <s-avatar
+      :size="48"
+      id="app-bar-s-avatar"
+    ></s-avatar>
   </v-app-bar>
 </template>
 
@@ -43,40 +46,14 @@ import SAvatar from "@/components/SAvatar.vue";
   components: {SAvatar}
 })
 export default class SAppBar extends Vue {
-  btns = [{
-    text: 'nav-bar.home',
-    description: 'nav-bar.home_des',
-    icon: 'mdi-home-circle-outline',
-    to:'/'
-  },{
-    text: 'nav-bar.help',
-    description: 'nav.help_des',
-    icon: 'mdi-help-circle-outline',
-    to:'/help'
-  }, {
-    text: 'nav-bar.problems',
-    description: 'nav.problems_des',
-    icon: 'mdi-folder-outline',
-    to:'/problem/all'
-  }, {
-    text: 'nav-bar.state',
-    description: 'nav-bar.state_des',
-    icon: 'mdi-state-machine',
-    to: '/state/all'
-  },{
-    text: 'nav-bar.assignment',
-    description: 'nav-bar.assignment_des',
-    icon: 'mdi-clipboard-text',
-    to: '/assignment/all'
-  }]
 }
 </script>
 
 <style scoped lang="scss">
   $app-bar-height: 56px;
 
-  #app-bar{
-    width: 80%;
+  #app-bar {
+    width: 82%;
     margin: 0 auto;
   }
 
@@ -86,22 +63,32 @@ export default class SAppBar extends Vue {
 
   .app-bar-btn-item {
     display: inline-block;
-    margin: 0 30px;
+    margin: 0 18px;
   }
 
-  .app-bar-btn-item-btn-icon{
+  .app-bar-btn-item-btn-icon {
     display: inline-block;
     margin: 0 10px 0 0;
   }
 
   #app-bar-s-avatar {
     line-height: $app-bar-height;
-    margin: 0 30px 0 0;
+    margin: 0 2% 0 0;
+  }
+
+  #logo-img {
+    margin: 0 0 0 2%;
   }
 
   #logo-text {
     padding: 12px;
     font-weight: 600;
     line-height: $app-bar-height;
+  }
+
+  @media only screen and (min-width: 1300px) {
+    #nav-icon {
+      display: none !important
+    }
   }
 </style>

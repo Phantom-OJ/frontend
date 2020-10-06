@@ -2,7 +2,6 @@
   <div>
     <v-menu
       offset-y
-      open-on-hover
       auto
     >
       <template v-slot:activator="{on, attrs}">
@@ -13,20 +12,23 @@
           v-bind="attrs"
         >
           <img
-            v-if="avatar.exist"
-            :src="avatar.src"
+            :src="user.avatar"
             alt="avatar"
-            @click="push(`/user/${user.ID}`)"
           >
         </v-avatar>
       </template>
       <v-list>
         <v-list-item
-          v-for="(item, index) in items"
-          :key="index" @click="item.onClick"
+          :to="navUser.profile.to"
           class="cursor-hand-hover avatar-list-item"
         >
-          {{item.title}}
+          {{$t(navUser.profile.text)}}
+        </v-list-item>
+        <v-list-item
+          @click="function(){$store.dispatch(navUser.signOut.event)}"
+          class="cursor-hand-hover avatar-list-item"
+        >
+          {{$t(navUser.signOut.text)}}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -42,13 +44,9 @@ import {Component, Vue} from 'vue-property-decorator'
     size: {
       type: Number,
       default: 12
-    },
-    items: {
-      type: Array,
-      default: () => [{title: 'settings', onClick: () => console.log('settings')}]
     }
   },
-  computed: mapState(['user', 'avatar'])
+  computed: mapState(['user','navUser'])
 })
 export default class SAvatar extends Vue {
   push(url: string) {

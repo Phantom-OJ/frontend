@@ -1,8 +1,7 @@
 <template>
-  <v-app>
-    <s-app-bar>
-
-    </s-app-bar>
+  <v-app :class="`lang-${$i18n.locale}`">
+    <s-nav-bar />
+    <s-app-bar />
 
     <v-main>
       <router-view/>
@@ -14,17 +13,11 @@
 import {Component, Vue} from 'vue-property-decorator'
 import 'element-ui/lib/theme-chalk/display.css'
 import SAppBar from "@/components/SAppBar.vue";
+import SNavBar from "@/components/SNavBar.vue";
 
 @Component({
   name: 'App',
-  components: {SAppBar},
-  // components: {
-  //   HelloWorld
-  // },
-
-  data: () => ({
-    //
-  })
+  components: {SNavBar, SAppBar}
 })
 export default class App extends Vue {
 

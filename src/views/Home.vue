@@ -1,23 +1,7 @@
 <template>
   <div class="home">
     <div id="home-main">
-      <div id="home-announcement" class="card-shadow">
-        <v-card-title>
-          {{$t('home.announcement')}}
-        </v-card-title>
-        <hr/>
-        <v-card-text style="padding-top: 12px">
-          <ul style="padding-left: 12px">
-            <li
-              v-for="(a,index) in announcement"
-              :key="index"
-              class="home-announcement-item lang-en"
-            >
-              {{a.title}}
-            </li>
-          </ul>
-        </v-card-text>
-      </div>
+      <s-announcement  id="home-announcement" />
       <div id="home-contest-assignment" class="card-shadow">
         <v-card-title>
           {{$t('home.c/a')}}
@@ -25,7 +9,19 @@
         <hr/>
       </div>
     </div>
-    <v-img>lslnb</v-img>
+    <v-sparkline
+      fill
+      :labels="label"
+      :gradient=" ['#f72047', '#ffd200', '#1feaea']"
+      :line-width="2"
+      :padding="8"
+      :smooth="10"
+      :value="value"
+      auto-draw
+      height="60"
+      style="width: 82%;margin: 0 auto"
+    >
+    </v-sparkline>
   </div>
 </template>
 
@@ -33,22 +29,21 @@
 import API from '@/ts/api'
 import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
-import SAvatar from "@/components/SAvatar.vue"; // @ is an alias to /src
+import SAvatar from "@/components/SAvatar.vue";
+import SAnnouncement from "@/components/SAnnouncement.vue"; // @ is an alias to /src
 
 @Component({
   components: {
+    SAnnouncement,
     SAvatar,
     HelloWorld
   }
 })
 export default class Home extends Vue {
-  announcement = [{
-    title: 'lslnb'
-  },{
-    title: 'nqsnb'
-  },{
-    title: 'mzynb'
-  }]
+
+  value = [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]
+
+  label = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
   created() {
     console.log('lslnb')
@@ -77,10 +72,7 @@ export default class Home extends Vue {
       flex-direction: column;
     }
 
-    .home-announcement-item{
-      padding: 2px 0;
-      margin: 5px auto;
-    }
+
   }
 
   #home-announcement {

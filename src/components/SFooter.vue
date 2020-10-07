@@ -1,5 +1,7 @@
 <template>
-
+  <v-footer>
+    <
+  </v-footer>
 </template>
 
 <script lang="ts">

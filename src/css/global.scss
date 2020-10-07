@@ -1,3 +1,17 @@
+@import "variable";
+
+
+.inline-block{
+  display: inline-block;
+}
+
+.h-center{
+  margin: 0 auto;
+}
+
+.app-width{
+  width: $app-width;
+}
 
 @font-face {
   font-family: HYQuan;

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app id="app-bar" color="white">
+  <v-app-bar app class="app-width h-center" color="white">
     <v-app-bar-nav-icon
       id="nav-icon"
       @click="$store.commit('setSideNav', {v:!$store.state.sideNav})"
@@ -12,18 +12,17 @@
       Phantom OJ
     </label>
     <v-spacer></v-spacer>
-    <ul id="app-bar-btn-list " style="padding: 0">
+    <ul class="inline-block" style="padding: 0">
       <li v-for="(btn, index) in $store.state.nav"
           :key="index"
-          class="app-bar-btn-item hidden-md-and-down"
+          class="app-bar-btn-item inline-block hidden-md-and-down"
       >
         <v-btn
           text
           :key="index"
-          class="app-bar-btn-item-btn"
           :to="btn.to"
         >
-          <v-icon class="app-bar-btn-item-btn-icon">
+          <v-icon class="app-bar-btn-item-btn-icon inline-block">
             {{btn.icon}}
           </v-icon>
           {{$t(btn.text)}}
@@ -52,22 +51,11 @@ export default class SAppBar extends Vue {
 <style scoped lang="scss">
   $app-bar-height: 56px;
 
-  #app-bar {
-    width: 82%;
-    margin: 0 auto;
-  }
-
-  #app-bar-btn-list {
-    display: inline-block;
-  }
-
   .app-bar-btn-item {
-    display: inline-block;
     margin: 0 18px;
   }
 
   .app-bar-btn-item-btn-icon {
-    display: inline-block;
     margin: 0 10px 0 0;
   }
 

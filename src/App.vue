@@ -1,5 +1,5 @@
 <template>
-  <v-app :class="`lang-${$i18n.locale}`">
+  <v-app :class="`lang-${$i18n.locale}`" id="s-app">
     <s-nav-bar />
     <s-app-bar />
 
@@ -25,4 +25,10 @@ export default class App extends Vue {
 </script>
 <style lang="scss">
   @import "./css/global.scss";
+  #s-app-not{
+    background-image: url("./assets/logo.png") !important;
+    background-size: 80% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 </style>

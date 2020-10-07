@@ -94,8 +94,4 @@ export default class SNavBar extends Vue {
     margin: 5px 10px;
   }
 
-  p.title-text {
-    margin: 0 0;
-    line-height: 36px;
-  }
 </style>

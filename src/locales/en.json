@@ -14,5 +14,15 @@
   "home": {
     "announcement": "Announcement",
     "c/a": "Recent contest/assignment"
+  },
+  "footer": {
+    "contact": {
+      "title": "contact us",
+      "content": "Mail: 11811407@mail.sustech.edu.cn"
+    },
+    "about": {
+      "title": "about",
+      "content": "Shilong Li, Zunyao Mao, Qiushi Nie, Jiaxi Zhang"
+    }
   }
 }

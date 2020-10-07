@@ -6,6 +6,7 @@
     <v-main>
       <router-view/>
     </v-main>
+    <s-footer/>
   </v-app>
 </template>
 
@@ -14,10 +15,11 @@ import {Component, Vue} from 'vue-property-decorator'
 import 'element-ui/lib/theme-chalk/display.css'
 import SAppBar from "@/components/SAppBar.vue";
 import SNavBar from "@/components/SNavBar.vue";
+import SFooter from "@/components/SFooter.vue";
 
 @Component({
   name: 'App',
-  components: {SNavBar, SAppBar}
+  components: {SFooter, SNavBar, SAppBar}
 })
 export default class App extends Vue {
 

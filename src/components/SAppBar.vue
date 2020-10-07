@@ -6,7 +6,7 @@
     >
     </v-app-bar-nav-icon>
     <v-avatar id="logo-img">
-      <v-img src="../assets/phantom.jpg"></v-img>
+      <v-img src="../assets/slogo.svg"></v-img>
     </v-avatar>
     <label id="logo-text">
       Phantom OJ

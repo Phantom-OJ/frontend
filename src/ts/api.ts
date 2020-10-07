@@ -29,5 +29,9 @@ export default {
 
   getAnnouncement() {
     return this.requestWithCatch('get','',null,(e:any)=>console.log(e))
+  },
+
+  getHomeStatisticsData(){
+    return this.requestWithCatch('get','',null,(e:any)=>console.log(e))
   }
 }

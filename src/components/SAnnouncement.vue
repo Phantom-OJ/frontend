@@ -1,7 +1,9 @@
 <template>
-  <div class="card-shadow">
+  <v-card class="card-shadow">
     <v-card-title>
-      {{$t('home.announcement')}}
+      <span @click="$router.push('/announcement')" class="cursor-hand-hover">
+        {{$t('home.announcement')}}
+      </span>
     </v-card-title>
     <hr/>
     <v-card-text id="announcement-card-text" style="padding-top: 12px">
@@ -39,7 +41,7 @@
         </li>
       </ul>
     </v-card-text>
-  </div>
+  </v-card>
 </template>
 
 <script>

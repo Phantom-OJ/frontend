@@ -20,7 +20,7 @@
       </v-card-title>
       <hr class="mx-4"/>
       <v-card-actions>
-        <v-list>
+        <v-list nav >
           <v-list-item
             v-for="(btn, index) in nav"
             :key="index"
@@ -40,10 +40,11 @@
       </v-card-actions>
       <div style="height: 25%"></div>
       <v-card-actions>
-        <div>
+        <div style="margin: 0 auto">
           <v-btn
             :to="navUser.profile.to"
             class="user-nav-btn"
+            text
           >
             <v-icon>
               {{navUser.profile.icon}}
@@ -53,6 +54,7 @@
           <v-btn
             @click="function(){$store.dispatch(navUser.signOut.event)}"
             class="user-nav-btn"
+            text
           >
             <v-icon>
               {{navUser.signOut.icon}}
@@ -83,7 +85,7 @@ export default class SNavBar extends Vue {
 
   set hideNav(v) {
     console.log('???', v)
-    this.$store.commit('setSideNav', {v: v})
+    this.$store.commit('setSideNav', v)
   }
 }
 </script>
@@ -91,7 +93,8 @@ export default class SNavBar extends Vue {
 <style scoped lang="scss">
 
   .user-nav-btn{
-    margin: 5px 10px;
+    margin: 5px 5px 5px 0px;
+    padding: 0 12px !important;
   }
 
 </style>

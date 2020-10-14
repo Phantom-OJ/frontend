@@ -5,7 +5,7 @@
     "help": "帮助",
     "problems": "题库",
     "state": "状态",
-    "assignment": "作业/竞赛"
+    "contest": "作业/竞赛"
   },
   "nav-user": {
     "profile": "个人信息",

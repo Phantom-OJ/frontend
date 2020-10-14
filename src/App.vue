@@ -28,9 +28,9 @@ export default class App extends Vue {
 <style lang="scss">
   @import "./css/global.scss";
   #s-app-not{
-    background-image: url("./assets/logo.png") !important;
-    background-size: 80% 100%;
+    background-color: rgba(200, 240, 252, 1);
     background-position: center;
     background-repeat: no-repeat;
   }
+
 </style>

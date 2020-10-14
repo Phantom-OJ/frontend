@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {LoginForm, User} from "@/ts/DataDef"
+import {LoginForm, User,  ProblemInfo, ContestInfo} from "@/ts/DataDef"
 import API from '@/ts/api'
 
 Vue.use(Vuex)
@@ -15,58 +15,68 @@ export default new Vuex.Store({
   state: {
     user: notLogin,
     sideNav: <boolean>false,
-    nav: [{
-      text: 'nav-bar.home',
-      icon: 'mdi-home-circle-outline',
-      to: '/'
-    }, {
-      text: 'nav-bar.help',
-      description: 'nav.help_des',
-      icon: 'mdi-help-circle-outline',
-      to: '/help'
-    }, {
-      text: 'nav-bar.problems',
-      icon: 'mdi-folder-outline',
-      to: '/problem/all'
-    }, {
-      text: 'nav-bar.state',
-      icon: 'mdi-state-machine',
-      to: '/state/all'
-    }, {
-      text: 'nav-bar.assignment',
-      icon: 'mdi-clipboard-text',
-      to: '/assignment/all'
-    }],
+    nav: [
+      {
+        text: 'nav-bar.home',
+        icon: 'mdi-home-circle-outline',
+        to: '/'
+      }, {
+        text: 'nav-bar.help',
+        description: 'nav.help_des',
+        icon: 'mdi-help-circle-outline',
+        to: '/help'
+      }, {
+        text: 'nav-bar.problems',
+        icon: 'mdi-folder-outline',
+        to: '/problem/all'
+      }, {
+        text: 'nav-bar.state',
+        icon: 'mdi-state-machine',
+        to: '/state/all'
+      }, {
+        text: 'nav-bar.contest',
+        icon: 'mdi-clipboard-text',
+        to: '/contest/all'
+      }
+    ],
     navUser: {
       profile:
         {
           text: 'nav-user.profile',
-          icon: 'mdi-',
+          icon: 'mdi-account',
           to: '/user/profile'
         },
       signOut:
         {
           text: 'nav-user.sign-out',
-          icon: 'mdi-',
+          icon: 'mdi-logout',
           event: 'signOut'
         }
+    },
+    problemInfo:<ProblemInfo>{
+
+    },
+    contestInfo:<ContestInfo>{
     }
   },
   mutations: {
     setUser(state, value) {
-      state.user = value.user
+      state.user = value
     }
     ,
     setSideNav(state, value) {
-      state.sideNav = value.v
+      state.sideNav = value
+    },
+    setContestPageIndex(state, value){
+      state.contestInfo.pageIndex = value
+    },
+    appendContestList(state, value){
+      state.contestInfo.list.push(value)
     }
   }
   ,
   actions: {
-    async login({commit}, login_form
-      :
-      LoginForm
-    ) {
+    async login({commit}, login_form: LoginForm) {
       let user = await API.login(login_form)
       commit('setUser', {user: user})
     }

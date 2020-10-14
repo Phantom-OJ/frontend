@@ -2,15 +2,22 @@
   <div class="home">
     <div id="home-main">
       <s-announcement id="home-announcement"/>
-      <div id="home-contest-assignment" class="card-shadow">
+      <v-card id="home-contest-assignment">
         <v-card-title>
-          {{$t('home.c/a')}}
+          <span @click="$router.push('/')" class="cursor-hand-hover">
+            {{$t('home.c/a')}}
+          </span>
         </v-card-title>
         <hr/>
-      </div>
+        <v-card-text>
+          <s-contest-list id="contest-list"/>
+        </v-card-text>
+      </v-card>
     </div>
-    <v-card style="width:82%;margin: 10px auto 30px auto;">
+    <v-card id="chart-card" style="width:82%;margin: 10px auto 30px auto;">
+      <div id="chart-div" style="width:80%;margin: 10px auto 30px auto;">
         <canvas id="home-chart" ref="homeChart"/>
+      </div>
     </v-card>
   </div>
 </template>
@@ -21,10 +28,12 @@ import API from '@/ts/api'
 import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/SAvatar.vue";
-import SAnnouncement from "@/components/SAnnouncement.vue"; // @ is an alias to /src
+import SAnnouncement from "@/components/SAnnouncement.vue";
+import SContestList from "@/components/SContestList"; // @ is an alias to /src
 
 @Component({
   components: {
+    SContestList,
     SAnnouncement,
     SAvatar,
     HelloWorld
@@ -108,6 +117,12 @@ export default class Home extends Vue {
     }
 
   }
+</style>
+
+<style lang="scss" scoped>
+  #contest-list {
+
+  }
 
   #home-announcement {
     width: 38%;
@@ -115,10 +130,5 @@ export default class Home extends Vue {
 
   #home-contest-assignment {
     width: 58%;
-  }
-
-  .mid-logo {
-    display: block;
-    margin: 0 auto;
   }
 </style>

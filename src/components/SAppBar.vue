@@ -1,8 +1,8 @@
 <template>
-  <v-app-bar app class="app-width h-center" color="white">
+  <v-app-bar app class="app-width h-center border-radius4" color="white">
     <v-app-bar-nav-icon
       id="nav-icon"
-      @click="$store.commit('setSideNav', {v:!$store.state.sideNav})"
+      @click="$store.commit('setSideNav', !$store.state.sideNav)"
     >
     </v-app-bar-nav-icon>
     <v-avatar id="logo-img">

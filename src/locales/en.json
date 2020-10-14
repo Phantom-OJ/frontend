@@ -5,7 +5,7 @@
     "help": "help",
     "problems": "problems",
     "state": "status",
-    "assignment": "assignment/contest"
+    "contest": "assignment/contest"
   },
   "nav-user": {
     "profile": "profile",

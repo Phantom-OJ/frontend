@@ -22,7 +22,9 @@ import SFooter from "@/components/SFooter.vue";
   components: {SFooter, SNavBar, SAppBar}
 })
 export default class App extends Vue {
+  mounted(){
 
+  }
 }
 </script>
 <style lang="scss">

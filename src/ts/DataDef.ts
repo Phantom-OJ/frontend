@@ -22,22 +22,14 @@ export interface Contest {
 
 }
 
-export class ProblemInfo {
+export class Info<T> {
   selectedIndex = -1
   pageIndex = 0
-  list: Array<Problem> = []
+  list: Array<T> = []
+  map: Map<number, T> = new Map()
 
-  page(index: number, num: number){
-    return this.list.slice(index*num, (index+1) * num)
+  page(index: number, num: number) {
+    return this.list.slice(index * num, (index + 1) * num)
   }
-}
 
-export class ContestInfo {
-  selectedIndex = -1
-  pageIndex = 0
-  list: Array<Contest> = []
-
-  page(index: number, num: number){
-    return this.list.slice(index*num, (index+1) * num)
-  }
 }

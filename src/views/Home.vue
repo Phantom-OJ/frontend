@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div id="home-main">
-      <s-announcement id="home-announcement"/>
+      <s-announcement id="home-announcement" :item-num="10"/>
       <v-card id="home-contest-assignment">
         <v-card-title>
-          <span @click="$router.push('/')" class="cursor-hand-hover">
+          <span @click="$router.push('/contest/all')" class="cursor-hand-hover">
             {{$t('home.c/a')}}
           </span>
         </v-card-title>
         <hr/>
         <v-card-text>
-          <s-contest-list id="contest-list"/>
+          <s-contest-list id="contest-list" :item-num="10"/>
         </v-card-text>
       </v-card>
     </div>

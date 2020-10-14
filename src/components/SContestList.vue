@@ -24,6 +24,10 @@ import {Component, Vue} from 'vue-property-decorator'
   }
 })
 export default class SContestList extends Vue {
+
+  mounted(){
+  }
+
   get contests(){
     let cInfo = this.$store.state.contestInfo
     if(this.$props.home)
@@ -37,7 +41,7 @@ export default class SContestList extends Vue {
   }
 
   set pageIndex(i){
-    this.$store.commit('setContestPageIndex', {pageIndex:i})
+    this.$store.commit('setContestPageIndex', i)
   }
 }
 </script>

@@ -20,7 +20,7 @@
       </v-card-title>
       <hr class="mx-4"/>
       <v-card-actions>
-        <v-list nav >
+        <v-list nav shaped>
           <v-list-item
             v-for="(btn, index) in nav"
             :key="index"
@@ -29,8 +29,9 @@
               text
               :key="index"
               :to="btn.to"
+              style="padding: 0 20px"
             >
-              <v-icon style="margin: 0 10px">
+              <v-icon style="margin: 0 10px 0 0">
                 {{btn.icon}}
               </v-icon>
               {{$t(btn.text)}}

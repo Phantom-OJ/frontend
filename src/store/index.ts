@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {LoginForm, User,  ProblemInfo, ContestInfo} from "@/ts/DataDef"
+import {Contest, Info, LoginForm, Problem, User} from "@/ts/DataDef"
 import API from '@/ts/api'
 
 Vue.use(Vuex)
@@ -53,11 +53,8 @@ export default new Vuex.Store({
           event: 'signOut'
         }
     },
-    problemInfo:<ProblemInfo>{
-
-    },
-    contestInfo:<ContestInfo>{
-    }
+    problemInfo: new Info<Problem>(),
+    contestInfo: new Info<Contest>()
   },
   mutations: {
     setUser(state, value) {
@@ -67,10 +64,10 @@ export default new Vuex.Store({
     setSideNav(state, value) {
       state.sideNav = value
     },
-    setContestPageIndex(state, value){
+    setContestPageIndex(state, value) {
       state.contestInfo.pageIndex = value
     },
-    appendContestList(state, value){
+    addContests(state, value) {
       state.contestInfo.list.push(value)
     }
   }

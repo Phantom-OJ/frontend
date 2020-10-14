@@ -24,46 +24,42 @@
           <v-list-item
             v-for="(btn, index) in nav"
             :key="index"
+            to="btn.to"
           >
-            <v-btn
-              text
-              :key="index"
-              :to="btn.to"
-              style="padding: 0 20px"
-            >
-              <v-icon style="margin: 0 10px 0 0">
+            <v-list-item-icon>
+              <v-icon color="black">
                 {{btn.icon}}
               </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content class="nav-content">
               {{$t(btn.text)}}
-            </v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="navUser.profile.to">
+            <v-list-item-icon>
+              <v-icon color="black">
+                {{navUser.profile.icon}}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content class="nav-content">
+              {{$t(navUser.profile.text)}}
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            @click="function(){$store.dispatch(navUser.signOut.event)}"
+          >
+            <v-list-item-icon>
+                <v-icon color="black">
+                  {{navUser.signOut.icon}}
+                </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content class="nav-content">
+              {{$t(navUser.signOut.text)}}
+            </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-card-actions>
       <div style="height: 25%"></div>
-      <v-card-actions>
-        <div style="margin: 0 auto">
-          <v-btn
-            :to="navUser.profile.to"
-            class="user-nav-btn"
-            text
-          >
-            <v-icon>
-              {{navUser.profile.icon}}
-            </v-icon>
-            {{$t(navUser.profile.text)}}
-          </v-btn>
-          <v-btn
-            @click="function(){$store.dispatch(navUser.signOut.event)}"
-            class="user-nav-btn"
-            text
-          >
-            <v-icon>
-              {{navUser.signOut.icon}}
-            </v-icon>
-            {{$t(navUser.signOut.text)}}
-          </v-btn>
-        </div>
-      </v-card-actions>
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -93,9 +89,8 @@ export default class SNavBar extends Vue {
 
 <style scoped lang="scss">
 
-  .user-nav-btn{
-    margin: 5px 5px 5px 0px;
-    padding: 0 12px !important;
+  .nav-content {
+    margin-right: 30px;
   }
 
 </style>

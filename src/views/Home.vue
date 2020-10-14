@@ -48,7 +48,6 @@ export default class Home extends Vue {
   label = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
   created() {
-    console.log('lslnb')
     API.getAnnouncement().then()
   }
 
@@ -61,12 +60,12 @@ export default class Home extends Vue {
       data: {
         labels: ['10/01', '10/02', '10/03', '10/04', '10/05', '10/06', '10/07', '10/08', '10/09', '10/10', '10/11', '10/12', '10/13', '10/14', '10/15', '10/16', '10/17', '10/18', '10/19', '10/20'],
         datasets: [{
-          label: '# of AC',
+          label: '# AC',
           data: [400, 102, 50, 310, 91, 18, 182, 178, 127, 382, 287, 198, 22, 10, 212, 198, 341, 79, 310, 64],
           backgroundColor: '#069d61',
           borderWidth: 0
         }, {
-          label: '# of submission',
+          label: '# submission',
           data: [1020, 310, 110, 700, 340, 140, 390, 360, 361, 530, 610, 350, 200, 154, 474, 445, 599, 134, 590, 190],
           borderColor: '#0765ca',
           pointBorderWidth: 0,

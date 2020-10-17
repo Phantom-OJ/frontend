@@ -95,9 +95,14 @@ let vuex = new Vuex.Store({
   }
   ,
   actions: {
-    async login({commit}, login_form: LoginForm) {
-      let user = await API.login(login_form)
-      commit('setUser', user)
+    async login({commit}, payload:{loginForm:LoginForm, then:string}) {
+      try {
+        let user = await API.login(payload.loginForm)
+        commit('setUser', user)
+        await router.push({hash:payload.then||'/'})
+      }catch (e) {
+        window.alert(e)
+      }
     }
     ,
     async signOut({commit, state}) {

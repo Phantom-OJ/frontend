@@ -7,7 +7,9 @@ export interface User {
 }
 
 export interface LoginForm {
-
+  username:string
+  password:string
+  timestamp:number
 }
 
 export interface SignOutForm {

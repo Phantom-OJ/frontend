@@ -28,5 +28,9 @@
       "title": "about",
       "content": "Shilong Li, Zunyao Mao, Qiushi Nie, Jiaxi Zhang"
     }
+  },
+  "login": {
+    "title": "Login",
+    "submit": "submit"
   }
 }

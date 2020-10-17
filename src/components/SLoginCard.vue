@@ -1,19 +1,98 @@
 <template>
-  <v-card>
-    <v-form>
-
+  <v-card id="root">
+    <v-card-title id="title">
+      {{$t('login.title')}}
+    </v-card-title>
+    <v-form id="form">
+      <div id="name">
+        <v-text-field
+          v-model="username"
+          label="username"
+          :disabled="loading"
+        >
+        </v-text-field>
+      </div>
+      <div id="pwd">
+        <v-text-field
+          v-model="password"
+          type="password"
+          label="password"
+        >
+        </v-text-field>
+      </div>
+      <div id="submit">
+        <v-btn
+          id="submit-btn"
+          color="rgb(92,187,246)"
+          @click="login"
+        >
+        {{$t('login.submit')}}
+        </v-btn>
+      </div>
+      <div id="sign-up">
+        <v-btn
+          id="sign-up-btn"
+          color="rgb(76,175,80)"
+          @click="signUp"
+        >
+        {{$t('nav-user.sign-up')}}
+        </v-btn>
+      </div>
     </v-form>
   </v-card>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
+import {LoginForm} from "@/ts/DataDef";
 
 @Component({})
 export default class SLoginCard extends Vue {
+  username: string = ''
+  password: string = ''
+
+  login() {
+    this.$store.dispatch('login', {
+      loginForm: {
+        username: this.username,
+        password: this.password,
+        timestamp: Date.now()
+      },
+      then: this.$route.query.then
+    })
+  }
+
+  signUp(){
+    this.$router.push({name:'sign-up', query:this.$route.query})
+  }
+
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  #root {
+    margin: 20px auto;
+    padding-bottom: 15px;
+    width: 400px;
+    width: min(400px, 60%);
+  }
 
+  #form {
+    margin: 10px 20px;
+  }
+
+  #pwd {
+    height: 70px;
+    margin: 10px 0;
+  }
+
+  #submit-btn, #sign-up-btn{
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+  }
+
+  #sign-up{
+    margin-bottom: 20px;
+  }
 </style>

@@ -1,11 +1,16 @@
 <template>
-  <div></div>
+  <div>
+    <s-login-card/>
+  </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
+import SLoginCard from "@/components/SLoginCard.vue";
 
-@Component({})
+@Component({
+  components: {SLoginCard}
+})
 export default class SLogin extends Vue{
 
 }

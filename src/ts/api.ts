@@ -19,8 +19,17 @@ export default {
     }
   },
 
-  login(loginForm: LoginForm): Promise<User> {
-    return this.requestWithCatch('post', '', loginForm, (e: any) => window.alert(e))
+  async requestWithOutCatch(method: string, url: string, data: any){
+    // @ts-ignore
+    let re = await axios[method](url, data)
+    if (!ERR_CODE.has(re.status))
+      return re.data
+    else
+      throw `Error: error code:${re.status}`
+  },
+
+  async login(loginForm: LoginForm): Promise<User> {
+    return  this.requestWithOutCatch('post','',loginForm)
   },
 
   signOut(signOutFrom: SignOutForm): Promise<any> {

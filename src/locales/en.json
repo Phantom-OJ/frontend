@@ -5,15 +5,19 @@
     "help": "help",
     "problems": "problems",
     "state": "status",
-    "contest": "assignment/contest"
+    "contest": "contest"
   },
   "nav-user": {
     "profile": "profile",
-    "sign-out": "sign out"
+    "sign-out": "sign out",
+    "login": "login",
+    "sign-up": "sign up"
   },
   "home": {
     "announcement": "Announcement",
-    "c/a": "Recent contest/assignment"
+    "c/a": "Recent contest/assignment",
+    "#AC": "#AC",
+    "#submission": "#submission"
   },
   "footer": {
     "contact": {

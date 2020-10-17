@@ -1,14 +1,16 @@
 import Vue from 'vue'
-import VueRouter, {RouteConfig} from 'vue-router'
-import Home from '../views/Home.vue'
+import VueRouter, {Route, RouteConfig} from 'vue-router'
+import SHome from '@/views/SHome.vue'
+import SLogin from '@/views/SLogin.vue'
 
 Vue.use(VueRouter)
+
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: SHome
   },
   {
     path: '/about',
@@ -24,9 +26,15 @@ const routes: Array<RouteConfig> = [
     component: () => import('../components/HelloI18n.vue')
   },
   {
-    path: '/user/:name',
-    name: 'UserInfo',
-    component: () => import('../views/UserInfo.vue')
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/SProfile.vue'),
+    beforeEnter: whetherAuthenticatedEnter
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: SLogin
   }
 ]
 
@@ -35,5 +43,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
+function whetherAuthenticatedEnter(to: Route, from: Route, next: Function) {
+  if (!router.app.$store.state.isAuthenticated) {
+    next({name: 'login', query: {then: to.hash}})
+  }else {
+    next()
+  }
+}
+
 
 export default router

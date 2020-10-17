@@ -7,11 +7,8 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 
-@Component({
-  name: 'UserInfo',
-  components: {}
-})
-export default class UserInfo extends Vue {
+@Component({})
+export default class SProfile extends Vue {
 }
 </script>
 

@@ -17,15 +17,31 @@
           >
         </v-avatar>
       </template>
-      <v-list>
+      <v-list min-width="88">
         <v-list-item
+          v-if="!isAuthenticated"
+          :to="navUser.login.to"
+          class="cursor-hand-hover avatar-list-item"
+        >
+          {{$t(navUser.login.text)}}
+        </v-list-item>
+        <v-list-item
+          v-if="!isAuthenticated"
+          :to="navUser.signUp.to"
+          class="cursor-hand-hover avatar-list-item"
+        >
+          {{$t(navUser.signUp.text)}}
+        </v-list-item>
+        <v-list-item
+          v-if="isAuthenticated"
           :to="navUser.profile.to"
           class="cursor-hand-hover avatar-list-item"
         >
           {{$t(navUser.profile.text)}}
         </v-list-item>
         <v-list-item
-          @click="function(){$store.dispatch(navUser.signOut.event)}"
+          v-if="isAuthenticated"
+          @click="$store.dispatch(navUser.signOut.event)"
           class="cursor-hand-hover avatar-list-item"
         >
           {{$t(navUser.signOut.text)}}
@@ -46,7 +62,7 @@ import {Component, Vue} from 'vue-property-decorator'
       default: 12
     }
   },
-  computed: mapState(['user','navUser'])
+  computed: mapState(['user', 'navUser', 'isAuthenticated'])
 })
 export default class SAvatar extends Vue {
   push(url: string) {
@@ -61,5 +77,8 @@ export default class SAvatar extends Vue {
   .v-list-item.avatar-list-item {
     font-size: $md-font-size;
     min-height: 2*$md-font-size;
+    line-height: 2*$md-font-size;
+    display: block;
+    text-align: center;
   }
 </style>

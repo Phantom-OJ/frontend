@@ -1,5 +1,5 @@
 <template>
-  <v-app :class="`lang-${$i18n.locale}`" id="s-app">
+  <v-app :class="`lang-${$i18n.locale}`" id="s-app" dark>
     <s-nav-bar />
     <s-app-bar />
 
@@ -18,12 +18,15 @@ import SNavBar from "@/components/SNavBar.vue";
 import SFooter from "@/components/SFooter.vue";
 
 @Component({
-  name: 'App',
   components: {SFooter, SNavBar, SAppBar}
 })
 export default class App extends Vue {
   mounted(){
+    let that = this
+    window.onresize = function () {
 
+      that.$store.commit('windowResize', {width:window.innerWidth,height:window.innerHeight})
+    }
   }
 }
 </script>

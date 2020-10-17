@@ -15,7 +15,7 @@
     <ul class="inline-block" style="padding: 0">
       <li v-for="(btn, index) in $store.state.nav"
           :key="index"
-          class="app-bar-btn-item inline-block hidden-md-and-down"
+          class="app-bar-btn-item inline-block"
       >
         <v-btn
           text
@@ -74,9 +74,16 @@ export default class SAppBar extends Vue {
     line-height: $app-bar-height;
   }
 
-  @media only screen and (min-width: 1300px) {
+  @media only screen and (min-width: 1380px) {
     #nav-icon {
       display: none !important
     }
   }
+
+  @media only screen and (max-width: 1380px){
+    .app-bar-btn-item{
+      display: none !important;
+    }
+  }
+
 </style>

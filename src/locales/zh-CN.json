@@ -9,11 +9,15 @@
   },
   "nav-user": {
     "profile": "个人信息",
-    "sign-out": "注销"
+    "sign-out": "注销",
+    "login": "登录",
+    "sign-up": "注册"
   },
   "home": {
     "announcement": "公告",
-    "c/a": "近期比赛/作业"
+    "c/a": "近期比赛/作业",
+    "#AC": "#AC",
+    "#submission": "#提交"
   },
   "footer": {
     "contact": {

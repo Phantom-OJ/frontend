@@ -20,14 +20,14 @@
       <v-list min-width="88">
         <v-list-item
           v-if="!isAuthenticated"
-          :to="navUser.login.to"
+          :to="`${navUser.login.to}?then=${$route.path}`"
           class="cursor-hand-hover avatar-list-item"
         >
           {{$t(navUser.login.text)}}
         </v-list-item>
         <v-list-item
           v-if="!isAuthenticated"
-          :to="navUser.signUp.to"
+          :to="`${navUser.signUp.to}?then=${$route.path}`"
           class="cursor-hand-hover avatar-list-item"
         >
           {{$t(navUser.signUp.text)}}

@@ -5,7 +5,6 @@ import SLogin from '@/views/SLogin.vue'
 
 Vue.use(VueRouter)
 
-
 const routes: Array<RouteConfig> = [
   {
     path: '/',
@@ -29,17 +28,19 @@ const routes: Array<RouteConfig> = [
     path: '/profile',
     name: 'Profile',
     component: () => import('@/views/SProfile.vue'),
-    beforeEnter: whetherAuthenticatedEnter
+    beforeEnter: requireAuthenticatedEnter
   },
   {
     path: '/login',
     name: 'login',
-    component: SLogin
+    component: SLogin,
+    beforeEnter: requireNotAuthenticated
   },
   {
     path:'/sign up',
     name:'sign-up',
-    component: () => import('@/views/SSignUp.vue')
+    component: () => import('@/views/SSignUp.vue'),
+    beforeEnter: requireNotAuthenticated
   }
 ]
 
@@ -50,13 +51,20 @@ const router = new VueRouter({
 })
 
 
-function whetherAuthenticatedEnter(to: Route, from: Route, next: Function) {
+function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
   if (!router.app.$store.state.isAuthenticated) {
-    next({name: 'login', query: {then: to.hash}})
+    next({name: 'login', query: {then: to.path}})
   }else {
     next()
   }
 }
 
+function requireNotAuthenticated(to: Route, from: Route, next: Function) {
+  if (router.app.$store.state.isAuthenticated){
+    next({name:'Home'})
+  }else{
+    next()
+  }
+}
 
 export default router

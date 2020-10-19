@@ -14,10 +14,10 @@
           class="s-card-item lang-en"
         >
           <v-row justify="space-between" class="s-card-item-line">
-            <v-col cols="5" class="s-card-item-text">
+            <v-col cols="9" sm="9" md="7" lg="7" xl="7" class="s-card-item-text">
               {{a.title}}
             </v-col>
-            <v-col cols="2" class="s-card-item-text">
+            <v-col v-if="width_height.width > 960" lg="3" md="4" class="s-card-item-text">
               {{a.time}}
             </v-col>
             <v-btn
@@ -46,9 +46,14 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
+import {mapState} from "vuex";
 
-@Component({})
-export default class SAnnouncement extends Vue {
+@Component({
+  computed:{
+    ...mapState(['width_height'])
+  }
+})
+export default class SHomeAnnouncement extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum!: number
 

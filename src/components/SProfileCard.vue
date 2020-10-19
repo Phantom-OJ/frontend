@@ -6,10 +6,11 @@
 import {Component, Vue} from 'vue-property-decorator'
 
 @Component({})
-export default class SContestList extends Vue{
+export default class SProfileCard extends Vue{
+
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div id="home-main">
-      <s-announcement id="home-announcement" :item-num="10"/>
-      <s-contest-list id="home-contest-assignment" :item-num="10"/>
+      <s-home-announcement id="home-announcement" :item-num="10"/>
+      <s-home-contest-list id="home-contest-assignment" :item-num="10"/>
     </div>
     <v-card id="chart-card" style="width:82%;margin: 10px auto 30px auto;">
       <div id="chart-div" style="width:80%;margin: 10px auto 30px auto;">
@@ -18,13 +18,13 @@ import API from '@/ts/api'
 import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/SAvatar.vue";
-import SAnnouncement from "@/components/SAnnouncement.vue";
-import SContestList from "@/components/SContestList"; // @ is an alias to /src
+import SHomeAnnouncement from "@/components/SHomeAnnouncement.vue";
+import SHomeContestList from "@/components/SHomeContestList"; // @ is an alias to /src
 
 @Component({
   components: {
-    SContestList,
-    SAnnouncement,
+    SHomeContestList,
+    SHomeAnnouncement,
     SAvatar,
     HelloWorld
   }
@@ -39,6 +39,7 @@ export default class Home extends Vue {
 
   created() {
     API.getAnnouncement().then()
+    console.log('???')
   }
 
   mounted() {

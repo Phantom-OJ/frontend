@@ -24,7 +24,7 @@
           <v-list-item
             v-for="(btn, index) in nav"
             :key="index"
-            to="btn.to"
+            :to="btn.to"
           >
             <v-list-item-icon>
               <v-icon color="black">
@@ -37,7 +37,7 @@
           </v-list-item>
           <v-list-item
             v-if="!isAuthenticated"
-            :to="navUser.login.to"
+            :to="`${navUser.login.to}?then=${$route.path}`"
           >
             <v-list-item-icon>
               <v-icon color="black">
@@ -50,7 +50,7 @@
           </v-list-item>
           <v-list-item
             v-if="!isAuthenticated"
-            :to="navUser.signUp.to"
+            :to="`${navUser.signUp.to}?then=${$route.path}`"
           >
             <v-list-item-icon>
               <v-icon color="black">

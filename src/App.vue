@@ -22,6 +22,8 @@ import SFooter from "@/components/SFooter.vue";
 })
 export default class App extends Vue {
   mounted(){
+    // @ts-ignore dev TODO
+    window["vue"] = this
     let that = this
     window.onresize = function () {
 

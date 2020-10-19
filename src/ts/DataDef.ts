@@ -1,15 +1,32 @@
+export class APIException {
+  code:number
+  description:string
+
+  constructor(code: number, description: string) {
+    this.code = code;
+    this.description = description;
+  }
+}
+
+
 export interface User {
   ID: string
   name: string
-  group: string
+  // group: string
   avatar: string
-  role: string
+  // role: string
 }
 
 export interface LoginForm {
   username:string
   password:string
   timestamp:number
+}
+
+export interface SignUpForm {
+  username:string
+  password:string
+  nickname:string
 }
 
 export interface SignOutForm {

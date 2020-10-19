@@ -1,14 +1,13 @@
 <template>
   <v-card id="root">
     <v-card-title id="title">
-      {{$t('login.title')}}
+      {{$t('nav-user.login')}}
     </v-card-title>
     <v-form id="form">
       <div id="name">
         <v-text-field
           v-model="username"
-          label="username"
-          :disabled="loading"
+          :label="$t('profile.mail')"
         >
         </v-text-field>
       </div>
@@ -16,7 +15,7 @@
         <v-text-field
           v-model="password"
           type="password"
-          label="password"
+          :label="$t('profile.pwd')"
         >
         </v-text-field>
       </div>
@@ -25,8 +24,9 @@
           id="submit-btn"
           color="rgb(92,187,246)"
           @click="login"
+          :loading="loading"
         >
-        {{$t('login.submit')}}
+        {{$t('submit')}}
         </v-btn>
       </div>
       <div id="sign-up">
@@ -34,6 +34,7 @@
           id="sign-up-btn"
           color="rgb(76,175,80)"
           @click="signUp"
+          :disabled="loading"
         >
         {{$t('nav-user.sign-up')}}
         </v-btn>
@@ -50,16 +51,23 @@ import {LoginForm} from "@/ts/DataDef";
 export default class SLoginCard extends Vue {
   username: string = ''
   password: string = ''
+  loading: boolean = false
 
-  login() {
-    this.$store.dispatch('login', {
-      loginForm: {
-        username: this.username,
-        password: this.password,
-        timestamp: Date.now()
-      },
-      then: this.$route.query.then
-    })
+  async login() {
+    this.loading = true
+    try {
+      await this.$store.dispatch('login', {
+        loginForm: {
+          username: this.username,
+          password: this.password,
+          timestamp: Date.now()
+        },
+        then: this.$route.query.then
+      })
+    }catch (e) {
+      this.loading = false
+      window.alert(e)
+    }
   }
 
   signUp(){
@@ -74,7 +82,7 @@ export default class SLoginCard extends Vue {
     margin: 20px auto;
     padding-bottom: 15px;
     width: 400px;
-    width: min(400px, 60%);
+    max-width: 80%;
   }
 
   #form {
@@ -88,8 +96,8 @@ export default class SLoginCard extends Vue {
 
   #submit-btn, #sign-up-btn{
     display: block;
-    width: 80%;
-    margin: 15px auto;
+    width: 100%;
+    margin: 20px auto;
   }
 
   #sign-up{

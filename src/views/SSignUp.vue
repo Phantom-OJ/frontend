@@ -1,12 +1,17 @@
 <template>
   <div>
-
+    <s-sign-up-card/>
   </div>
 </template>
 
-<script>
-export default {
-    name: "SSignUp"
+<script lang="ts">
+import {Component, Vue} from 'vue-property-decorator'
+import SSignUpCard from "@/components/SSignUpCard.vue";
+
+@Component({
+  components: {SSignUpCard}
+})
+export default class SSignUp extends Vue {
 }
 </script>
 

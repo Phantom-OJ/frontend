@@ -29,8 +29,16 @@
       "content": "Shilong Li, Zunyao Mao, Qiushi Nie, Jiaxi Zhang"
     }
   },
-  "login": {
-    "title": "Login",
-    "submit": "submit"
+  "submit": "submit",
+  "send": "send",
+  "profile": {
+    "mail": "Mail",
+    "pwd": "Password",
+    "c-pwd": "Confirm Password",
+    "v-code": "Verification Code",
+    "nickname": "Nickname"
+  },
+  "error": {
+    "confirm": "The password is inconsistent"
   }
 }

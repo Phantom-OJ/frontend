@@ -12,7 +12,6 @@
     "axios": "^0.20.0",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
-    "element-ui": "^2.13.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.17.3",

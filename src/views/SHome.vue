@@ -2,7 +2,7 @@
   <div class="home">
     <div id="home-main">
       <s-home-announcement id="home-announcement" :item-num="10"/>
-      <s-home-contest-list id="home-contest-assignment" :item-num="10"/>
+      <s-home-contest-card id="home-contest-assignment" :item-num="10"/>
     </div>
     <v-card id="chart-card" style="width:82%;margin: 10px auto 30px auto;">
       <div id="chart-div" style="width:80%;margin: 10px auto 30px auto;">
@@ -19,11 +19,11 @@ import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/SAvatar.vue";
 import SHomeAnnouncement from "@/components/SHomeAnnouncement.vue";
-import SHomeContestList from "@/components/SHomeContestList"; // @ is an alias to /src
+import SHomeContestCard from "@/components/SHomeContestCard"; // @ is an alias to /src
 
 @Component({
   components: {
-    SHomeContestList,
+    SHomeContestCard,
     SHomeAnnouncement,
     SAvatar,
     HelloWorld

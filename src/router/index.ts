@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, {Route, RouteConfig} from 'vue-router'
 import SHome from '@/views/SHome.vue'
 import SLogin from '@/views/SLogin.vue'
+import vuex from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -9,7 +10,11 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: SHome
+    component: SHome,
+    beforeEnter: function (to: Route, from: Route, next: Function) {
+      console.log('lsllj')
+      next()
+    }
   },
   {
     path: '/about',
@@ -41,6 +46,11 @@ const routes: Array<RouteConfig> = [
     name:'sign-up',
     component: () => import('@/views/SSignUp.vue'),
     beforeEnter: requireNotAuthenticated
+  },
+  {
+    path:'/contest/all',
+    name:'contest-all',
+    component: () => import('@/views/SContest.vue')
   }
 ]
 
@@ -52,7 +62,7 @@ const router = new VueRouter({
 
 
 function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
-  if (!router.app.$store.state.isAuthenticated) {
+  if (!vuex.state.isAuthenticated) {
     next({name: 'login', query: {then: to.path}})
   }else {
     next()
@@ -60,7 +70,7 @@ function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
 }
 
 function requireNotAuthenticated(to: Route, from: Route, next: Function) {
-  if (router.app.$store.state.isAuthenticated){
+  if (vuex.state.isAuthenticated){
     next({name:'Home'})
   }else{
     next()

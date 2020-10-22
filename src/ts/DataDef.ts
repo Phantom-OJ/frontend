@@ -1,6 +1,6 @@
 export class APIException {
-  code:number
-  description:string
+  code: number
+  description: string
 
   constructor(code: number, description: string) {
     this.code = code;
@@ -18,70 +18,108 @@ export interface User {
 }
 
 export interface LoginForm {
-  username:string
-  password:string
-  timestamp:number
+  username: string
+  password: string
+  timestamp: number
 }
 
 export interface SignUpForm {
-  username:string
-  password:string
-  nickname:string
+  username: string
+  password: string
+  nickname: string
 }
 
 export interface SignOutForm {
 
 }
 
-interface Entry {
-  ID:number
+export interface Entry {
+  ID: number
   title: string
   description: string
-  isFull:boolean
+  isFull: boolean
 }
 
 export interface Problem extends Entry {
 
 }
 
-export interface Contest extends Entry{
+export interface Contest extends Entry {
   startTime: Date
   stopTime: Date
   status: string
 }
 
-export interface Announcement extends Entry{
+export interface Announcement extends Entry {
 
 }
 
-export class Info<T extends Entry> {
+export class InfoContainer<T extends Entry> {
   selectedID = -1
   pageIndex = 0
+  maxLength = 1E3
   list = new Array<T>()
-  map = new Map<number,T>()
+  map = new Map<number, T>()
 
   constructor() {
   }
 
-  pageOf(index: number, num: number) {
-    return this.list.slice(index * num, (index + 1) * num)
+  pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
+    let result = this.list.slice(index * num, (index + 1) * num)
+    return {full: result.length === num || (index + 1) * num >= this.maxLength, list: result}
   }
 
-  addAll(list:Array<T>){
-    for(let t of list){
-      if(!this.map.has(t.ID)){
+  addAll(list: Array<T>, offset: number = 0) {
+    let index = this.list.length + offset
+    for (let i = index; i < index + list.length; i++) {
+      let t = list[i]
+      if (!this.map.has(t.ID)) {
         this.map.set(t.ID, t)
-        this.list.push(t)
       }
+      this.list[i] = t
     }
   }
 
-  selectEntry(ID:number){
+  rangeToLoad(index: number, num: number): { exist: boolean, start: number, end: number } {
+    let start = (index - 1) * num + 1
+    start = start < 1 ? 1 : start
+    let end = (index + 2) * num + 1
+    let exist = this.existOfRange(start, end)
+    return {
+      exist, start, end
+    }
+  }
+
+  selectEntry(ID: number) {
     this.selectedID = ID
   }
 
-  selectPage(index:number){
+  selectPage(index: number) {
     this.pageIndex = index
+  }
+
+  existOfRange(start: number, end: number): boolean {
+    for (let i = start; i < this.list.length; i++) {
+      if (this.list[i] !== void 0) {
+        return true
+      }
+    }
+    return false
+  }
+
+}
+
+export class Alert {
+  type:string
+  info:string
+  time:number
+  show:boolean = true
+  exist:boolean = true
+
+  constructor(type: string, info: string, time:number=2000) {
+    this.type = type;
+    this.info = info;
+    this.time = time;
   }
 
 }

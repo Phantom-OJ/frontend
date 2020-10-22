@@ -39,6 +39,7 @@
     "nickname": "Nickname"
   },
   "error": {
-    "confirm": "The password is inconsistent"
+    "confirm": "The password is inconsistent",
+    "pageIndex": "invalid page index"
   }
 }

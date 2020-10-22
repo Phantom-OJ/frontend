@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {Contest, Info, LoginForm, Problem, User, Announcement, SignUpForm} from "@/ts/DataDef"
+import {Contest, InfoContainer, LoginForm, Problem, User, Announcement, SignUpForm} from "@/ts/DataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
 
@@ -69,9 +69,9 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    problemInfo: new Info<Problem>(),
-    contestInfo: new Info<Contest>(),
-    announcementInfo: new Info<Announcement>()
+    contestInfo:new InfoContainer<Contest>(),
+    problemInfo:new InfoContainer<Problem>(),
+    announcementInfo: new InfoContainer<Announcement>()
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
@@ -82,12 +82,8 @@ let vuex = new Vuex.Store({
     setSideNav(state, value) {
       state.sideNav = value
     },
-    setPageIndex(state, value) {
-      // @ts-ignore
-      state[`${value.type}Info`].selectPage(value.index)
-    },
-    addContests(state, value) {
-      state.contestInfo.list.push(value)
+    setContestPageIndex(state, index) {
+      state.contestInfo.pageIndex = index
     },
     windowResize(state, payload) {
       state.width_height = payload
@@ -98,21 +94,20 @@ let vuex = new Vuex.Store({
     async login({commit}, payload: { loginForm: LoginForm, then: string }) {
       let user = await API.login(payload.loginForm)
       commit('setUser', {user: user, isAuthenticated: true})
-      await router.push(payload.then||'/')
+      await router.push(payload.then || '/')
     },
     async signUp({commit}, payload: { signForm: SignUpForm, then: string }) {
       let user = await API.signUp(payload.signForm)
       commit('setUser', {user: user, isAuthenticated: true})
-      await router.push(payload.then||'/')
+      await router.push(payload.then || '/')
     },
     async signOut({commit, state}) {
       let re = await API.signOut('')
       commit('setUser', {user: notLogin, isAuthenticated: false})
       await router.push('/')
     }
-  }
-  ,
-  modules: {}
+  },
+  strict:true
 })
 
 vuex.state.contestInfo.addAll([{
@@ -123,7 +118,7 @@ vuex.state.contestInfo.addAll([{
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
   status: '未开始'
-}, {
+} as Contest, {
   ID: 2,
   title: '龙宝宝tql',
   isFull: false,
@@ -131,7 +126,7 @@ vuex.state.contestInfo.addAll([{
   startTime: new Date('2020/10/01'),
   stopTime: new Date('2020/10/30'),
   status: '进行中'
-}])
+} as Contest])
 
 
 // @ts-ignore

@@ -6,7 +6,7 @@
       </span>
     </v-card-title>
     <hr/>
-    <v-card-text class="s-card-container">
+    <v-card-text class="s-card-container home-card">
       <ul class="s-card-list">
         <li
           v-for="(a,index) in announcement"

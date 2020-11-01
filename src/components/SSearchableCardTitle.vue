@@ -1,6 +1,6 @@
 <template>
   <v-card-title id="searchable-card-title">
-    <div style="flex-grow: 1">
+    <div style="flex-grow: 1;margin-right: 10px">
       {{$t(`nav-bar.${title}`).toUpperCase()}}
       <v-card-subtitle v-if="width_height.width>580" style="display: inline-block">
         True mastery of any skill takes a lifetime
@@ -31,26 +31,26 @@ export default class SSearchableCardTitle extends Vue {
     type: String,
     required: true
   })
-  title!: string
+  readonly title!: string
 
   searchContent: string = ''
-
 }
 </script>
 
 <style lang="scss">
   #searchable-card-title {
-    padding: 24px 64px 6px 28px;
+    padding: 24px 58px 6px 28px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   .search {
-    width: 200px;
+    width: 210px;
     min-width: 100px;
+    margin-left: 0;
 
     .v-input.search-input {
-      max-width: 50%;
+      max-width: 55%;
       min-width: 100px;
       display: inline-block;
       flex: none;
@@ -61,8 +61,8 @@ export default class SSearchableCardTitle extends Vue {
     }
 
     .search-btn {
-      min-width: 50px;
-      max-width: 100px;
+      min-width: 70px !important;
+      max-width: 40%;
       display: inline-block;
       flex: none;
       height: 40px !important;

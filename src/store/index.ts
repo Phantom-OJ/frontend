@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {Contest, InfoContainer, LoginForm, Problem, User, Announcement, SignUpForm} from "@/ts/DataDef"
+import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
+import {Announcement, Contest, Problem} from "@/ts/entries";
 
 Vue.use(Vuex)
 
@@ -69,25 +70,42 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    contestInfo:new InfoContainer<Contest>(),
-    problemInfo:new InfoContainer<Problem>(),
+    contestInfo: new InfoContainer<Contest>(),
+    problemInfo: new InfoContainer<Problem>(),
     announcementInfo: new InfoContainer<Announcement>()
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
       state.user = user
       state.isAuthenticated = isAuthenticated
-    }
-    ,
+    },
     setSideNav(state, value) {
       state.sideNav = value
     },
-    setContestPageIndex(state, index) {
-      state.contestInfo.pageIndex = index
-    },
     windowResize(state, payload) {
       state.width_height = payload
-    }
+    },
+    setContestInfo(state, {selectedID, pageIndex, list, max, filter}) {
+      if (!!selectedID || selectedID === 0) state.contestInfo.selectedID = selectedID
+      if (!!pageIndex || pageIndex === 0) state.contestInfo.pageIndex = pageIndex
+      if (!!list) state.contestInfo.addAll(list)
+      if (!!max) state.contestInfo.maxLength = max
+      if (!!filter) state.contestInfo.filter = filter
+    },
+    setProblemInfo(state, {selectedID, pageIndex, list, max, filter}) {
+      if (!!selectedID || selectedID === 0) state.problemInfo.selectedID = selectedID
+      if (!!pageIndex || pageIndex === 0) state.problemInfo.pageIndex = pageIndex
+      if (!!list) state.problemInfo.addAll(list)
+      if (!!max) state.problemInfo.maxLength = max
+      if (!!filter) state.problemInfo.filter = filter
+    },
+    setAnnouncementInfo(state, {selectedID, pageIndex, list, max, filter}) {
+      if (!!selectedID || selectedID === 0) state.announcementInfo.selectedID = selectedID
+      if (!!pageIndex || pageIndex === 0) state.announcementInfo.pageIndex = pageIndex
+      if (!!list) state.announcementInfo.addAll(list)
+      if (!!max) state.announcementInfo.maxLength = max
+      if (!!filter) state.announcementInfo.filter = filter
+    },
   }
   ,
   actions: {
@@ -107,27 +125,8 @@ let vuex = new Vuex.Store({
       await router.push('/')
     }
   },
-  strict:true
+  strict: true
 })
-
-vuex.state.contestInfo.addAll([{
-  ID: 11378,
-  title: '聂佬佬yydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
-  isFull: false,
-  description: '',
-  startTime: new Date('2020/11/01'),
-  stopTime: new Date('2020/11/07'),
-  status: '未开始'
-} as Contest, {
-  ID: 2,
-  title: '龙宝宝tql',
-  isFull: false,
-  description: '',
-  startTime: new Date('2020/10/01'),
-  stopTime: new Date('2020/10/30'),
-  status: '进行中'
-} as Contest])
-
 
 // @ts-ignore
 Date.prototype.sString = function () {
@@ -137,5 +136,11 @@ Date.prototype.sString = function () {
 function two(i: number) {
   return i < 10 ? `0${i}` : i
 }
+
+import {announcementList, contestList, problemList} from "@/store/testData";
+
+vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
+vuex.commit('setContestInfo', {list: contestList})
+vuex.commit('setProblemInfo', {list: problemList, max: 2})
 
 export default vuex

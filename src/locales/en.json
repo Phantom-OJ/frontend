@@ -44,5 +44,8 @@
   },
   "contest": {
     "search": "ID/Name"
+  },
+  "problem": {
+    "search": "ID/Name/Tag"
   }
 }

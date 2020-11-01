@@ -1,5 +1,5 @@
 <template>
-  <div id="contest-root">
+  <div id="contests-root" class="page-all-root">
     <s-contest-card :item-num="10"/>
   </div>
 </template>
@@ -17,7 +17,4 @@ export default class SContest extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #contest-root {
-    min-height: 80%;
-  }
 </style>

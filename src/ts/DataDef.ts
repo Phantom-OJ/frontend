@@ -3,8 +3,8 @@ export class APIException {
   description: string
 
   constructor(code: number, description: string) {
-    this.code = code;
-    this.description = description;
+    this.code = code
+    this.description = description
   }
 }
 
@@ -36,28 +36,14 @@ export interface SignOutForm {
 export interface Entry {
   ID: number
   title: string
-  description: string
-  isFull: boolean
-}
-
-export interface Problem extends Entry {
-
-}
-
-export interface Contest extends Entry {
-  startTime: Date
-  stopTime: Date
-  status: string
-}
-
-export interface Announcement extends Entry {
-
+  description: string|undefined
 }
 
 export class InfoContainer<T extends Entry> {
   selectedID = -1
   pageIndex = 0
-  maxLength = 1E3
+  maxLength = 0
+  filter = ''
   list = new Array<T>()
   map = new Map<number, T>()
 
@@ -117,9 +103,9 @@ export class Alert {
   exist:boolean = true
 
   constructor(type: string, info: string, time:number=2000) {
-    this.type = type;
-    this.info = info;
-    this.time = time;
+    this.type = type
+    this.info = info
+    this.time = time
   }
 
 }

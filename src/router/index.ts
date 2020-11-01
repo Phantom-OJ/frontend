@@ -51,6 +51,11 @@ const routes: Array<RouteConfig> = [
     path:'/contest/all',
     name:'contest-all',
     component: () => import('@/views/SContest.vue')
+  },
+  {
+    path:'/problem/all',
+    name:'problem-all',
+    component: () => import('@/views/SProblem.vue')
   }
 ]
 

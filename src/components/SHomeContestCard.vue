@@ -33,9 +33,10 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Contest, InfoContainer} from "@/ts/DataDef";
+import {InfoContainer} from "@/ts/DataDef";
 import {mapState} from "vuex";
 import SContestList from "@/components/SContestCard.vue";
+import { Contest } from '@/ts/entries';
 
 @Component({
   components: {SContestList},

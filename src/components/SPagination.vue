@@ -1,6 +1,6 @@
 <template>
   <div class="pagination-container">
-    <v-pagination :length="info.maxLength/itemNum" circle v-model="pageIndex" :total-visible="5"
+    <v-pagination :length="info.maxLength/itemNum" circle v-model="pageIndex" :total-visible="7"
                   style="display: inline-block" class="pagination-nav">
     </v-pagination>
     <div class="pagination-input-container">
@@ -19,19 +19,19 @@ export default class SPagination extends Vue {
     type: InfoContainer,
     required: true
   })
-  info!: InfoContainer<any>
+  readonly info!: InfoContainer<any>
 
   @Prop({
     type: Number,
     required: true
   })
-  itemNum!: number
+  readonly itemNum!: number
 
   @Prop({
     type: String,
     required: true
   })
-  infoName!: string
+  readonly infoName!: string
 
   get pageIndex() {
     return this.info.pageIndex + 1
@@ -42,7 +42,7 @@ export default class SPagination extends Vue {
       this.$alert(new Alert('error', this.$t('error.pageIndex').toString()))
       return
     }
-    this.$store.commit(`set${this.infoName}PageIndex`, index - 1)
+    this.$store.commit(`set${this.infoName}Info`, {pageIndex:index - 1})
   }
 
   get maxPageNum(): number {

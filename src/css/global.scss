@@ -145,3 +145,12 @@ input[type="number"] {
 input:focus {
   outline: none;
 }
+
+.page-all-root{
+  min-height: 80%;
+  .all-card{
+      width: $app-width;
+      margin: 30px auto;
+  }
+}
+

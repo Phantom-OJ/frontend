@@ -1,5 +1,5 @@
 <template>
-  <v-card id="contest-card">
+  <v-card id="contest-card" class="all-card">
     <s-searchable-card-title :title="'contest'" @search="search"></s-searchable-card-title>
     <v-list class="list">
       <div
@@ -39,9 +39,10 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Alert, Contest, InfoContainer} from "@/ts/DataDef";
+import {InfoContainer} from "@/ts/DataDef";
 import SPagination from "@/components/SPagination.vue";
 import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
+import { Contest } from '@/ts/entries';
 
 @Component({
   components: {SSearchableCardTitle, SPagination},
@@ -78,18 +79,9 @@ export default class SContestCard extends Vue {
 
 <style scoped lang="scss">
   @import "../css/variable";
-
-  #contest-card {
-    width: $app-width;
-    margin: 30px auto;
-  }
-
-
   .list-item-container:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.03);
   }
-
-
 
   .list {
     min-height: 600px;

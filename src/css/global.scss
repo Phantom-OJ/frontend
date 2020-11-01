@@ -127,41 +127,11 @@ i.icon-color-1.v-icon.mdi {
 }
 
 i.icon-color-2.v-icon.mdi {
-  color: cornflowerblue;
+  color: var(--v-secondary-darken1);
 }
 
 i.icon-color-3.v-icon.mdi {
 
-}
-
-
-.v-pagination__item:focus, .v-pagination__navigation:focus {
-  outline: none !important;
-}
-
-.v-pagination .v-pagination__item--active {
-  color: dodgerblue !important;
-}
-
-button.v-pagination__navigation, button.v-pagination__item {
-  width: 40px;
-  height: 40px;
-}
-
-ul.v-pagination, ul.v-pagination--circle {
-  padding: 5px 0;
-}
-
-.pagination-input {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  border-radius: 20px;
-  margin-bottom: 2px;
-  box-sizing: content-box;
-  position: relative;
-  bottom: 2px;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
@@ -172,11 +142,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.pagination-input:focus {
+input:focus {
   outline: none;
-}
-
-.pagination-container {
-  margin: 0 auto;
-  width: 440px;
 }

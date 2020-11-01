@@ -35,5 +35,9 @@
     "pwd": "密码",
     "c-pwd": "确认密码",
     "v-code": "验证码"
+  },
+  "error": {
+    "confirm": "密码不一致",
+    "pageIndex": "无效页码"
   }
 }

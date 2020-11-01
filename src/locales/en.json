@@ -41,5 +41,8 @@
   "error": {
     "confirm": "The password is inconsistent",
     "pageIndex": "invalid page index"
+  },
+  "contest": {
+    "search": "ID/Name"
   }
 }

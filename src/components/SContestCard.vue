@@ -1,14 +1,6 @@
 <template>
   <v-card id="contest-card">
-    <v-card-title id="contest-card-title">
-      {{$t('nav-bar.contest').toUpperCase()}}
-      <v-card-subtitle v-if="width_height.width>580">
-        True mastery of any skill takes a lifetime
-      </v-card-subtitle>
-      <v-btn text style="position: absolute;right: 20px">
-        <v-icon class="icon-color-2">mdi-sync</v-icon>
-      </v-btn>
-    </v-card-title>
+    <s-searchable-card-title :title="'contest'" @search="search"></s-searchable-card-title>
     <v-list class="list">
       <div
         v-for="(contest, index) in contests"
@@ -40,12 +32,7 @@
         <v-divider/>
       </div>
     </v-list>
-    <div class="pagination-container">
-      <v-pagination :length="contestInfo.maxLength/itemNum" circle v-model="pageIndex" :total-visible="5"
-                    style="display: inline-block">
-      </v-pagination>
-      <input type="number" class="pagination-input" v-model="pageIndex">
-    </div>
+    <s-pagination :item-num="itemNum" :info="this.contestInfo" :info-name="'Contest'"></s-pagination>
   </v-card>
 </template>
 
@@ -53,8 +40,11 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Alert, Contest, InfoContainer} from "@/ts/DataDef";
+import SPagination from "@/components/SPagination.vue";
+import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
 
 @Component({
+  components: {SSearchableCardTitle, SPagination},
   computed: {
     ...mapState(['width_height', 'contestInfo'])
   }
@@ -69,10 +59,6 @@ export default class SContestCard extends Vue {
     this.$router.push(`/contest/${ID}`)
   }
 
-  get maxPageNum(): number {
-    return this.contestInfo.maxLength / this.itemNum
-  }
-
   get contests(): Array<Contest> {
     let cInfo = this.contestInfo
     let {full, list} = cInfo.pageOf(cInfo.pageIndex, this.itemNum)
@@ -82,17 +68,11 @@ export default class SContestCard extends Vue {
     return list
   }
 
-  get pageIndex() {
-    return this.contestInfo.pageIndex + 1
+  search(payload:{searchContent:string}){
+    let {searchContent} = payload
+    console.log(searchContent)
   }
 
-  set pageIndex(index: number) {
-    if (index > this.maxPageNum || index <= 0 || index === void 0) {
-      this.$alert(new Alert('error', this.$t('error.pageIndex').toString()))
-      return
-    }
-    this.$store.commit('setContestPageIndex', index - 1)
-  }
 }
 </script>
 
@@ -110,9 +90,6 @@ export default class SContestCard extends Vue {
   }
 
 
-  #contest-card-title {
-    padding: 24px 0 6px 28px;
-  }
 
   .list {
     min-height: 600px;

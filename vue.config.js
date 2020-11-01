@@ -18,7 +18,7 @@ module.exports = {
     https:false,
     proxy: {
       '/api':{
-        target:'http://10.17.29.111:9999/'
+        target:'http:/localhost:9999/'
       }
     }
   }

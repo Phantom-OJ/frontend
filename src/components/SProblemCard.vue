@@ -1,6 +1,14 @@
 <template>
   <v-card id="problem-card" class="all-card">
-    <s-searchable-card-title :title="'problem'" :search-content.sync="searchContent" @search="search"/>
+    <s-searchable-card-title :title="'problem'">
+      <div class="search">
+        <v-text-field color="secondary" outlined hide-details
+                      class="search-input" :label="$t(`problem.search`)"
+                      type="text" dense clearable @click:clear="searchContent=''"
+                      v-model="searchContent"></v-text-field>
+        <v-btn class="search-btn" @click="search">filter</v-btn>
+      </div>
+    </s-searchable-card-title>
     <v-list class="list">
       <div
         v-for="(problem, index) in problems"
@@ -22,8 +30,8 @@
               <s-tag
                 v-for="(tag, index) in problem.tags"
                 :key="index"
-                :tag="tag"
-                :color="tag.hash().format(6)"
+                :tag="tag.tag"
+                :color="tag.tag.hash().format(6)"
                 class=""
                 @click="clickTag"
               ></s-tag>
@@ -45,8 +53,8 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
 import SPagination from "@/components/SPagination.vue";
 import {mapState} from "vuex";
-import {InfoContainer} from "@/ts/DataDef";
-import {Problem} from '@/ts/entries';
+import {InfoContainer, Tag} from "@/ts/DataDef";
+import {Problem} from '@/ts/Entries';
 import STag from "@/components/STag.vue";
 
 @Component({
@@ -73,8 +81,8 @@ export default class SProblemCard extends Vue {
     return list
   }
 
-  get searchContent(){
-    return this.problemInfo.filter
+  get searchContent():string {
+    return this.problemInfo.filter as string
   }
 
   set searchContent(v){
@@ -84,11 +92,16 @@ export default class SProblemCard extends Vue {
   }
 
   search() {
+    //TODO
     console.log(this.searchContent)
   }
 
   clickTag(tag:string){
-    this.searchContent = tag
+    if(!this.searchContent){
+      this.searchContent = tag
+    }else if(this.searchContent.indexOf(tag)===-1){
+      this.searchContent =`${this.searchContent} ${tag}`
+    }
     this.search()
   }
 }
@@ -101,5 +114,8 @@ export default class SProblemCard extends Vue {
   }
   .col,.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{
     line-height: 36px;
+  }
+  .list {
+    min-height: 600px;
   }
 </style>

@@ -43,11 +43,12 @@ export class InfoContainer<T extends Entry> {
   selectedID = -1
   pageIndex = 0
   maxLength = 0
-  filter = ''
+  filter:Map<string,string>|string
   list = new Array<T>()
   map = new Map<number, T>()
 
-  constructor() {
+  constructor(filter:Map<string,string>|string) {
+    this.filter = filter
   }
 
   pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
@@ -93,6 +94,10 @@ export class InfoContainer<T extends Entry> {
     return false
   }
 
+  clear(){
+    this.list = new Array<T>()
+  }
+
 }
 
 export class Alert {
@@ -107,5 +112,8 @@ export class Alert {
     this.info = info
     this.time = time
   }
+}
 
+export interface Tag {
+  tag:string
 }

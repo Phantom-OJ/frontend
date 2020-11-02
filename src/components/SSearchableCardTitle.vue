@@ -1,16 +1,12 @@
 <template>
   <v-card-title id="searchable-card-title">
-    <div style="flex-grow: 1;margin-right: 10px">
+    <div style="flex-grow: 3;margin-right: 10px">
       {{$t(`nav-bar.${title}`).toUpperCase()}}
       <v-card-subtitle v-if="width_height.width>580" style="display: inline-block">
         True mastery of any skill takes a lifetime
       </v-card-subtitle>
     </div>
-    <div class="search">
-      <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`${title}.search`)"
-                    type="text" dense v-model="content"></v-text-field>
-      <v-btn class="search-btn" @click="$emit('search')">filter</v-btn>
-    </div>
+    <slot></slot>
     <v-btn text class="refresh">
       <v-icon class="icon-color-2">mdi-sync</v-icon>
     </v-btn>
@@ -32,9 +28,6 @@ export default class SSearchableCardTitle extends Vue {
     required: true
   })
   readonly title!: string
-
-  @PropSync('searchContent')
-  content!: string
 }
 </script>
 
@@ -43,32 +36,6 @@ export default class SSearchableCardTitle extends Vue {
     padding: 24px 58px 6px 28px;
     display: flex;
     justify-content: flex-start;
-  }
-
-  .search {
-    width: 300px;
-    min-width: 100px;
-    margin-left: 0;
-    .v-input.search-input {
-      max-width: 60%;
-      min-width: 100px;
-      display: inline-block;
-      flex: none;
-
-      * {
-        color: var(--v-secondary-darken1) !important;
-      }
-    }
-
-    .search-btn {
-      min-width: 70px !important;
-      max-width: 40%;
-      display: inline-block;
-      flex: none;
-      height: 40px !important;
-      background-color: var(--v-accent-base) !important;
-      margin-left: 10px;
-    }
   }
 
   .refresh.v-btn {

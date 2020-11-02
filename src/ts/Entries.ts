@@ -1,8 +1,8 @@
-import {Entry} from "@/ts/DataDef"
+import {Entry, Tag} from "@/ts/DataDef"
 
 export class Announcement implements Entry {
   ID: number
-  description: string|undefined
+  description: string | undefined
   title: string
   createDate: Date
   lastModified: Date
@@ -16,14 +16,24 @@ export class Announcement implements Entry {
     this.createDate = createDate
     this.lastModified = lastModified
   }
+
+  static copy(a:Announcement) {
+    return new Announcement({
+      ancmId: a.ID.toString(),
+      description: a.description?.toString(),
+      title: a.title.toString(),
+      createDate: new Date(a.createDate.getTime()),
+      lastModified: new Date(a.lastModified.getTime())
+    })
+  }
 }
 
 
 export class Problem implements Entry {
   ID: number
-  description: string|undefined
+  description: string | undefined
   title: string
-  tags: Array<string>
+  tags: Array<Tag>
   indexInAssignment: number
   sampleOut: string
 
@@ -40,7 +50,7 @@ export class Problem implements Entry {
 
 export class Contest implements Entry {
   ID: number
-  description: string|undefined
+  description: string | undefined
   title: string
   startTime: Date
   stopTime: Date
@@ -58,3 +68,15 @@ export class Contest implements Entry {
   }
 }
 
+export class Record implements Entry{
+  ID: number;
+  description: string | undefined;
+  title: string;
+
+  //@ts-ignore
+  constructor({ID, description, title}) {
+    this.ID = ID;
+    this.description = description;
+    this.title = title;
+  }
+}

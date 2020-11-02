@@ -47,7 +47,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Announcement} from "@/ts/entries";
+import {Announcement} from "@/ts/Entries";
 import {InfoContainer} from "@/ts/DataDef";
 
 @Component({
@@ -65,7 +65,9 @@ export default class SHomeAnnouncement extends Vue {
   created(){
     let {full, list} = this.announcementInfo.pageOf(0, this.itemNum)
     if(full){
-      this.announcements = list
+      for(let a of list){
+        this.announcements.push(Announcement.copy(a))
+      }
     }
   }
 }

@@ -4,6 +4,7 @@
       {{icon}}
     </v-icon>
     {{tag}}
+    <slot/>
   </span>
 </template>
 
@@ -53,6 +54,7 @@ export default class STag extends Vue {
 
   @mixin linear-gradient($from, $to) {
     /* Fallback for sad browsers */
+    background-color: #51b0ff;
     background-color: $to;
     /* Mozilla Firefox */
     background-image:-moz-linear-gradient($from, $to);

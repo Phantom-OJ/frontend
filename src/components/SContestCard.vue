@@ -1,6 +1,14 @@
 <template>
   <v-card id="contest-card" class="all-card">
-    <s-searchable-card-title :title="'contest'" :search-content.sync="searchContent" @search="search"></s-searchable-card-title>
+    <s-searchable-card-title :title="'contest'">
+      <div class="search">
+        <v-text-field color="secondary" outlined hide-details
+                      class="search-input" :label="$t(`contest.search`)"
+                      type="text" dense clearable @click:clear="searchContent=``"
+                      v-model="searchContent"></v-text-field>
+        <v-btn class="search-btn" @click="search">filter</v-btn>
+      </div>
+    </s-searchable-card-title>
     <v-list class="list">
       <div
         v-for="(contest, index) in contests"
@@ -42,7 +50,7 @@ import {mapState} from "vuex";
 import {InfoContainer} from "@/ts/DataDef";
 import SPagination from "@/components/SPagination.vue";
 import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
-import { Contest } from '@/ts/entries';
+import { Contest } from '@/ts/Entries';
 
 @Component({
   components: {SSearchableCardTitle, SPagination},

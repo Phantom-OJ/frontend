@@ -1,4 +1,4 @@
-import {Announcement, Contest, Problem} from "@/ts/entries";
+import {Announcement, Contest, Problem, Record} from "@/ts/Entries";
 
 export let announcementList = [{
   ID: 1,
@@ -36,14 +36,24 @@ export let problemList = [{
   ID: 2,
   description: '',
   title: 'yrqcfm',
-  tags: ['lslnb', 'wcsl','nhsa','difficult'],
+  tags: [{tag:'lslnb'}, {tag:'wcsl'},{tag:'nhsa'},{tag:'difficult'}],
   indexInAssignment: 0,
   sampleOut: ''
 } as Problem, {
   ID: 3,
   description: '',
   title: 'tksb',
-  tags: ['lslnb', 'easy'],
+  tags: [{tag:'lslnb'}, {tag:'easy'}],
   indexInAssignment: 3,
   sampleOut:''
 } as Problem]
+
+export let recordList = [{
+  ID: 3,
+  description:'',
+  title:'AC'
+}as Record,{
+  ID:17,
+  description:'',
+  title:'WA'
+}as Record]

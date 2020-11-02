@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
-import {Announcement, Contest, Problem} from "@/ts/entries";
+import {Announcement, Contest, Problem, Record} from "@/ts/Entries";
 import '@/ts/prototypes'
 
 Vue.use(Vuex)
@@ -36,9 +36,9 @@ let vuex = new Vuex.Store({
         icon: 'mdi-folder-outline',
         to: '/problem/all'
       }, {
-        text: 'nav-bar.state',
+        text: 'nav-bar.record',
         icon: 'mdi-state-machine',
-        to: '/state/all'
+        to: '/record/all'
       }, {
         text: 'nav-bar.contest',
         icon: 'mdi-clipboard-text',
@@ -71,9 +71,10 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    contestInfo: new InfoContainer<Contest>(),
-    problemInfo: new InfoContainer<Problem>(),
-    announcementInfo: new InfoContainer<Announcement>()
+    contestInfo: new InfoContainer<Contest>(''),
+    problemInfo: new InfoContainer<Problem>(''),
+    announcementInfo: new InfoContainer<Announcement>(''),
+    recordInfo: new InfoContainer<Record>(new Map<string,string>())
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
@@ -86,27 +87,37 @@ let vuex = new Vuex.Store({
     windowResize(state, payload) {
       state.width_height = payload
     },
-    setContestInfo(state, {selectedID, pageIndex, list, max, filter}) {
+    setContestInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+      if (!!clear) state.contestInfo.clear()
       if (!!selectedID || selectedID === 0) state.contestInfo.selectedID = selectedID
       if (!!pageIndex || pageIndex === 0) state.contestInfo.pageIndex = pageIndex
       if (!!list) state.contestInfo.addAll(list)
       if (!!max) state.contestInfo.maxLength = max
-      if (!!filter) state.contestInfo.filter = filter
+      if (!!filter || filter === '') state.contestInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, max, filter}) {
+    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+      if (!!clear) state.problemInfo.clear()
       if (!!selectedID || selectedID === 0) state.problemInfo.selectedID = selectedID
       if (!!pageIndex || pageIndex === 0) state.problemInfo.pageIndex = pageIndex
       if (!!list) state.problemInfo.addAll(list)
       if (!!max) state.problemInfo.maxLength = max
-      if (!!filter) state.problemInfo.filter = filter
+      if (!!filter || filter === '') state.problemInfo.filter = filter
     },
-    setAnnouncementInfo(state, {selectedID, pageIndex, list, max, filter}) {
+    setAnnouncementInfo(state, {selectedID, pageIndex, list, max, clear}) {
+      if (!!clear) state.announcementInfo.clear()
       if (!!selectedID || selectedID === 0) state.announcementInfo.selectedID = selectedID
       if (!!pageIndex || pageIndex === 0) state.announcementInfo.pageIndex = pageIndex
       if (!!list) state.announcementInfo.addAll(list)
       if (!!max) state.announcementInfo.maxLength = max
-      if (!!filter) state.announcementInfo.filter = filter
     },
+    setRecordInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+      if (!!clear) state.recordInfo.clear()
+      if (!!selectedID || selectedID === 0) state.recordInfo.selectedID = selectedID
+      if (!!pageIndex || pageIndex === 0) state.recordInfo.pageIndex = pageIndex
+      if (!!list) state.recordInfo.addAll(list)
+      if (!!max) state.recordInfo.maxLength = max
+      if (!!filter) state.recordInfo.filter = filter
+    }
   },
   actions: {
     async login({commit}, payload: { loginForm: LoginForm, then: string }) {
@@ -128,10 +139,11 @@ let vuex = new Vuex.Store({
   strict: true
 })
 
-import {announcementList, contestList, problemList} from "@/store/testData";
+import {announcementList, contestList, problemList, recordList} from "@/store/testData";
 
 vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
 vuex.commit('setContestInfo', {list: contestList, max: 2})
 vuex.commit('setProblemInfo', {list: problemList, max: 2})
+vuex.commit('setRecordInfo',{list:recordList, max:2})
 
 export default vuex

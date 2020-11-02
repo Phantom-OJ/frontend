@@ -4,7 +4,7 @@
     "home": "home",
     "help": "help",
     "problem": "problems",
-    "state": "status",
+    "record": "records",
     "contest": "contests"
   },
   "nav-user": {
@@ -47,5 +47,10 @@
   },
   "problem": {
     "search": "ID/Name/Tag"
+  },
+  "record": {
+    "searchA": "Assignment",
+    "searchP": "problem",
+    "searchU": "user"
   }
 }

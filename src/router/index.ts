@@ -42,20 +42,25 @@ const routes: Array<RouteConfig> = [
     beforeEnter: requireNotAuthenticated
   },
   {
-    path:'/sign up',
-    name:'sign-up',
+    path: '/sign up',
+    name: 'sign-up',
     component: () => import('@/views/SSignUp.vue'),
     beforeEnter: requireNotAuthenticated
   },
   {
-    path:'/contest/all',
-    name:'contest-all',
+    path: '/contest/all',
+    name: 'contest-all',
     component: () => import('@/views/SContest.vue')
   },
   {
-    path:'/problem/all',
-    name:'problem-all',
+    path: '/problem/all',
+    name: 'problem-all',
     component: () => import('@/views/SProblem.vue')
+  },
+  {
+    path: '/record/all',
+    name: 'record-all',
+    component: () => import('@/views/SRecord.vue')
   }
 ]
 
@@ -69,15 +74,15 @@ const router = new VueRouter({
 function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
   if (!vuex.state.isAuthenticated) {
     next({name: 'login', query: {then: to.path}})
-  }else {
+  } else {
     next()
   }
 }
 
 function requireNotAuthenticated(to: Route, from: Route, next: Function) {
-  if (vuex.state.isAuthenticated){
-    next({name:'Home'})
-  }else{
+  if (vuex.state.isAuthenticated) {
+    next({name: 'Home'})
+  } else {
     next()
   }
 }

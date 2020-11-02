@@ -154,3 +154,34 @@ input:focus {
   }
 }
 
+
+.search {
+  width: 300px;
+  min-width: 200px;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-grow: 2;
+  .v-input.search-input {
+    width: 60%;
+    min-width: 120px;
+    display: inline-block;
+    flex: none;
+    flex-grow: 1;
+
+    margin: 10px 10px 10px 0;
+    * {
+      color: var(--v-secondary-darken1) !important;
+    }
+  }
+
+  .search-btn {
+    min-width: 80px !important;
+    max-width: 80%;
+    display: inline-block;
+    flex: none;
+    height: 40px !important;
+    background-color: var(--v-accent-base) !important;
+  }
+}

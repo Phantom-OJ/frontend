@@ -17,7 +17,6 @@ export default new Vuetify({
         warning: '#ff9800',
         info: '#cddc39',
         success: '#4caf50'
-
       }
     }
   }

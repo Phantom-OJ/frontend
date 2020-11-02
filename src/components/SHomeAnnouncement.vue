@@ -18,7 +18,7 @@
               {{a.title}}
             </v-col>
             <v-col v-if="width_height.width > 960" lg="3" md="4" class="s-card-item-text">
-              {{a.time}}
+              {{a.lastModified.sString()||typeof a.lastModified}}
             </v-col>
             <v-btn
               icon
@@ -65,7 +65,7 @@ export default class SHomeAnnouncement extends Vue {
   created(){
     let {full, list} = this.announcementInfo.pageOf(0, this.itemNum)
     if(full){
-      this.announcements = JSON.parse(JSON.stringify(list))
+      this.announcements = list
     }
   }
 }

@@ -1,5 +1,6 @@
 @import "variable";
 
+
 a {
   text-decoration: none;
 }
@@ -99,7 +100,6 @@ div.s-card-container.home-card {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 6px !important;
 }
 
 @media only screen and (max-width: 600px) {

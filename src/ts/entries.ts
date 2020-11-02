@@ -25,13 +25,16 @@ export class Problem implements Entry {
   title: string
   tags: Array<string>
   indexInAssignment: number
+  sampleOut: string
+
   //@ts-ignore
-  constructor({ID, description, title, tags, indexInAssignment}) {
+  constructor({ID, description, title, tags, indexInAssignment, sampleOut}) {
     this.ID = ID
     this.description = description
     this.title = title
     this.tags = tags
     this.indexInAssignment = indexInAssignment
+    this.sampleOut = sampleOut
   }
 }
 
@@ -42,6 +45,7 @@ export class Contest implements Entry {
   startTime: Date
   stopTime: Date
   status: string
+
 
   //@ts-ignore
   constructor({ID, description, title, startTime, stopTime, status}) {

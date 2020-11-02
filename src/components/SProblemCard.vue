@@ -1,6 +1,6 @@
 <template>
   <v-card id="problem-card" class="all-card">
-    <s-searchable-card-title :title="'problem'" @search="search"/>
+    <s-searchable-card-title :title="'problem'" :search-content.sync="searchContent" @search="search"/>
     <v-list class="list">
       <div
         v-for="(problem, index) in problems"
@@ -11,15 +11,25 @@
           class="list-item cursor-hand-hover"
           @click="click(problem.ID)"
         >
-          <v-row justify="space-between" style="width: 100%">
+          <v-row justify="space-between" style="width: 100%" align-content="center">
             <v-col cols="2" class="ellipsis-col">
               {{problem.ID}}
             </v-col>
-            <v-col cols="6" class="ellipsis-col">
+            <v-col cols="5" md="6" class="ellipsis-col">
               {{problem.title}}
             </v-col>
-            <v-col cols="3" class="">
-              {{problem}}
+            <v-col cols="3" class="s-flex">
+              <s-tag
+                v-for="(tag, index) in problem.tags"
+                :key="index"
+                :tag="tag"
+                :color="tag.hash().format(6)"
+                class=""
+                @click="clickTag"
+              ></s-tag>
+            </v-col>
+            <v-col cols="2" md="1" class="ellipsis-col">
+              50%
             </v-col>
           </v-row>
         </v-list-item>
@@ -36,10 +46,11 @@ import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
 import SPagination from "@/components/SPagination.vue";
 import {mapState} from "vuex";
 import {InfoContainer} from "@/ts/DataDef";
-import { Problem } from '@/ts/entries';
+import {Problem} from '@/ts/entries';
+import STag from "@/components/STag.vue";
 
 @Component({
-  components: {SPagination, SSearchableCardTitle},
+  components: {STag, SPagination, SSearchableCardTitle},
   computed: {
     ...mapState(['width_height', 'problemInfo'])
   }
@@ -56,19 +67,39 @@ export default class SProblemCard extends Vue {
 
   get problems(): Array<Problem> {
     let {full, list} = this.problemInfo.pageOf(this.problemInfo.pageIndex, this.itemNum)
-    if(!full){
+    if (!full) {
       //TODO
     }
     return list
   }
 
-  search(payload:{searchContent:string}){
-    let {searchContent} = payload
-    console.log(searchContent)
+  get searchContent(){
+    return this.problemInfo.filter
+  }
+
+  set searchContent(v){
+    this.$store.commit('setProblemInfo',{
+      filter:v
+    })
+  }
+
+  search() {
+    console.log(this.searchContent)
+  }
+
+  clickTag(tag:string){
+    this.searchContent = tag
+    this.search()
   }
 }
 </script>
 
 <style scoped lang="scss">
-
+  .s-flex{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .col,.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{
+    line-height: 36px;
+  }
 </style>

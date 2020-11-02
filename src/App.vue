@@ -40,9 +40,8 @@ export default class App extends Vue {
     // @ts-ignore dev TODO
     window["vue"] = this
     let that = this
-    window.onresize = function () {
-      that.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
-    }
+    window.onresize = () =>
+      this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
   }
 }
 </script>

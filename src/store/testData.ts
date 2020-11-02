@@ -1,25 +1,24 @@
-import {Announcement, Contest} from "@/ts/entries";
+import {Announcement, Contest, Problem} from "@/ts/entries";
 
 export let announcementList = [{
-  ID:1,
-  title:'lslnb',
-  description:'lsl非常nb',
+  ID: 1,
+  title: 'lslnb',
+  description: 'lsl非常nb',
   lastModified: new Date(),
   createDate: new Date(),
-  show:false
-} as Announcement,{
-  ID:142,
-  title:'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
-  description:'wcsl',
+  show: false
+} as Announcement, {
+  ID: 142,
+  title: 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
+  description: 'wcsl',
   lastModified: new Date('2020-11-1 11:00:00.101'),
   createDate: new Date('2020-10-31 02:22:22.222'),
-  show:false
+  show: false
 } as Announcement]
 
 export let contestList = [{
   ID: 11378,
   title: '聂佬佬yydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
-  isFull: false,
   description: '',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
@@ -27,7 +26,6 @@ export let contestList = [{
 } as Contest, {
   ID: 2,
   title: '龙宝宝tql',
-  isFull: false,
   description: '',
   startTime: new Date('2020/10/01'),
   stopTime: new Date('2020/10/30'),
@@ -35,5 +33,17 @@ export let contestList = [{
 } as Contest]
 
 export let problemList = [{
-
-}]
+  ID: 2,
+  description: '',
+  title: 'yrqcfm',
+  tags: ['lslnb', 'wcsl','nhsa','difficult'],
+  indexInAssignment: 0,
+  sampleOut: ''
+} as Problem, {
+  ID: 3,
+  description: '',
+  title: 'tksb',
+  tags: ['lslnb', 'easy'],
+  indexInAssignment: 3,
+  sampleOut:''
+} as Problem]

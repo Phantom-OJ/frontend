@@ -39,7 +39,6 @@ export default class Home extends Vue {
 
   created() {
     API.getAnnouncement().then()
-    console.log('???')
   }
 
   mounted() {

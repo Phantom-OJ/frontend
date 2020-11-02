@@ -4,6 +4,7 @@ import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
 import {Announcement, Contest, Problem} from "@/ts/entries";
+import '@/ts/prototypes'
 
 Vue.use(Vuex)
 
@@ -31,7 +32,7 @@ let vuex = new Vuex.Store({
         icon: 'mdi-help-circle-outline',
         to: '/help'
       }, {
-        text: 'nav-bar.problems',
+        text: 'nav-bar.problem',
         icon: 'mdi-folder-outline',
         to: '/problem/all'
       }, {
@@ -106,8 +107,7 @@ let vuex = new Vuex.Store({
       if (!!max) state.announcementInfo.maxLength = max
       if (!!filter) state.announcementInfo.filter = filter
     },
-  }
-  ,
+  },
   actions: {
     async login({commit}, payload: { loginForm: LoginForm, then: string }) {
       let user = await API.login(payload.loginForm)
@@ -128,19 +128,10 @@ let vuex = new Vuex.Store({
   strict: true
 })
 
-// @ts-ignore
-Date.prototype.sString = function () {
-  return `${this.getFullYear()}-${two(this.getMonth() + 1)}-${two(this.getDate())} ${two(this.getHours())}:${two(this.getMinutes())}`
-}
-
-function two(i: number) {
-  return i < 10 ? `0${i}` : i
-}
-
 import {announcementList, contestList, problemList} from "@/store/testData";
 
 vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
-vuex.commit('setContestInfo', {list: contestList})
+vuex.commit('setContestInfo', {list: contestList, max: 2})
 vuex.commit('setProblemInfo', {list: problemList, max: 2})
 
 export default vuex

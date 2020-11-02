@@ -1,10 +1,10 @@
 <template>
   <div class="pagination-container">
-    <v-pagination :length="info.maxLength/itemNum" circle v-model="pageIndex" :total-visible="7"
+    <v-pagination :length="Math.ceil(info.maxLength/itemNum)" circle v-model="pageIndex" :total-visible="7"
                   style="display: inline-block" class="pagination-nav">
     </v-pagination>
     <div class="pagination-input-container">
-      <input type="number" class="pagination-input" v-model="pageIndex">
+      <input type="number" class="pagination-input" v-model.number="pageIndex">
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default class SPagination extends Vue {
   }
 
   get maxPageNum(): number {
-    return this.info.maxLength / this.itemNum
+    return Math.ceil(this.info.maxLength / this.itemNum)
   }
 }
 </script>

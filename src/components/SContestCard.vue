@@ -1,6 +1,6 @@
 <template>
   <v-card id="contest-card" class="all-card">
-    <s-searchable-card-title :title="'contest'" @search="search"></s-searchable-card-title>
+    <s-searchable-card-title :title="'contest'" :search-content.sync="searchContent" @search="search"></s-searchable-card-title>
     <v-list class="list">
       <div
         v-for="(contest, index) in contests"
@@ -56,6 +56,16 @@ export default class SContestCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly contestInfo !: InfoContainer<Contest>
 
+  get searchContent(){
+    return this.contestInfo.filter
+  }
+
+  set searchContent(v){
+    this.$store.commit('setContestInfo',{
+      filter:v
+    })
+  }
+
   click(ID: number) {
     this.$router.push(`/contest/${ID}`)
   }
@@ -69,9 +79,8 @@ export default class SContestCard extends Vue {
     return list
   }
 
-  search(payload:{searchContent:string}){
-    let {searchContent} = payload
-    console.log(searchContent)
+  search(){
+    console.log(this.searchContent)
   }
 
 }

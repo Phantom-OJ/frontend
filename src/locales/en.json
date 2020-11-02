@@ -3,9 +3,9 @@
   "nav-bar": {
     "home": "home",
     "help": "help",
-    "problems": "problems",
+    "problem": "problems",
     "state": "status",
-    "contest": "contest"
+    "contest": "contests"
   },
   "nav-user": {
     "profile": "profile",

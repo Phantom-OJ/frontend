@@ -10,7 +10,7 @@ export class APIException {
 
 
 export interface User {
-  ID: string
+  ID: number
   name: string
   // group: string
   avatar: string

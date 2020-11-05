@@ -44,7 +44,7 @@
         <v-divider/>
       </div>
     </v-list>
-    <s-pagination :item-num="itemNum" :info="this.problemInfo" :info-name="'Problem'"/>
+    <s-pagination :item-num="itemNum" :max-length="problemInfo.maxLength" :page-index.sync="pageIndex"/>
   </v-card>
 </template>
 
@@ -104,6 +104,14 @@ export default class SProblemCard extends Vue {
     }
     this.search()
   }
+
+  get pageIndex(){
+    return this.problemInfo.pageIndex
+  }
+
+  set pageIndex(v){
+    this.$store.commit('setProblemInfo',{pageIndex:v})
+  }
 }
 </script>
 
@@ -114,8 +122,5 @@ export default class SProblemCard extends Vue {
   }
   .col,.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{
     line-height: 36px;
-  }
-  .list {
-    min-height: 600px;
   }
 </style>

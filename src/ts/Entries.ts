@@ -1,4 +1,4 @@
-import {Entry, Tag} from "@/ts/DataDef"
+import {Entry, Tag, User} from "@/ts/DataDef"
 
 export class Announcement implements Entry {
   ID: number
@@ -69,14 +69,36 @@ export class Contest implements Entry {
 }
 
 export class Record implements Entry{
-  ID: number;
-  description: string | undefined;
-  title: string;
+  ID: number
+  description: string | undefined
+  user: User
+  pid: number
+  result: string
+  space: number
+  time: number
+  dialect: string
+  codeLength: number
+  submitTime: Date
 
   //@ts-ignore
-  constructor({ID, description, title}) {
-    this.ID = ID;
-    this.description = description;
-    this.title = title;
+  constructor({ID, description, user, pid, result, space, time, dialect, codeLength, submitTime}) {
+    this.ID = ID
+    this.description = description
+    this.user = user
+    this.pid = pid
+    this.result = result
+    this.space = space
+    this.time = time
+    this.dialect = dialect
+    this.codeLength = codeLength
+    this.submitTime = new Date(submitTime)
+  }
+
+  get title(){
+    return this.result
+  }
+
+  set title(v){
+    this.result = v
   }
 }

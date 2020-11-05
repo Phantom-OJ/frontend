@@ -1,25 +1,25 @@
 <template>
   <div class="pagination-container">
-    <v-pagination :length="Math.ceil(info.maxLength/itemNum)" circle v-model="pageIndex" :total-visible="7"
+    <v-pagination :length="Math.ceil(maxLength/itemNum)" circle v-model="sPageIndex" :total-visible="7"
                   style="display: inline-block" class="pagination-nav">
     </v-pagination>
     <div class="pagination-input-container">
-      <input type="number" class="pagination-input" v-model.number="pageIndex">
+      <input type="number" class="pagination-input" v-model.number="sPageIndex">
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop, PropSync, Vue} from 'vue-property-decorator'
 import {Alert, InfoContainer} from "@/ts/DataDef";
 
 @Component({})
 export default class SPagination extends Vue {
   @Prop({
-    type: InfoContainer,
+    type: Number,
     required: true
   })
-  readonly info!: InfoContainer<any>
+  readonly maxLength!: number
 
   @Prop({
     type: Number,
@@ -27,26 +27,23 @@ export default class SPagination extends Vue {
   })
   readonly itemNum!: number
 
-  @Prop({
-    type: String,
-    required: true
-  })
-  readonly infoName!: string
+  @PropSync('pageIndex')
+  _pageIndex!:number
 
-  get pageIndex() {
-    return this.info.pageIndex + 1
+  get sPageIndex() {
+    return this._pageIndex + 1
   }
 
-  set pageIndex(index: number) {
+  set sPageIndex(index: number) {
     if (index > this.maxPageNum || index <= 0 || index === void 0) {
       this.$alert(new Alert('error', this.$t('error.pageIndex').toString()))
       return
     }
-    this.$store.commit(`set${this.infoName}Info`, {pageIndex:index - 1})
+    this._pageIndex = index
   }
 
   get maxPageNum(): number {
-    return Math.ceil(this.info.maxLength / this.itemNum)
+    return Math.ceil(this.maxLength / this.itemNum)
   }
 }
 </script>

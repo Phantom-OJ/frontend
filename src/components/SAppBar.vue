@@ -22,7 +22,7 @@
           :key="index"
           :to="btn.to"
         >
-          <v-icon class="app-bar-btn-item-btn-icon inline-block icon-color-1">
+          <v-icon class="app-bar-btn-item-btn-icon inline-block icon-color-0">
             {{btn.icon}}
           </v-icon>
           {{$t(btn.text)}}

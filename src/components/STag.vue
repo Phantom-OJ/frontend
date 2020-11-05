@@ -80,10 +80,10 @@ export default class STag extends Vue {
     box-sizing: border-box;
     margin: 2px 2px;
     overflow: hidden;
-    color: #FFFFFFCF;
+    color: #f8f8ff;
     @include linear-gradient(var(--bgcolor-start),var(--bgcolor-stop));
     i{
-      color: #FFFFFFCF !important;
+      color: #f8f8ff !important;
     }
   }
 

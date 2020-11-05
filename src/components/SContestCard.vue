@@ -24,11 +24,11 @@
               {{contest.ID}}
             </v-col>
             <v-col id="title" :cols="4" class="ellipsis-col">
-              <v-icon class="icon-color-2" style="margin-right: 2px">mdi-trophy-variant</v-icon>
+              <v-icon class="icon-color-1" style="margin-right: 2px">mdi-trophy-variant</v-icon>
               {{contest.title}}
             </v-col>
             <v-col id="time" :cols="4">
-              <v-icon class="icon-color-2" style="margin-right: 2px">mdi-camera-timer</v-icon>
+              <v-icon class="icon-color-1" style="margin-right: 2px">mdi-camera-timer</v-icon>
               {{(width_height.width&lt;750)?`@${contest.stopTime.sString()}`:`${contest.startTime.sString()} >>
               ${contest.stopTime.sString()}`}}
             </v-col>
@@ -40,7 +40,7 @@
         <v-divider/>
       </div>
     </v-list>
-    <s-pagination :item-num="itemNum" :info="this.contestInfo" :info-name="'Contest'"></s-pagination>
+    <s-pagination :item-num="itemNum" :max-length="contestInfo.maxLength" :page-index.sync="pageIndex"></s-pagination>
   </v-card>
 </template>
 
@@ -91,16 +91,17 @@ export default class SContestCard extends Vue {
     console.log(this.searchContent)
   }
 
+  get pageIndex(){
+    return this.contestInfo.pageIndex
+  }
+
+  set pageIndex(v){
+    this.$store.commit('setContestInfo',{pageIndex:v})
+  }
+
 }
 </script>
 
 <style scoped lang="scss">
   @import "../css/variable";
-  .list-item-container:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.03);
-  }
-
-  .list {
-    min-height: 600px;
-  }
 </style>

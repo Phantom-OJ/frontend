@@ -1,4 +1,4 @@
-import {Announcement, Contest, Problem, Record} from "@/ts/Entries";
+import {Announcement, Assignment, Problem, Record} from "@/ts/Entries";
 import {User} from "@/ts/DataDef";
 
 export const notLogin = {
@@ -33,21 +33,21 @@ export let announcementList = [{
   show: false
 } as Announcement]
 
-export let contestList = [{
+export let assignmentList = [{
   ID: 11378,
   title: '聂佬佬yydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
-  description: '',
+  description: '<h3>LSLNBLSLNBLSLNB</h3><p>aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew</p>',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
   status: '未开始'
-} as Contest, {
+} as Assignment, {
   ID: 2,
   title: '龙宝宝tql',
   description: '',
   startTime: new Date('2020/10/01'),
   stopTime: new Date('2020/10/30'),
   status: '进行中'
-} as Contest]
+} as Assignment]
 
 export let problemList = [{
   ID: 2,

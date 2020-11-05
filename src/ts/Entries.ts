@@ -48,7 +48,7 @@ export class Problem implements Entry {
   }
 }
 
-export class Contest implements Entry {
+export class Assignment implements Entry {
   ID: number
   description: string | undefined
   title: string

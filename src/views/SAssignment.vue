@@ -1,17 +1,17 @@
 <template>
   <div id="contests-root" class="page-all-root">
-    <s-contest-card :item-num="10"/>
+    <s-assignment-card :item-num="10"/>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SContestCard from "../components/SContestCard.vue";
+import SAssignmentCard from "@/components/SAssignmentCard.vue";
 
 @Component({
-  components: {SContestCard}
+  components: {SAssignmentCard, SContestCard: SAssignmentCard}
 })
-export default class SContest extends Vue {
+export default class SAssignment extends Vue {
 
 }
 </script>

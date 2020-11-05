@@ -3,12 +3,12 @@ import Vuex from 'vuex'
 import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
-import {Announcement, Contest, Problem, Record} from "@/ts/Entries";
+import {Announcement, Assignment, Problem, Record} from "@/ts/Entries";
 import '@/ts/prototypes'
 
 Vue.use(Vuex)
 
-import {announcementList, contestList, problemList, recordList, notLogin} from "@/store/testData";
+import {announcementList, assignmentList, problemList, recordList, notLogin} from "@/store/testData";
 
 
 let vuex = new Vuex.Store({
@@ -35,9 +35,9 @@ let vuex = new Vuex.Store({
         icon: 'mdi-state-machine',
         to: '/record/all'
       }, {
-        text: 'nav-bar.contest',
+        text: 'nav-bar.assignment',
         icon: 'mdi-clipboard-text',
-        to: '/contest/all'
+        to: '/assignment/all'
       }
     ],
     navUser: {
@@ -66,7 +66,7 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    contestInfo: new InfoContainer<Contest>(''),
+    assignmentInfo: new InfoContainer<Assignment>(''),
     problemInfo: new InfoContainer<Problem>(''),
     announcementInfo: new InfoContainer<Announcement>(''),
     recordInfo: new InfoContainer<Record>(new Map<string,string>())
@@ -82,13 +82,13 @@ let vuex = new Vuex.Store({
     windowResize(state, payload) {
       state.width_height = payload
     },
-    setContestInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
-      if (!!clear) state.contestInfo.clear()
-      if (!!selectedID || selectedID === 0) state.contestInfo.selectedID = selectedID
-      if (!!pageIndex || pageIndex === 0) state.contestInfo.pageIndex = pageIndex
-      if (!!list) state.contestInfo.addAll(list)
-      if (!!max) state.contestInfo.maxLength = max
-      if (!!filter || filter === '') state.contestInfo.filter = filter
+    setAssignmentInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+      if (!!clear) state.assignmentInfo.clear()
+      if (!!selectedID || selectedID === 0) state.assignmentInfo.selectedID = selectedID
+      if (!!pageIndex || pageIndex === 0) state.assignmentInfo.pageIndex = pageIndex
+      if (!!list) state.assignmentInfo.addAll(list)
+      if (!!max) state.assignmentInfo.maxLength = max
+      if (!!filter || filter === '') state.assignmentInfo.filter = filter
     },
     setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
       if (!!clear) state.problemInfo.clear()
@@ -134,7 +134,7 @@ let vuex = new Vuex.Store({
   strict: true
 })
 vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
-vuex.commit('setContestInfo', {list: contestList, max: 2})
+vuex.commit('setAssignmentInfo', {list: assignmentList, max: 2})
 vuex.commit('setProblemInfo', {list: problemList, max: 2})
 vuex.commit('setRecordInfo',{list:recordList, max:5})
 

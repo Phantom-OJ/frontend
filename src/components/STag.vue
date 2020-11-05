@@ -73,7 +73,7 @@ export default class STag extends Vue {
   .s-tag{
     --bgcolor-start: var(--v-success-lighten1);
     --bgcolor-stop: var(--v-success-lighten4);
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 4px 6px;
     height: 32px;
     line-height: 24px;

@@ -1,7 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>
-      <span @click="$router.push('/contest/all')" class="cursor-hand-hover">
+    <v-card-title style="padding-left: 24px">
+      <span @click="$router.push('/assignment/all')" class="cursor-hand-hover">
         {{$t('home.c/a')}}
       </span>
     </v-card-title>
@@ -9,20 +9,20 @@
     <v-card-text class="lang-en s-card-container home-card">
       <ul class="s-card-list">
         <li
-          v-for="(contest,index) in contests"
+          v-for="(assignment,index) in assignments"
           :key="index"
           class="s-card-item item cursor-hand-hover"
-          @click="click(contest.ID)"
+          @click="click(assignment.ID)"
         >
           <v-row class="s-card-item-line" justify="space-between">
             <v-col :cols="width_height.width>1350?6:9" id="title" class="s-card-item-text">
-              {{contest.title}}
+              {{assignment.title}}
             </v-col>
             <v-col v-if="width_height.width>1350" cols="5" id="time" class="s-card-item-text">
-              {{`${contest.startTime.sString()} >> ${contest.stopTime.sString()}`}}
+              {{`${assignment.startTime.sString()} >> ${assignment.stopTime.sString()}`}}
             </v-col>
             <v-col lg="1" md="2" cols="3" id="status" class="s-card-item-text">
-              {{contest.status}}
+              {{assignment.status}}
             </v-col>
           </v-row>
         </li>
@@ -35,30 +35,28 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {InfoContainer} from "@/ts/DataDef";
 import {mapState} from "vuex";
-import SContestList from "@/components/SContestCard.vue";
-import { Contest } from '@/ts/Entries';
+import { Assignment } from '@/ts/Entries';
 
 @Component({
-  components: {SContestList},
   computed: {
-    ...mapState(['width_height', 'contestInfo'])
+    ...mapState(['width_height', 'assignmentInfo'])
   }
 })
 export default class SHomeContestList extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
-  readonly contestInfo !: InfoContainer<Contest>
+  readonly assignmentInfo !: InfoContainer<Assignment>
 
 
   mounted() {
   }
 
   click(ID: number) {
-    this.$router.push(`/contest/${ID}`)
+    this.$router.push(`/assignment/${ID}`)
   }
 
-  get contests(): Array<Contest> {
-    let cInfo = this.contestInfo
+  get assignments(): Array<Assignment> {
+    let cInfo = this.assignmentInfo
     let {full, list} = cInfo.pageOf(0, this.itemNum)
     if (!full) {
       //TODO
@@ -67,7 +65,7 @@ export default class SHomeContestList extends Vue {
   }
 
   get pageIndex() {
-    return this.$store.state.contestInfo.pageIndex
+    return this.$store.state.assignmentInfo.pageIndex
   }
 }
 </script>

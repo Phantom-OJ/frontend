@@ -1,13 +1,11 @@
 <template>
-  <div class="home">
+  <div id="home">
     <div id="home-main">
       <s-home-announcement id="home-announcement" :item-num="10"/>
       <s-home-contest-card id="home-contest-assignment" :item-num="10"/>
     </div>
-    <v-card id="chart-card" style="width:82%;margin: 10px auto 30px auto;">
-      <div id="chart-div" style="width:80%;margin: 10px auto 30px auto;">
-        <canvas id="home-chart" ref="homeChart"/>
-      </div>
+    <v-card id="chart-card" style="margin: 10px auto 30px auto;padding: 5px 5%">
+      <canvas id="home-chart" style="margin: 0 auto;" ref="homeChart"/>
     </v-card>
   </div>
 </template>
@@ -87,31 +85,32 @@ export default class Home extends Vue {
 <style lang="scss">
   @import "../css/variable.scss";
 
-  #home-main {
-    display: flex;
-    justify-content: space-between;
-    width: 82%;
-    margin: 20px auto;
+  #home {
+    width: $app-width;
+    margin: 0 auto;
 
-    hr {
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
-
-    > div {
-      height: auto;
+    #home-main {
       display: flex;
-      flex-direction: column;
-    }
+      justify-content: space-between;
+      width: 100%;
+      margin: 20px auto;
 
+      hr {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      > div {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+    }
   }
 </style>
 
 <style lang="scss" scoped>
-  #contest-list {
-
-  }
-
   #home-announcement {
     width: 38%;
   }

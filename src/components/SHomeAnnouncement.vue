@@ -1,6 +1,6 @@
 <template>
   <v-card class="card-shadow">
-    <v-card-title>
+    <v-card-title style="padding-left: 24px">
       <span @click="$router.push('/announcement')" class="cursor-hand-hover">
         {{$t('home.announcement')}}
       </span>

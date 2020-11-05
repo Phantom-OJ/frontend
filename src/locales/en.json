@@ -5,7 +5,9 @@
     "help": "help",
     "problem": "problems",
     "record": "records",
-    "contest": "contests"
+    "assignment": "assignments",
+    "introduction": "introduction",
+    "statistic": "statistic"
   },
   "nav-user": {
     "profile": "profile",
@@ -42,7 +44,7 @@
     "confirm": "The password is inconsistent",
     "pageIndex": "invalid page index"
   },
-  "contest": {
+  "assignment": {
     "search": "ID/Name"
   },
   "problem": {

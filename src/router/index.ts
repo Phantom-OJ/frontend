@@ -48,9 +48,9 @@ const routes: Array<RouteConfig> = [
     beforeEnter: requireNotAuthenticated
   },
   {
-    path: '/contest/all',
-    name: 'contest-all',
-    component: () => import('@/views/SContest.vue')
+    path: '/assignment/all',
+    name: 'assignment-all',
+    component: () => import('@/views/SAssignment.vue')
   },
   {
     path: '/problem/all',
@@ -61,6 +61,10 @@ const routes: Array<RouteConfig> = [
     path: '/record/all',
     name: 'record-all',
     component: () => import('@/views/SRecord.vue')
+  },{
+    path: '/assignment/:aid',
+    name: 'assignment-detail',
+    component: () => import('@/views/SAssignmentDetail.vue')
   }
 ]
 

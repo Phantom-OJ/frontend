@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SProblemCard from "@/components/SProblemCard.vue";
+import SProblemCard from "@/components/Problem/SProblemCard.vue";
 
 @Component({
   components: {SProblemCard}

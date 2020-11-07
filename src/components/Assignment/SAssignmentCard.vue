@@ -48,8 +48,8 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {InfoContainer} from "@/ts/DataDef";
-import SPagination from "@/components/SPagination.vue";
-import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
+import SPagination from "@/components/General/SPagination.vue";
+import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import { Assignment } from '@/ts/Entries';
 
 @Component({
@@ -103,5 +103,5 @@ export default class SAssignmentCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "../css/variable";
+  @import "../../css/variable";
 </style>

@@ -13,10 +13,10 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SAppBar from "@/components/SAppBar.vue";
-import SNavBar from "@/components/SNavBar.vue";
-import SFooter from "@/components/SFooter.vue";
-import SAlert from "@/components/SAlert.vue";
+import SAppBar from "@/components/Root/SAppBar.vue";
+import SNavBar from "@/components/Root/SNavBar.vue";
+import SFooter from "@/components/Root/SFooter.vue";
+import SAlert from "@/components/General/SAlert.vue";
 import {Alert} from "@/ts/DataDef";
 
 @Component({

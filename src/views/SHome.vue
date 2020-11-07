@@ -15,9 +15,9 @@ import Chart from 'chart.js'
 import API from '@/ts/api'
 import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
-import SAvatar from "@/components/SAvatar.vue";
-import SHomeAnnouncement from "@/components/SHomeAnnouncement.vue";
-import SHomeContestCard from "@/components/SHomeContestCard"; // @ is an alias to /src
+import SAvatar from "@/components/Root/SAvatar.vue";
+import SHomeAnnouncement from "@/components/Home/SHomeAnnouncement.vue";
+import SHomeContestCard from "@/components/Home/SHomeContestCard"; // @ is an alias to /src
 
 @Component({
   components: {

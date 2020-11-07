@@ -1,5 +1,5 @@
 <template>
-  <v-list class="list">
+  <v-list class="list problem-list">
     <div
       v-for="(problem, index) in problems"
       :key="index"
@@ -10,25 +10,7 @@
         @click="click(problem.ID)"
       >
         <v-row justify="space-between" style="width: 100%" align-content="center">
-          <v-col cols="2" class="ellipsis-col">
-            {{problem.ID}}
-          </v-col>
-          <v-col cols="4" class="ellipsis-col">
-            {{problem.title}}
-          </v-col>
-          <v-col cols="4" class="s-flex">
-            <s-tag
-              v-for="(tag, index) in problem.tags"
-              :key="index"
-              :tag="tag.tag"
-              :color="tag.tag.hash().format(6)"
-              class=""
-              @click="clickTag"
-            ></s-tag>
-          </v-col>
-          <v-col cols="2" md="1" class="ellipsis-col">
-            50%
-          </v-col>
+          <slot :problem="problem"/>
         </v-row>
       </v-list-item>
       <v-divider/>
@@ -39,7 +21,7 @@
 <script lang="ts">
 import {Component, Vue, Prop, Emit} from 'vue-property-decorator'
 import {Problem} from "@/ts/Entries";
-import STag from "@/components/STag.vue";
+import STag from "@/components/General/STag.vue";
 
 @Component({
   components: {STag}
@@ -62,12 +44,5 @@ export default class SProblemList extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .s-flex {
-    display: flex;
-    flex-wrap: wrap;
-  }
 
-  .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-    line-height: 36px;
-  }
 </style>

@@ -12,9 +12,9 @@ export class APIException {
 export interface User {
   ID: number
   name: string
-  // group: string
+  group: string
   avatar: string
-  // role: string
+  role: string
 }
 
 export interface LoginForm {
@@ -43,12 +43,12 @@ export class InfoContainer<T extends Entry> {
   selectedID = -1
   pageIndex = 0
   maxLength = 0
-  filter:Map<string,string>|string
+  search = true
+  private _filter:Map<string,string>|string
   list = new Array<T>()
   map = new Map<number, T>()
-
   constructor(filter:Map<string,string>|string) {
-    this.filter = filter
+    this._filter = filter
   }
 
   pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
@@ -57,6 +57,7 @@ export class InfoContainer<T extends Entry> {
   }
 
   addAll(list: Array<T>, offset: number = 0) {
+    this.search = false
     let index = this.list.length + offset
     for (let i = index; i < index + list.length; i++) {
       let t = list[i]
@@ -97,6 +98,16 @@ export class InfoContainer<T extends Entry> {
   clear(){
     this.list = new Array<T>()
   }
+
+  get filter(): Map<string, string> | string {
+    return this._filter;
+  }
+
+  set filter(value: Map<string, string> | string) {
+    this.search = true
+    this._filter = value;
+  }
+
 
 }
 

@@ -74,7 +74,7 @@ export default class SAvatar extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "../css/variable.scss";
+  @import "../../css/variable";
 
   .v-list-item.avatar-list-item {
     font-size: $md-font-size;

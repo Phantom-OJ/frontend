@@ -33,18 +33,33 @@ export class Problem implements Entry {
   ID: number
   description: string | undefined
   title: string
+  aid:number
+  fullScore:number
+  spaceLimit:number
+  timeLimit:number
+  numberSubmit:number
+  numberSolve:number
+  solution:string
   tags: Array<Tag>
   indexInAssignment: number
   sampleOut: string
 
+
   //@ts-ignore
-  constructor({ID, description, title, tags, indexInAssignment, sampleOut}) {
+  constructor({ID, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}) {
     this.ID = ID
     this.description = description
     this.title = title
     this.tags = tags
     this.indexInAssignment = indexInAssignment
     this.sampleOut = sampleOut
+    this.aid = aid
+    this.fullScore = fullScore
+    this.spaceLimit = spaceLimit
+    this.timeLimit = timeLimit
+    this.numberSubmit = numberSubmit
+    this.numberSolve = numberSolve
+    this.solution = solution
   }
 }
 

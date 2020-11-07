@@ -5,6 +5,7 @@ axios.defaults.withCredentials = true
 
 const ERR_CODE = new Set([404, 500])//TODO
 
+// @ts-ignore
 export default {
   async requestWithCatch(method: string, url: string, data: any, catcher: Function): Promise<any> {
     try {
@@ -48,8 +49,8 @@ export default {
     return this.requestWithCatch('get', '', null, (e: any) => console.log(e))
   },
 
-  getProblemEntry() {
-    return this.requestWithCatch('get', '', null, (e: any) => window.alert(e))
+  getProblems(searchProblemFrom:any) {
+    return this.requestWithCatch('get', '', searchProblemFrom, (e: any) => window.alert(e))
   },
 
   getContestEntry() {

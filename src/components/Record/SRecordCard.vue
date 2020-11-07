@@ -25,12 +25,12 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/SSearchableCardTitle.vue";
+import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import {mapState} from "vuex";
 import {InfoContainer} from "@/ts/DataDef";
 import {Assignment, Record} from "@/ts/Entries";
-import SPagination from "@/components/SPagination.vue";
-import SRecordList from "@/components/SRecordList.vue";
+import SPagination from "@/components/General/SPagination.vue";
+import SRecordList from "@/components/Record/SRecordList.vue";
 
 @Component({
   components: {SRecordList, SPagination, SSearchableCardTitle},

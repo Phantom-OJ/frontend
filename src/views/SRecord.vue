@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SRecordCard from "@/components/SRecordCard.vue";
+import SRecordCard from "@/components/Record/SRecordCard.vue";
 
 @Component({
   components: {SRecordCard}

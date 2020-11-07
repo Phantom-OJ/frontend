@@ -35,7 +35,7 @@ export let announcementList = [{
 
 export let assignmentList = [{
   ID: 11378,
-  title: '聂佬佬yydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
+  title: 'nllyydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
   description: '<h3>LSLNBLSLNBLSLNB</h3><p>aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew</p>',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
@@ -54,15 +54,25 @@ export let problemList = [{
   description: '',
   title: 'yrqcfm',
   tags: [{tag: 'lslnb'}, {tag: 'wcsl'}, {tag: 'nhsa'}, {tag: 'difficult'}],
-  indexInAssignment: 0,
-  sampleOut: ''
+  indexInAssignment: 1,
+  sampleOut: '',
+  numberSubmit:2000,
+  numberSolve:773,
+  spaceLimit:256,
+  timeLimit:2000,
+  fullScore:10
 } as Problem, {
   ID: 3,
   description: '',
   title: 'tksb',
   tags: [{tag: 'lslnb'}, {tag: 'easy'}],
   indexInAssignment: 3,
-  sampleOut: ''
+  sampleOut: '',
+  numberSubmit:14,
+  numberSolve:7,
+  spaceLimit:32,
+  timeLimit:5000,
+  fullScore:20
 } as Problem]
 
 export let recordList = [{

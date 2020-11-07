@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SAssignmentDetailCard from "@/components/SAssignmentDetailCard.vue";
+import SAssignmentDetailCard from "@/components/Assignment/SAssignmentDetailCard.vue";
 
 @Component({
   components: {SAssignmentDetailCard}

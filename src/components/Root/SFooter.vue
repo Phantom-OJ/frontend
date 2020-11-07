@@ -50,7 +50,7 @@ export default class SFooter extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "../css/variable.scss";
+  @import "../../css/variable";
 
   #s-footer {
     width: $app-width;

@@ -6,7 +6,7 @@
     >
     </v-app-bar-nav-icon>
     <v-avatar id="logo-img">
-      <v-img src="../assets/slogo.png"></v-img>
+      <v-img src="../../assets/slogo.png"></v-img>
     </v-avatar>
     <label id="logo-text">
       Phantom OJ
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SAvatar from "@/components/SAvatar.vue";
+import SAvatar from "@/components/Root/SAvatar.vue";
 
 @Component({
   components: {SAvatar}

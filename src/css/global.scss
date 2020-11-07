@@ -1,5 +1,8 @@
 @import "variable";
 
+:root {
+  --s-app-width: 82%;
+}
 
 a {
   text-decoration: none;
@@ -27,7 +30,8 @@ a {
 }
 
 .lang-en {
-  font-family: Helvetica, serif;
+  font-family: "Segoe UI", Helvetica, serif;
+  letter-spacing: 1px;
 }
 
 .cursor-hand-hover:hover {
@@ -103,7 +107,9 @@ div.s-card-container.home-card {
 }
 
 @media only screen and (max-width: 600px) {
-
+  :root {
+    --s-app-width: 95%;
+  }
   .s-card-container {
     padding-left: 8px !important;
     padding-right: 8px !important;
@@ -173,30 +179,70 @@ input:focus {
 
   .detail-card {
     width: $app-width;
-    margin: 20px auto;
-    .detail-card-title-box{
-      padding: 10px 2px 10px 0;
-      .detail-card-title{
+    margin: 30px auto;
+    min-height: 746px;
+
+    .detail-card-title-box {
+      padding: 24px 0 0 28px;
+
+      .detail-card-title {
         font-weight: 500;
         flex-grow: 1;
         display: block;
+        padding: 0;
+        padding-right: 10px;
+        line-height: 60px;
+        font-family: "Segoe UI", Consolas, serif;
       }
-      .detail-card-tabs{
+
+      .detail-card-tabs {
         width: auto;
         flex-grow: 1;
-        .v-slide-group__content, .v-tabs-bar__content{
-          flex-wrap: wrap;
+
+        .v-slide-group__content, .v-tabs-bar__content {
+          .v-tab {
+            padding: 0 8px;
+            font-size: 12px;
+          }
         }
+
       }
+
       flex-wrap: wrap;
       display: flex;
       justify-content: space-between;
     }
-    .descrition{
-      padding: 2px 18px;
+
+    .detail-card-title-box--vertical{
+      width: calc(100% + 100px);
+      position: relative;
+      height: 160px;
+      left: -100px;
+      box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      .detail-card-tabs--vertical{
+        display: inline-block;
+        width: 200px;
+        padding: 0 2px;
+        font-size: 12px;
+      }
+
+      .detail-card-title--vertical{
+        width: calc(100% - 200px);
+        height: 100%;
+        font-weight: 500;
+        display: inline-block;
+        padding: 20px 32px 10px 16px;
+        font-family: "Segoe UI", Consolas, serif;
+        text-align: center;
+      }
+    }
+
+    .description {
+      padding: 24px 32px 2px 32px;
     }
   }
-  .detail-card-loading{
+
+  .detail-card-loading {
     width: $app-width !important;
     margin: 20px auto;
     display: block;
@@ -247,6 +293,7 @@ input:focus {
 
 .v-application .v-list-item {
   min-height: 60px;
+  letter-spacing: 1px;
 
   .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
     padding: 6px 12px;
@@ -258,9 +305,22 @@ input:focus {
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px -2px 10px -1px rgba(0, 0, 0, 0.1);
-  margin: 5px 10px;
+  margin: 5px 20px 5px 10px;
   max-width: 200px;
+  min-width: 90px;
   height: 50px;
   line-height: 38px;
   color: #f8f8ff;
+}
+
+.problem-list {
+
+  .s-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+    line-height: 36px;
+  }
 }

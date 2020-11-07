@@ -10,7 +10,7 @@
         @click="click(record.ID)"
       >
         <v-row justify="space-between" style="width: 100%">
-          <v-col :cols="5" md="4">
+          <v-col>
               <span class="inlist-user">
                 <v-avatar
                   :size="48"
@@ -18,9 +18,9 @@
                 >
                   <img :src="record.user.avatar">
                 </v-avatar>
-                <div class="inlist-user-label">
+                <div class="inlist-user-label ellipsis-col">
                   <span class="padding-l-12 ellipsis-col">
-                    {{record.user.name}}
+                    {{`${record.user.name}`}}
                   </span>
                   <span class="padding-l-12 ellipsis-col">
                     {{record.submitTime.sString()}}
@@ -28,13 +28,16 @@
                 </div>
               </span>
           </v-col>
-          <v-col :cols="3" :style="`${recordColor(record.result)};`" class="record ellipsis-col">
+          <v-col class="ellipsis-col" style="min-width: 100px">
+            {{$store.state.problemInfo.map.get(record.pid).title}}
+          </v-col>
+          <v-col :style="`${recordColor(record.result)};`" class="record ellipsis-col">
             <v-icon class="icon-color-F">
               {{recordIcon(record.result)}}
             </v-icon>
             {{record.result}}
           </v-col>
-          <v-col :cols="3" class="ellipsis-col" style="min-width: 300px;margin-right: 10px">
+          <v-col class="ellipsis-col" style="min-width: 300px;margin-right: 10px">
             <v-row>
               <v-col cols="4">
                 <v-icon class="icon-color-0">

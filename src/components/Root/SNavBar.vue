@@ -98,7 +98,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import SAvatar from "@/components/SAvatar.vue"
+import SAvatar from "@/components/Root/SAvatar.vue"
 import {mapState} from "vuex"
 
 @Component({

@@ -1,5 +1,5 @@
 <template>
-  <s-entry-list :entries="records">
+  <s-entry-list :entries="records" :path="'record'">
     <template v-slot="{entry:record}">
       <v-col>
         <span class="inlist-user">

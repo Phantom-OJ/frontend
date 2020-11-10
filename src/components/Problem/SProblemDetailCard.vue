@@ -100,7 +100,7 @@
     </div>
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <div v-html="problem.description" class="description"></div>
+        <div v-html="$m2h(problem.description)" class="description"></div>
       </v-tab-item>
       <v-tab-item>
         TODO
@@ -116,7 +116,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/Extension'
+import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Problem, Record} from "@/ts/Entries";
 import STag from "@/components/General/STag.vue";
@@ -129,7 +130,7 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
-  tab: number = 1
+  tab: number = 0
   records: Array<Record> = []
 
   created() {

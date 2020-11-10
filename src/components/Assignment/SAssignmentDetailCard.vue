@@ -50,11 +50,11 @@
     </div>
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <div v-html="description" class="description">
+        <div v-html="$m2h(description)" class="description">
         </div>
       </v-tab-item>
       <v-tab-item>
-        <s-entry-list :entries="problems">
+        <s-entry-list :entries="problems" :path="'problem'">
           <template v-slot="{entry:problem}">
             <v-col cols="2" class="ellipsis-col">
               {{`No.${problem.indexInAssignment}`}}
@@ -89,7 +89,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator'
+import {Vue} from '@/ts/Extension'
+import {Component, Watch} from 'vue-property-decorator'
 import {Assignment, Problem, Record} from "@/ts/Entries";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";

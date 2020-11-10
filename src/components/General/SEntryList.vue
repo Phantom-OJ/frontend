@@ -30,8 +30,14 @@ export default class SEntryList extends Vue {
   })
   readonly entries!: Array<Entry>
 
+  @Prop({
+    type:String,
+    required:true
+  })
+  readonly path!: string
+
   click(ID: number) {
-    this.$router.push(`/problem/${ID}`)
+    this.$router.push(`/${this.path}/${ID}`)
   }
 }
 </script>

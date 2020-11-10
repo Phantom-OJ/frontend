@@ -36,7 +36,7 @@ export let announcementList = [{
 export let assignmentList = [{
   ID: 11378,
   title: 'nllyydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
-  description: '<h3>LSLNBLSLNBLSLNB</h3><p>aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew</p>',
+  description: '**LSLNBLSLNBLSLNB**aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew\n#### lslnb \n$$\n \\le \n$$',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
   status: '未开始'

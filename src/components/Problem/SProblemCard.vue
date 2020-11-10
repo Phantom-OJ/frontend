@@ -9,7 +9,7 @@
         <v-btn class="search-btn" @click="search">filter</v-btn>
       </div>
     </s-searchable-card-title>
-    <s-entry-list :entries="problems">
+    <s-entry-list :entries="problems" :path="'problem'">
       <template v-slot="{entry:problem}">
         <v-col cols="2" class="ellipsis-col">
           {{problem.ID}}

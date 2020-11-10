@@ -45,7 +45,7 @@ import {InfoContainer, Tag} from "@/ts/DataDef";
 import {Problem} from '@/ts/Entries';
 import STag from "@/components/General/STag.vue";
 import SProblemList from "@/components/Problem/SProblemList.vue";
-import API from "@/ts/api";
+import API from "@/ts/API";
 
 @Component({
   components: {SProblemList, STag, SPagination, SSearchableCardTitle},

@@ -96,7 +96,7 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 })
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.problem', 'nav-bar.statistic', 'nav-bar.record']
+  readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
   tab: number = 1
   loading = true
   problems: Array<Problem> = []

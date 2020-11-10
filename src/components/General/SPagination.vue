@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, PropSync, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/Extension'
+import {Component, Prop, PropSync} from 'vue-property-decorator'
 import {Alert, InfoContainer} from "@/ts/DataDef";
 
 @Component({})

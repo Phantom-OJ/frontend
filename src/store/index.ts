@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
-import API from '@/ts/api'
+import API from '@/ts/API'
 import router from '@/router/index'
 import {Announcement, Assignment, Problem, Record} from "@/ts/Entries";
-import '@/ts/prototypes'
+import '@/ts/Prototypes'
 
 Vue.use(Vuex)
 

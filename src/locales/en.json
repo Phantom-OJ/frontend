@@ -6,8 +6,10 @@
     "problem": "problems",
     "record": "records",
     "assignment": "assignments",
-    "description": "description",
-    "statistic": "statistic"
+    "description": "descrip.",
+    "statistic": "stat.",
+    "rec": "rec.",
+    "prob": "prob."
   },
   "nav-user": {
     "profile": "profile",

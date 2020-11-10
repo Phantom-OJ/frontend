@@ -1,75 +1,67 @@
 <template>
-  <v-list class="list">
-    <div
-      v-for="(record, index) in records"
-      :key="index"
-      class="list-item-container"
-    >
-      <v-list-item
-        class="list-item cursor-hand-hover"
-        @click="click(record.ID)"
-      >
-        <v-row justify="space-between" style="width: 100%">
-          <v-col>
-              <span class="inlist-user">
-                <v-avatar
-                  :size="48"
-                  class="inlist-user-avatar"
-                >
-                  <img :src="record.user.avatar">
-                </v-avatar>
-                <div class="inlist-user-label ellipsis-col">
-                  <span class="padding-l-12 ellipsis-col">
-                    {{`${record.user.name}`}}
-                  </span>
-                  <span class="padding-l-12 ellipsis-col">
-                    {{record.submitTime.sString()}}
-                  </span>
-                </div>
-              </span>
-          </v-col>
-          <v-col class="ellipsis-col" style="min-width: 100px">
-            {{$store.state.problemInfo.map.get(record.pid).title}}
-          </v-col>
-          <v-col :style="`${recordColor(record.result)};`" class="record ellipsis-col">
-            <v-icon class="icon-color-F">
-              {{recordIcon(record.result)}}
+  <s-entry-list :entries="records">
+    <template v-slot="{entry:record}">
+      <v-col>
+        <span class="inlist-user">
+          <v-avatar
+            :size="48"
+            class="inlist-user-avatar"
+          >
+            <img :src="record.user.avatar">
+          </v-avatar>
+          <div class="inlist-user-label ellipsis-col">
+            <span class="padding-l-12 ellipsis-col">
+              {{`${record.user.name}`}}
+            </span>
+            <span class="padding-l-12 ellipsis-col">
+              {{record.submitTime.sString()}}
+            </span>
+          </div>
+        </span>
+      </v-col>
+      <v-col class="ellipsis-col" style="min-width: 100px">
+        {{$store.state.problemInfo.map.get(record.pid).title}}
+      </v-col>
+      <v-col :style="`${recordColor(record.result)};`" class="record ellipsis-col">
+        <v-icon class="icon-color-F">
+          {{recordIcon(record.result)}}
+        </v-icon>
+        {{record.result}}
+      </v-col>
+      <v-col class="ellipsis-col" style="min-width: 300px;margin-right: 10px">
+        <v-row>
+          <v-col cols="4">
+            <v-icon class="icon-color-0">
+              mdi-database
             </v-icon>
-            {{record.result}}
+            {{`${record.space}MB`}}
           </v-col>
-          <v-col class="ellipsis-col" style="min-width: 300px;margin-right: 10px">
-            <v-row>
-              <v-col cols="4">
-                <v-icon class="icon-color-0">
-                  mdi-database
-                </v-icon>
-                {{`${record.space}MB`}}
-              </v-col>
-              <v-col cols="4">
-                <v-icon class="icon-color-0">
-                  mdi-timer-sand
-                </v-icon>
-                {{`${record.time}ms`}}
-              </v-col>
-              <v-col cols="4">
-                <v-icon class="icon-color-0">
-                  mdi-alpha-l-box
-                </v-icon>
-                {{`${record.dialect.toUpperCase()}`}}
-              </v-col>
-            </v-row>
+          <v-col cols="4">
+            <v-icon class="icon-color-0">
+              mdi-timer-sand
+            </v-icon>
+            {{`${record.time}ms`}}
+          </v-col>
+          <v-col cols="4">
+            <v-icon class="icon-color-0">
+              mdi-alpha-l-box
+            </v-icon>
+            {{`${record.dialect.toUpperCase()}`}}
           </v-col>
         </v-row>
-      </v-list-item>
-    </div>
-  </v-list>
+      </v-col>
+    </template>
+  </s-entry-list>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Record} from "@/ts/Entries"
+import SEntryList from "@/components/General/SEntryList.vue";
 
-@Component({})
+@Component({
+  components: {SEntryList}
+})
 export default class SRecordList extends Vue {
   @Prop({
     type: Array,
@@ -120,9 +112,11 @@ export default class SRecordList extends Vue {
   .inlist-user {
     display: flex;
     align-items: center;
+
     .inlist-user-avatar {
       flex-shrink: 2;
     }
+
     .inlist-user-label {
       display: flex;
       flex-direction: column;
@@ -130,13 +124,16 @@ export default class SRecordList extends Vue {
       line-height: 1.5;
     }
   }
+
   .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
     line-height: 36px;
-    .v-icon.v-icon:not(.icon-color-0){
+
+    .v-icon.v-icon:not(.icon-color-0) {
       position: relative;
       bottom: 3px;
     }
-    .icon-color-0{
+
+    .icon-color-0 {
       position: relative;
       bottom: 2px;
     }

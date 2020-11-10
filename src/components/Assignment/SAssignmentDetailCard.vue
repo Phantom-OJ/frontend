@@ -18,7 +18,10 @@
         </v-card-title>
         <v-card-subtitle>
           {{`${assignment.startTime.sString()} >>> ${assignment.stopTime.sString()}`}}<br>
-          {{`Now at ${now.sString()}`}}<br>{{assignment.status.toString()}}
+          <v-icon class="icon-left-5 icon-color-0">
+            mdi-clock
+          </v-icon>
+          {{now.sString()}} {{`| ${assignment.status}`}}
         </v-card-subtitle>
       </div>
     </div>
@@ -29,10 +32,13 @@
         </v-card-title>
         <v-card-subtitle>
           {{`${assignment.startTime.sString()} >>> ${assignment.stopTime.sString()}`}}<br>
-          {{`Now at ${now.sString()}`}}<br>{{assignment.status}}
+          <v-icon class="icon-left-5 icon-color-0">
+            mdi-clock
+          </v-icon>
+          {{now.sString()}} {{`| ${assignment.status}`}}
         </v-card-subtitle>
       </div>
-      <v-tabs v-model="tab" background-color="white" right class="detail-card-tabs" height="80" color="secondary">
+      <v-tabs v-model="tab" background-color="white" right class="detail-card-tabs" height="60" color="secondary">
         <v-tabs-slider color="accent"/>
         <v-tab
           v-for="bar in tabs"
@@ -48,8 +54,8 @@
         </div>
       </v-tab-item>
       <v-tab-item>
-        <s-problem-list :problems="problems">
-          <template v-slot="{problem}">
+        <s-entry-list :entries="problems">
+          <template v-slot="{entry:problem}">
             <v-col cols="2" class="ellipsis-col">
               {{`No.${problem.indexInAssignment}`}}
             </v-col>
@@ -70,7 +76,7 @@
               {{`${problem.numberSolve}/${problem.numberSubmit}`}}
             </v-col>
           </template>
-        </s-problem-list>
+        </s-entry-list>
       </v-tab-item>
       <v-tab-item>
         TODO
@@ -85,31 +91,37 @@
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {Assignment, Problem, Record} from "@/ts/Entries";
-import SProblemList from "@/components/Problem/SProblemList.vue";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
+import SEntryList from "@/components/General/SEntryList.vue";
 
 @Component({
-  components: {SRecordList, STag, SProblemList},
+  components: {SEntryList, SRecordList, STag},
   computed: {...mapState(['width_height'])}
 })
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
-  tab: number = 1
-  loading = true
+  tab: number = 0
   problems: Array<Problem> = []
   records: Array<Record> = []
   now: Date = new Date()
   private intervals: Array<number> = []
 
-  mounted() {
+  get loading(): boolean {
+    return this.$store.state.loading;
+  }
+
+  set loading(value: boolean) {
+    this.$store.commit('setLoading', value)
+  }
+
+  created() {
     this.$store.commit('setAnnouncementInfo', {selectedID: this.aid})
-    this.loading = !this.assignment
+    this.loading  = !this.assignment
     this.problems = this.$store.state.problemInfo.list//TODO
     this.records = this.$store.state.recordInfo.list//TODO
-    this.tab = 0
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
   }
 

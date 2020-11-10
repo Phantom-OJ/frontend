@@ -9,8 +9,8 @@
         <v-btn class="search-btn" @click="search">filter</v-btn>
       </div>
     </s-searchable-card-title>
-    <s-problem-list :problems="problems" @click-tag="clickTag">
-      <template v-slot="{problem}">
+    <s-entry-list :entries="problems">
+      <template v-slot="{entry:problem}">
         <v-col cols="2" class="ellipsis-col">
           {{problem.ID}}
         </v-col>
@@ -23,7 +23,6 @@
             :key="index"
             :tag="tag.tag"
             :color="tag.tag.hash().format(6)"
-            class=""
             @click="clickTag"
           ></s-tag>
         </v-col>
@@ -31,7 +30,7 @@
           {{`${problem.numberSolve}/${problem.numberSubmit}`}}
         </v-col>
       </template>
-    </s-problem-list>
+    </s-entry-list>
     <s-pagination :item-num="itemNum" :max-length="problemInfo.maxLength" :page-index.sync="pageIndex"/>
   </v-card>
 </template>
@@ -44,11 +43,11 @@ import {mapState} from "vuex";
 import {InfoContainer, Tag} from "@/ts/DataDef";
 import {Problem} from '@/ts/Entries';
 import STag from "@/components/General/STag.vue";
-import SProblemList from "@/components/Problem/SProblemList.vue";
 import API from "@/ts/API";
+import SEntryList from "@/components/General/SEntryList.vue";
 
 @Component({
-  components: {SProblemList, STag, SPagination, SSearchableCardTitle},
+  components: {SEntryList, STag, SPagination, SSearchableCardTitle},
   computed: {
     ...mapState(['width_height', 'problemInfo'])
   }
@@ -63,9 +62,9 @@ export default class SProblemCard extends Vue {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
     if (!exist || this.problemInfo.search) {
       API.getProblems({
-        filter:this.problemInfo.filter,
+        filter: this.problemInfo.filter,
         start, end
-      }).then(res=>this.$store.commit('setProblemInfo',{list:res, clear:this.problemInfo.search}))
+      }).then(res => this.$store.commit('setProblemInfo', {list: res, clear: this.problemInfo.search}))
     }
   }
 

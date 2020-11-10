@@ -65,6 +65,10 @@ const routes: Array<RouteConfig> = [
     path: '/assignment/:aid',
     name: 'assignment-detail',
     component: () => import('@/views/SAssignmentDetail.vue')
+  },{
+    path: '/problem/:pid',
+    name: 'problem-detail',
+    component: () => import('@/views/SProblemDetail.vue')
   }
 ]
 

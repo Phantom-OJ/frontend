@@ -9,7 +9,8 @@
     "description": "descrip.",
     "statistic": "stat.",
     "rec": "rec.",
-    "prob": "prob."
+    "prob": "prob.",
+    "solution": "sol."
   },
   "nav-user": {
     "profile": "profile",
@@ -50,7 +51,10 @@
     "search": "ID/Name"
   },
   "problem": {
-    "search": "ID/Name/Tag"
+    "search": "ID/Name/Tag",
+    "back":"Back to Assignment",
+    "submitted": "submitted",
+    "solved": "solved"
   },
   "record": {
     "searchA": "Assignment",

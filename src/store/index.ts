@@ -15,6 +15,7 @@ let vuex = new Vuex.Store({
   state: {
     user: notLogin,
     isAuthenticated: false,
+    loading: false,
     sideNav: <boolean>false,
     nav: [
       {
@@ -78,6 +79,9 @@ let vuex = new Vuex.Store({
     },
     setSideNav(state, value) {
       state.sideNav = value
+    },
+    setLoading(state, value){
+      state.loading = value
     },
     windowResize(state, payload) {
       state.width_height = payload

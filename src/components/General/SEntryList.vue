@@ -1,16 +1,16 @@
 <template>
   <v-list class="list problem-list">
     <div
-      v-for="(problem, index) in problems"
+      v-for="(entry, index) in entries"
       :key="index"
       class="list-item-container"
     >
       <v-list-item
         class="list-item cursor-hand-hover"
-        @click="click(problem.ID)"
+        @click="click(entry.ID)"
       >
         <v-row justify="space-between" style="width: 100%" align-content="center">
-          <slot :problem="problem"/>
+          <slot :entry="entry"/>
         </v-row>
       </v-list-item>
       <v-divider/>
@@ -19,27 +19,20 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Prop, Emit} from 'vue-property-decorator'
-import {Problem} from "@/ts/Entries";
-import STag from "@/components/General/STag.vue";
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Entry} from "@/ts/DataDef";
 
-@Component({
-  components: {STag}
-})
-export default class SProblemList extends Vue {
+@Component({})
+export default class SEntryList extends Vue {
   @Prop({
     type: Array,
     required: true
   })
-  readonly problems!: Array<Problem>
+  readonly entries!: Array<Entry>
 
   click(ID: number) {
     this.$router.push(`/problem/${ID}`)
   }
-
-  @Emit()
-  clickTag(tag:string){}
-
 }
 </script>
 

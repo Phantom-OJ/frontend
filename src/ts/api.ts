@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {APIException, LoginForm, SignOutForm, SignUpForm, User} from "@/ts/DataDef";
+import {APIException, LoginForm, SignOutForm, SignUpForm, User} from "@/ts/dataDef";
 
 axios.defaults.withCredentials = true
 

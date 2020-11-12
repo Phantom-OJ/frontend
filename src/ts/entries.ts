@@ -1,4 +1,4 @@
-import {Entry, Tag, User} from "@/ts/DataDef"
+import {Entry, Tag, User} from "@/ts/dataDef"
 
 export class Announcement implements Entry {
   ID: number

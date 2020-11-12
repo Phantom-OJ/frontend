@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {InfoContainer, LoginForm, User, SignUpForm} from "@/ts/DataDef"
-import API from '@/ts/API'
+import {InfoContainer, LoginForm, User, SignUpForm, ProblemInfoContainer} from "@/ts/dataDef"
+import API from '@/ts/api'
 import router from '@/router/index'
-import {Announcement, Assignment, Problem, Record} from "@/ts/Entries";
-import '@/ts/Prototypes'
+import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
+import '@/ts/prototypes'
 
 Vue.use(Vuex)
 
@@ -68,9 +68,9 @@ let vuex = new Vuex.Store({
       height: window.innerHeight
     },
     assignmentInfo: new InfoContainer<Assignment>(''),
-    problemInfo: new InfoContainer<Problem>(''),
+    problemInfo: new ProblemInfoContainer(''),
     announcementInfo: new InfoContainer<Announcement>(''),
-    recordInfo: new InfoContainer<Record>(new Map<string,string>())
+    recordInfo: new InfoContainer<Record>(new Map<string, string>())
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
@@ -80,7 +80,7 @@ let vuex = new Vuex.Store({
     setSideNav(state, value) {
       state.sideNav = value
     },
-    setLoading(state, value){
+    setLoading(state, value) {
       state.loading = value
     },
     windowResize(state, payload) {
@@ -94,13 +94,14 @@ let vuex = new Vuex.Store({
       if (!!max) state.assignmentInfo.maxLength = max
       if (!!filter || filter === '') state.assignmentInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear, code}) {
       if (!!clear) state.problemInfo.clear()
       if (!!selectedID || selectedID === 0) state.problemInfo.selectedID = selectedID
       if (!!pageIndex || pageIndex === 0) state.problemInfo.pageIndex = pageIndex
       if (!!list) state.problemInfo.addAll(list)
       if (!!max) state.problemInfo.maxLength = max
       if (!!filter || filter === '') state.problemInfo.filter = filter
+      if (code !== void 0) state.problemInfo.code = code
     },
     setAnnouncementInfo(state, {selectedID, pageIndex, list, max, clear}) {
       if (!!clear) state.announcementInfo.clear()
@@ -140,6 +141,6 @@ let vuex = new Vuex.Store({
 vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
 vuex.commit('setAssignmentInfo', {list: assignmentList, max: 2})
 vuex.commit('setProblemInfo', {list: problemList, max: 2})
-vuex.commit('setRecordInfo',{list:recordList, max:5})
+vuex.commit('setRecordInfo', {list: recordList, max: 5})
 
 export default vuex

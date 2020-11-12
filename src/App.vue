@@ -17,7 +17,7 @@ import SAppBar from "@/components/Root/SAppBar.vue";
 import SNavBar from "@/components/Root/SNavBar.vue";
 import SFooter from "@/components/Root/SFooter.vue";
 import SAlert from "@/components/General/SAlert.vue";
-import {Alert} from "@/ts/DataDef";
+import {Alert} from "@/ts/dataDef";
 
 @Component({
   components: {SAlert, SFooter, SNavBar, SAppBar}

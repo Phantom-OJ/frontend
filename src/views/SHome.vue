@@ -12,7 +12,7 @@
 
 <script>
 import Chart from 'chart.js'
-import API from '@/ts/API'
+import API from '@/ts/api'
 import {Component, Vue} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/Root/SAvatar.vue";

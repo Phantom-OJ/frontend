@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Alert} from "@/ts/DataDef";
+import {Alert} from "@/ts/dataDef";
 
 @Component({})
 export default class SAlert extends Vue {

@@ -1,5 +1,5 @@
-import {Announcement, Assignment, Problem, Record} from "@/ts/Entries";
-import {User} from "@/ts/DataDef";
+import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
+import {User} from "@/ts/dataDef";
 
 export const notLogin = {
   name: 'please login',
@@ -36,7 +36,7 @@ export let announcementList = [{
 export let assignmentList = [{
   ID: 11378,
   title: 'nllyydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
-  description: '**LSLNBLSLNBLSLNB**aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew\n#### lslnb \n$$\n \\le \n$$',
+  description: '**LSLNBLSLNBLSLNB**aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew\n#### lslnb \n$$\n 1\\le 0 \n$$',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
   status: '未开始'

@@ -40,10 +40,10 @@ import {Component, Emit, Prop, Vue} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import SPagination from "@/components/General/SPagination.vue";
 import {mapState} from "vuex";
-import {InfoContainer, Tag} from "@/ts/DataDef";
-import {Problem} from '@/ts/Entries';
+import {InfoContainer, Tag} from "@/ts/dataDef";
+import {Problem} from '@/ts/entries';
 import STag from "@/components/General/STag.vue";
-import API from "@/ts/API";
+import API from "@/ts/api";
 import SEntryList from "@/components/General/SEntryList.vue";
 
 @Component({

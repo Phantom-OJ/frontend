@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Record} from "@/ts/Entries"
+import {Record} from "@/ts/entries"
 import SEntryList from "@/components/General/SEntryList.vue";
 
 @Component({

@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts">
-import {Vue} from '@/ts/Extension'
+import {Vue} from '@/ts/extension'
 import {Component, Prop, PropSync} from 'vue-property-decorator'
-import {Alert, InfoContainer} from "@/ts/DataDef";
+import {Alert, InfoContainer} from "@/ts/dataDef";
 
 @Component({})
 export default class SPagination extends Vue {

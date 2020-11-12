@@ -33,9 +33,9 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {InfoContainer} from "@/ts/DataDef";
+import {InfoContainer} from "@/ts/dataDef";
 import {mapState} from "vuex";
-import { Assignment } from '@/ts/Entries';
+import { Assignment } from '@/ts/entries';
 
 @Component({
   computed: {

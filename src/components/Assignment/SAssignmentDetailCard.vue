@@ -50,8 +50,7 @@
     </div>
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <div v-html="$m2h(description)" class="description">
-        </div>
+        <s-markdown :markdown="description" class="description"/>
       </v-tab-item>
       <v-tab-item>
         <s-entry-list :entries="problems" :path="'problem'">
@@ -89,16 +88,17 @@
 </template>
 
 <script lang="ts">
-import {Vue} from '@/ts/Extension'
+import {Vue} from '@/ts/extension'
 import {Component, Watch} from 'vue-property-decorator'
-import {Assignment, Problem, Record} from "@/ts/Entries";
+import {Assignment, Problem, Record} from "@/ts/entries";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
+import SMarkdown from "@/components/General/SMarkdown.vue";
 
 @Component({
-  components: {SEntryList, SRecordList, STag},
+  components: {SMarkdown, SEntryList, SRecordList, STag},
   computed: {...mapState(['width_height'])}
 })
 export default class SAssignmentDetailCard extends Vue {
@@ -146,6 +146,7 @@ export default class SAssignmentDetailCard extends Vue {
   }
 
   get description() {
+    console.log(this.assignment?.description)
     return this.assignment?.description
   }
 

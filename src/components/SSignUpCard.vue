@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import {SignUpForm} from "@/ts/DataDef";
+import {SignUpForm} from "@/ts/dataDef";
 
 @Component({})
 export default class SSignUpCard extends Vue {

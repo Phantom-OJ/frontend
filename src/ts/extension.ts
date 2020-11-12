@@ -1,5 +1,5 @@
 // @ts-nocheck
-import {Alert} from "@/ts/DataDef"
+import {Alert} from "@/ts/dataDef"
 import xss from 'xss'
 import marked from 'marked'
 import * as V from 'vue-property-decorator'

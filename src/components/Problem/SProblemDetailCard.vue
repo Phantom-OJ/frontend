@@ -28,8 +28,8 @@
               mdi-timer-sand
             </v-icon>
             {{`${problem.timeLimit}ms`}}
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-bullseye
+            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.2) translateY(-1px)">
+              mdi-cash-100
             </v-icon>
             {{`${problem.fullScore}`}}
             <v-icon class="icon-color-0 icon-left-5">
@@ -67,8 +67,8 @@
               mdi-timer-sand
             </v-icon>
             {{`${problem.timeLimit}ms`}}
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-bullseye
+            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.2)">
+              mdi-cash-100
             </v-icon>
             {{`${problem.fullScore}`}}
           </span>
@@ -100,10 +100,10 @@
     </div>
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <div v-html="$m2h(problem.description)" class="description"></div>
+        <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        TODO
+        <s-codemirror :code.sync="code" :mime="'text/x-pgsql'" />
       </v-tab-item>
       <v-tab-item>
         TODO
@@ -116,15 +116,17 @@
 </template>
 
 <script lang="ts">
-import {Vue} from '@/ts/Extension'
+import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Problem, Record} from "@/ts/Entries";
+import {Problem, Record} from "@/ts/entries";
 import STag from "@/components/General/STag.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
+import SMarkdown from "@/components/General/SMarkdown.vue";
+import SCodemirror from "@/components/General/SCodemirror.vue";
 
 @Component({
-  components: {SRecordList, STag},
+  components: {SCodemirror, SMarkdown, SRecordList, STag},
   computed: {...mapState(['width_height'])}
 })
 export default class SProblemDetailCard extends Vue {
@@ -134,7 +136,7 @@ export default class SProblemDetailCard extends Vue {
   records: Array<Record> = []
 
   created() {
-    this.$store.commit('setProblemInfo', {selectID: this.pid})
+    this.$store.commit('setProblemInfo', {selectedID: this.pid})
     this.loading = !this.problem
     this.records = this.$store.state.recordInfo.list//TODO
   }
@@ -145,6 +147,14 @@ export default class SProblemDetailCard extends Vue {
 
   set loading(v) {
     this.$store.commit('setLoading', v)
+  }
+
+  get code(): string {
+    return this.$store.state.problemInfo.code
+  }
+
+  set code(v: string) {
+    this.$store.commit('setProblemInfo', {code: v})
   }
 
   get pid(): number {

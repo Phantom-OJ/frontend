@@ -47,10 +47,10 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {InfoContainer} from "@/ts/DataDef";
+import {InfoContainer} from "@/ts/dataDef";
 import SPagination from "@/components/General/SPagination.vue";
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
-import { Assignment } from '@/ts/Entries';
+import { Assignment } from '@/ts/entries';
 
 @Component({
   components: {SSearchableCardTitle, SPagination},

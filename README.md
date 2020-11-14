@@ -37,3 +37,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 https://material.iconhelper.cn/
 
 beaconAPI
+
+vue-ace-editor

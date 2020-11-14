@@ -2,11 +2,18 @@
   <v-card id="assignment-card" class="all-card">
     <s-searchable-card-title :title="'assignment'">
       <div class="search">
-        <v-text-field color="secondary" outlined hide-details
-                      class="search-input" :label="$t(`assignment.search`)"
-                      type="text" dense clearable @click:clear="searchContent=``"
-                      v-model="searchContent"></v-text-field>
-        <v-btn class="search-btn" @click="search">filter</v-btn>
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchA`)"
+                      type="text" dense v-model="searchID"/>
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchB`)"
+                      type="text" dense v-model="searchName"/>
+        <div>
+          <v-btn class="search-btn" @click="search">filter</v-btn>
+          <v-btn text style="padding: 8px;margin-left: 5px;min-width: 32px;" @click="clear">
+            <v-icon class="icon-color-2">
+              mdi-close
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
     </s-searchable-card-title>
     <v-list class="list">
@@ -40,17 +47,19 @@
         <v-divider/>
       </div>
     </v-list>
-    <s-pagination :item-num="itemNum" :max-length="assignmentInfo.maxLength" :page-index.sync="pageIndex"></s-pagination>
+    <s-pagination :item-num="itemNum" :max-length="assignmentInfo.maxLength"
+                  :page-index.sync="pageIndex"></s-pagination>
   </v-card>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {InfoContainer} from "@/ts/dataDef";
+import {Alert, InfoContainer} from "@/ts/dataDef";
 import SPagination from "@/components/General/SPagination.vue";
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
-import { Assignment } from '@/ts/entries';
+import {Assignment} from '@/ts/entries';
 
 @Component({
   components: {SSearchableCardTitle, SPagination},
@@ -64,14 +73,25 @@ export default class SAssignmentCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly assignmentInfo !: InfoContainer<Assignment>
 
-  get searchContent(){
-    return this.assignmentInfo.filter
+  s_searchID: string = ''
+  s_searchName: string = ''
+
+  get searchID(): string {
+    return this.s_searchID
   }
 
-  set searchContent(v){
-    this.$store.commit('setAssignmentInfo',{
-      filter:v
-    })
+  set searchID(v: string) {
+    this.s_searchID = v
+    this.commitFilter()
+  }
+
+  get searchName(): string {
+    return this.s_searchName
+  }
+
+  set searchName(v: string) {
+    this.s_searchName = v
+    this.commitFilter()
   }
 
   click(ID: number) {
@@ -87,18 +107,29 @@ export default class SAssignmentCard extends Vue {
     return list
   }
 
-  search(){
-    console.log(this.searchContent)
+  search() {
+    console.log(this.$alert)
+    this.$alert(new Alert('success', `search ${this.searchID}, ${this.searchName}`))
   }
 
-  get pageIndex(){
+  get pageIndex() {
     return this.assignmentInfo.pageIndex
   }
 
-  set pageIndex(v){
-    this.$store.commit('setAssignmentInfo',{pageIndex:v})
+  set pageIndex(v) {
+    this.$store.commit('setAssignmentInfo', {pageIndex: v})
   }
 
+  clear(){
+    this.s_searchName = ''
+    this.s_searchID = ''
+    this.commitFilter()
+  }
+
+  commitFilter() {
+    let filter = new Map([['ID', this.searchID], ['name', this.searchName]])
+    this.$store.commit('setAssignmentInfo', {filter})
+  }
 }
 </script>
 

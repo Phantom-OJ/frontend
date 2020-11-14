@@ -10,7 +10,7 @@
                       type="text" dense v-model="searchUser"/>
         <div>
           <v-btn class="search-btn" @click="search">filter</v-btn>
-          <v-btn text style="padding: 8px;margin-left: 5px;min-width: 32px;">
+          <v-btn text style="padding: 8px;margin-left: 5px;min-width: 32px;" @click="clear">
             <v-icon class="icon-color-2">
               mdi-close
             </v-icon>
@@ -24,11 +24,12 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component, Prop} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import {mapState} from "vuex";
-import {InfoContainer} from "@/ts/dataDef";
-import {Assignment, Record} from "@/ts/entries";
+import {Alert, InfoContainer} from "@/ts/dataDef";
+import {Record} from "@/ts/entries";
 import SPagination from "@/components/General/SPagination.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
 
@@ -42,15 +43,15 @@ export default class SRecordCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly recordInfo !: InfoContainer<Record>
 
-  searchAssignment: string = ''
-  searchProblem: string = ''
-  searchUser: string = ''
+  s_searchAssignment: string = ''
+  s_searchProblem: string = ''
+  s_searchUser: string = ''
 
   created() {
-    let filter = this.recordInfo.filter as Map<string, string>
-    this.searchAssignment = filter.get('assignment')!
-    this.searchProblem = filter.get('problem')!
-    this.searchUser = filter.get('user')!
+    let filter = this.recordInfo.filter
+    this.s_searchAssignment = filter.get('assignment')||''
+    this.s_searchProblem = filter.get('problem')||''
+    this.s_searchUser = filter.get('user')||''
   }
 
   get records(): Array<Record> {
@@ -62,13 +63,35 @@ export default class SRecordCard extends Vue {
   }
 
   search() {
-    let filter = new Map<string, string>([
-      ['assignment', this.searchAssignment],
-      ['problem', this.searchProblem],
-      ['user', this.searchUser]
-    ])
-    this.$store.commit('setRecordInfo', {filter})
     //TODO
+    this.$alert(new Alert('success', `search ${this.searchAssignment}, ${this.searchProblem}, ${this.searchUser}`))
+  }
+
+  get searchAssignment(): string {
+    return this.s_searchAssignment;
+  }
+
+  set searchAssignment(value: string) {
+    this.s_searchAssignment = value;
+    this.commitFilter()
+  }
+
+  get searchProblem(): string {
+    return this.s_searchProblem;
+  }
+
+  set searchProblem(value: string) {
+    this.s_searchProblem = value;
+    this.commitFilter()
+  }
+
+  get searchUser(): string {
+    return this.s_searchUser;
+  }
+
+  set searchUser(value: string) {
+    this.s_searchUser = value;
+    this.commitFilter()
   }
 
   get pageIndex() {
@@ -78,14 +101,24 @@ export default class SRecordCard extends Vue {
   set pageIndex(v) {
     this.$store.commit('setRecordInfo', {pageIndex: v})
   }
+
+  clear():void{
+    this.s_searchUser = ''
+    this.s_searchProblem = ''
+    this.s_searchAssignment = ''
+    this.commitFilter()
+  }
+
+  private commitFilter(){
+    let filter = new Map<string, string>([
+      ['assignment', this.searchAssignment],
+      ['problem', this.searchProblem],
+      ['user', this.searchUser]
+    ])
+    this.$store.commit('setRecordInfo', {filter})
+  }
 }
 </script>
 
 <style scoped lang="scss">
-  .search {
-    .v-input.search-input {
-      width: 20% !important;
-      min-width: 70px !important;
-    }
-  }
 </style>

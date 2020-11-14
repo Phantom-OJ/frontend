@@ -103,7 +103,8 @@
         <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-codemirror :code.sync="code" :mime="'text/x-pgsql'" />
+        <s-code-editor :code.sync="code" :lang.sync="lang">
+        </s-code-editor>
       </v-tab-item>
       <v-tab-item>
         TODO
@@ -124,13 +125,16 @@ import STag from "@/components/General/STag.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
+import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
+import {ProblemInfoContainer} from "@/ts/dataDef";
 
 @Component({
-  components: {SCodemirror, SMarkdown, SRecordList, STag},
-  computed: {...mapState(['width_height'])}
+  components: {SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
+  computed: {...mapState(['width_height','problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
+  readonly problemInfo!: ProblemInfoContainer
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   tab: number = 0
   records: Array<Record> = []
@@ -149,8 +153,16 @@ export default class SProblemDetailCard extends Vue {
     this.$store.commit('setLoading', v)
   }
 
+  get lang():string{
+    return this.problemInfo.lang
+  }
+
+  set lang(v:string){
+    this.$store.commit('setProblemInfo', {lang: v})
+  }
+
   get code(): string {
-    return this.$store.state.problemInfo.code
+    return this.problemInfo.code
   }
 
   set code(v: string) {
@@ -162,7 +174,7 @@ export default class SProblemDetailCard extends Vue {
   }
 
   get problem(): Problem | null {
-    let a = this.$store.state.problemInfo.map.get(this.pid)
+    let a = this.problemInfo.map.get(this.pid)
     if (!!a) {
       this.loading = false
       return a

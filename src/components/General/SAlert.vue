@@ -1,5 +1,5 @@
 <template>
-  <div id="alert-container">
+  <div id="s-alert-container">
     <v-alert v-for="(alert,index) in alerts" :key="index" :color="alert.type" :type="alert.type"
              transition="fade-transition" :dismissible="true" :value="alert.show" class="alert-item">
       {{alert.info}}
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Vue} from 'vue-property-decorator'
 import {Alert} from "@/ts/dataDef";
 
 @Component({})
@@ -33,8 +33,8 @@ export default class SAlert extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-  #alert-container {
+<style lang="scss">
+  #s-alert-container {
     position: fixed;
     top: 80px;
     width: 15%;

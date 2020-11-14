@@ -51,10 +51,13 @@
     "search": "ID/Name"
   },
   "problem": {
-    "search": "ID/Name/Tag",
+    "searchA": "ID",
+    "searchB": "Name",
+    "searchC": "Tag",
     "back":"Back to Assignment",
     "submitted": "submitted",
-    "solved": "solved"
+    "solved": "solved",
+    "lang": "language"
   },
   "record": {
     "searchA": "Assignment",

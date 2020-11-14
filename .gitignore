@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /public/dist
-
+/rubish_tests/
 
 # local env files
 .env.local

@@ -1,9 +1,8 @@
 <template>
   <v-app :class="`lang-${$i18n.locale}`" id="s-app" dark>
-    <s-alert ref="alert"/>
     <s-nav-bar/>
     <s-app-bar/>
-
+    <s-alert ref="alert"/>
     <v-main>
       <router-view/>
     </v-main>
@@ -12,12 +11,14 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component} from 'vue-property-decorator'
 import SAppBar from "@/components/Root/SAppBar.vue";
 import SNavBar from "@/components/Root/SNavBar.vue";
 import SFooter from "@/components/Root/SFooter.vue";
 import SAlert from "@/components/General/SAlert.vue";
 import {Alert} from "@/ts/dataDef";
+
 
 @Component({
   components: {SAlert, SFooter, SNavBar, SAppBar}
@@ -30,7 +31,7 @@ export default class App extends Vue {
   }
 
   beforeMount() {
-    Vue.prototype.$alert = (alert: Alert) => {
+    Vue.prototype.$alert = (alert:Alert) => {
       //@ts-ignore
       this.$refs.alert.add(alert)
     }
@@ -39,9 +40,15 @@ export default class App extends Vue {
   mounted() {
     // @ts-ignore dev TODO
     window["vue"] = this
-    let that = this
     window.onresize = () =>
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
+    window.onunload = () => {
+      navigator.sendBeacon('http://localhost:9999/api/beacon', JSON.stringify({
+        problemInfo: this.$store.state.problemInfo,
+        assignmentInfo: this.$store.state.assignmentInfo,
+        recordInfo: this.$store.state.recordInfo
+      }))
+    }
   }
 }
 </script>

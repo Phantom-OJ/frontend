@@ -67,10 +67,10 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    assignmentInfo: new InfoContainer<Assignment>(''),
-    problemInfo: new ProblemInfoContainer(''),
-    announcementInfo: new InfoContainer<Announcement>(''),
-    recordInfo: new InfoContainer<Record>(new Map<string, string>())
+    assignmentInfo: new InfoContainer<Assignment>(),
+    problemInfo: new ProblemInfoContainer(),
+    announcementInfo: new InfoContainer<Announcement>(),
+    recordInfo: new InfoContainer<Record>()
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
@@ -94,7 +94,7 @@ let vuex = new Vuex.Store({
       if (!!max) state.assignmentInfo.maxLength = max
       if (!!filter || filter === '') state.assignmentInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear, code}) {
+    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear, code, lang}) {
       if (!!clear) state.problemInfo.clear()
       if (!!selectedID || selectedID === 0) state.problemInfo.selectedID = selectedID
       if (!!pageIndex || pageIndex === 0) state.problemInfo.pageIndex = pageIndex
@@ -102,6 +102,7 @@ let vuex = new Vuex.Store({
       if (!!max) state.problemInfo.maxLength = max
       if (!!filter || filter === '') state.problemInfo.filter = filter
       if (code !== void 0) state.problemInfo.code = code
+      if (!!lang || lang === '') state.problemInfo.lang = lang
     },
     setAnnouncementInfo(state, {selectedID, pageIndex, list, max, clear}) {
       if (!!clear) state.announcementInfo.clear()

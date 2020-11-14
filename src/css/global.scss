@@ -2,6 +2,7 @@
 
 :root {
   --s-app-width: 82%;
+  --s-code-mirror-height:600px;
 }
 
 a {
@@ -279,8 +280,8 @@ input:focus {
   flex-grow: 2;
 
   .v-input.search-input {
-    width: 60%;
-    min-width: 120px;
+    width: 20%;
+    min-width: 70px;
     display: inline-block;
     flex: none;
     flex-grow: 1;
@@ -333,12 +334,12 @@ input:focus {
   color: #f8f8ff;
 }
 
-.problem-list {
+.s-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  .s-flex {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.problem-list {
 
   .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
     line-height: 36px;

@@ -46,7 +46,7 @@ export class InfoContainer<T extends Entry> {
   private _pageIndex = 0
   private _maxLength = 0
   private _search = true
-  private _filter: Map<string, string> | string
+  private _filter: Map<string, string> = new Map<string, string>()
   private _list = new Array<T>()
   private _map = new Map<number, T>()
 
@@ -98,11 +98,6 @@ export class InfoContainer<T extends Entry> {
     this._map = value;
   }
 
-
-  constructor(filter: Map<string, string> | string) {
-    this._filter = filter
-  }
-
   pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
     let result = this._list.slice(index * num, (index + 1) * num)
     return {full: result.length === num || (index + 1) * num >= this._maxLength, list: result}
@@ -151,19 +146,27 @@ export class InfoContainer<T extends Entry> {
     this._list = new Array<T>()
   }
 
-  get filter(): Map<string, string> | string {
+  get filter(): Map<string, string> {
     return this._filter;
   }
 
-  set filter(value: Map<string, string> | string) {
+  set filter(value: Map<string, string>) {
     this._search = true
     this._filter = value;
   }
 
+  toJSON(): object {
+    return {
+      selectedID: this.selectedID,
+      pageIndex: this.pageIndex,
+      filter: this.filter
+    }
+  }
 }
 
 export class ProblemInfoContainer extends InfoContainer<Problem> {
   private _code = 'asdfghj'
+  private _lang = 'pgsql'
 
   set selectedID(v: number) {
     if (v !== super.selectedID) {
@@ -172,12 +175,33 @@ export class ProblemInfoContainer extends InfoContainer<Problem> {
     }
   }
 
+  get selectedID(): number {
+    return super.selectedID
+  }
+
+  get lang(): string{
+    return this._lang
+  }
+
+  set lang(v:string){
+    this._lang = v
+  }
+
   get code(): string {
     return this._code;
   }
 
   set code(value: string) {
     this._code = value;
+  }
+
+  toJSON(): object {
+    return {
+      selectedID: this.selectedID,
+      pageIndex: this.pageIndex,
+      filter: this.filter,
+      code: this.code
+    }
   }
 }
 

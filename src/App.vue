@@ -4,7 +4,9 @@
     <s-app-bar/>
     <s-alert ref="alert"/>
     <v-main>
-      <router-view/>
+      <v-slide-x-reverse-transition>
+        <router-view/>
+      </v-slide-x-reverse-transition>
     </v-main>
     <s-footer/>
   </v-app>
@@ -24,14 +26,8 @@ import {Alert} from "@/ts/dataDef";
   components: {SAlert, SFooter, SNavBar, SAppBar}
 })
 export default class App extends Vue {
-  beforeCreate() {
-  }
-
-  created() {
-  }
-
   beforeMount() {
-    Vue.prototype.$alert = (alert:Alert) => {
+    Vue.prototype.$alert = (alert: Alert) => {
       //@ts-ignore
       this.$refs.alert.add(alert)
     }

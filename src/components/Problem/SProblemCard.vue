@@ -68,9 +68,9 @@ export default class SProblemCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly problemInfo !: InfoContainer<Problem>
 
-  s_searchID:string=''
-  s_searchName:string=''
-  s_searchTags:string=''
+  private s_searchID:string=''
+  private s_searchName:string=''
+  private s_searchTags:string=''
 
   created() {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)

@@ -104,11 +104,22 @@ import SMarkdown from "@/components/General/SMarkdown.vue";
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
-  tab: number = 0
   problems: Array<Problem> = []
   records: Array<Record> = []
   now: Date = new Date()
   private intervals: Array<number> = []
+
+  get tab():number{
+    return parseInt(this.$route.hash.slice(1))
+  }
+
+  set tab(v:number){
+    //@ts-ignore
+    this.$router.replace({
+      ...this.$route,
+      hash:`#${v}`
+    })
+  }
 
   get loading(): boolean {
     return this.$store.state.loading;

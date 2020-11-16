@@ -3,9 +3,14 @@
   "nav-bar": {
     "home": "主页",
     "help": "帮助",
-    "problems": "题库",
-    "record": "状态",
-    "contest": "作业/竞赛"
+    "problem": "题库",
+    "record": "记录",
+    "assignment": "作业",
+    "description": "描述",
+    "statistic": "统计",
+    "rec": "记录",
+    "prob": "题目",
+    "solution": "题解"
   },
   "nav-user": {
     "profile": "个人信息",
@@ -30,14 +35,35 @@
     }
   },
   "submit": "提交",
+  "send": "发送",
   "profile": {
     "mail": "邮箱",
     "pwd": "密码",
     "c-pwd": "确认密码",
-    "v-code": "验证码"
+    "v-code": "验证码",
+    "nickname": "昵称"
   },
   "error": {
     "confirm": "密码不一致",
     "pageIndex": "无效页码"
+  },
+  "assignment": {
+    "searchA": "ID",
+    "searchB": "作业名"
+  },
+  "problem": {
+    "searchA": "ID",
+    "searchB": "题名",
+    "searchC": "标签",
+    "back":"回到作业",
+    "submitted": "已提交",
+    "solved": "已解决",
+    "lang": "语言",
+    "code-editor": "编辑器"
+  },
+  "record": {
+    "searchA": "作业",
+    "searchP": "题目",
+    "searchU": "用户"
   }
 }

@@ -2,9 +2,9 @@
   <v-card id="assignment-card" class="all-card">
     <s-searchable-card-title :title="'assignment'">
       <div class="search">
-        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchA`)"
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>
-        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchB`)"
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchB`)"
                       type="text" dense v-model="searchName"/>
         <div>
           <v-btn class="search-btn" @click="search">filter</v-btn>
@@ -73,8 +73,8 @@ export default class SAssignmentCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly assignmentInfo !: InfoContainer<Assignment>
 
-  s_searchID: string = ''
-  s_searchName: string = ''
+  private s_searchID: string = ''
+  private s_searchName: string = ''
 
   get searchID(): string {
     return this.s_searchID

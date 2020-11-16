@@ -6,11 +6,13 @@ npm install
 ```
 
 ### Compiles and hot-reloads for development
+开发者模式
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+打包部署
 ```
 npm run build
 ```

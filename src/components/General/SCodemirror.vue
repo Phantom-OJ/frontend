@@ -12,8 +12,7 @@ import 'codemirror/mode/clike/clike'
 import 'codemirror/addon/hint/show-hint'
 import 'codemirror/addon/hint/sql-hint'
 import 'codemirror/addon/hint/show-hint.css'
-import 'codemirror/theme/idea.css'
-import 'codemirror/theme/base16-dark.css'
+import 'codemirror/theme/cobalt.css'
 
 @Component({})
 export default class SCodemirror extends Vue {
@@ -35,10 +34,17 @@ export default class SCodemirror extends Vue {
   @Prop()
   options?: object
 
+  @Prop({
+    type: Set,
+    default: () => new Set([` `, `\t`, ``, `*`, `(`, `)`, `'`, '`', `+`, `-`, `/`, `\\`])
+  })
+  notHint!: Set<string>
+
   get s_options() {
     return {
       mode: this.mime,
-      theme: 'idea',
+      readOnly: this.readOnly,
+      theme: 'cobalt',
       viewportMargin: Infinity,
       hintOptions: {
         completeSingle: false
@@ -47,13 +53,14 @@ export default class SCodemirror extends Vue {
     }
   }
 
-  mounted() {
-
-  }
-
-  ready(codemirror:any){
-    codemirror.on('cursorActivity',()=>codemirror.showHint())
-    console.log(codemirror)
+  ready(codemirror: any) {
+    codemirror.on('change', (instance: any, {from, text}: { from: any, text: Array<string> }) => {
+      const hintsList = codemirror.getHelpers(codemirror, 'hint')[0](codemirror).list
+      if (!!text && hintsList.length >= 1 && hintsList[0].text !== text[0] && !this.notHint.has(text[0])) {
+        codemirror.showHint()
+        console.log(text[0])
+      }
+    })
   }
 
 }
@@ -67,6 +74,8 @@ export default class SCodemirror extends Vue {
 
     .CodeMirror {
       .CodeMirror-scroll {
+        background-color: rgba(0, 0, 0, 0.03);
+        /*background-color: var(--v-secondary-lighten5);*/
         min-height: $cm-height;
 
         &:hover {

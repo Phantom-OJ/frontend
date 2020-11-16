@@ -12,7 +12,6 @@ const routes: Array<RouteConfig> = [
     name: 'Home',
     component: SHome,
     beforeEnter: function (to: Route, from: Route, next: Function) {
-      console.log('lsllj')
       next()
     }
   },

@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="s-editor">
     <div class="s-flex">
+      <span class="s-editor-title">{{$t('problem.code-editor')}}</span>
       <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
                 dense color="secondary" :label="$t('problem.lang')"></v-select>
       <slot/>
@@ -21,7 +22,7 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
   components: {SCodemirror}
 })
 export default class SCodeEditor extends Vue {
-  readonly languages = ['pgsql', 'sqlite', 'mysql','java']
+  readonly languages = ['pgsql', 'sqlite', 'mysql']
   @PropSync('lang')
   s_lang !: string
   @PropSync('code')
@@ -43,26 +44,37 @@ export default class SCodeEditor extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-  .s-flex {
-    justify-content: space-around;
+<style lang="scss">
+  .s-editor {
+    padding-top: 16px;
+    .s-flex {
+      justify-content: space-between;
+      .s-editor-title{
+        flex-grow: 1;
+        padding: 0 0 0 32px;
+        line-height: 40px;
+        font-weight: 700;
+        font-size: 20px;
+      }
+      .s-editor-lang {
+        margin: 0 2%;
+        width: 25%;
+        flex-grow: 0;
+        flex-shrink: 2;
+      }
 
-    .s-editor-lang {
-      margin: 0 2%;
-      width: 25%;
-      flex-grow: 0;
-      flex-shrink: 2;
+      .s-editor-submit{
+        margin: 0 2%;
+        width: 20%;
+        flex-grow: 0;
+        flex-shrink: 1;
+      }
     }
-
-    .s-editor-submit{
-      margin: 0 2%;
-      width: 20%;
-      flex-grow: 0;
-      flex-shrink: 1;
+    .s-editor-body {
+      /*padding: 16px 16px 0 16px;*/
+      padding: 0 27px 27px 27px;
+      border-radius: 10px;
+      /*border: 1px solid var(--v-secondary-darken2);*/
     }
-  }
-  .s-editor-body{
-    padding: 16px;
-    border: 1px solid var(--v-secondary-darken2);
   }
 </style>

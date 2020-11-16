@@ -64,7 +64,7 @@ export let problemList = [{
 } as Problem, {
   ID: 3,
   description: '',
-  title: 'tksb',
+  title: 'qsdxmm',
   tags: [{tag: 'lslnb'}, {tag: 'easy'}],
   indexInAssignment: 3,
   sampleOut: '',

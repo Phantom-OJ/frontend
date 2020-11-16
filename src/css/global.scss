@@ -193,6 +193,10 @@ input:focus {
 
     .detail-card-title-box {
       padding: 0 0 0 28px;
+      flex-wrap: wrap;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
 
       .detail-card-title {
         font-weight: 500;
@@ -216,9 +220,6 @@ input:focus {
 
       }
 
-      flex-wrap: wrap;
-      display: flex;
-      justify-content: space-between;
     }
 
     .detail-card-title-box--vertical{
@@ -346,3 +347,7 @@ input:focus {
   }
 }
 
+li.CodeMirror-hint-active {
+  background: var(--v-secondary-lighten1) !important;
+  color: white;
+}

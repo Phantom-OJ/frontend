@@ -15,10 +15,10 @@
         </v-tab>
       </v-tabs>
       <div class="ellipsis-col detail-card-title--vertical">
-        <v-card-title class="s-p-d-c-title">
+        <v-card-title class="s-problem-detail-card-title">
           {{problem.title}}
         </v-card-title>
-        <v-card-subtitle class="s-p-d-c-sub">
+        <v-card-subtitle class="s-problem-detail-card-sub">
           <div style="margin: 7px auto 10px auto">
             <v-icon class="icon-color-0 icon-left-5">
               mdi-database
@@ -56,7 +56,7 @@
     </div>
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
-        <v-card-title class="s-p-d-c-title">
+        <v-card-title class="s-problem-detail-card-title">
           {{problem.title}}
           <span style="font-size: 14px">
             <v-icon class="icon-color-0 icon-left-5">
@@ -67,13 +67,13 @@
               mdi-timer-sand
             </v-icon>
             {{`${problem.timeLimit}ms`}}
-            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.2)">
+            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.25) translateY(-1px);">
               mdi-cash-100
             </v-icon>
             {{`${problem.fullScore}`}}
           </span>
         </v-card-title>
-        <v-card-subtitle class="s-p-d-c-sub">
+        <v-card-subtitle class="s-problem-detail-card-sub">
           {{`${$t('problem.submitted')}: ${problem.numberSubmit} / ${$t('problem.solved')}: ${problem.numberSolve}`}}
           <br>
           <div style="margin-top: 5px">
@@ -98,12 +98,13 @@
         </v-tab>
       </v-tabs>
     </div>
+    <v-divider class="s-divider"/>
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-code-editor :code.sync="code" :lang.sync="lang">
+        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor">
         </s-code-editor>
       </v-tab-item>
       <v-tab-item>
@@ -130,14 +131,26 @@ import {ProblemInfoContainer} from "@/ts/dataDef";
 
 @Component({
   components: {SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
-  computed: {...mapState(['width_height','problemInfo'])}
+  computed: {...mapState(['width_height', 'problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly problemInfo!: ProblemInfoContainer
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
-  tab: number = 0
   records: Array<Record> = []
+  disableEditor: boolean = false
+
+  get tab():number{
+    return parseInt(this.$route.hash.slice(1))
+  }
+
+  set tab(v:number){
+    //@ts-ignore
+    this.$router.replace({
+      ...this.$route,
+      hash:`#${v}`
+    })
+  }
 
   created() {
     this.$store.commit('setProblemInfo', {selectedID: this.pid})
@@ -153,11 +166,11 @@ export default class SProblemDetailCard extends Vue {
     this.$store.commit('setLoading', v)
   }
 
-  get lang():string{
+  get lang(): string {
     return this.problemInfo.lang
   }
 
-  set lang(v:string){
+  set lang(v: string) {
     this.$store.commit('setProblemInfo', {lang: v})
   }
 
@@ -190,14 +203,26 @@ export default class SProblemDetailCard extends Vue {
     })
     this.$router.push('/problem/all')
   }
+
+  submit() {
+    this.disableEditor = true
+  }
 }
 </script>
 
-<style scoped lang="scss">
-  .s-p-d-c-title {
+<style lang="scss">
+  .s-problem-detail-card-title {
     text-align: center;
     display: inline-block;
     position: relative;
     /*left: 60px;*/
+  }
+
+  .s-problem-detail-card-sub {
+    padding-bottom: 8px;
+  }
+
+  .s-divider {
+    margin-bottom: 4px;
   }
 </style>

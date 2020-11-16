@@ -48,7 +48,8 @@
     "pageIndex": "invalid page index"
   },
   "assignment": {
-    "search": "ID/Name"
+    "searchA": "ID",
+    "searchB": "Name"
   },
   "problem": {
     "searchA": "ID",
@@ -57,7 +58,8 @@
     "back":"Back to Assignment",
     "submitted": "submitted",
     "solved": "solved",
-    "lang": "language"
+    "lang": "language",
+    "code-editor": "CODE EDITOR"
   },
   "record": {
     "searchA": "Assignment",

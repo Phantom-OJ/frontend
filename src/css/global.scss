@@ -204,7 +204,7 @@ input:focus {
         display: block;
         padding: 10px 10px 0 0;
         line-height: 60px;
-        font-family: "Segoe UI", Consolas, serif;
+        //font-family: "Segoe UI", Consolas, serif;
       }
 
       .detail-card-tabs {
@@ -350,4 +350,21 @@ input:focus {
 li.CodeMirror-hint-active {
   background: var(--v-secondary-lighten1) !important;
   color: white;
+}
+
+
+.inlist-user {
+  display: flex;
+  align-items: center;
+
+  .inlist-user-avatar {
+    flex-shrink: 2;
+  }
+
+  .inlist-user-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.5;
+  }
 }

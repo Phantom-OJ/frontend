@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {InfoContainer, LoginForm, User, SignUpForm, ProblemInfoContainer} from "@/ts/dataDef"
+import {InfoContainer, LoginForm, SignUpForm, ProblemInfoContainer} from "@/ts/dataDef"
 import API from '@/ts/api'
 import router from '@/router/index'
-import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
+import {Announcement, Assignment, Record} from "@/ts/entries";
 import '@/ts/prototypes'
 
 Vue.use(Vuex)
@@ -86,19 +86,21 @@ let vuex = new Vuex.Store({
     windowResize(state, payload) {
       state.width_height = payload
     },
-    setAssignmentInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+    setAssignmentInfo(state, {selectedID, pageIndex, list, detailAssignment, max, filter, clear}) {
       if (!!clear) state.assignmentInfo.clear()
-      if (!!selectedID || selectedID === 0) state.assignmentInfo.selectedID = selectedID
-      if (!!pageIndex || pageIndex === 0) state.assignmentInfo.pageIndex = pageIndex
+      if (!!selectedID || selectedID === 0) state.assignmentInfo.selectEntry(selectedID)
+      if (!!pageIndex || pageIndex === 0) state.assignmentInfo.selectPage(pageIndex)
       if (!!list) state.assignmentInfo.addAll(list)
+      if (!!detailAssignment) state.assignmentInfo.add(detailAssignment)
       if (!!max) state.assignmentInfo.maxLength = max
       if (!!filter || filter === '') state.assignmentInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, max, filter, clear, code, lang}) {
+    setProblemInfo(state, {selectedID, pageIndex, list, detailProblem, max, filter, clear, code, lang}) {
       if (!!clear) state.problemInfo.clear()
-      if (!!selectedID || selectedID === 0) state.problemInfo.selectedID = selectedID
-      if (!!pageIndex || pageIndex === 0) state.problemInfo.pageIndex = pageIndex
+      if (!!selectedID || selectedID === 0) state.problemInfo.selectEntry(selectedID)
+      if (!!pageIndex || pageIndex === 0) state.problemInfo.selectPage(pageIndex)
       if (!!list) state.problemInfo.addAll(list)
+      if (!!detailProblem) state.problemInfo.add(detailProblem)
       if (!!max) state.problemInfo.maxLength = max
       if (!!filter || filter === '') state.problemInfo.filter = filter
       if (code !== void 0) state.problemInfo.code = code
@@ -106,16 +108,17 @@ let vuex = new Vuex.Store({
     },
     setAnnouncementInfo(state, {selectedID, pageIndex, list, max, clear}) {
       if (!!clear) state.announcementInfo.clear()
-      if (!!selectedID || selectedID === 0) state.announcementInfo.selectedID = selectedID
-      if (!!pageIndex || pageIndex === 0) state.announcementInfo.pageIndex = pageIndex
+      if (!!selectedID || selectedID === 0) state.announcementInfo.selectEntry(selectedID)
+      if (!!pageIndex || pageIndex === 0) state.announcementInfo.selectPage(pageIndex)
       if (!!list) state.announcementInfo.addAll(list)
       if (!!max) state.announcementInfo.maxLength = max
     },
-    setRecordInfo(state, {selectedID, pageIndex, list, max, filter, clear}) {
+    setRecordInfo(state, {selectedID, pageIndex, list, detailRecord, max, filter, clear}) {
       if (!!clear) state.recordInfo.clear()
-      if (!!selectedID || selectedID === 0) state.recordInfo.selectedID = selectedID
-      if (!!pageIndex || pageIndex === 0) state.recordInfo.pageIndex = pageIndex
+      if (!!selectedID || selectedID === 0) state.recordInfo.selectEntry(selectedID)
+      if (!!pageIndex || pageIndex === 0) state.recordInfo.selectPage(pageIndex)
       if (!!list) state.recordInfo.addAll(list)
+      if (!!detailRecord) state.recordInfo.add(detailRecord)
       if (!!max) state.recordInfo.maxLength = max
       if (!!filter) state.recordInfo.filter = filter
     }

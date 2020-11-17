@@ -33,101 +33,156 @@ export let announcementList = [{
   show: false
 } as Announcement]
 
-export let assignmentList = [{
-  ID: 11378,
+export let problemList = [
+  new Problem({
+    id: 2,
+    description: '',
+    aid: 11378,
+    title: 'yrqcfm',
+    recentCode: 'SELECT xuemei FROM nqs',
+    solution: 'SELECT xuemei FROM nqs',
+    tags: [{tag: 'lslnb'}, {tag: 'wcsl'}, {tag: 'nhsa'}, {tag: 'difficult'}],
+    indexInAssignment: 1,
+    sampleOut: '',
+    numberSubmit: 2000,
+    numberSolve: 773,
+    spaceLimit: 256,
+    timeLimit: 2000,
+    fullScore: 10
+  }), new Problem({
+    id: 3,
+    description: '',
+    aid: 2,
+    title: 'qsdxmm',
+    recentCode: undefined,
+    solution: undefined,
+    tags: [{tag: 'lslnb'}, {tag: 'easy'}],
+    indexInAssignment: 3,
+    sampleOut: '',
+    numberSubmit: 14,
+    numberSolve: 7,
+    spaceLimit: 32,
+    timeLimit: 5000,
+    fullScore: 20
+  })]
+
+export let recordList = [
+  new Record({
+    id: 3,
+    description: '',
+    user: notLogin,
+    code: 'SELECT * FROM lslnb AS lsllj',
+    score: 0,
+    problemId: 3,
+    problemTitle: 'qsdxmm',
+    result: 'WA',
+    space: 200,
+    time: 200,
+    dialect: 'pgsql',
+    codeLength: 600,
+    submitTime: new Date('2020/10/01 12:00:00')
+  }), new Record({
+    id: 17,
+    description: '',
+    user: skyland,
+    code: 'DROP TABLE skyland',
+    score: 0,
+    problemId: 2,
+    problemTitle: 'yrqcfm',
+    result: 'TLE',
+    space: 233,
+    time: 27,
+    dialect: 'sqlite',
+    codeLength: 24,
+    submitTime: new Date()
+  }), new Record({
+    id: 43,
+    description: '',
+    user: notLogin,
+    code: 'SELECT * FROM mzynb',
+    score: 0,
+    problemId: 2,
+    problemTitle: 'yrqcfm',
+    result: 'MLE',
+    space: 1,
+    time: 2,
+    dialect: 'MYSQL',
+    codeLength: 24,
+    submitTime: new Date()
+  }), new Record({
+    id: 92,
+    description: '',
+    user: skyland,
+    code: 'SELECT xuemei FROM nqsdxxm',
+    score: 100,
+    problemId: 2,
+    problemTitle: 'yrqcfm',
+    result: 'AC',
+    space: 114,
+    time: 135,
+    dialect: 'SQLITE',
+    codeLength: 24,
+    submitTime: new Date()
+  }), new Record({
+    id: 93,
+    description: '',
+    user: notLogin,
+    code: 'rm -rf /*',
+    score: 0,
+    problemId: 2,
+    problemTitle: 'yrqcfm',
+    result: 'SE',
+    space: 1700,
+    time: 2,
+    dialect: 'sqlite',
+    codeLength: 24,
+    submitTime: new Date('2000-02-02 02:22:22')
+  })]
+
+export let assignmentList = [new Assignment({
+  id: 11378,
   title: 'nllyydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
   description: '**LSLNBLSLNBLSLNB**aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew\n#### lslnb \n$$\n 1\\le 0 \n$$',
   startTime: new Date('2020/11/01'),
   stopTime: new Date('2020/11/07'),
-  status: '未开始'
-} as Assignment, {
-  ID: 2,
+  status: '未开始',
+  problemList: [{
+    id: 2,
+    description: '',
+    aid: 11378,
+    title: 'yrqcfm',
+    recentCode: 'SELECT xuemei FROM nqs',
+    solution: 'SELECT xuemei FROM nqs',
+    tags: [{tag: 'lslnb'}, {tag: 'wcsl'}, {tag: 'nhsa'}, {tag: 'difficult'}],
+    indexInAssignment: 1,
+    sampleOut: '',
+    numberSubmit: 2000,
+    numberSolve: 773,
+    spaceLimit: 256,
+    timeLimit: 2000,
+    fullScore: 10
+  }]
+}), new Assignment({
+  id: 2,
   title: '龙宝宝tql',
   description: '',
   startTime: new Date('2020/10/01'),
   stopTime: new Date('2020/10/30'),
-  status: '进行中'
-} as Assignment]
-
-export let problemList = [{
-  ID: 2,
-  description: '',
-  title: 'yrqcfm',
-  tags: [{tag: 'lslnb'}, {tag: 'wcsl'}, {tag: 'nhsa'}, {tag: 'difficult'}],
-  indexInAssignment: 1,
-  sampleOut: '',
-  numberSubmit:2000,
-  numberSolve:773,
-  spaceLimit:256,
-  timeLimit:2000,
-  fullScore:10
-} as Problem, {
-  ID: 3,
-  description: '',
-  title: 'qsdxmm',
-  tags: [{tag: 'lslnb'}, {tag: 'easy'}],
-  indexInAssignment: 3,
-  sampleOut: '',
-  numberSubmit:14,
-  numberSolve:7,
-  spaceLimit:32,
-  timeLimit:5000,
-  fullScore:20
-} as Problem]
-
-export let recordList = [{
-  ID: 3,
-  description: '',
-  user: notLogin,
-  pid: 3,
-  result: 'WA',
-  space:200,
-  time:200,
-  dialect:'psql',
-  codeLength:600,
-  submitTime:new Date('2020/10/01 12:00:00')
-} as Record, {
-  ID: 17,
-  description: '',
-  user:skyland,
-  pid:2,
-  result:'TLE',
-  space:233,
-  time:27,
-  dialect:'sqlite',
-  codeLength:24,
-  submitTime:new Date()
-} as Record,{
-  ID: 43,
-  description: '',
-  user:notLogin,
-  pid:2,
-  result:'MLE',
-  space:1,
-  time:2,
-  dialect:'MYSQL',
-  codeLength:24,
-  submitTime:new Date()
-} as Record,{
-  ID: 92,
-  description: '',
-  user:skyland,
-  pid:2,
-  result:'AC',
-  space:114,
-  time:135,
-  dialect:'SQLITE',
-  codeLength:24,
-  submitTime:new Date()
-} as Record,{
-  ID: 93,
-  description: '',
-  user:notLogin,
-  pid:2,
-  result:'SE',
-  space:1700,
-  time:2,
-  dialect:'sqlite',
-  codeLength:24,
-  submitTime:new Date('2000-02-02 02:22:22')
-} as Record]
+  status: '进行中',
+  problemList: [{
+    id: 3,
+    description: '',
+    aid: 2,
+    title: 'qsdxmm',
+    recentCode: undefined,
+    solution: undefined,
+    tags: [{tag: 'lslnb'}, {tag: 'easy'}],
+    indexInAssignment: 3,
+    sampleOut: '',
+    numberSubmit: 14,
+    numberSolve: 7,
+    spaceLimit: 32,
+    timeLimit: 5000,
+    fullScore: 20
+  }]
+})]

@@ -2,7 +2,7 @@
   <v-card class="detail-card">
     <div v-if="width_height.width>1200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
-              class="detail-card-tabs--vertical" height="160">
+              class="detail-card-tabs--vertical" :height="tabHeight">
         <v-tabs-slider color="accent"/>
         <v-tab
           v-for="bar in tabs"
@@ -104,8 +104,7 @@
         <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor">
-        </s-code-editor>
+        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor"/>
       </v-tab-item>
       <v-tab-item>
         TODO
@@ -139,6 +138,13 @@ export default class SProblemDetailCard extends Vue {
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
+
+  get tabHeight():number{
+    let height = 160
+    if(!!this.problem?.solution) height += 40
+    // if(this.$store.state.user)
+    return height
+  }
 
   get tab():number{
     return parseInt(this.$route.hash.slice(1))
@@ -214,8 +220,6 @@ export default class SProblemDetailCard extends Vue {
   .s-problem-detail-card-title {
     text-align: center;
     display: inline-block;
-    position: relative;
-    /*left: 60px;*/
   }
 
   .s-problem-detail-card-sub {

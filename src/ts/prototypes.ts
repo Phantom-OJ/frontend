@@ -1,10 +1,10 @@
 //@ts-nocheck
 
-Number.prototype.format = function (num, prefix = '0') {
+Number.prototype.format = function (num, prefix = '0', mod=true) {
   if (prefix.length !== 1 || (!this && this !== 0)) {
     throw new Error('invalid prefix or number')
   }
-  let re = (this % Math.pow(10, num)).toString()
+  let re = mod?(this % Math.pow(10, num)).toString():this.toString()
   while (re.toString().length < num) {
     re = prefix + re
   }

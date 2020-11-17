@@ -10,7 +10,8 @@
     "statistic": "stat.",
     "rec": "rec.",
     "prob": "prob.",
-    "solution": "sol."
+    "solution": "sol.",
+    "code": "code"
   },
   "nav-user": {
     "profile": "profile",
@@ -59,11 +60,12 @@
     "submitted": "submitted",
     "solved": "solved",
     "lang": "language",
-    "code-editor": "CODE EDITOR"
+    "code-editor": "YOUR ANSWER"
   },
   "record": {
     "searchA": "Assignment",
     "searchP": "problem",
-    "searchU": "user"
+    "searchU": "user",
+    "submission": "SUBMISSION"
   }
 }

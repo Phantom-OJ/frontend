@@ -54,16 +54,8 @@ export class InfoContainer<T extends Entry> {
     return this._selectedID;
   }
 
-  set selectedID(value: number) {
-    this._selectedID = value;
-  }
-
   get pageIndex(): number {
     return this._pageIndex;
-  }
-
-  set pageIndex(value: number) {
-    this._pageIndex = value;
   }
 
   get maxLength(): number {
@@ -103,7 +95,7 @@ export class InfoContainer<T extends Entry> {
     return {full: result.length === num || (index + 1) * num >= this._maxLength, list: result}
   }
 
-  addAll(list: Array<T>, offset: number = 0) {
+  addAll(list: Array<T>, offset: number = 0): void {
     this._search = false
     let index = this._list.length + offset
     for (let i = index; i < index + list.length; i++) {
@@ -112,6 +104,12 @@ export class InfoContainer<T extends Entry> {
         this._map.set(t.ID, t)
       }
       this._list[i] = t
+    }
+  }
+
+  add(entry: T): void {
+    if (!this._map.has(entry.ID)) {
+      this._map.set(entry.ID, entry)
     }
   }
 
@@ -168,9 +166,9 @@ export class ProblemInfoContainer extends InfoContainer<Problem> {
   private _code = 'asdfghj'
   private _lang = 'pgsql'
 
-  set selectedID(v: number) {
-    if (v !== super.selectedID) {
-      super.selectedID = v
+  selectEntry(ID: number) {
+    if (ID !== super.selectedID) {
+      super.selectEntry(ID);
       this.code = ''
     }
   }
@@ -179,11 +177,11 @@ export class ProblemInfoContainer extends InfoContainer<Problem> {
     return super.selectedID
   }
 
-  get lang(): string{
+  get lang(): string {
     return this._lang
   }
 
-  set lang(v:string){
+  set lang(v: string) {
     this._lang = v
   }
 

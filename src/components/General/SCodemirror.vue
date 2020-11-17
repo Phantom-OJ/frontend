@@ -1,6 +1,6 @@
 <template>
   <div class="s-codemirror">
-    <v-codemirror v-model="_code" :merge="false" name="skyland" :options="s_options" disabled="" @ready="ready"/>
+    <v-codemirror v-model="_code" :merge="false" name="skyland" :options="s_options" @ready="ready"/>
   </div>
 </template>
 
@@ -26,7 +26,6 @@ export default class SCodemirror extends Vue {
   mime!: string
 
   @Prop({
-    type: Boolean,
     default: false
   })
   readOnly!: boolean

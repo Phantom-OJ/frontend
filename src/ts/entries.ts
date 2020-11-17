@@ -17,7 +17,7 @@ export class Announcement implements Entry {
     this.lastModified = lastModified
   }
 
-  static copy(a:Announcement) {
+  static copy(a: Announcement) {
     return new Announcement({
       ancmId: a.ID.toString(),
       description: a.description?.toString(),
@@ -33,25 +33,27 @@ export class Problem implements Entry {
   ID: number
   description: string | undefined
   title: string
-  aid:number
-  fullScore:number
-  spaceLimit:number
-  timeLimit:number
-  numberSubmit:number
-  numberSolve:number
-  solution:string
+  aid: number
+  fullScore: number
+  spaceLimit: number
+  timeLimit: number
+  numberSubmit: number
+  numberSolve: number
+  solution?: string
+  recentCode?: string
   tags: Array<Tag>
   indexInAssignment: number
   sampleOut: string
 
 
   //@ts-ignore
-  constructor({ID, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}) {
-    this.ID = ID
+  constructor({id, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}) {
+    this.ID = id
     this.description = description
     this.title = title
     this.tags = tags
     this.indexInAssignment = indexInAssignment
+    this.recentCode = recentCode
     this.sampleOut = sampleOut
     this.aid = aid
     this.fullScore = fullScore
@@ -70,24 +72,28 @@ export class Assignment implements Entry {
   startTime: Date
   stopTime: Date
   status: string
-
+  problemList?: Array<Problem>
 
   //@ts-ignore
-  constructor({ID, description, title, startTime, stopTime, status}) {
-    this.ID = ID
+  constructor({id, description, title, startTime, stopTime, status, problemList}) {
+    this.ID = id
     this.description = description
     this.title = title
     this.startTime = startTime
     this.stopTime = stopTime
     this.status = status
+    this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value))
   }
 }
 
-export class Record implements Entry{
+export class Record implements Entry {
   ID: number
   description: string | undefined
   user: User
-  pid: number
+  code?: string
+  score: number
+  problemId: number
+  problemTitle: string
   result: string
   space: number
   time: number
@@ -96,11 +102,14 @@ export class Record implements Entry{
   submitTime: Date
 
   //@ts-ignore
-  constructor({ID, description, user, pid, result, space, time, dialect, codeLength, submitTime}) {
-    this.ID = ID
+  constructor({id, description, user, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}) {
+    this.ID = id
     this.description = description
     this.user = user
-    this.pid = pid
+    this.code = code
+    this.score = score
+    this.problemId = problemId
+    this.problemTitle = problemTitle
     this.result = result
     this.space = space
     this.time = time
@@ -109,11 +118,11 @@ export class Record implements Entry{
     this.submitTime = new Date(submitTime)
   }
 
-  get title(){
+  get title() {
     return this.result
   }
 
-  set title(v){
+  set title(v) {
     this.result = v
   }
 }

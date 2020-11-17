@@ -10,7 +10,8 @@
     "statistic": "统计",
     "rec": "记录",
     "prob": "题目",
-    "solution": "题解"
+    "solution": "题解",
+    "code": "代码"
   },
   "nav-user": {
     "profile": "个人信息",
@@ -64,6 +65,7 @@
   "record": {
     "searchA": "作业",
     "searchP": "题目",
-    "searchU": "用户"
+    "searchU": "用户",
+    "submission": "提交"
   }
 }

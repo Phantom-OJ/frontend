@@ -1,4 +1,4 @@
-import {Entry, Tag, User} from "@/ts/dataDef"
+import {Entry, Tag, User} from "@/ts/interfaces"
 
 export class Announcement implements Entry {
   ID: number
@@ -45,9 +45,7 @@ export class Problem implements Entry {
   indexInAssignment: number
   sampleOut: string
 
-
-  //@ts-ignore
-  constructor({id, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}) {
+  constructor({id, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}:any) {
     this.ID = id
     this.description = description
     this.title = title
@@ -70,17 +68,16 @@ export class Assignment implements Entry {
   description: string | undefined
   title: string
   startTime: Date
-  stopTime: Date
+  endTime: Date
   status: string
   problemList?: Array<Problem>
 
-  //@ts-ignore
-  constructor({id, description, title, startTime, stopTime, status, problemList}) {
+  constructor({id, description, title, startTime, endTime, status, problemList}:any) {
     this.ID = id
     this.description = description
     this.title = title
-    this.startTime = startTime
-    this.stopTime = stopTime
+    this.startTime = new Date(startTime)
+    this.endTime = new Date(endTime)
     this.status = status
     this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value))
   }
@@ -101,8 +98,7 @@ export class Record implements Entry {
   codeLength: number
   submitTime: Date
 
-  //@ts-ignore
-  constructor({id, description, user, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}) {
+  constructor({id, description, user, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}:any) {
     this.ID = id
     this.description = description
     this.user = user

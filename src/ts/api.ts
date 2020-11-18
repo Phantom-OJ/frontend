@@ -1,59 +1,58 @@
 import axios from 'axios'
-import {APIException, LoginForm, SignOutForm, SignUpForm, User} from "@/ts/dataDef";
+import {APIException, LoginForm, PageSearchFrom, SignOutForm, SignUpForm, User} from "@/ts/interfaces";
+import {Assignment} from "@/ts/entries";
 
 axios.defaults.withCredentials = true
 
-const ERR_CODE = new Set([404, 500])//TODO
+const ERR_CODE = new Set([400, 403, 405, 404, 500])//TODO
 
-// @ts-ignore
-export default {
-  async requestWithCatch(method: string, url: string, data: any, catcher: Function): Promise<any> {
-    try {
-      // @ts-ignore
-      let re = await axios[method](url, data)
-      if (!ERR_CODE.has(re.status))
-        return re.data
-      else
-        throw new APIException(re.status, re.data)
-    } catch (e) {
-      catcher(e)
-    }
-  },
+export class API{
 
-  async requestWithOutCatch(method: string, url: string, data: any):Promise<any>{
+  async request(method: string, url: string, data?: any): Promise<any> {
     // @ts-ignore
-    let re = await axios[method](url, data)
+
+    let re = await axios[method](`/api/${url}`, data)
     if (!ERR_CODE.has(re.status))
       return re.data
     else
       throw new APIException(re.status, re.data)
-  },
+  }
 
   async login(loginForm: LoginForm): Promise<User> {
-    return await this.requestWithOutCatch('post','',loginForm)
-  },
+    return await this.request('post', '', loginForm)
+  }
 
-  async signUp(form: SignUpForm):Promise<User>{
-    return await this.requestWithOutCatch('post','/api/user/signup',form)
-  },
+  async signUp(form: SignUpForm): Promise<User> {
+    return await this.request('post', 'user/signup', form)
+  }
+
+  async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {
+    let data: Array<any> = await this.request('post', 'assignment', form)
+    return data.map(e => new Assignment(e))
+  }
+
+  async getAssignment(ID: number): Promise<Assignment> {
+    let data = await this.request('get', `assignment/${ID}`)
+    return new Assignment(data)
+  }
 
   signOut(signOutFrom: SignOutForm): Promise<any> {
-    return this.requestWithCatch('post', '', signOutFrom, (e: any) => window.alert(e))
-  },
+    return this.request('post', '', signOutFrom)
+  }
 
   getAnnouncement() {
-    return this.requestWithCatch('get', '', null, (e: any) => console.log(e))
-  },
+    return this.request('get', '', null)
+  }
 
   getHomeStatisticsData() {
-    return this.requestWithCatch('get', '', null, (e: any) => console.log(e))
-  },
+    return this.request('get', '', null)
+  }
 
-  getProblems(searchProblemFrom:any) {
-    return this.requestWithCatch('get', '', searchProblemFrom, (e: any) => window.alert(e))
-  },
+  getProblems(searchProblemFrom: any) {
+    return this.request('get', '', searchProblemFrom)
+  }
 
   getContestEntry() {
-    return this.requestWithCatch('get', '', null, (e: any) => window.alert(e))
+    return this.request('get', '', null)
   }
 }

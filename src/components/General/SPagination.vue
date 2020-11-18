@@ -12,7 +12,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop, PropSync} from 'vue-property-decorator'
-import {Alert, InfoContainer} from "@/ts/dataDef";
+import {Alert} from "@/ts/interfaces";
 
 @Component({})
 export default class SPagination extends Vue {
@@ -29,7 +29,7 @@ export default class SPagination extends Vue {
   readonly itemNum!: number
 
   @PropSync('pageIndex')
-  _pageIndex!:number
+  _pageIndex!: number
 
   get sPageIndex() {
     return this._pageIndex + 1
@@ -37,7 +37,7 @@ export default class SPagination extends Vue {
 
   set sPageIndex(index: number) {
     if (index > this.maxPageNum || index <= 0 || index === void 0) {
-      this.$alert(new Alert('error', this.$t('error.pageIndex').toString()))
+      this.$alert(new Alert({type: 'error', info: this.$t('error.pageIndex').toString()}))
       return
     }
     this._pageIndex = index

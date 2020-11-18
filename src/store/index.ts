@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {InfoContainer, LoginForm, SignUpForm, ProblemInfoContainer} from "@/ts/dataDef"
-import API from '@/ts/api'
+import {InfoContainer, LoginForm, SignUpForm, ProblemInfoContainer} from "@/ts/interfaces"
 import router from '@/router/index'
 import {Announcement, Assignment, Record} from "@/ts/entries";
 import '@/ts/prototypes'
+
 
 Vue.use(Vuex)
 
@@ -124,21 +124,21 @@ let vuex = new Vuex.Store({
     }
   },
   actions: {
-    async login({commit}, payload: { loginForm: LoginForm, then: string }) {
-      let user = await API.login(payload.loginForm)
-      commit('setUser', {user: user, isAuthenticated: true})
-      await router.push(payload.then || '/')
-    },
-    async signUp({commit}, payload: { signForm: SignUpForm, then: string }) {
-      let user = await API.signUp(payload.signForm)
-      commit('setUser', {user: user, isAuthenticated: true})
-      await router.push(payload.then || '/')
-    },
-    async signOut({commit, state}) {
-      let re = await API.signOut('')
-      commit('setUser', {user: notLogin, isAuthenticated: false})
-      await router.push('/')
-    }
+    // async login({commit}, payload: { loginForm: LoginForm, then: string }) {
+    //   let user = await API.login(payload.loginForm)
+    //   commit('setUser', {user: user, isAuthenticated: true})
+    //   await router.push(payload.then || '/')
+    // },
+    // async signUp({commit}, payload: { signForm: SignUpForm, then: string }) {
+    //   let user = await API.signUp(payload.signForm)
+    //   commit('setUser', {user: user, isAuthenticated: true})
+    //   await router.push(payload.then || '/')
+    // },
+    // async signOut({commit, state}) {
+    //   let re = await API.signOut('')
+    //   commit('setUser', {user: notLogin, isAuthenticated: false})
+    //   await router.push('/')
+    // }
   },
   strict: true
 })

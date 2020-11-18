@@ -36,8 +36,8 @@
             </v-col>
             <v-col id="time" :cols="4">
               <v-icon class="icon-color-1" style="margin-right: 2px">mdi-camera-timer</v-icon>
-              {{(width_height.width&lt;750)?`@${assignment.stopTime.sString()}`:`${assignment.startTime.sString()} >>
-              ${assignment.stopTime.sString()}`}}
+              {{(width_height.width&lt;750)?`@${assignment.endTime.sString()}`:`${assignment.startTime.sString()} >>
+              ${assignment.endTime.sString()}`}}
             </v-col>
             <v-col id="status" :cols="2">
               {{assignment.status}}
@@ -56,7 +56,7 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Alert, InfoContainer} from "@/ts/dataDef";
+import {Alert, InfoContainer} from "@/ts/interfaces";
 import SPagination from "@/components/General/SPagination.vue";
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import {Assignment} from '@/ts/entries';
@@ -109,7 +109,7 @@ export default class SAssignmentCard extends Vue {
 
   search() {
     console.log(this.$alert)
-    this.$alert(new Alert('success', `search ${this.searchID}, ${this.searchName}`))
+    this.$alert(new Alert({type:'success', info:`search ${this.searchID}, ${this.searchName}`}))
   }
 
   get pageIndex() {

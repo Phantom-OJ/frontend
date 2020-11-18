@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import {Alert} from "@/ts/dataDef";
+import {Alert} from "@/ts/interfaces";
 
 @Component({})
 export default class SAlert extends Vue {
@@ -21,6 +21,10 @@ export default class SAlert extends Vue {
     }, 5000)
   }
 
+  /**
+   * Add a alert for show. The alert will disappear after alert.time ms.
+   * @param alert {@link Alert}
+   */
   add(alert: Alert) {
     this.alerts.push(alert)
     setTimeout(() => {

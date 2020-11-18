@@ -1,6 +1,6 @@
 <template>
   <v-card class="detail-card">
-    <div v-if="width_height.width>1200" class="detail-card-title-box--vertical">
+    <div v-if="width_height.width>9200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
               class="detail-card-tabs--vertical" :height="tabHeight">
         <v-tabs-slider color="accent"/>
@@ -18,7 +18,7 @@
         <v-card-title class="s-problem-detail-card-title">
           {{problem.title}}
         </v-card-title>
-        <v-card-subtitle class="s-problem-detail-card-sub">
+        <div class="s-problem-detail-card-sub">
           <div style="margin: 7px auto 10px auto">
             <v-icon class="icon-color-0 icon-left-5">
               mdi-database
@@ -41,23 +41,15 @@
             </v-icon>
             {{problem.numberSolve}}
           </div>
-          <div>
-            <s-tag
-              v-for="(tag, index) in problem.tags"
-              :key="index"
-              :tag="tag.tag"
-              :color="tag.tag.hash().format(6)"
-              class="cursor-hand-hover"
-              @click="clickTag"
-            ></s-tag>
-          </div>
-        </v-card-subtitle>
+        </div>
       </div>
     </div>
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
-        <v-card-title class="s-problem-detail-card-title">
+        <v-card-title class="detail-card-title-main">
           {{problem.title}}
+        </v-card-title>
+        <v-card-subtitle class="s-problem-detail-card-sub">
           <span style="font-size: 14px">
             <v-icon class="icon-color-0 icon-left-5">
               mdi-database
@@ -71,21 +63,15 @@
               mdi-cash-100
             </v-icon>
             {{`${problem.fullScore}`}}
+            <v-icon class="icon-color-0 icon-left-5">
+              mdi-upload
+            </v-icon>
+            {{problem.numberSubmit}}
+            <v-icon class="icon-color-0 icon-left-5">
+              mdi-check
+            </v-icon>
+            {{problem.numberSolve}}
           </span>
-        </v-card-title>
-        <v-card-subtitle class="s-problem-detail-card-sub">
-          {{`${$t('problem.submitted')}: ${problem.numberSubmit} / ${$t('problem.solved')}: ${problem.numberSolve}`}}
-          <br>
-          <div style="margin-top: 5px">
-            <s-tag
-              v-for="(tag, index) in problem.tags"
-              :key="index"
-              :tag="tag.tag"
-              :color="tag.tag.hash().format(6)"
-              class="cursor-hand-hover"
-              @click="clickTag"
-            ></s-tag>
-          </div>
         </v-card-subtitle>
       </div>
       <v-tabs v-model="tab" background-color="white" right class="detail-card-tabs" height="60" color="secondary">
@@ -126,7 +112,7 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
-import {ProblemInfoContainer} from "@/ts/dataDef";
+import {ProblemInfoContainer} from "@/ts/interfaces";
 
 @Component({
   components: {SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
@@ -138,6 +124,7 @@ export default class SProblemDetailCard extends Vue {
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
+  private cnt = 1
 
   get tabHeight():number{
     let height = 160
@@ -172,10 +159,19 @@ export default class SProblemDetailCard extends Vue {
     this.$store.commit('setLoading', v)
   }
 
+  /**
+   * language chose to **submit**, such as pgsql
+   * @return language chose
+   */
   get lang(): string {
     return this.problemInfo.lang
   }
 
+  /**
+   * set language chose to **submit**, such as pgsql
+   * It will change the problemInfo in vuex
+   * @param v new language
+   */
   set lang(v: string) {
     this.$store.commit('setProblemInfo', {lang: v})
   }
@@ -192,22 +188,9 @@ export default class SProblemDetailCard extends Vue {
     return parseInt(this.$route.params.pid)
   }
 
-  get problem(): Problem | null {
-    let a = this.problemInfo.map.get(this.pid)
-    if (!!a) {
-      this.loading = false
-      return a
-    } else {
-      this.loading = true
-      return null
-    }
-  }
-
-  clickTag(tag: string) {
-    this.$store.commit('setProblemInfo', {
-      filter: tag
-    })
-    this.$router.push('/problem/all')
+  get problem(): Problem | undefined {
+    let _ = this.cnt
+    return this.problemInfo.map.get(this.pid)
   }
 
   submit() {
@@ -217,13 +200,10 @@ export default class SProblemDetailCard extends Vue {
 </script>
 
 <style lang="scss">
-  .s-problem-detail-card-title {
-    text-align: center;
-    display: inline-block;
-  }
 
   .s-problem-detail-card-sub {
-    padding-bottom: 8px;
+    padding-top: 6px !important;
+    padding-bottom: 10px;
   }
 
   .s-divider {

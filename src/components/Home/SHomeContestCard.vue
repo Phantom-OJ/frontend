@@ -19,7 +19,7 @@
               {{assignment.title}}
             </v-col>
             <v-col v-if="width_height.width>1350" cols="5" id="time" class="s-card-item-text">
-              {{`${assignment.startTime.sString()} >> ${assignment.stopTime.sString()}`}}
+                {{`${assignment.startTime.sString()} >> ${assignment.endTime.sString()}`}}
             </v-col>
             <v-col lg="1" md="2" cols="3" id="status" class="s-card-item-text">
               {{assignment.status}}
@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {InfoContainer} from "@/ts/dataDef";
+import {InfoContainer} from "@/ts/interfaces";
 import {mapState} from "vuex";
 import { Assignment } from '@/ts/entries';
 

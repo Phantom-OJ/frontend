@@ -48,7 +48,7 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Announcement} from "@/ts/entries";
-import {InfoContainer} from "@/ts/dataDef";
+import {InfoContainer} from "@/ts/interfaces";
 
 @Component({
   computed:{

@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
-import {LoginForm} from "@/ts/dataDef";
+import {LoginForm} from "@/ts/interfaces";
 
 @Component({})
 export default class SLoginCard extends Vue {

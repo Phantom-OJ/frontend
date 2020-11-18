@@ -8,27 +8,64 @@ export class APIException {
     this.code = code
     this.description = description
   }
+
+  get info():string{
+    return `Error code: ${this.code}\n${this.description}`
+  }
 }
 
+export class PageSearchFrom {
+  start:number
+  end:number
+  filter?:Map<string,string>
 
-export interface User {
+  constructor({start, end, filter}:{start: number, end: number, filter?: Map<string, string>}) {
+    this.start = start;
+    this.end = end;
+    this.filter = filter;
+  }
+}
+
+export class User {
   ID: number
   name: string
   group: string
   avatar: string
   role: string
+
+  constructor({id, name, group, avatar, role}: { id: number, name: string, group: string, avatar: string, role: string }) {
+    this.ID = id;
+    this.name = name;
+    this.group = group;
+    this.avatar = avatar;
+    this.role = role;
+  }
 }
 
-export interface LoginForm {
+export class LoginForm {
   username: string
   password: string
   timestamp: number
+
+  constructor({username, password, timestamp}: { username: string, password: string, timestamp: number }) {
+    this.username = username;
+    this.password = password;
+    this.timestamp = timestamp;
+  }
 }
 
-export interface SignUpForm {
+export class SignUpForm {
   username: string
   password: string
   nickname: string
+  verifyCode: string
+
+  constructor({username, password, nickname, verifyCode}: { username: string, password: string, nickname: string, verifyCode: string }) {
+    this.username = username;
+    this.password = password;
+    this.nickname = nickname;
+    this.verifyCode = verifyCode;
+  }
 }
 
 export interface SignOutForm {
@@ -210,10 +247,10 @@ export class Alert {
   show: boolean = true
   exist: boolean = true
 
-  constructor(type: string, info: string, time: number = 2000) {
+  constructor({type, info, time}:{type: string, info: string, time?: number}) {
     this.type = type
     this.info = info
-    this.time = time
+    this.time = time??5000
   }
 }
 

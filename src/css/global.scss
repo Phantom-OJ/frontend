@@ -2,7 +2,7 @@
 
 :root {
   --s-app-width: 82%;
-  --s-code-mirror-height:600px;
+  --s-code-mirror-height: 600px;
 }
 
 a {
@@ -154,7 +154,7 @@ i.icon-color-F.v-icon.mdi {
   color: ghostwhite;
 }
 
-.icon-left-5{
+.icon-left-5 {
   margin-left: 5px;
 }
 
@@ -187,7 +187,7 @@ input:focus {
     margin: 30px auto;
     min-height: 746px;
 
-    .v-card__subtitle{
+    .v-card__subtitle {
       line-height: 1.8rem !important;
     }
 
@@ -207,6 +207,10 @@ input:focus {
         //font-family: "Segoe UI", Consolas, serif;
       }
 
+      .detail-card-title-main{
+        font-size: 24px;
+      }
+
       .detail-card-tabs {
         width: auto;
         flex-grow: 1;
@@ -214,7 +218,7 @@ input:focus {
         .v-slide-group__content, .v-tabs-bar__content {
           .v-tab {
             padding: 0 8px;
-            font-size: 12px;
+            font-size: 16px;
           }
         }
 
@@ -222,13 +226,14 @@ input:focus {
 
     }
 
-    .detail-card-title-box--vertical{
+    .detail-card-title-box--vertical {
       //width: calc(100% + 100px);
       //position: relative;
       height: 160px;
       //left: -100px;
-      box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2cpx 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-      .detail-card-tabs--vertical{
+      box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2 cpx 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+
+      .detail-card-tabs--vertical {
         display: inline-block;
         position: fixed;
         left: calc(9% - 100px);
@@ -238,12 +243,13 @@ input:focus {
         font-size: 12px;
         //box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
         border-left: var(--v-accent-lighten3) solid 1px;
-        .v-tabs-slider-wrapper{
+
+        .v-tabs-slider-wrapper {
           transform: translateX(-1px);
         }
       }
 
-      .detail-card-title--vertical{
+      .detail-card-title--vertical {
         //width: calc(100% - 102px);
         width: 100%;
         height: 100%;
@@ -254,8 +260,8 @@ input:focus {
         text-align: center;
       }
 
-      .v-tab{
-        padding:0;
+      .v-tab {
+        padding: 0;
       }
     }
 
@@ -310,6 +316,10 @@ input:focus {
 }
 
 .list-item-container:nth-of-type(even) {
+  //background-color: var(--v-secondary-darken4);
+  //.ellipsis-col, .col{
+  //  color: ghostwhite !important;
+  //}
   background-color: rgba(0, 0, 0, 0.03);
 }
 

@@ -18,7 +18,7 @@ module.exports = {
     https:false,
     proxy: {
       '/api':{
-        target:'http:/localhost:9999/'
+        target:'https://starsky.ink:12222/'
       }
     }
   }

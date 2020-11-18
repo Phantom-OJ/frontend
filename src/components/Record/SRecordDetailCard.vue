@@ -56,7 +56,7 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Record} from "@/ts/entries";
-import {InfoContainer} from "@/ts/dataDef";
+import {InfoContainer} from "@/ts/interfaces";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 

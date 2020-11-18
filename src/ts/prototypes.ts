@@ -2,7 +2,7 @@
 
 Number.prototype.format = function (num, prefix = '0', mod=true) {
   if (prefix.length !== 1 || (!this && this !== 0)) {
-    throw new Error('invalid prefix or number')
+    throw new Error(`invalid prefix or number, prefix:${prefix}, number:${this}`)
   }
   let re = mod?(this % Math.pow(10, num)).toString():this.toString()
   while (re.toString().length < num) {

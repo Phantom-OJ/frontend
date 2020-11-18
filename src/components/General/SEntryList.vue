@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Entry} from "@/ts/dataDef";
+import {Entry} from "@/ts/interfaces";
 
 @Component({})
 export default class SEntryList extends Vue {

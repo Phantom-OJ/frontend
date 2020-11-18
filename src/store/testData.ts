@@ -1,5 +1,5 @@
 import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
-import {User} from "@/ts/dataDef";
+import {User} from "@/ts/interfaces";
 
 export const notLogin = {
   name: 'please login',
@@ -144,7 +144,7 @@ export let assignmentList = [new Assignment({
   title: 'nllyydsuiwdhfuSDhcishfiushcffwgeiuwdhcoiq',
   description: '**LSLNBLSLNBLSLNB**aidbscxjnwiusiaxmzoAUIWEJNXZMjsauew\n#### lslnb \n$$\n 1\\le 0 \n$$',
   startTime: new Date('2020/11/01'),
-  stopTime: new Date('2020/11/07'),
+  endTime: new Date('2020/11/07'),
   status: '未开始',
   problemList: [{
     id: 2,
@@ -167,7 +167,7 @@ export let assignmentList = [new Assignment({
   title: '龙宝宝tql',
   description: '',
   startTime: new Date('2020/10/01'),
-  stopTime: new Date('2020/10/30'),
+  endTime: new Date('2020/10/30'),
   status: '进行中',
   problemList: [{
     id: 3,

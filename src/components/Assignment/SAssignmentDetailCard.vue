@@ -1,7 +1,7 @@
 <template>
   <v-progress-circular v-if="loading" indeterminate color="secondary" class="detail-card-loading" :size="400"/>
   <v-card v-else class="detail-card">
-    <div v-if="width_height.width>1200" class="detail-card-title-box--vertical">
+    <div v-if="width_height.width>10200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
               class="detail-card-tabs--vertical" height="160">
         <v-tabs-slider color="accent"/>
@@ -17,7 +17,7 @@
           {{assignment.title}}
         </v-card-title>
         <v-card-subtitle>
-          {{`${assignment.startTime.sString()} >>> ${assignment.stopTime.sString()}`}}<br>
+          {{`${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}`}}<br>
           <v-icon class="icon-left-5 icon-color-0">
             mdi-clock
           </v-icon>
@@ -25,13 +25,14 @@
         </v-card-subtitle>
       </div>
     </div>
+<!--    not use -->
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
-        <v-card-title>
+        <v-card-title class="detail-card-title-main">
           {{assignment.title}}
         </v-card-title>
         <v-card-subtitle>
-          {{`${assignment.startTime.sString()} >>> ${assignment.stopTime.sString()}`}}<br>
+          {{`${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}`}}<br>
           <v-icon class="icon-left-5 icon-color-0">
             mdi-clock
           </v-icon>
@@ -53,7 +54,7 @@
         <s-markdown :markdown="description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-entry-list :entries="problems" :path="'problem'">
+        <s-entry-list :entries="assignment.problemList" :path="'problem'">
           <template v-slot="{entry:problem}">
             <v-col cols="2" class="ellipsis-col">
               {{`No.${problem.indexInAssignment}`}}
@@ -89,13 +90,14 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Watch} from 'vue-property-decorator'
-import {Assignment, Problem, Record} from "@/ts/entries";
+import {Component} from 'vue-property-decorator'
+import {Assignment, Record} from "@/ts/entries";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
+import {Alert, APIException} from "@/ts/interfaces";
 
 @Component({
   components: {SMarkdown, SEntryList, SRecordList, STag},
@@ -104,10 +106,17 @@ import SMarkdown from "@/components/General/SMarkdown.vue";
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
-  problems: Array<Problem> = []
   records: Array<Record> = []
   now: Date = new Date()
   private intervals: Array<number> = []
+  private cnt = 1
+
+  created(){
+    this.$store.commit('setAssignmentInfo', {selectedID: this.aid})
+    this.loadAssignment()
+    this.records = this.$store.state.recordInfo.list//TODO
+    this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
+  }
 
   get tab():number{
     return parseInt(this.$route.hash.slice(1))
@@ -129,12 +138,24 @@ export default class SAssignmentDetailCard extends Vue {
     this.$store.commit('setLoading', value)
   }
 
-  created() {
-    this.$store.commit('setAnnouncementInfo', {selectedID: this.aid})
+
+  async loadAssignment(force=false){
     this.loading  = !this.assignment
-    this.problems = this.$store.state.problemInfo.list//TODO
-    this.records = this.$store.state.recordInfo.list//TODO
-    this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
+    if(this.loading||force){
+      try {
+        let detailAssignment = await this.$api.getAssignment(this.aid)
+        this.$store.commit('setAssignmentInfo', {detailAssignment})
+        this.loading = false
+        this.cnt++
+      }catch (e) {
+        const error = e as APIException
+        this.$alert(new Alert({
+          type:'error',
+          info:error.info||error.toString(),
+          time:10000
+        }))
+      }
+    }
   }
 
   destroyed() {
@@ -147,17 +168,11 @@ export default class SAssignmentDetailCard extends Vue {
 
   get assignment(): Assignment | null {
     let a = this.$store.state.assignmentInfo.map.get(this.aid)
-    if (!!a) {
-      this.loading = false
-      return a
-    } else {
-      this.loading = true
-      return null
-    }
+    let _ = this.cnt
+    return a
   }
 
   get description() {
-    console.log(this.assignment?.description)
     return this.assignment?.description
   }
 
@@ -174,7 +189,6 @@ export default class SAssignmentDetailCard extends Vue {
 <style scoped lang="scss">
   .detail-card-tabs {
     display: inline-block;
-    /*float: right;*/
   }
 
   .v-list.list {

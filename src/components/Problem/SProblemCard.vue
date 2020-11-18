@@ -50,10 +50,9 @@ import {Component, Prop} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import SPagination from "@/components/General/SPagination.vue";
 import {mapState} from "vuex";
-import {Alert, InfoContainer, Tag} from "@/ts/dataDef";
+import {Alert, InfoContainer} from "@/ts/interfaces";
 import {Problem} from '@/ts/entries';
 import STag from "@/components/General/STag.vue";
-import API from "@/ts/api";
 import SEntryList from "@/components/General/SEntryList.vue";
 
 @Component({
@@ -68,22 +67,22 @@ export default class SProblemCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly problemInfo !: InfoContainer<Problem>
 
-  private s_searchID:string=''
-  private s_searchName:string=''
-  private s_searchTags:string=''
+  private s_searchID: string = ''
+  private s_searchName: string = ''
+  private s_searchTags: string = ''
 
   created() {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
     if (!exist || this.problemInfo.search) {
-      API.getProblems({
-        filter: this.problemInfo.filter,
-        start, end
-      }).then(res => this.$store.commit('setProblemInfo', {list: res, clear: this.problemInfo.search}))
+      // API.getProblems({
+      //   filter: this.problemInfo.filter,
+      //   start, end
+      // }).then(res => this.$store.commit('setProblemInfo', {list: res, clear: this.problemInfo.search}))
     }
     const filter = this.problemInfo.filter
-    this.s_searchID = filter.get('ID')||''
-    this.s_searchName = filter.get('name')||''
-    this.s_searchTags = filter.get('tags')||''
+    this.s_searchID = filter.get('ID') || ''
+    this.s_searchName = filter.get('name') || ''
+    this.s_searchTags = filter.get('tags') || ''
   }
 
   get problems(): Array<Problem> {
@@ -96,7 +95,7 @@ export default class SProblemCard extends Vue {
 
   search() {
     //TODO
-    this.$alert(new Alert('success', `search ${this.searchID}, ${this.searchName}, ${this.searchTags}`))
+    this.$alert(new Alert({type: 'success', info: `search ${this.searchID}, ${this.searchName}, ${this.searchTags}`}))
   }
 
   clickTag(tag: string) {
@@ -112,7 +111,7 @@ export default class SProblemCard extends Vue {
     return this.s_searchID
   }
 
-  set searchID(v:string){
+  set searchID(v: string) {
     this.s_searchID = v
     this.commitFilter()
   }
@@ -143,14 +142,14 @@ export default class SProblemCard extends Vue {
     this.$store.commit('setProblemInfo', {pageIndex: v})
   }
 
-  clear(){
+  clear() {
     this.s_searchID = ''
     this.s_searchName = ''
     this.s_searchTags = ''
     this.commitFilter()
   }
 
-  private commitFilter(){
+  private commitFilter() {
     let filter = new Map<string, string>([
       ['ID', this.searchID],
       ['name', this.searchName],

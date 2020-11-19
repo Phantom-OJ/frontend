@@ -93,7 +93,7 @@
         <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor"/>
       </v-tab-item>
       <v-tab-item>
-        TODO
+        <s-problem-statistic/>
       </v-tab-item>
       <v-tab-item>
         <s-record-list :records="records"/>
@@ -112,10 +112,11 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
-import {ProblemInfoContainer} from "@/ts/interfaces";
+import {Alert, APIException, ProblemInfoContainer} from "@/ts/interfaces";
+import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 
 @Component({
-  components: {SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
+  components: {SProblemStatistic, SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
   computed: {...mapState(['width_height', 'problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
@@ -126,29 +127,29 @@ export default class SProblemDetailCard extends Vue {
   disableEditor: boolean = false
   private cnt = 1
 
-  get tabHeight():number{
+  created() {
+    this.$store.commit('setProblemInfo', {selectedID: this.pid})
+    this.loadProblem()
+    this.records = this.$store.state.recordInfo.list//TODO
+  }
+
+  get tabHeight(): number {
     let height = 160
-    if(!!this.problem?.solution) height += 40
+    if (!!this.problem?.solution) height += 40
     // if(this.$store.state.user)
     return height
   }
 
-  get tab():number{
+  get tab(): number {
     return parseInt(this.$route.hash.slice(1))
   }
 
-  set tab(v:number){
+  set tab(v: number) {
     //@ts-ignore
     this.$router.replace({
       ...this.$route,
-      hash:`#${v}`
+      hash: `#${v}`
     })
-  }
-
-  created() {
-    this.$store.commit('setProblemInfo', {selectedID: this.pid})
-    this.loading = !this.problem
-    this.records = this.$store.state.recordInfo.list//TODO
   }
 
   get loading(): boolean {
@@ -191,6 +192,28 @@ export default class SProblemDetailCard extends Vue {
   get problem(): Problem | undefined {
     let _ = this.cnt
     return this.problemInfo.map.get(this.pid)
+  }
+
+  async loadProblem(force = false) {
+    this.loading = !this.problem
+    try {
+      if (this.loading || force) {
+        let detailProblem = await this.$api.getProblem(this.pid)
+        this.$store.commit('setProblemInfo', {detailProblem})
+        this.loading = false
+        // trigger the problem from map
+        this.cnt++
+      }
+    }catch (e) {
+      const error = e as APIException
+      this.$alert(new Alert({
+        type:'error',
+        info:error.info??error.toString(),
+        time:10000
+      }))
+      // reload
+      setTimeout(this.loadProblem, 10000)
+    }
   }
 
   submit() {

@@ -3,7 +3,7 @@
     <div class="s-flex">
       <span class="s-editor-title">{{$t('problem.code-editor')}}</span>
       <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
-                dense color="secondary" :label="$t('problem.lang')"></v-select>
+                dense color="secondary" :label="$t('problem.lang')" />
       <slot/>
       <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
         {{$t('submit')}}

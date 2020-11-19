@@ -35,7 +35,6 @@ export default class Home extends Vue {
   label = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
   created() {
-    API.getAnnouncement().then()
   }
 
   mounted() {
@@ -65,6 +64,9 @@ export default class Home extends Vue {
           yAxes: [{
             ticks: {
               beginAtZero: true
+            },
+            gridLines:{
+              display:false
             }
           }],
           xAxes: [{

@@ -3,7 +3,7 @@
   <v-card v-else class="detail-card">
     <div v-if="width_height.width>10200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
-              class="detail-card-tabs--vertical" height="160">
+              class="detail-card-tabs--vertical" :height="tabHeight">
         <v-tabs-slider color="accent"/>
         <v-tab
           v-for="bar in tabs"
@@ -97,14 +97,15 @@ import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {Alert, APIException} from "@/ts/interfaces";
+import {Alert, APIException, InfoContainer} from "@/ts/interfaces";
 
 @Component({
   components: {SMarkdown, SEntryList, SRecordList, STag},
-  computed: {...mapState(['width_height'])}
+  computed: {...mapState(['width_height', 'assignmentInfo'])}
 })
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
+  readonly assignmentInfo!: InfoContainer<Assignment>
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   now: Date = new Date()
@@ -117,6 +118,12 @@ export default class SAssignmentDetailCard extends Vue {
     this.records = this.$store.state.recordInfo.list//TODO
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
   }
+
+  get tabHeight():number{
+    let height = 160
+    return height
+  }
+
 
   get tab():number{
     return parseInt(this.$route.hash.slice(1))
@@ -138,38 +145,13 @@ export default class SAssignmentDetailCard extends Vue {
     this.$store.commit('setLoading', value)
   }
 
-
-  async loadAssignment(force=false){
-    this.loading  = !this.assignment
-    if(this.loading||force){
-      try {
-        let detailAssignment = await this.$api.getAssignment(this.aid)
-        this.$store.commit('setAssignmentInfo', {detailAssignment})
-        this.loading = false
-        this.cnt++
-      }catch (e) {
-        const error = e as APIException
-        this.$alert(new Alert({
-          type:'error',
-          info:error.info||error.toString(),
-          time:10000
-        }))
-      }
-    }
-  }
-
-  destroyed() {
-    this.intervals.forEach(window.clearInterval)
-  }
-
   get aid(): number {
     return parseInt(this.$route.params.aid)
   }
 
-  get assignment(): Assignment | null {
-    let a = this.$store.state.assignmentInfo.map.get(this.aid)
+  get assignment(): Assignment | undefined {
     let _ = this.cnt
-    return a
+    return this.assignmentInfo.map.get(this.aid)
   }
 
   get description() {
@@ -183,6 +165,31 @@ export default class SAssignmentDetailCard extends Vue {
     this.$router.push('/problem/all')
   }
 
+  async loadAssignment(force=false){
+    this.loading  = !this.assignment
+    if(this.loading||force){
+      try {
+        let detailAssignment = await this.$api.getAssignment(this.aid)
+        this.$store.commit('setAssignmentInfo', {detailAssignment})
+        this.loading = false
+        // trigger the assignment from map
+        this.cnt++
+      }catch (e) {
+        const error = e as APIException
+        this.$alert(new Alert({
+          type:'error',
+          info:error.info??error.toString(),
+          time:10000
+        }))
+        // reload
+        setTimeout(this.loadAssignment, 10000)
+      }
+    }
+  }
+
+  destroyed() {
+    this.intervals.forEach(window.clearInterval)
+  }
 }
 </script>
 

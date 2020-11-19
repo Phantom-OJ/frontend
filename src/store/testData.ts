@@ -35,7 +35,7 @@ export let announcementList = [{
 
 export let problemList = [
   new Problem({
-    id: 2,
+    id: 9999,
     description: '',
     aid: 11378,
     title: 'yrqcfm',
@@ -50,7 +50,7 @@ export let problemList = [
     timeLimit: 2000,
     fullScore: 10
   }), new Problem({
-    id: 3,
+    id: 7,
     description: '',
     aid: 2,
     title: 'qsdxmm',
@@ -87,7 +87,7 @@ export let recordList = [
     user: skyland,
     code: 'DROP TABLE skyland',
     score: 0,
-    problemId: 2,
+    problemId: 9999,
     problemTitle: 'yrqcfm',
     result: 'TLE',
     space: 233,
@@ -101,7 +101,7 @@ export let recordList = [
     user: notLogin,
     code: 'SELECT * FROM mzynb',
     score: 0,
-    problemId: 2,
+    problemId: 9999,
     problemTitle: 'yrqcfm',
     result: 'MLE',
     space: 1,
@@ -115,7 +115,7 @@ export let recordList = [
     user: skyland,
     code: 'SELECT xuemei FROM nqsdxxm',
     score: 100,
-    problemId: 2,
+    problemId: 9999,
     problemTitle: 'yrqcfm',
     result: 'AC',
     space: 114,
@@ -129,7 +129,7 @@ export let recordList = [
     user: notLogin,
     code: 'rm -rf /*',
     score: 0,
-    problemId: 2,
+    problemId: 9999,
     problemTitle: 'yrqcfm',
     result: 'SE',
     space: 1700,
@@ -147,7 +147,7 @@ export let assignmentList = [new Assignment({
   endTime: new Date('2020/11/07'),
   status: '未开始',
   problemList: [{
-    id: 2,
+    id: 9999,
     description: '',
     aid: 11378,
     title: 'yrqcfm',
@@ -163,7 +163,7 @@ export let assignmentList = [new Assignment({
     fullScore: 10
   }]
 }), new Assignment({
-  id: 2,
+  id: 566,
   title: '龙宝宝tql',
   description: '',
   startTime: new Date('2020/10/01'),

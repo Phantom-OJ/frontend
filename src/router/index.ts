@@ -72,6 +72,10 @@ const routes: Array<RouteConfig> = [
     path:'/record/:rid',
     name:'record-detail',
     component: () => import('@/views/SRecordDetail.vue')
+  },{
+    path:'/help',
+    name:'help',
+    component: () => import('@/views/SHelp.vue')
   }
 ]
 

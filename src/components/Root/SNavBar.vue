@@ -27,7 +27,7 @@
             :to="btn.to"
           >
             <v-list-item-icon>
-              <v-icon class="icon-color-1">
+              <v-icon class="icon-color-0">
                 {{btn.icon}}
               </v-icon>
             </v-list-item-icon>
@@ -40,7 +40,7 @@
             :to="`${navUser.login.to}?then=${$route.path}`"
           >
             <v-list-item-icon>
-              <v-icon class="icon-color-1">
+              <v-icon class="icon-color-0">
                 {{navUser.login.icon}}
               </v-icon>
             </v-list-item-icon>
@@ -53,7 +53,7 @@
             :to="`${navUser.signUp.to}?then=${$route.path}`"
           >
             <v-list-item-icon>
-              <v-icon class="icon-color-1">
+              <v-icon class="icon-color-0">
                 {{navUser.signUp.icon}}
               </v-icon>
             </v-list-item-icon>
@@ -66,7 +66,7 @@
             :to="navUser.profile.to"
           >
             <v-list-item-icon>
-              <v-icon class="icon-color-1">
+              <v-icon class="icon-color-0">
                 {{navUser.profile.icon}}
               </v-icon>
             </v-list-item-icon>
@@ -79,7 +79,7 @@
             @click="$store.dispatch(navUser.signOut.event)"
           >
             <v-list-item-icon>
-              <v-icon class="icon-color-1">
+              <v-icon class="icon-color-0">
                 {{navUser.signOut.icon}}
               </v-icon>
             </v-list-item-icon>

@@ -36,7 +36,11 @@ export default class SPagination extends Vue {
   }
 
   set sPageIndex(index: number) {
-    if (index > this.maxPageNum || index <= 0 || index === void 0) {
+    if(index.toString().length===0){
+      return;
+    }
+    index--;
+    if (index >= this.maxPageNum || index < 0 || index === void 0) {
       this.$alert(new Alert({type: 'error', info: this.$t('error.pageIndex').toString()}))
       return
     }

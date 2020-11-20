@@ -9,7 +9,7 @@
         {{$t('submit')}}
       </v-btn>
     </div>
-    <s-codemirror :code.sync="s_code" :mime="mime" :read-only="disabled" class="s-editor-body"/>
+    <s-codemirror :code.sync="s_code" :mime="mime" :read-only="disabled?'nocursor':false" class="s-editor-body"/>
   </div>
 </template>
 

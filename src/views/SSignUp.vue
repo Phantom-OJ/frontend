@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-all-root">
     <s-sign-up-card/>
   </div>
 </template>

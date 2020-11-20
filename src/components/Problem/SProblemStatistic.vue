@@ -18,7 +18,13 @@ export default class SProblemStatistic extends Vue {
   private readonly s_cType: Array<string> = ['result', 'dialect', 'rank']
   type: number = -1
   pChart: any = 0
+  chartContext:any = ' '
   statistic: Array<{}> = []
+
+  mounted(){
+    const c: any = this.$refs.pChart
+    this.chartContext = c.getContext('2d')
+  }
 
   get pid(): number {
     return parseInt(this.$route.params.pid)
@@ -35,13 +41,10 @@ export default class SProblemStatistic extends Vue {
 
   @Watch('type')
   typeChanged(newType: string, oldType: string) {
-    console.log(newType)
-    const c: any = this.$refs.pChart
-    const ctx = c.getContext('2d')
-    this.pChart = new Chart(ctx, {
+    this.pChart = new Chart(this.chartContext, {
       type: 'bar',
       data: {
-        // labels: this.statistic.map()
+        labels: this.statistic.map(i=>i)
       },
       options: {}
     })

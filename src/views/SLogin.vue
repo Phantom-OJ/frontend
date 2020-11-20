@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-all-root">
     <s-login-card/>
   </div>
 </template>

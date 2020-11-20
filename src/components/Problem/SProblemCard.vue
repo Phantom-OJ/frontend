@@ -47,13 +47,13 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
-import SPagination from "@/components/General/SPagination.vue";
-import {mapState} from "vuex";
-import {Alert, InfoContainer} from "@/ts/interfaces";
-import {Problem} from '@/ts/entries';
-import STag from "@/components/General/STag.vue";
-import SEntryList from "@/components/General/SEntryList.vue";
+import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue"
+import SPagination from "@/components/General/SPagination.vue"
+import {mapState} from "vuex"
+import {Alert, APIException, InfoContainer} from "@/ts/interfaces"
+import {Problem} from '@/ts/entries'
+import STag from "@/components/General/STag.vue"
+import SEntryList from "@/components/General/SEntryList.vue"
 
 @Component({
   components: {SEntryList, STag, SPagination, SSearchableCardTitle},
@@ -73,11 +73,8 @@ export default class SProblemCard extends Vue {
 
   created() {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
-    if (!exist || this.problemInfo.search) {
-      // API.getProblems({
-      //   filter: this.problemInfo.filter,
-      //   start, end
-      // }).then(res => this.$store.commit('setProblemInfo', {list: res, clear: this.problemInfo.search}))
+    if (!exist || this.problemInfo.search || true) {
+      this.loadProblems(start, end)
     }
     const filter = this.problemInfo.filter
     this.s_searchID = filter.get('ID') || ''
@@ -85,16 +82,39 @@ export default class SProblemCard extends Vue {
     this.s_searchTags = filter.get('tags') || ''
   }
 
+  async loadProblems(start: number, end: number) {
+    try {
+      this.loading = true
+      let problems = await this.$api.searchProblemPage({
+        start, end,
+        filter: this.problemInfo.filter
+      })
+      this.$store.commit('setProblemInfo', {clear: true, list: problems})
+    } catch (e) {
+      const error = e as APIException
+      this.$alert(new Alert({
+        type: 'error',
+        info: error.info ?? error.toString(),
+        time: 10000
+      }))
+      // reload
+      setTimeout(() => this.loadProblems(start, end), 10000)
+    }
+    this.loading = false
+  }
+
   get problems(): Array<Problem> {
     let {full, list} = this.problemInfo.pageOf(this.problemInfo.pageIndex, this.itemNum)
     if (!full) {
-      //TODO
+      let {start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
+      this.loadProblems(start, end)
+      return []
     }
     return list
   }
 
   search() {
-    //TODO
+    this.loadProblems(1, this.itemNum)
     this.$alert(new Alert({type: 'success', info: `search ${this.searchID}, ${this.searchName}, ${this.searchTags}`}))
   }
 
@@ -107,6 +127,13 @@ export default class SProblemCard extends Vue {
     this.search()
   }
 
+  get loading(): boolean {
+    return this.$store.state.loading
+  }
+
+  set loading(v) {
+    this.$store.commit('setLoading', v)
+  }
   get searchID(): string {
     return this.s_searchID
   }

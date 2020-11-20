@@ -82,10 +82,6 @@ export class API{
     return this.request('get', '', null)
   }
 
-  getProblems(searchProblemFrom: any) {
-    return this.request('get', '', searchProblemFrom)
-  }
-
   getContestEntry() {
     return this.request('get', '', null)
   }

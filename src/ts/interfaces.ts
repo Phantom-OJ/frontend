@@ -9,17 +9,17 @@ export class APIException {
     this.description = description
   }
 
-  get info():string{
+  get info(): string {
     return `Error code: ${this.code}\n${this.description}`
   }
 }
 
 export class PageSearchFrom {
-  start:number
-  end:number
-  filter?:Map<string,string>
+  start: number
+  end: number
+  filter?: Map<string, string>
 
-  constructor({start, end, filter}:{start: number, end: number, filter?: Map<string, string>}) {
+  constructor({start, end, filter}: { start: number, end: number, filter?: Map<string, string> }) {
     this.start = start;
     this.end = end;
     this.filter = filter;
@@ -80,7 +80,7 @@ export interface Entry {
 
 export class InfoContainer<T extends Entry> {
   private _selectedID = -1
-  private _pageIndex = 0
+  private _pageIndex = 1
   private _maxLength = 0
   private _search = true
   private _filter: Map<string, string> = new Map<string, string>()
@@ -128,8 +128,8 @@ export class InfoContainer<T extends Entry> {
   }
 
   pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
-    let result = this._list.slice(index * num, (index + 1) * num)
-    return {full: result.length === num || (index + 1) * num >= this._maxLength, list: result}
+    let result = this._list.slice((index - 1) * num, index * num)
+    return {full: result.length === num || index * num >= this._maxLength, list: result}
   }
 
   addAll(list: Array<T>, offset: number = 0): void {
@@ -145,9 +145,7 @@ export class InfoContainer<T extends Entry> {
   }
 
   add(entry: T): void {
-    if (!this._map.has(entry.ID)) {
-      this._map.set(entry.ID, entry)
-    }
+    this._map.set(entry.ID, entry)
   }
 
   rangeToLoad(index: number, num: number): { exist: boolean, start: number, end: number } {
@@ -169,7 +167,7 @@ export class InfoContainer<T extends Entry> {
   }
 
   existOfRange(start: number, end: number): boolean {
-    for (let i = start; i < this._list.length; i++) {
+    for (let i = start; i < this._list.length && i <= end; i++) {
       if (this._list[i] !== void 0) {
         return true
       }
@@ -247,10 +245,10 @@ export class Alert {
   show: boolean = true
   exist: boolean = true
 
-  constructor({type, info, time}:{type: string, info: string, time?: number}) {
+  constructor({type, info, time}: { type: string, info: string, time?: number }) {
     this.type = type
     this.info = info
-    this.time = time??5000
+    this.time = time ?? 5000
   }
 }
 

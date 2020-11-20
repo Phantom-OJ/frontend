@@ -46,6 +46,11 @@
       <v-tab-item>
         <s-codemirror v-if="!!record.code" :code="record.code" :mime="`text/x-${record.dialect.toLowerCase()}`"
                       read-only="nocursor"/>
+        <div class="s-record-tool">
+          <v-icon @click="edit">
+            mdi-pencil
+          </v-icon>
+        </div>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -69,6 +74,15 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
 export default class SRecordDetailCard extends Vue {
   readonly width_height!: { width: number, height:number }
   readonly recordInfo!: InfoContainer<Record>
+  private cnt:number = 1
+
+  created() {
+    this.$store.commit('setRecordInfo', {selectedID: this.rid})
+  }
+
+  edit(){
+    this.$store.commit('setProblemInfo',{code:this.record?.code})
+  }
 
   get tab(): number {
     return parseInt(this.$route.hash.slice(1))
@@ -82,22 +96,14 @@ export default class SRecordDetailCard extends Vue {
     })
   }
 
-  created() {
-    this.$store.commit('setRecordInfo', {selectedID: this.rid})
-  }
 
   get rid(): number {
     return parseInt(this.$route.params.rid)
   }
 
-  get record(): Record | null {
-    let _r = this.recordInfo.map.get(this.rid)
-    if (!!_r) {
-      return _r
-    } else {
-      //TODO
-      return null
-    }
+  get record(): Record | undefined {
+    let _ = this.cnt
+    return this.recordInfo.map.get(this.rid)
   }
 }
 </script>

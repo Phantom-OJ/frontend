@@ -51,25 +51,25 @@
         </v-card-title>
         <v-card-subtitle class="s-problem-detail-card-sub">
           <span style="font-size: 14px">
-            <v-icon class="icon-color-0 icon-left-5">
+            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.memory')" direction="top">
               mdi-database
-            </v-icon>
+            </s-tooltip-icon>
             {{`${problem.spaceLimit}MB`}}
-            <v-icon class="icon-color-0 icon-left-5">
+            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.time')" direction="top">
               mdi-timer-sand
-            </v-icon>
+            </s-tooltip-icon>
             {{`${problem.timeLimit}ms`}}
-            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.25) translateY(-1px);">
+            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5 icon-score`" :text="$t('problem.score')" direction="top">
               mdi-cash-100
-            </v-icon>
+            </s-tooltip-icon>
             {{`${problem.fullScore}`}}
-            <v-icon class="icon-color-0 icon-left-5">
+            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.submitted')" direction="top">
               mdi-upload
-            </v-icon>
+            </s-tooltip-icon>
             {{problem.numberSubmit}}
-            <v-icon class="icon-color-0 icon-left-5">
+            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.resolved')" direction="top">
               mdi-check
-            </v-icon>
+            </s-tooltip-icon>
             {{problem.numberSolve}}
           </span>
         </v-card-subtitle>
@@ -114,9 +114,10 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import {Alert, APIException, ProblemInfoContainer} from "@/ts/interfaces";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
+import STooltipIcon from "@/components/General/STooltipIcon.vue";
 
 @Component({
-  components: {SProblemStatistic, SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
+  components: {STooltipIcon, SProblemStatistic, SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
   computed: {...mapState(['width_height', 'problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
@@ -204,12 +205,12 @@ export default class SProblemDetailCard extends Vue {
         // trigger the problem from map
         this.cnt++
       }
-    }catch (e) {
+    } catch (e) {
       const error = e as APIException
       this.$alert(new Alert({
-        type:'error',
-        info:error.info??error.toString(),
-        time:10000
+        type: 'error',
+        info: error.info ?? error.toString(),
+        time: 10000
       }))
       // reload
       setTimeout(this.loadProblem, 10000)

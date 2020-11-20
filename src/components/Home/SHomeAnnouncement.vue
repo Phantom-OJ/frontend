@@ -63,7 +63,7 @@ export default class SHomeAnnouncement extends Vue {
   announcements: Array<Announcement> = []
 
   created(){
-    let {full, list} = this.announcementInfo.pageOf(0, this.itemNum)
+    let {full, list} = this.announcementInfo.pageOf(1, this.itemNum)
     if(full){
       for(let a of list){
         this.announcements.push(Announcement.copy(a))

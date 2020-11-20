@@ -1,6 +1,6 @@
 <template>
   <v-card id="assignment-card" class="all-card">
-    <s-searchable-card-title :title="'assignment'">
+    <s-refreshable-card-title :title="'assignment'">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -15,7 +15,7 @@
           </v-btn>
         </div>
       </div>
-    </s-searchable-card-title>
+    </s-refreshable-card-title>
     <v-list class="list">
       <div
         v-for="(assignment, index) in assignments"
@@ -58,11 +58,11 @@ import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Alert, InfoContainer} from "@/ts/interfaces";
 import SPagination from "@/components/General/SPagination.vue";
-import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
 import {Assignment} from '@/ts/entries';
+import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 
 @Component({
-  components: {SSearchableCardTitle, SPagination},
+  components: {SRefreshableCardTitle, SPagination},
   computed: {
     ...mapState(['width_height', 'assignmentInfo'])
   }

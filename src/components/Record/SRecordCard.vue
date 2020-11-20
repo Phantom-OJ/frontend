@@ -26,7 +26,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
+import SSearchableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {mapState} from "vuex";
 import {Alert, InfoContainer} from "@/ts/interfaces";
 import {Record} from "@/ts/entries";

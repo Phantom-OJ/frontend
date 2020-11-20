@@ -55,18 +55,18 @@
 
 <script lang="ts">
 import {mapState} from "vuex";
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 
 @Component({
-  props: {
-    size: {
-      type: Number,
-      default: 12
-    }
-  },
   computed: mapState(['user', 'navUser', 'isAuthenticated'])
 })
 export default class SAvatar extends Vue {
+  @Prop({
+    type: Number,
+    default: 12
+  })
+  size!: number
+
   push(url: string) {
     this.$router.push(url)
   }

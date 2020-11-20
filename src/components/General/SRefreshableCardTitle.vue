@@ -22,7 +22,7 @@ import {mapState} from "vuex";
     ...mapState(['width_height'])
   }
 })
-export default class SSearchableCardTitle extends Vue {
+export default class SRefreshableCardTitle extends Vue {
   @Prop({
     type: String,
     required: true

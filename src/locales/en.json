@@ -58,7 +58,12 @@
     "searchC": "Tag",
     "back":"Back to Assignment",
     "lang": "language",
-    "code-editor": "YOUR ANSWER"
+    "code-editor": "THE ANSWER",
+    "time": "time limit",
+    "memory": "memory-limit",
+    "score": "full score",
+    "submitted":"submitted number",
+    "resolved": "resolved number"
   },
   "record": {
     "searchA": "Assignment",

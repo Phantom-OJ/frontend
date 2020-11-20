@@ -57,7 +57,7 @@ export default class SHomeContestList extends Vue {
 
   get assignments(): Array<Assignment> {
     let cInfo = this.assignmentInfo
-    let {full, list} = cInfo.pageOf(0, this.itemNum)
+    let {full, list} = cInfo.pageOf(1, this.itemNum)
     if (!full) {
       //TODO
     }

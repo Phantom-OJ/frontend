@@ -1,6 +1,6 @@
 <template>
   <v-card class="all-card">
-    <s-searchable-card-title :title="'help'"></s-searchable-card-title>
+    <s-refreshable-card-title :title="`help`"/>
     <div class="paragraph" v-if="!showStepper">
       <p>This is a guide for Phantom Online Judge</p>
       <v-btn
@@ -129,10 +129,10 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue";
+import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 
 @Component({
-  components: {SSearchableCardTitle}
+  components: {SRefreshableCardTitle}
 })
 export default class SHelpCard extends Vue{
   e1:number=1

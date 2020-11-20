@@ -1,6 +1,6 @@
 <template>
   <v-card id="problem-card" class="all-card">
-    <s-searchable-card-title :title="'problem'">
+    <s-refreshable-card-title :title="'problem'">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -17,7 +17,7 @@
           </v-btn>
         </div>
       </div>
-    </s-searchable-card-title>
+    </s-refreshable-card-title>
     <s-entry-list :entries="problems" :path="'problem'">
       <template v-slot="{entry:problem}">
         <v-col cols="2" class="ellipsis-col">
@@ -47,16 +47,16 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/General/SSearchableCardTitle.vue"
 import SPagination from "@/components/General/SPagination.vue"
 import {mapState} from "vuex"
 import {Alert, APIException, InfoContainer} from "@/ts/interfaces"
 import {Problem} from '@/ts/entries'
 import STag from "@/components/General/STag.vue"
 import SEntryList from "@/components/General/SEntryList.vue"
+import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 
 @Component({
-  components: {SEntryList, STag, SPagination, SSearchableCardTitle},
+  components: {SRefreshableCardTitle, SEntryList, STag, SPagination},
   computed: {
     ...mapState(['width_height', 'problemInfo'])
   }

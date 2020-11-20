@@ -1,7 +1,7 @@
 @import "variable";
 
 :root {
-  --s-app-width: 82%;
+  --s-app-width: 84%;
   --s-code-mirror-height: 600px;
 }
 
@@ -158,6 +158,10 @@ i.icon-color-F.v-icon.mdi {
   margin-left: 5px;
 }
 
+.icon-score {
+  transform: scale(1.25) translateY(-1px);
+}
+
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
 }
@@ -207,7 +211,7 @@ input:focus {
         //font-family: "Segoe UI", Consolas, serif;
       }
 
-      .detail-card-title-main{
+      .detail-card-title-main {
         font-size: 24px;
       }
 

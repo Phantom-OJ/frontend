@@ -54,8 +54,9 @@
 </template>
 
 <script lang="ts">
+import {Vue} from '@/ts/extension'
 import {mapState} from "vuex";
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 
 @Component({
   computed: mapState(['user', 'navUser', 'isAuthenticated'])

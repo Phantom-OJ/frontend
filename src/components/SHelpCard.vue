@@ -10,8 +10,8 @@
         show step
       </v-btn>
     </div>
-    <v-stepper v-if="showStepper" v-model="e1">
-      <v-stepper-header>
+    <v-stepper v-if="showStepper" v-model="e1" class="elevation-0">
+      <v-stepper-header class="elevation-0">
         <v-stepper-step
           :complete="e1 > 1"
           step="1"
@@ -141,12 +141,6 @@ export default class SHelpCard extends Vue{
 </script>
 
 <style scoped>
-  .v-stepper__header{
-    box-shadow: none;
-  }
-  .v-stepper{
-    box-shadow: none;
-  }
   .paragraph{
     text-align: center;
     height: 80%;

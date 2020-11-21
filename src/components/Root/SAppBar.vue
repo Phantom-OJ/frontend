@@ -41,7 +41,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component, Watch} from 'vue-property-decorator'
 import SAvatar from "@/components/Root/SAvatar.vue";
 import {mapState} from "vuex";
 

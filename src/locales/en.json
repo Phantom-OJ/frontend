@@ -60,12 +60,12 @@
     "subtitle": "True mastery of any skill takes a lifetime",
     "back":"Back to Assignment",
     "lang": "language",
-    "code-editor": "THE ANSWER",
     "time": "time limit",
-    "memory": "memory-limit",
+    "memory": "memory limit",
     "score": "Full Score",
     "submitted":"submitted number",
-    "resolved": "resolved number"
+    "resolved": "resolved number",
+    "last-code": "pull code submitted lastly"
   },
   "record": {
     "searchA": "Assignment",

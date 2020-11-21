@@ -32,7 +32,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component, Prop} from 'vue-property-decorator'
 import {InfoContainer} from "@/ts/interfaces";
 import {mapState} from "vuex";
 import { Assignment } from '@/ts/entries';

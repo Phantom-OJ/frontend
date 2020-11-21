@@ -56,9 +56,15 @@
     "searchA": "ID",
     "searchB": "题名",
     "searchC": "标签",
+    "subtitle": "不讲武德",
     "back":"回到作业",
     "lang": "语言",
-    "code-editor": "怎么翻译THE ANSWER"
+    "time": "时间限制",
+    "memory": "内存限制",
+    "score": "满分",
+    "submitted": "提交数",
+    "resolved": "解决数",
+    "last-code": "拉取上次提交代码"
   },
   "record": {
     "searchA": "作业",

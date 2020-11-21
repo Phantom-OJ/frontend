@@ -109,17 +109,15 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Problem, Record} from "@/ts/entries";
-import STag from "@/components/General/STag.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import SCodemirror from "@/components/General/SCodemirror.vue";
-import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import {Alert, APIException, ProblemInfoContainer} from "@/ts/interfaces";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 
 @Component({
-  components: {STooltipIcon, SProblemStatistic, SCodeEditor, SCodemirror, SMarkdown, SRecordList, STag},
+  components: {SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
   computed: {...mapState(['width_height', 'problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
@@ -232,9 +230,6 @@ export default class SProblemDetailCard extends Vue {
     padding-bottom: 10px;
   }
 
-  .s-divider {
-    margin-bottom: 4px;
-  }
 
 </style>
 <style scoped lang="scss">

@@ -7,7 +7,7 @@
     :transition="transition"
   >
     <template v-slot:activator="{on,attrs}">
-      <v-icon v-on="on" v-bind="attrs" :class="iconClass">
+      <v-icon v-on="on" v-bind="attrs" :class="iconClass" :size="size">
         <slot/>
       </v-icon>
     </template>
@@ -44,6 +44,12 @@ export default class STooltipIcon extends Vue {
     required:true
   })
   readonly text!:string
+
+  @Prop({
+    type:Number,
+    default:24
+  })
+  readonly size!:number
 
   is(direction: string) {
     return this.direction.toLowerCase() === direction

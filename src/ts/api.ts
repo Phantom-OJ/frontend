@@ -47,7 +47,7 @@ export class API{
   }
 
   async signUp(form: SignUpForm): Promise<User> {
-    return await this.request('post', 'user/signup', form)
+    return await this.request('post', 'signup', form)
   }
 
   async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {

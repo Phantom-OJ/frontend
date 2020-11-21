@@ -66,8 +66,10 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
-import {SignUpForm} from "@/ts/interfaces";
+import {Vue} from '@/ts/extension'
+import {Component} from 'vue-property-decorator'
+import router from "@/router";
+import {Alert, APIException} from "@/ts/interfaces";
 
 @Component({})
 export default class SSignUpCard extends Vue {
@@ -89,17 +91,23 @@ export default class SSignUpCard extends Vue {
   async signUp(){
     this.loading = true
     try {
-      await this.$store.dispatch('signUp', {
-        signForm: {
-          username: this.username,
-          password: this.password,
-          nickname: this.nickname
-        } as SignUpForm,
-        then: this.$route.query['then']
+      let user = await this.$api.signUp({
+        username: this.username,
+        password: this.password,
+        nickname: this.nickname,
+        verifyCode:this.vCode
       })
+      this.$store.commit('setUser', {user: user, isAuthenticated: true})
+      await router.push((this.$route.query['then']??'/') as string)
     }catch (e) {
       this.loading = false
-      window.alert(e)
+      const error = e as APIException
+      console.log(this.$alert)
+      this.$alert(new Alert({
+        type: 'error',
+        info: error.info ?? error.toString(),
+        time: 10000
+      }))
     }
   }
 }

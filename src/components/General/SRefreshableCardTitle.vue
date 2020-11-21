@@ -1,5 +1,5 @@
 <template>
-  <v-card-title id="searchable-card-title">
+  <v-card-title class="searchable-card-title">
     <div style="flex-grow: 3;margin-right: 10px">
       {{$t(`nav-bar.${title}`).toUpperCase()}}
       <v-card-subtitle v-if="width_height.width>580" style="display: inline-block">
@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 
 @Component({
@@ -38,16 +39,9 @@ export default class SRefreshableCardTitle extends Vue {
 </script>
 
 <style lang="scss">
-  #searchable-card-title {
+  .searchable-card-title {
     padding: 24px 58px 6px 28px;
     display: flex;
     justify-content: flex-start;
-  }
-
-  .refresh.v-btn {
-    position: absolute;
-    right: 16px;
-    min-width: 36px !important;
-    padding: 8px !important;
   }
 </style>

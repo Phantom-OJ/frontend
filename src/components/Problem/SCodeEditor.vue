@@ -1,14 +1,17 @@
 <template>
   <div class="s-editor">
-    <div class="s-flex">
-      <span class="s-editor-title">{{$t('problem.code-editor')}}</span>
-      <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
-                dense color="secondary" :label="$t('problem.lang')" />
-      <slot/>
-      <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
-        {{$t('submit')}}
-      </v-btn>
-    </div>
+      <v-toolbar class="elevation-0 s-flex" dense width="100%">
+<!--        <span class="s-editor-title">{{$t('problem.code-editor')}}</span>-->
+        <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
+                  dense color="secondary" :label="$t('problem.lang')" hide-details />
+        <v-spacer/>
+        <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30">
+          mdi-alpha-c-box
+        </s-tooltip-icon>
+        <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
+          {{$t('submit')}}
+        </v-btn>
+      </v-toolbar>
     <s-codemirror :code.sync="s_code" :mime="mime" :read-only="disabled?'nocursor':false" class="s-editor-body"/>
   </div>
 </template>
@@ -17,9 +20,10 @@
 import {Vue} from '@/ts/extension'
 import {Component, Emit, Prop, PropSync} from 'vue-property-decorator'
 import SCodemirror from "@/components/General/SCodemirror.vue";
+import STooltipIcon from "@/components/General/STooltipIcon.vue";
 
 @Component({
-  components: {SCodemirror}
+  components: {STooltipIcon, SCodemirror}
 })
 export default class SCodeEditor extends Vue {
   readonly languages = ['pgsql', 'sqlite', 'mysql']
@@ -46,25 +50,22 @@ export default class SCodeEditor extends Vue {
 
 <style lang="scss">
   .s-editor {
-    padding-top: 16px;
+    padding-top: 12px;
     .s-flex {
       justify-content: space-between;
-      .s-editor-title{
-        flex-grow: 1;
-        padding: 0 0 0 32px;
-        line-height: 40px;
-        font-weight: 700;
-        font-size: 20px;
+      margin-bottom: 6px;
+      .v-toolbar__content{
+        width: 100%;
+        padding: 0;
       }
       .s-editor-lang {
-        margin: 0 2%;
+        margin: 0 27px;
         width: 25%;
         flex-grow: 0;
         flex-shrink: 2;
       }
-
       .s-editor-submit{
-        margin: 0 2%;
+        margin: 0 27px;
         width: 20%;
         flex-grow: 0;
         flex-shrink: 1;

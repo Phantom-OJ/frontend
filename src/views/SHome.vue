@@ -12,7 +12,8 @@
 
 <script>
 import Chart from 'chart.js'
-import {Component, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/Root/SAvatar.vue";
 import SHomeAnnouncement from "@/components/Home/SHomeAnnouncement.vue";

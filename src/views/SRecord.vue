@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+import {Vue} from '@/ts/extension'
+import {Component} from 'vue-property-decorator'
 import SRecordCard from "@/components/Record/SRecordCard.vue";
 
 @Component({

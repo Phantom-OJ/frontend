@@ -52,6 +52,7 @@
         <v-icon class="icon-color-2">mdi-sync</v-icon>
       </v-btn>
     </div>
+    <v-divider class="s-divider"/>
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <s-markdown :markdown="description" class="description"/>

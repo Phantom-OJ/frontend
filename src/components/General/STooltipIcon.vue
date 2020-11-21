@@ -25,25 +25,25 @@ export default class STooltipIcon extends Vue {
     type: String,
     default: 'bottom'
   })
-  direction!: string
+  readonly direction!: string
 
   @Prop({
     type: String,
     default: 'fab-transition'
   })
-  transition!: string
+  readonly transition!: string
 
   @Prop({
     type:String,
     default:'icon-color-0'
   })
-  iconClass!:string
+  readonly iconClass!:string
 
   @Prop({
     type:String,
     required:true
   })
-  text!:string
+  readonly text!:string
 
   is(direction: string) {
     return this.direction.toLowerCase() === direction

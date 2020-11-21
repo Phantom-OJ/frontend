@@ -50,18 +50,20 @@
   },
   "assignment": {
     "searchA": "ID",
-    "searchB": "Name"
+    "searchB": "Name",
+    "subtitle": "True mastery of any skill takes a lifetime"
   },
   "problem": {
     "searchA": "ID",
     "searchB": "Name",
     "searchC": "Tag",
+    "subtitle": "True mastery of any skill takes a lifetime",
     "back":"Back to Assignment",
     "lang": "language",
     "code-editor": "THE ANSWER",
     "time": "time limit",
     "memory": "memory-limit",
-    "score": "full score",
+    "score": "Full Score",
     "submitted":"submitted number",
     "resolved": "resolved number"
   },
@@ -69,6 +71,7 @@
     "searchA": "Assignment",
     "searchP": "problem",
     "searchU": "user",
+    "subtitle": "True mastery of any skill takes a lifetime",
     "submission": "SUBMISSION"
   }
 }

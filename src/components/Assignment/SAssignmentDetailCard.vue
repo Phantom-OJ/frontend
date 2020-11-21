@@ -48,6 +48,9 @@
           {{$t(bar)}}
         </v-tab>
       </v-tabs>
+      <v-btn text class="refresh">
+        <v-icon class="icon-color-2">mdi-sync</v-icon>
+      </v-btn>
     </div>
     <v-tabs-items v-model="tab">
       <v-tab-item>
@@ -200,5 +203,9 @@ export default class SAssignmentDetailCard extends Vue {
 
   .v-list.list {
     padding-top: 0;
+  }
+
+  .refresh{
+    top:20px;
   }
 </style>

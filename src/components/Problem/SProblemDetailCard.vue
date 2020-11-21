@@ -46,8 +46,11 @@
     </div>
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
-        <v-card-title class="detail-card-title-main">
+        <v-card-title class="detail-card-title-main" style="padding-bottom: 0">
           {{problem.title}}
+          <v-card-subtitle>
+            {{`${$t('problem.score')}: ${problem.fullScore}`}}
+          </v-card-subtitle>
         </v-card-title>
         <v-card-subtitle class="s-problem-detail-card-sub">
           <span style="font-size: 14px">
@@ -59,10 +62,6 @@
               mdi-timer-sand
             </s-tooltip-icon>
             {{`${problem.timeLimit}ms`}}
-            <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5 icon-score`" :text="$t('problem.score')" direction="top">
-              mdi-cash-100
-            </s-tooltip-icon>
-            {{`${problem.fullScore}`}}
             <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.submitted')" direction="top">
               mdi-upload
             </s-tooltip-icon>
@@ -83,6 +82,9 @@
           {{$t(bar)}}
         </v-tab>
       </v-tabs>
+      <v-btn text class="refresh">
+        <v-icon class="icon-color-2">mdi-sync</v-icon>
+      </v-btn>
     </div>
     <v-divider class="s-divider"/>
     <v-tabs-items v-model="tab">
@@ -232,5 +234,11 @@ export default class SProblemDetailCard extends Vue {
 
   .s-divider {
     margin-bottom: 4px;
+  }
+
+</style>
+<style scoped lang="scss">
+  .refresh {
+    top: 15px;
   }
 </style>

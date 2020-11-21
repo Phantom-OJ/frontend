@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app class="app-width h-center border-radius4" color="white">
-    <v-app-bar-nav-icon id="nav-icon"
-      @click="$store.commit('setSideNav', !$store.state.sideNav)"
+    <v-app-bar-nav-icon v-if="showIcon" id="nav-icon"
+                        @click="$store.commit('setSideNav', !$store.state.sideNav)"
     />
     <v-avatar id="logo-img">
       <v-img src="../../assets/slogo.png"/>
@@ -10,7 +10,7 @@
       Phantom-OJ
     </label>
     <v-spacer></v-spacer>
-    <ul class="inline-block" style="padding: 0">
+    <ul v-if="!showIcon" class="inline-block" style="padding: 0">
       <li v-for="(btn, index) in $store.state.nav"
           :key="index"
           class="app-bar-btn-item inline-block"
@@ -43,11 +43,14 @@
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import SAvatar from "@/components/Root/SAvatar.vue";
+import {mapState} from "vuex";
 
 @Component({
-  components: {SAvatar}
+  components: {SAvatar},
+  computed: {...mapState(['width_height'])}
 })
 export default class SAppBar extends Vue {
+  readonly width_height!: { width: number }
   readonly localeMap = new Map<string, string>([['en', 'English'], ['zh-CN', '简体中文']])
   localeToggle: number = 1
 
@@ -57,7 +60,22 @@ export default class SAppBar extends Vue {
   }
 
   get locales() {
-    return this.$i18n.availableLocales.map(Map.prototype.get.bind(this.localeMap))
+    const locales:Array<string> = this.$i18n.availableLocales.map(Map.prototype.get.bind(this.localeMap))
+    if(this.width_height.width<800){
+      return locales.map(i => i.slice(0, 2))
+    }
+    return locales
+  }
+
+  /**
+   * whether show the nav-icon (the switch of left menu)
+   */
+  get showIcon(): boolean {
+    if (this.$i18n.locale === 'zh-CN' && this.width_height.width < 1270)
+      return true
+    else if (this.$i18n.locale === 'en' && this.width_height.width < 1550)
+      return true
+    return false
   }
 }
 </script>
@@ -88,21 +106,22 @@ export default class SAppBar extends Vue {
     line-height: $app-bar-height;
   }
 
-  @media only screen and (min-width: 1520px) {
-    #nav-icon {
-      display: none !important
-    }
-  }
+  /*@media only screen and (min-width: 1520px) {*/
+  /*  #nav-icon {*/
+  /*    display: none !important*/
+  /*  }*/
+  /*}*/
 
-  @media only screen and (max-width: 1520px) {
-    .app-bar-btn-item {
-      display: none !important;
-    }
-  }
+  /*@media only screen and (max-width: 1520px) {*/
+  /*  .app-bar-btn-item {*/
+  /*    display: none !important;*/
+  /*  }*/
+  /*}*/
+  //replaced by js
 
 </style>
 <style scoped lang="scss">
-  .v-btn-toggle > .v-btn.v-btn{
+  .v-btn-toggle > .v-btn.v-btn {
     border-style: none;
   }
 </style>

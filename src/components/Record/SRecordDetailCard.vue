@@ -9,6 +9,9 @@
           <v-card-subtitle class="s-record-detail-card-sub" @click="$router.push(`/problem/${record.problemId}`)">
             {{`${$t('record.searchP')}: ${record.problemTitle}`}}
           </v-card-subtitle>
+          <v-btn text class="refresh">
+            <v-icon class="icon-color-2">mdi-sync</v-icon>
+          </v-btn>
         </div>
         <span class="inlist-user">
           <v-avatar
@@ -116,5 +119,11 @@ export default class SRecordDetailCard extends Vue {
 
   .inlist-user {
     flex-grow: 0;
+  }
+
+</style>
+<style scoped lang="scss">
+  .refresh{
+    top:15px;
   }
 </style>

@@ -3,7 +3,7 @@
     <div style="flex-grow: 3;margin-right: 10px">
       {{$t(`nav-bar.${title}`).toUpperCase()}}
       <v-card-subtitle v-if="width_height.width>580" style="display: inline-block">
-        True mastery of any skill takes a lifetime
+        {{$t(subtitle)}}
       </v-card-subtitle>
     </div>
     <slot></slot>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, PropSync, Vue, Watch} from 'vue-property-decorator'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 import {mapState} from "vuex";
 
 @Component({
@@ -28,6 +28,12 @@ export default class SRefreshableCardTitle extends Vue {
     required: true
   })
   readonly title!: string
+
+  @Prop({
+    type: String,
+    default: 'assignment.subtitle'
+  })
+  readonly subtitle!: string
 }
 </script>
 

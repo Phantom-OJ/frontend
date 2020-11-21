@@ -4,9 +4,9 @@ export class APIException {
   code: number
   description: string
 
-  constructor(code: number, description: string) {
-    this.code = code
-    this.description = description
+  constructor({data, status, statusText}:any) {
+    this.code = status
+    this.description = data?.message
   }
 
   get info(): string {

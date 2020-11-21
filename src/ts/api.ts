@@ -4,8 +4,6 @@ import {Assignment, Problem} from "@/ts/entries";
 
 axios.defaults.withCredentials = true
 
-const ERR_CODE = new Set([400, 403, 405, 404, 500])//TODO
-
 export class API{
 
   /**
@@ -15,13 +13,12 @@ export class API{
    * @param data
    */
   async request(method: string, url: string, data?: any): Promise<any> {
-    // @ts-ignore
-    let re = await axios[method](`/api/${url}`, data)
-    if (!ERR_CODE.has(re.status))
-      return re.data
-    else
-      console.log(re.data)
-      throw new APIException(re.status, re.data)
+    try {
+      // @ts-ignore
+      return (await axios[method](`/api/${url}`, data)).data
+    }catch (e) {
+      throw new APIException(e.response)
+    }
   }
 
   /**

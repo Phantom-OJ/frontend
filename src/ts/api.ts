@@ -20,6 +20,7 @@ export class API{
     if (!ERR_CODE.has(re.status))
       return re.data
     else
+      console.log(re.data)
       throw new APIException(re.status, re.data)
   }
 
@@ -43,7 +44,7 @@ export class API{
   }
 
   async login(loginForm: LoginForm): Promise<User> {
-    return await this.request('post', '', loginForm)
+    return await this.request('post', 'login', loginForm)
   }
 
   async signUp(form: SignUpForm): Promise<User> {

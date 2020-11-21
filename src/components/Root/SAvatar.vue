@@ -42,7 +42,7 @@
           </v-list-item>
           <v-list-item
             v-if="isAuthenticated"
-            @click="$store.dispatch(navUser.signOut.event)"
+            @click="signOut"
             class="cursor-hand-hover avatar-list-item"
           >
             {{$t(navUser.signOut.text)}}
@@ -70,6 +70,12 @@ export default class SAvatar extends Vue {
 
   push(url: string) {
     this.$router.push(url)
+  }
+
+  async signOut(){
+    let re = await this.$api.signOut({})
+    console.log(re)
+    this.$store.commit('setUser',{isAuthenticated:false})
   }
 }
 </script>

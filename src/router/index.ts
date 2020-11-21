@@ -38,7 +38,7 @@ const routes: Array<RouteConfig> = [
     path: '/login',
     name: 'login',
     component: SLogin,
-    beforeEnter: requireNotAuthenticated
+    beforeEnter: requireNotAuthenticated,
   },
   {
     path: '/sign up',

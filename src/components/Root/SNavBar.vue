@@ -76,7 +76,7 @@
           </v-list-item>
           <v-list-item
             v-if="isAuthenticated"
-            @click="$store.dispatch(navUser.signOut.event)"
+            @click="signOut"
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
@@ -115,6 +115,12 @@ export default class SNavBar extends Vue {
 
   set hideNav(v) {
     this.$store.commit('setSideNav', v)
+  }
+
+  async signOut(){
+    let re = await this.$api.signOut({})
+    console.log(re)
+    this.$store.commit('setUser',{isAuthenticated:false})
   }
 }
 </script>

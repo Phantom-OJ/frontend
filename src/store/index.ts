@@ -59,8 +59,7 @@ let vuex = new Vuex.Store({
       },
       signOut: {
         text: 'nav-user.sign-out',
-        icon: 'mdi-logout',
-        event: 'signOut'
+        icon: 'mdi-logout'
       }
     },
     width_height: {
@@ -74,7 +73,7 @@ let vuex = new Vuex.Store({
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
-      state.user = user
+      state.user = isAuthenticated?user:notLogin
       state.isAuthenticated = isAuthenticated
     },
     setSideNav(state, value) {

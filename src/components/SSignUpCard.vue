@@ -95,7 +95,7 @@ export default class SSignUpCard extends Vue {
         username: this.username,
         password: this.password,
         nickname: this.nickname,
-        verifyCode:this.vCode
+        vCode:this.vCode
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
       await router.push((this.$route.query['then']??'/') as string)

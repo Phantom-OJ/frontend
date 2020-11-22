@@ -28,7 +28,7 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {mapState} from "vuex";
-import {Alert, InfoContainer} from "@/ts/interfaces";
+import {Alert, Filter, InfoContainer} from "@/ts/interfaces";
 import {Record} from "@/ts/entries";
 import SPagination from "@/components/General/SPagination.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
@@ -49,9 +49,9 @@ export default class SRecordCard extends Vue {
 
   created() {
     let filter = this.recordInfo.filter
-    this.s_searchAssignment = filter.get('assignment') || ''
-    this.s_searchProblem = filter.get('problem') || ''
-    this.s_searchUser = filter.get('user') || ''
+    this.s_searchAssignment = filter.assignment??''
+    this.s_searchProblem = filter.problem??''
+    this.s_searchUser = filter.user??''
   }
 
   get records(): Array<Record> {
@@ -113,11 +113,11 @@ export default class SRecordCard extends Vue {
   }
 
   private commitFilter() {
-    let filter = new Map<string, string>([
-      ['assignment', this.searchAssignment],
-      ['problem', this.searchProblem],
-      ['user', this.searchUser]
-    ])
+    let filter:Filter = {
+      assignment:this.s_searchAssignment,
+      problem:this.s_searchProblem,
+      user:this.s_searchUser
+    }
     this.$store.commit('setRecordInfo', {filter})
   }
 }

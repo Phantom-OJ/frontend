@@ -4,7 +4,7 @@ export class APIException {
   code: number
   description: string
 
-  constructor({data, status, statusText}:any) {
+  constructor({data, status, statusText}: any) {
     this.code = status
     this.description = data?.message
   }
@@ -17,9 +17,9 @@ export class APIException {
 export class PageSearchFrom {
   start: number
   end: number
-  filter?: Map<string, string>
+  filter?: Filter
 
-  constructor({start, end, filter}: { start: number, end: number, filter?: Map<string, string> }) {
+  constructor({start, end, filter}: { start: number, end: number, filter?: Filter }) {
     this.start = start;
     this.end = end;
     this.filter = filter;
@@ -45,12 +45,13 @@ export class User {
 export class LoginForm {
   username: string
   password: string
-  timestamp: number
+
+  // timestamp: number
 
   constructor({username, password, timestamp}: { username: string, password: string, timestamp: number }) {
     this.username = username;
     this.password = password;
-    this.timestamp = timestamp;
+    // this.timestamp = timestamp;
   }
 }
 
@@ -58,13 +59,13 @@ export class SignUpForm {
   username: string
   password: string
   nickname: string
-  verifyCode: string
+  vCode: string
 
-  constructor({username, password, nickname, verifyCode}: { username: string, password: string, nickname: string, verifyCode: string }) {
+  constructor({username, password, nickname, vCode}: { username: string, password: string, nickname: string, vCode: string }) {
     this.username = username;
     this.password = password;
     this.nickname = nickname;
-    this.verifyCode = verifyCode;
+    this.vCode = vCode;
   }
 }
 
@@ -83,7 +84,7 @@ export class InfoContainer<T extends Entry> {
   private _pageIndex = 1
   private _maxLength = 0
   private _search = true
-  private _filter: Map<string, string> = new Map<string, string>()
+  private _filter:Filter = {}
   private _list = new Array<T>()
   private _map = new Map<number, T>()
 
@@ -179,11 +180,11 @@ export class InfoContainer<T extends Entry> {
     this._list = new Array<T>()
   }
 
-  get filter(): Map<string, string> {
+  get filter() {
     return this._filter;
   }
 
-  set filter(value: Map<string, string>) {
+  set filter(value: Filter) {
     this._search = true
     this._filter = value;
   }
@@ -252,6 +253,21 @@ export class Alert {
   }
 }
 
-export interface Tag {
+export class Tag {
   tag: string
+  description: string
+
+  constructor({id, keyword, description}:any) {
+    this.tag = keyword;
+    this.description = description
+  }
+}
+
+export interface Filter {
+  id?:string
+  name?:string
+  tags?:string
+  assignment?:string
+  problem?:string
+  user?:string
 }

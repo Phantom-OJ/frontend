@@ -41,3 +41,7 @@ https://material.iconhelper.cn/
 beaconAPI
 
 vue-ace-editor
+
+tag 颜色
+loading 界面
+signup 数据验证，发验证码

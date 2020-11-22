@@ -42,8 +42,8 @@ export default class SAlert extends Vue {
   #s-alert-container {
     position: fixed;
     top: 80px;
-    width: 15%;
-    min-width: 100px;
+    width: 20%;
+    min-width: 120px;
     right: 20px;
     z-index: 100;
     opacity: 0.75;

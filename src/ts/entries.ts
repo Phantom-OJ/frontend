@@ -45,11 +45,10 @@ export class Problem implements Entry {
   indexInAssignment: number
   sampleOut: string
 
-  constructor({id, description, title, tags, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, numberSubmit, numberSolve, solution}:any) {
+  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution}:any) {
     this.ID = id
     this.description = description
     this.title = title
-    this.tags = tags
     this.indexInAssignment = indexInAssignment
     this.recentCode = recentCode
     this.sampleOut = sampleOut
@@ -60,6 +59,7 @@ export class Problem implements Entry {
     this.numberSubmit = numberSubmit
     this.numberSolve = numberSolve
     this.solution = solution
+    this.tags = (tagList as Array<any>).map(e => new Tag(e))
   }
 }
 

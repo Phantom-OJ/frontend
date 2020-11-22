@@ -18,8 +18,9 @@ module.exports = {
     https:false,
     proxy: {
       '/api':{
-        target:'https://starsky.ink:12222/'
+        // target:'https://starsky.ink:12222'
         // target:'http://localhost:8080/'
+        target:'http://10.21.97.128:8080/'
       }
     }
   }

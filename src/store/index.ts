@@ -8,7 +8,7 @@ import '@/ts/prototypes'
 
 Vue.use(Vuex)
 
-import {announcementList, assignmentList, problemList, recordList, notLogin} from "@/store/testData";
+import {notLogin} from "@/store/testData";
 
 
 let vuex = new Vuex.Store({
@@ -141,9 +141,9 @@ let vuex = new Vuex.Store({
   },
   strict: true
 })
-vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
-vuex.commit('setAssignmentInfo', {list: assignmentList, max: 2})
-vuex.commit('setProblemInfo', {list: problemList, max: 2})
-vuex.commit('setRecordInfo', {list: recordList, max: 5})
+// vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
+// vuex.commit('setAssignmentInfo', {list: assignmentList, max: 2})
+// vuex.commit('setProblemInfo', {list: problemList, max: 2})
+// vuex.commit('setRecordInfo', {list: recordList, max: 5})
 
 export default vuex

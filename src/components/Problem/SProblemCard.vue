@@ -35,8 +35,15 @@
             @click="clickTag"
           ></s-tag>
         </v-col>
-        <v-col cols="2" lg="1" class="ellipsis-col">
-          {{`${problem.numberSolve}/${problem.numberSubmit}`}}
+        <v-col cols="2" lg="2" class="ellipsis-col">
+          <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.submitted')" direction="top">
+            mdi-upload
+          </s-tooltip-icon>
+          {{problem.numberSubmit}}
+          <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.resolved')" direction="top">
+            mdi-check
+          </s-tooltip-icon>
+          {{problem.numberSolve}}
         </v-col>
       </template>
     </s-entry-list>
@@ -49,14 +56,15 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SPagination from "@/components/General/SPagination.vue"
 import {mapState} from "vuex"
-import {Alert, APIException, InfoContainer} from "@/ts/interfaces"
+import {Alert, APIException, Filter, InfoContainer} from "@/ts/interfaces"
 import {Problem} from '@/ts/entries'
 import STag from "@/components/General/STag.vue"
 import SEntryList from "@/components/General/SEntryList.vue"
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
+import STooltipIcon from "@/components/General/STooltipIcon.vue";
 
 @Component({
-  components: {SRefreshableCardTitle, SEntryList, STag, SPagination},
+  components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
   computed: {
     ...mapState(['width_height', 'problemInfo'])
   }
@@ -73,13 +81,22 @@ export default class SProblemCard extends Vue {
 
   created() {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
+    this.initFilter()
     if (!exist || this.problemInfo.search || true) {
+      console.log({
+        start, end,
+        filter: this.problemInfo.filter
+      })
       this.loadProblems(start, end)
     }
+  }
+
+  initFilter(){
     const filter = this.problemInfo.filter
-    this.s_searchID = filter.get('ID') || ''
-    this.s_searchName = filter.get('name') || ''
-    this.s_searchTags = filter.get('tags') || ''
+    this.s_searchID = filter.id ?? ''
+    this.s_searchName = filter.name ?? ''
+    this.s_searchTags = filter.tags ?? ''
+    this.commitFilter()
   }
 
   async loadProblems(start: number, end: number) {
@@ -98,7 +115,7 @@ export default class SProblemCard extends Vue {
         time: 10000
       }))
       // reload
-      setTimeout(() => this.loadProblems(start, end), 10000)
+      // setTimeout(() => this.loadProblems(start, end), 10000)
     }
     this.loading = false
   }
@@ -177,11 +194,11 @@ export default class SProblemCard extends Vue {
   }
 
   private commitFilter() {
-    let filter = new Map<string, string>([
-      ['ID', this.searchID],
-      ['name', this.searchName],
-      ['tags', this.searchTags]
-    ])
+    let filter:Filter = {
+      id:this.searchID,
+      name:this.searchName,
+      tags:this.searchTags
+    }
     this.$store.commit('setProblemInfo', {filter})
   }
 }

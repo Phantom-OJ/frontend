@@ -213,7 +213,7 @@ export default class SProblemDetailCard extends Vue {
         time: 10000
       }))
       // reload
-      setTimeout(this.loadProblem, 10000)
+      // setTimeout(this.loadProblem, 10000)
     }
   }
 

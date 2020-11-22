@@ -41,11 +41,11 @@ export class API{
   }
 
   async login(loginForm: LoginForm): Promise<User> {
-    return await this.request('post', 'login', loginForm)
+    return (await this.request('post', 'login', loginForm)).msg
   }
 
   async signUp(form: SignUpForm): Promise<User> {
-    return await this.request('post', 'signup', form)
+    return (await this.request('post', 'signup', form)).msg
   }
 
   async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {

@@ -60,8 +60,7 @@ export default class SLoginCard extends Vue {
     try {
       let user = await this.$api.login({
         username: this.username,
-        password: this.password,
-        timestamp: Date.now()
+        password: this.password
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
     }catch (e) {

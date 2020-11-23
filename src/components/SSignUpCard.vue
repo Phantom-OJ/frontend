@@ -69,7 +69,8 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import router from "@/router";
-import {Alert, APIException} from "@/ts/interfaces";
+import {APIException} from "@/ts/exceptions";
+import {Alert} from "@/ts/entries";
 
 @Component({})
 export default class SSignUpCard extends Vue {

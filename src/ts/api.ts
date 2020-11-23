@@ -1,6 +1,8 @@
 import axios from 'axios'
-import {Alert, APIException, LoginForm, PageSearchFrom, SignOutForm, SignUpForm, User} from "@/ts/interfaces";
-import {Assignment, Code, Problem, Record} from "@/ts/entries";
+import {User} from "@/ts/interfaces";
+import {Alert, Assignment, Code, Problem, Record} from "@/ts/entries";
+import {APIException} from "@/ts/exceptions";
+import {LoginForm, PageSearchFrom, SignOutForm, SignUpForm} from "@/ts/forms";
 
 axios.defaults.withCredentials = true
 
@@ -39,7 +41,7 @@ export class API{
     try{
       return await this.request(method, url, data)
     }catch (error) {
-      //@ts-ignore $alert is injected in App.vue
+      //$alert is injected in App.vue
       this.$alert(new Alert({
         type:'error',
         info:error.info??error.toString(),
@@ -68,12 +70,12 @@ export class API{
 
   async searchProblemPage(form: PageSearchFrom):Promise<Array<Problem>>{
     let data: Array<any> = await this.cRequest('post','problem',form)
-    return data.map(e => new Problem(e))
+    return data?.map(e => new Problem(e)) ?? []
   }
 
   async searchRecordPage(form: PageSearchFrom):Promise<Array<Record>>{
     let data: Array<any> = await this.cRequest('post', 'record', form)
-    return data.map(e => new Record(e))
+    return data?.map(e => new Record(e))??[]
   }
 
   async queryRecord(ID:number):Promise<Record>{
@@ -91,7 +93,7 @@ export class API{
     return new Code(data)
   }
 
-  signOut(signOutFrom: SignOutForm): Promise<any> {
+  async signOut(signOutFrom: SignOutForm): Promise<any> {
     return this.cRequest('post', '', signOutFrom)
   }
 

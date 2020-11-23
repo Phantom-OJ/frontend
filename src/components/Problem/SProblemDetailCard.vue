@@ -1,5 +1,6 @@
 <template>
-  <v-card class="detail-card">
+  <s-loading v-if="loading"/>
+  <v-card v-else class="detail-card">
     <div v-if="width_height.width>9200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
               class="detail-card-tabs--vertical" :height="tabHeight">
@@ -111,21 +112,23 @@ import {mapState} from "vuex";
 import {Problem, Record} from "@/ts/entries";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {ProblemInfoContainer} from "@/ts/interfaces";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
+import SLoading from "@/components/General/SLoading.vue";
+import {ProblemContainer} from "@/ts/entry-container";
 
 @Component({
-  components: {SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
+  components: {SLoading, SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
   computed: {...mapState(['width_height', 'problemInfo'])}
 })
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly problemInfo!: ProblemInfoContainer
+  readonly problemInfo!: ProblemContainer
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
+  loading:boolean=false
   private cnt = 1
 
   created() {
@@ -151,14 +154,6 @@ export default class SProblemDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-  }
-
-  get loading(): boolean {
-    return this.$store.state.loading
-  }
-
-  set loading(v) {
-    this.$store.commit('setLoading', v)
   }
 
   /**

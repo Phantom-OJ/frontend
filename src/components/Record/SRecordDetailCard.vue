@@ -18,11 +18,11 @@
             :size="48"
             class="inlist-user-avatar"
           >
-            <img :src="record.user.avatar">
+            <img :src="record.avatar">
           </v-avatar>
           <div class="inlist-user-label ellipsis-col">
             <span class="padding-l-12 ellipsis-col">
-              {{`${record.user.name}`}}
+              {{`${record.username}`}}
             </span>
             <span class="padding-l-12 ellipsis-col">
               {{record.submitTime.sString()}}
@@ -64,9 +64,9 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Record} from "@/ts/entries";
-import {InfoContainer} from "@/ts/interfaces";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   components: {SCodemirror, SCodeEditor},
@@ -76,7 +76,9 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
 })
 export default class SRecordDetailCard extends Vue {
   readonly width_height!: { width: number, height:number }
-  readonly recordInfo!: InfoContainer<Record>
+  readonly recordInfo!: EntryContainer<Record>
+
+  loading:boolean=false
   private cnt:number = 1
 
   created() {
@@ -96,14 +98,6 @@ export default class SRecordDetailCard extends Vue {
 
   edit(){
     this.$store.commit('setProblemInfo',{code:this.record?.code})
-  }
-
-  get loading(): boolean {
-    return this.$store.state.loading
-  }
-
-  set loading(v) {
-    this.$store.commit('setLoading', v)
   }
 
   get tab(): number {

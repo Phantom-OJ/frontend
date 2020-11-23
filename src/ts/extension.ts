@@ -9,6 +9,12 @@ declare module 'vue/types/vue' {
   interface Vue {
     $alert(alert: Alert): void
     $api: API
+    beforeCreate():void
+    created():void
+    beforeMount():void
+    mounted():void
+    beforeDestroy():void
+    destroyed():void
   }
 }
 const sXssOptions = {}

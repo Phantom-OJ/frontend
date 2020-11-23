@@ -19,7 +19,7 @@
           </div>
         </span>
       </v-col>
-      <v-col class="ellipsis-col" style="min-width: 100px">
+      <v-col class="ellipsis-col" style="min-width: 100px;font-weight: 600;">
         {{record.problemTitle}}
       </v-col>
       <v-col :style="`${recordColor(record.result)};`" class="record ellipsis-col">
@@ -28,7 +28,7 @@
         </v-icon>
         {{record.result}}
       </v-col>
-      <v-col class="ellipsis-col" style="min-width: 300px;margin-right: 10px">
+      <v-col class="ellipsis-col" style="min-width: 280px;margin-right: 10px;max-width: 350px;">
         <v-row>
           <v-col cols="4">
             <v-icon class="icon-color-0">

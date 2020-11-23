@@ -1,6 +1,6 @@
 <template>
   <v-card id="assignment-card" class="all-card">
-    <s-refreshable-card-title :title="'assignment'">
+    <s-refreshable-card-title :title="'assignment'" @refresh="loadAssignments">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -56,10 +56,12 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Alert, InfoContainer} from "@/ts/interfaces";
+import {Filter} from "@/ts/interfaces";
 import SPagination from "@/components/General/SPagination.vue";
 import {Assignment} from '@/ts/entries';
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
+import {EntryContainer} from "@/ts/entry-container";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {SRefreshableCardTitle, SPagination},
@@ -71,10 +73,36 @@ export default class SAssignmentCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly assignmentInfo !: InfoContainer<Assignment>
+  readonly assignmentInfo !: EntryContainer<Assignment>
 
+  loading:boolean=false
   private s_searchID: string = ''
   private s_searchName: string = ''
+
+  created(){
+    this.initFilter()
+    this.loadAssignments(false)
+  }
+
+  initFilter(){
+    let filter = this.assignmentInfo.filter
+    this.s_searchID = filter.id??''
+    this.s_searchName = filter.name??''
+    this.commitFilter()
+  }
+
+  async loadAssignments(force:boolean=true){
+    let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, this.itemNum)
+    if(this.assignmentInfo.search||force) {
+      this.loading = true
+      let assignments = await this.$api.searchAssignmentPage({
+        start, end,
+        filter: this.assignmentInfo.filter
+      })
+      this.$store.commit('setAssignmentInfo', {clear: true, list: assignments})
+      this.loading = false
+    }
+  }
 
   get searchID(): string {
     return this.s_searchID
@@ -99,17 +127,11 @@ export default class SAssignmentCard extends Vue {
   }
 
   get assignments(): Array<Assignment> {
-    let cInfo = this.assignmentInfo
-    let {full, list} = cInfo.pageOf(cInfo.pageIndex, this.itemNum)
-    if (!full) {
-      //TODO
-    }
-    return list
+    return this.assignmentInfo.list
   }
 
   search() {
-    console.log(this.$alert)
-    this.$alert(new Alert({type:'success', info:`search ${this.searchID}, ${this.searchName}`}))
+    this.loadAssignments(true)
   }
 
   get pageIndex() {
@@ -118,6 +140,7 @@ export default class SAssignmentCard extends Vue {
 
   set pageIndex(v) {
     this.$store.commit('setAssignmentInfo', {pageIndex: v})
+    this.loadAssignments(true)
   }
 
   clear(){
@@ -127,7 +150,10 @@ export default class SAssignmentCard extends Vue {
   }
 
   commitFilter() {
-    let filter = new Map([['ID', this.searchID], ['name', this.searchName]])
+    let filter:Filter = {
+      id:this.searchID,
+      name:this.searchName
+    }
     this.$store.commit('setAssignmentInfo', {filter})
   }
 }

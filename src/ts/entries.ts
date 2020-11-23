@@ -1,4 +1,4 @@
-import {Entry, Tag} from "@/ts/interfaces"
+import {Entry} from "@/ts/interfaces"
 import {API} from "@/ts/api";
 
 export class Announcement implements Entry {
@@ -60,7 +60,7 @@ export class Problem implements Entry {
     this.numberSubmit = numberSubmit
     this.numberSolve = numberSolve
     this.solution = solution
-    this.tags = (tagList as Array<any>).map(e => new Tag(e))
+    this.tags = (tagList as Array<any>)?.map(e => new Tag(e))??[]
   }
 }
 
@@ -80,7 +80,7 @@ export class Assignment implements Entry {
     this.startTime = new Date(startTime)
     this.endTime = new Date(endTime)
     this.status = status
-    this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value))
+    this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value))??[]
   }
 }
 
@@ -111,7 +111,7 @@ export class Record implements Entry {
     this.score = score
     this.problemId = problemId
     this.problemTitle = problemTitle
-    this.result = (<string>result).toUpperCase().trim()
+    this.result = (<string>result)?.toUpperCase().trim()
     this.space = space
     this.time = time
     this.dialect = dialect
@@ -145,5 +145,29 @@ export class Code {
     this.code = code
     this.codeLength = codeLength
     this.submitTime = new Date(submitTime)
+  }
+}
+
+export class Alert {
+  type: string
+  info: string
+  time: number
+  show: boolean = true
+  exist:boolean = true
+
+  constructor({type, info, time}: { type: string, info: string, time?: number }) {
+    this.type = type
+    this.info = info
+    this.time = time ?? 5000
+  }
+}
+
+export class Tag {
+  tag: string
+  description: string
+
+  constructor({keyword, description}: any) {
+    this.tag = keyword;
+    this.description = description
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-card id="problem-card" class="all-card">
-    <s-refreshable-card-title :title="'problem'">
+    <s-refreshable-card-title :title="'problem'" @refresh="loadProblems(true)">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -56,12 +56,14 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SPagination from "@/components/General/SPagination.vue"
 import {mapState} from "vuex"
-import {Alert, Filter, InfoContainer} from "@/ts/interfaces"
+import {Filter} from "@/ts/interfaces"
 import {Problem} from '@/ts/entries'
 import STag from "@/components/General/STag.vue"
 import SEntryList from "@/components/General/SEntryList.vue"
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+import { SUtil } from '@/ts/utils'
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
@@ -73,18 +75,16 @@ export default class SProblemCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly problemInfo !: InfoContainer<Problem>
+  readonly problemInfo !: EntryContainer<Problem>
 
+  loading:boolean=false
   private s_searchID: string = ''
   private s_searchName: string = ''
   private s_searchTags: string = ''
 
   created() {
-    let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
     this.initFilter()
-    if (!exist || this.problemInfo.search) {
-      this.loadProblems(start, end)
-    }
+    this.loadProblems()
   }
 
   initFilter() {
@@ -95,30 +95,26 @@ export default class SProblemCard extends Vue {
     this.commitFilter()
   }
 
-  async loadProblems(start: number, end: number) {
-    this.loading = true
-    let problems = await this.$api.searchProblemPage({
-      start, end,
-      filter: this.problemInfo.filter
-    })
-    this.$store.commit('setProblemInfo', {clear: true, list: problems})
+  async loadProblems(force:boolean=false) {
+    if (this.problemInfo.search || force) {
+      this.loading = true
+      let {start, end} = SUtil.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
+      let problems = await this.$api.searchProblemPage({
+        start, end,
+        filter: this.problemInfo.filter
+      })
+      this.$store.commit('setProblemInfo', {list: problems, listIndex: start - 1})
 
-    this.loading = false
+      this.loading = false
+    }
   }
 
   get problems(): Array<Problem> {
-    let {full, list} = this.problemInfo.pageOf(this.problemInfo.pageIndex, this.itemNum)
-    if (!full) {
-      let {start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
-      this.loadProblems(start, end)
-      return []
-    }
-    return list
+    return this.problemInfo.list
   }
 
   search() {
-    this.loadProblems(1, this.itemNum)
-    this.$alert(new Alert({type: 'success', info: `search ${this.searchID}, ${this.searchName}, ${this.searchTags}`}))
+    this.loadProblems(true)
   }
 
   clickTag(tag: string) {
@@ -128,14 +124,6 @@ export default class SProblemCard extends Vue {
       this.searchTags = `${this.searchTags} ${tag}`
     }
     this.search()
-  }
-
-  get loading(): boolean {
-    return this.$store.state.loading
-  }
-
-  set loading(v) {
-    this.$store.commit('setLoading', v)
   }
 
   get searchID(): string {
@@ -153,7 +141,7 @@ export default class SProblemCard extends Vue {
 
   set searchName(value: string) {
     this.s_searchName = value;
-    // this.commitFilter()
+    this.commitFilter()
   }
 
   get searchTags(): string {
@@ -171,6 +159,7 @@ export default class SProblemCard extends Vue {
 
   set pageIndex(v) {
     this.$store.commit('setProblemInfo', {pageIndex: v})
+    this.loadProblems(true)
   }
 
   clear() {

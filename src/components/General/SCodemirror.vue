@@ -53,11 +53,10 @@ export default class SCodemirror extends Vue {
   }
 
   ready(codemirror: any) {
-    codemirror.on('change', (instance: any, {from, text}: { from: any, text: Array<string> }) => {
+    codemirror.on('change', (instance: any, {text}: { text: Array<string> }) => {
       const hintsList = codemirror.getHelpers(codemirror, 'hint')[0](codemirror).list
       if (!!text && hintsList.length >= 1 && hintsList[0].text !== text[0] && !this.notHint.has(text[0])) {
         codemirror.showHint()
-        console.log(text[0])
       }
     })
   }

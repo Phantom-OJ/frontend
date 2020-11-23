@@ -7,7 +7,7 @@
       </v-card-subtitle>
     </div>
     <slot></slot>
-    <v-btn text class="refresh">
+    <v-btn text class="refresh" @click="click">
       <v-icon class="icon-color-2">mdi-sync</v-icon>
     </v-btn>
   </v-card-title>
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Prop} from 'vue-property-decorator'
+import {Component, Emit, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 
 @Component({
@@ -35,6 +35,10 @@ export default class SRefreshableCardTitle extends Vue {
     default: 'assignment.subtitle'
   })
   readonly subtitle!: string
+
+  @Emit('refresh')
+  click(){
+  }
 }
 </script>
 

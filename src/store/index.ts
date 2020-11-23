@@ -1,21 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {InfoContainer, LoginForm, SignUpForm, ProblemInfoContainer} from "@/ts/interfaces"
-import router from '@/router/index'
-import {Announcement, Assignment, Record} from "@/ts/entries";
+import {InfoOptions} from "@/ts/interfaces"
+import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
 import '@/ts/prototypes'
+import {notLogin} from "@/store/testData";
+import {EntryContainer, ProblemContainer} from "@/ts/entry-container";
 
 
 Vue.use(Vuex)
-
-import {notLogin} from "@/store/testData";
 
 
 let vuex = new Vuex.Store({
   state: {
     user: notLogin,
     isAuthenticated: false,
-    loading: false,
+    // loading: false,
     sideNav: <boolean>false,
     nav: [
       {
@@ -66,57 +65,50 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    assignmentInfo: new InfoContainer<Assignment>(),
-    problemInfo: new ProblemInfoContainer(),
-    announcementInfo: new InfoContainer<Announcement>(),
-    recordInfo: new InfoContainer<Record>()
+    assignmentInfo: new EntryContainer<Assignment>(),
+    problemInfo: new ProblemContainer(),
+    announcementInfo: new EntryContainer<Announcement>(),
+    recordInfo: new EntryContainer<Record>()
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
-      state.user = isAuthenticated?user:notLogin
+      state.user = isAuthenticated ? user : notLogin
       state.isAuthenticated = isAuthenticated
     },
     setSideNav(state, value) {
       state.sideNav = value
     },
-    setLoading(state, value) {
-      state.loading = value
-    },
     windowResize(state, payload) {
       state.width_height = payload
     },
-    setAssignmentInfo(state, {selectedID, pageIndex, list, detailAssignment, max, filter, clear}) {
-      if (!!clear) state.assignmentInfo.clear()
+    setAssignmentInfo(state, {selectedID, pageIndex, list, detailAssignment, max, filter}: InfoOptions<Assignment>) {
       if (!!selectedID || selectedID === 0) state.assignmentInfo.selectEntry(selectedID)
       if (!!pageIndex || pageIndex === 0) state.assignmentInfo.selectPage(pageIndex)
-      if (!!list) state.assignmentInfo.addAll(list)
+      if (!!list) state.assignmentInfo.list = list
       if (!!detailAssignment) state.assignmentInfo.add(detailAssignment)
       if (!!max) state.assignmentInfo.maxLength = max
-      if (!!filter || filter === '') state.assignmentInfo.filter = filter
+      if (!!filter) state.assignmentInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, detailProblem, max, filter, clear, code, lang}) {
-      if (!!clear) state.problemInfo.clear()
+    setProblemInfo(state, {selectedID, pageIndex, list, detailProblem, max, filter, code, lang}: InfoOptions<Problem>) {
       if (!!selectedID || selectedID === 0) state.problemInfo.selectEntry(selectedID)
       if (!!pageIndex || pageIndex === 0) state.problemInfo.selectPage(pageIndex)
-      if (!!list) state.problemInfo.addAll(list)
+      if (!!list) state.problemInfo.list = list
       if (!!detailProblem) state.problemInfo.add(detailProblem)
       if (!!max) state.problemInfo.maxLength = max
-      if (!!filter || filter === '') state.problemInfo.filter = filter
+      if (!!filter) state.problemInfo.filter = filter
       if (code !== void 0) state.problemInfo.code = code
       if (!!lang || lang === '') state.problemInfo.lang = lang
     },
-    setAnnouncementInfo(state, {selectedID, pageIndex, list, max, clear}) {
-      if (!!clear) state.announcementInfo.clear()
+    setAnnouncementInfo(state, {selectedID, pageIndex, list, max}: InfoOptions<Announcement>) {
       if (!!selectedID || selectedID === 0) state.announcementInfo.selectEntry(selectedID)
       if (!!pageIndex || pageIndex === 0) state.announcementInfo.selectPage(pageIndex)
-      if (!!list) state.announcementInfo.addAll(list)
+      if (!!list) state.announcementInfo.list = list
       if (!!max) state.announcementInfo.maxLength = max
     },
-    setRecordInfo(state, {selectedID, pageIndex, list, detailRecord, max, filter, clear}) {
-      if (!!clear) state.recordInfo.clear()
+    setRecordInfo(state, {selectedID, pageIndex, list, detailRecord, max, filter}: InfoOptions<Record>) {
       if (!!selectedID || selectedID === 0) state.recordInfo.selectEntry(selectedID)
       if (!!pageIndex || pageIndex === 0) state.recordInfo.selectPage(pageIndex)
-      if (!!list) state.recordInfo.addAll(list)
+      if (!!list) state.recordInfo.list = list
       if (!!detailRecord) state.recordInfo.add(detailRecord)
       if (!!max) state.recordInfo.maxLength = max
       if (!!filter) state.recordInfo.filter = filter

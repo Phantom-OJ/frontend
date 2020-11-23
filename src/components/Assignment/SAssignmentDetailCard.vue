@@ -101,7 +101,7 @@ import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {InfoContainer} from "@/ts/interfaces";
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   components: {SMarkdown, SEntryList, SRecordList, STag},
@@ -109,10 +109,11 @@ import {InfoContainer} from "@/ts/interfaces";
 })
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly assignmentInfo!: InfoContainer<Assignment>
+  readonly assignmentInfo!: EntryContainer<Assignment>
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   now: Date = new Date()
+  loading:boolean=false
   private intervals: Array<number> = []
   private cnt = 1
 
@@ -139,14 +140,6 @@ export default class SAssignmentDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-  }
-
-  get loading(): boolean {
-    return this.$store.state.loading;
-  }
-
-  set loading(value: boolean) {
-    this.$store.commit('setLoading', value)
   }
 
   get aid(): number {

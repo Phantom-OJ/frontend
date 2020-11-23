@@ -28,10 +28,12 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {mapState} from "vuex";
-import {Alert, Filter, InfoContainer} from "@/ts/interfaces";
 import {Record} from "@/ts/entries";
 import SPagination from "@/components/General/SPagination.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
+import {EntryContainer} from "@/ts/entry-container";
+import {SUtil} from "@/ts/utils";
+import {Filter} from "@/ts/interfaces";
 
 @Component({
   components: {SRecordList, SPagination, SSearchableCardTitle},
@@ -41,18 +43,16 @@ export default class SRecordCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly recordInfo !: InfoContainer<Record>
+  readonly recordInfo !: EntryContainer<Record>
 
+  loading:boolean=false
   s_searchAssignment: string = ''
   s_searchProblem: string = ''
   s_searchUser: string = ''
 
   created() {
-    let {exist, start, end} = this.recordInfo.rangeToLoad(this.recordInfo.pageIndex, this.itemNum)
     this.initFilter()
-    if (!exist || this.recordInfo.search) {
-      this.loadRecords(start, end)
-    }
+    this.loadRecords()
   }
 
   initFilter() {
@@ -63,31 +63,26 @@ export default class SRecordCard extends Vue {
     this.commitFilter()
   }
 
-  async loadRecords(start: number, end: number) {
-    this.loading = true
-    let records = await this.$api.searchRecordPage({
-      start, end,
-      filter: this.recordInfo.filter
-    })
-    this.$store.commit('setRecordInfo', {clear: true, list: records})
+  async loadRecords(force:boolean=false) {
+    if(this.recordInfo.search||force) {
+      let {start, end} = SUtil.rangeToLoad(this.recordInfo.pageIndex, this.itemNum)
+      this.loading = true
+      let records = await this.$api.searchRecordPage({
+        start, end,
+        filter: this.recordInfo.filter
+      })
+      this.$store.commit('setRecordInfo', {clear: true, list: records})
 
-    this.loading = false
+      this.loading = false
+    }
   }
 
   get records(): Array<Record> {
-    let {full, list} = this.recordInfo.pageOf(this.recordInfo.pageIndex, this.itemNum)
-    if (!full) {
-      //TODO
-    }
-    return list
+    return this.recordInfo.list
   }
 
   search() {
-    //TODO
-    this.$alert(new Alert({
-      type: 'success',
-      info: `search ${this.searchAssignment}, ${this.searchProblem}, ${this.searchUser}`
-    }))
+    this.loadRecords(true)
   }
 
   get searchAssignment(): string {
@@ -123,14 +118,6 @@ export default class SRecordCard extends Vue {
 
   set pageIndex(v) {
     this.$store.commit('setRecordInfo', {pageIndex: v})
-  }
-
-  get loading(): boolean {
-    return this.$store.state.loading
-  }
-
-  set loading(v) {
-    this.$store.commit('setLoading', v)
   }
 
   clear(): void {

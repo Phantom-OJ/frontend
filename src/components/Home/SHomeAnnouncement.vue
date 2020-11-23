@@ -49,7 +49,7 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Announcement} from "@/ts/entries";
-import {InfoContainer} from "@/ts/interfaces";
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   computed:{
@@ -60,16 +60,11 @@ export default class SHomeAnnouncement extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum!: number
   readonly width_height!: {width:number, height:number}
-  readonly announcementInfo!: InfoContainer<Announcement>
+  readonly announcementInfo!: EntryContainer<Announcement>
   announcements: Array<Announcement> = []
 
   created(){
-    let {full, list} = this.announcementInfo.pageOf(1, this.itemNum)
-    if(full){
-      for(let a of list){
-        this.announcements.push(Announcement.copy(a))
-      }
-    }
+
   }
 }
 </script>

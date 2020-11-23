@@ -34,9 +34,9 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import {InfoContainer} from "@/ts/interfaces";
 import {mapState} from "vuex";
 import { Assignment } from '@/ts/entries';
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   computed: {
@@ -46,23 +46,15 @@ import { Assignment } from '@/ts/entries';
 export default class SHomeContestList extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
-  readonly assignmentInfo !: InfoContainer<Assignment>
+  readonly assignmentInfo !: EntryContainer<Assignment>
+  assignments:Assignment[]=[]
 
+  created() {
 
-  mounted() {
   }
 
   click(ID: number) {
     this.$router.push(`/assignment/${ID}`)
-  }
-
-  get assignments(): Array<Assignment> {
-    let cInfo = this.assignmentInfo
-    let {full, list} = cInfo.pageOf(1, this.itemNum)
-    if (!full) {
-      //TODO
-    }
-    return list
   }
 
   get pageIndex() {

@@ -43,10 +43,11 @@ beaconAPI
 vue-ace-editor
 
 tag 颜色
-loading 界面
-signup 数据验证，发验证码
-全面重构所有的map
 
-[finished] *重构API，写declare 单例化*
+loading 界面
+
+signup 数据验证，发验证码
+
+[finished] *重构API，写declare 单例化, 淦死所有Map*
 
 [finished] *大面积重构，只缓存单页原始列表*

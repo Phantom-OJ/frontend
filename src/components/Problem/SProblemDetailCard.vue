@@ -116,7 +116,7 @@ import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SLoading from "@/components/General/SLoading.vue";
-import {ProblemContainer} from "@/ts/entry-container";
+import {EntryContainer} from "@/ts/entry-container";
 
 @Component({
   components: {SLoading, SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
@@ -124,11 +124,13 @@ import {ProblemContainer} from "@/ts/entry-container";
 })
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly problemInfo!: ProblemContainer
+  readonly problemInfo!: EntryContainer<Problem>
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
   loading:boolean=false
+  lang:string='pgsql'
+  code:string=''
   private cnt = 1
 
   created() {
@@ -154,31 +156,6 @@ export default class SProblemDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-  }
-
-  /**
-   * language chose to **submit**, such as pgsql
-   * @return language chose
-   */
-  get lang(): string {
-    return this.problemInfo.lang
-  }
-
-  /**
-   * set language chose to **submit**, such as pgsql
-   * It will change the problemInfo in vuex
-   * @param v new language
-   */
-  set lang(v: string) {
-    this.$store.commit('setProblemInfo', {lang: v})
-  }
-
-  get code(): string {
-    return this.problemInfo.code
-  }
-
-  set code(v: string) {
-    this.$store.commit('setProblemInfo', {code: v})
   }
 
   get pid(): number {

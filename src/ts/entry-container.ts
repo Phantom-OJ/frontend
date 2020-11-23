@@ -1,18 +1,12 @@
-import {Problem} from "@/ts/entries";
 import {Entry, Filter} from "@/ts/interfaces";
 
 export class EntryContainer<T extends Entry> {
-  private _selectedID = -1
   private _pageIndex = 1
   private _maxLength = 0
   private _search = true
   private _list: T[] = []
   private _filter: Filter = {}
   private _mapTable: T[] = []
-
-  get selectedID(): number {
-    return this._selectedID;
-  }
 
   get pageIndex(): number {
     return this._pageIndex;
@@ -46,11 +40,6 @@ export class EntryContainer<T extends Entry> {
     return this.mapTable[ID]
   }
 
-
-  selectEntry(ID: number) {
-    this._selectedID = ID
-  }
-
   selectPage(index: number) {
     this._pageIndex = index
   }
@@ -66,7 +55,6 @@ export class EntryContainer<T extends Entry> {
 
   toJSON(): object {
     return {
-      selectedID: this.selectedID,
       pageIndex: this.pageIndex,
       filter: this.filter
     }
@@ -89,45 +77,3 @@ export class EntryContainer<T extends Entry> {
     this._search = value;
   }
 }
-
-export class ProblemContainer extends EntryContainer<Problem> {
-  private _code = 'asdfghj'
-  private _lang = 'pgsql'
-
-  selectEntry(ID: number) {
-    if (ID !== super.selectedID) {
-      super.selectEntry(ID);
-      this.code = ''
-    }
-  }
-
-  get selectedID(): number {
-    return super.selectedID
-  }
-
-  get lang(): string {
-    return this._lang
-  }
-
-  set lang(v: string) {
-    this._lang = v
-  }
-
-  get code(): string {
-    return this._code;
-  }
-
-  set code(value: string) {
-    this._code = value;
-  }
-
-  toJSON(): object {
-    return {
-      selectedID: this.selectedID,
-      pageIndex: this.pageIndex,
-      filter: this.filter,
-      code: this.code
-    }
-  }
-}
-

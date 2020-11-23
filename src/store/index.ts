@@ -4,7 +4,7 @@ import {InfoOptions} from "@/ts/interfaces"
 import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
 import '@/ts/prototypes'
 import {notLogin} from "@/store/testData";
-import {EntryContainer, ProblemContainer} from "@/ts/entry-container";
+import {EntryContainer} from "@/ts/entry-container";
 
 
 Vue.use(Vuex)
@@ -66,7 +66,7 @@ let vuex = new Vuex.Store({
       height: window.innerHeight
     },
     assignmentInfo: new EntryContainer<Assignment>(),
-    problemInfo: new ProblemContainer(),
+    problemInfo: new EntryContainer<Problem>(),
     announcementInfo: new EntryContainer<Announcement>(),
     recordInfo: new EntryContainer<Record>()
   },
@@ -81,32 +81,35 @@ let vuex = new Vuex.Store({
     windowResize(state, payload) {
       state.width_height = payload
     },
-    setAssignmentInfo(state, {selectedID, pageIndex, list, detailAssignment, max, filter}: InfoOptions<Assignment>) {
-      if (!!selectedID || selectedID === 0) state.assignmentInfo.selectEntry(selectedID)
+    /**
+     *
+     * @param state
+     * @param pageIndex
+     * @param list
+     * @param detailAssignment
+     * @param max
+     * @param filter
+     */
+    setAssignmentInfo(state, {pageIndex, list, detailAssignment, max, filter}: InfoOptions<Assignment>) {
       if (!!pageIndex || pageIndex === 0) state.assignmentInfo.selectPage(pageIndex)
       if (!!list) state.assignmentInfo.list = list
       if (!!detailAssignment) state.assignmentInfo.add(detailAssignment)
       if (!!max) state.assignmentInfo.maxLength = max
       if (!!filter) state.assignmentInfo.filter = filter
     },
-    setProblemInfo(state, {selectedID, pageIndex, list, detailProblem, max, filter, code, lang}: InfoOptions<Problem>) {
-      if (!!selectedID || selectedID === 0) state.problemInfo.selectEntry(selectedID)
+    setProblemInfo(state, {pageIndex, list, detailProblem, max, filter}: InfoOptions<Problem>) {
       if (!!pageIndex || pageIndex === 0) state.problemInfo.selectPage(pageIndex)
       if (!!list) state.problemInfo.list = list
       if (!!detailProblem) state.problemInfo.add(detailProblem)
       if (!!max) state.problemInfo.maxLength = max
       if (!!filter) state.problemInfo.filter = filter
-      if (code !== void 0) state.problemInfo.code = code
-      if (!!lang || lang === '') state.problemInfo.lang = lang
     },
-    setAnnouncementInfo(state, {selectedID, pageIndex, list, max}: InfoOptions<Announcement>) {
-      if (!!selectedID || selectedID === 0) state.announcementInfo.selectEntry(selectedID)
+    setAnnouncementInfo(state, {pageIndex, list, max}: InfoOptions<Announcement>) {
       if (!!pageIndex || pageIndex === 0) state.announcementInfo.selectPage(pageIndex)
       if (!!list) state.announcementInfo.list = list
       if (!!max) state.announcementInfo.maxLength = max
     },
-    setRecordInfo(state, {selectedID, pageIndex, list, detailRecord, max, filter}: InfoOptions<Record>) {
-      if (!!selectedID || selectedID === 0) state.recordInfo.selectEntry(selectedID)
+    setRecordInfo(state, {pageIndex, list, detailRecord, max, filter}: InfoOptions<Record>) {
       if (!!pageIndex || pageIndex === 0) state.recordInfo.selectPage(pageIndex)
       if (!!list) state.recordInfo.list = list
       if (!!detailRecord) state.recordInfo.add(detailRecord)

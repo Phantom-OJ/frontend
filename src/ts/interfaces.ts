@@ -32,7 +32,6 @@ export interface Filter {
 }
 
 export interface InfoOptions<T> {
-  selectedID?: number
   pageIndex?: number
   list?: T[]
   detailAssignment?: Assignment
@@ -41,7 +40,5 @@ export interface InfoOptions<T> {
   detailAnnouncement?: Announcement
   max?: number
   filter?: Filter
-  code?: string
-  lang?: string
 }
 

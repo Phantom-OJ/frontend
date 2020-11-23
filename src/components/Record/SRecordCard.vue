@@ -48,10 +48,30 @@ export default class SRecordCard extends Vue {
   s_searchUser: string = ''
 
   created() {
+    let {exist, start, end} = this.recordInfo.rangeToLoad(this.recordInfo.pageIndex, this.itemNum)
+    this.initFilter()
+    if (!exist || this.recordInfo.search) {
+      this.loadRecords(start, end)
+    }
+  }
+
+  initFilter() {
     let filter = this.recordInfo.filter
-    this.s_searchAssignment = filter.assignment??''
-    this.s_searchProblem = filter.problem??''
-    this.s_searchUser = filter.user??''
+    this.s_searchAssignment = filter.assignment ?? ''
+    this.s_searchProblem = filter.problem ?? ''
+    this.s_searchUser = filter.user ?? ''
+    this.commitFilter()
+  }
+
+  async loadRecords(start: number, end: number) {
+    this.loading = true
+    let records = await this.$api.searchRecordPage({
+      start, end,
+      filter: this.recordInfo.filter
+    })
+    this.$store.commit('setRecordInfo', {clear: true, list: records})
+
+    this.loading = false
   }
 
   get records(): Array<Record> {
@@ -105,6 +125,14 @@ export default class SRecordCard extends Vue {
     this.$store.commit('setRecordInfo', {pageIndex: v})
   }
 
+  get loading(): boolean {
+    return this.$store.state.loading
+  }
+
+  set loading(v) {
+    this.$store.commit('setLoading', v)
+  }
+
   clear(): void {
     this.s_searchUser = ''
     this.s_searchProblem = ''
@@ -113,10 +141,10 @@ export default class SRecordCard extends Vue {
   }
 
   private commitFilter() {
-    let filter:Filter = {
-      assignment:this.s_searchAssignment,
-      problem:this.s_searchProblem,
-      user:this.s_searchUser
+    let filter: Filter = {
+      assignment: this.s_searchAssignment,
+      problem: this.s_searchProblem,
+      user: this.s_searchUser
     }
     this.$store.commit('setRecordInfo', {filter})
   }

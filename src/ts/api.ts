@@ -1,13 +1,13 @@
 import axios from 'axios'
 import {Alert, APIException, LoginForm, PageSearchFrom, SignOutForm, SignUpForm, User} from "@/ts/interfaces";
-import {Assignment, Problem} from "@/ts/entries";
+import {Assignment, Code, Problem, Record} from "@/ts/entries";
 
 axios.defaults.withCredentials = true
 
 export class API{
 
   /**
-   * request without catch block, it will throw APIException when get code in ERR_CODE
+   * request without catch block, it will throw APIException when GET code in ERR_CODE
    * @param method 'GET', 'POST', etc..
    * @param url 'assignment' will become '/aip/assignment'
    * @param data
@@ -17,6 +17,7 @@ export class API{
       // @ts-ignore
       return (await axios[method](`/api/${url}`, data)).data
     }catch (e) {
+      console.log(e)
       throw new APIException(e.response)
     }
   }
@@ -35,7 +36,7 @@ export class API{
       this.$alert(new Alert({
         type:'error',
         info:error.info??error.toString(),
-        time:10000
+        time:8000
       }))
     }
   }
@@ -49,38 +50,53 @@ export class API{
   }
 
   async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {
-    let data: Array<any> = await this.request('post', 'assignment', form)
+    let data: Array<any> = await this.cRequest('post', 'assignment', form)
     return data.map(e => new Assignment(e))
   }
 
-  async getAssignment(ID: number): Promise<Assignment> {
-    let data = await this.request('get', `assignment/${ID}`)
+  async queryAssignment(ID: number): Promise<Assignment> {
+    let data = await this.cRequest('get', `assignment/${ID}`)
     return new Assignment(data)
   }
 
   async searchProblemPage(form: PageSearchFrom):Promise<Array<Problem>>{
-    let data: Array<any> = await this.request('post','problem',form)
+    let data: Array<any> = await this.cRequest('post','problem',form)
     return data.map(e => new Problem(e))
   }
 
-  async getProblem(ID:number):Promise<Problem>{
-    let data = await this.request('get',`problem/${ID}`)
+  async searchRecordPage(form: PageSearchFrom):Promise<Array<Record>>{
+    let data: Array<any> = await this.cRequest('post', 'record', form)
+    return data.map(e => new Record(e))
+  }
+
+  async queryRecord(ID:number):Promise<Record>{
+    let data = await this.cRequest('get', `record/${ID}`)
+    return new Record(data)
+  }
+
+  async queryProblem(ID:number):Promise<Problem>{
+    let data = await this.cRequest('get',`problem/${ID}`)
     return new Problem(data)
   }
 
+  async queryCode(ID:number):Promise<Code>{
+    let data = await this.cRequest('get',`code/${ID}`)
+    return new Code(data)
+  }
+
   signOut(signOutFrom: SignOutForm): Promise<any> {
-    return this.request('post', '', signOutFrom)
+    return this.cRequest('post', '', signOutFrom)
   }
 
   getAnnouncement() {
-    return this.request('get', '', null)
+    return this.cRequest('get', '', null)
   }
 
   getHomeStatisticsData() {
-    return this.request('get', '', null)
+    return this.cRequest('get', '', null)
   }
 
   getContestEntry() {
-    return this.request('get', '', null)
+    return this.cRequest('get', '', null)
   }
 }

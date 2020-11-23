@@ -25,7 +25,7 @@
         </v-card-subtitle>
       </div>
     </div>
-<!--    not use -->
+    <!--    not use -->
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
         <v-card-title class="detail-card-title-main">
@@ -101,7 +101,7 @@ import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {Alert, APIException, InfoContainer} from "@/ts/interfaces";
+import {InfoContainer} from "@/ts/interfaces";
 
 @Component({
   components: {SMarkdown, SEntryList, SRecordList, STag},
@@ -116,28 +116,28 @@ export default class SAssignmentDetailCard extends Vue {
   private intervals: Array<number> = []
   private cnt = 1
 
-  created(){
+  created() {
     this.$store.commit('setAssignmentInfo', {selectedID: this.aid})
     this.loadAssignment()
     this.records = this.$store.state.recordInfo.list//TODO
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
   }
 
-  get tabHeight():number{
+  get tabHeight(): number {
     let height = 160
     return height
   }
 
 
-  get tab():number{
+  get tab(): number {
     return parseInt(this.$route.hash.slice(1))
   }
 
-  set tab(v:number){
+  set tab(v: number) {
     //@ts-ignore
     this.$router.replace({
       ...this.$route,
-      hash:`#${v}`
+      hash: `#${v}`
     })
   }
 
@@ -169,25 +169,14 @@ export default class SAssignmentDetailCard extends Vue {
     this.$router.push('/problem/all')
   }
 
-  async loadAssignment(force=false){
-    this.loading  = !this.assignment
-    if(this.loading||force){
-      try {
-        let detailAssignment = await this.$api.getAssignment(this.aid)
-        this.$store.commit('setAssignmentInfo', {detailAssignment})
-        this.loading = false
-        // trigger the assignment from map
-        this.cnt++
-      }catch (e) {
-        const error = e as APIException
-        this.$alert(new Alert({
-          type:'error',
-          info:error.info??error.toString(),
-          time:10000
-        }))
-        // reload
-        setTimeout(this.loadAssignment, 10000)
-      }
+  async loadAssignment(force = false) {
+    this.loading = !this.assignment
+    if (this.loading || force) {
+      let detailAssignment = await this.$api.queryAssignment(this.aid)
+      this.$store.commit('setAssignmentInfo', {detailAssignment})
+      this.loading = false
+      // trigger the assignment from map
+      this.cnt++
     }
   }
 
@@ -206,7 +195,7 @@ export default class SAssignmentDetailCard extends Vue {
     padding-top: 0;
   }
 
-  .refresh{
-    top:20px;
+  .refresh {
+    top: 20px;
   }
 </style>

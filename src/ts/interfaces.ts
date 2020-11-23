@@ -152,7 +152,7 @@ export class InfoContainer<T extends Entry> {
   rangeToLoad(index: number, num: number): { exist: boolean, start: number, end: number } {
     let start = (index - 1) * num + 1
     start = start < 1 ? 1 : start
-    let end = (index + 2) * num + 1
+    let end = (index + 1) * num + 1
     let exist = this.existOfRange(start, end)
     return {
       exist, start, end

@@ -1,4 +1,4 @@
-import {Entry, Tag, User} from "@/ts/interfaces"
+import {Entry, Tag} from "@/ts/interfaces"
 
 export class Announcement implements Entry {
   ID: number
@@ -45,7 +45,7 @@ export class Problem implements Entry {
   indexInAssignment: number
   sampleOut: string
 
-  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution}:any) {
+  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution}: any) {
     this.ID = id
     this.description = description
     this.title = title
@@ -72,7 +72,7 @@ export class Assignment implements Entry {
   status: string
   problemList?: Array<Problem>
 
-  constructor({id, description, title, startTime, endTime, status, problemList}:any) {
+  constructor({id, description, title, startTime, endTime, status, problemList}: any) {
     this.ID = id
     this.description = description
     this.title = title
@@ -86,7 +86,9 @@ export class Assignment implements Entry {
 export class Record implements Entry {
   ID: number
   description: string | undefined
-  user: User
+  avatar: string
+  username: string
+  codeID: number
   code?: string
   score: number
   problemId: number
@@ -98,15 +100,17 @@ export class Record implements Entry {
   codeLength: number
   submitTime: Date
 
-  constructor({id, description, user, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}:any) {
+  constructor({id, description, avatar, username, codeId, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}: any) {
     this.ID = id
     this.description = description
-    this.user = user
+    this.avatar = avatar
+    this.username = username
+    this.codeID = codeId
     this.code = code
     this.score = score
     this.problemId = problemId
     this.problemTitle = problemTitle
-    this.result = result
+    this.result = (<string>result).toUpperCase().trim()
     this.space = space
     this.time = time
     this.dialect = dialect
@@ -120,5 +124,25 @@ export class Record implements Entry {
 
   set title(v) {
     this.result = v
+  }
+
+  async queryCode() {
+    // let code = await new API().queryCode(this.codeID)
+    // this.code = code.code
+  }
+}
+
+export class Code {
+  ID: number
+  code: string
+  codeLength: number
+  submitTime: Date
+
+
+  constructor({id, code, codeLength, submitTime}: any) {
+    this.ID = id
+    this.code = code
+    this.codeLength = codeLength
+    this.submitTime = new Date(submitTime)
   }
 }

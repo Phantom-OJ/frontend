@@ -111,7 +111,7 @@ import {mapState} from "vuex";
 import {Problem, Record} from "@/ts/entries";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {Alert, APIException, ProblemInfoContainer} from "@/ts/interfaces";
+import {ProblemInfoContainer} from "@/ts/interfaces";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
@@ -197,23 +197,12 @@ export default class SProblemDetailCard extends Vue {
 
   async loadProblem(force = false) {
     this.loading = !this.problem
-    try {
-      if (this.loading || force) {
-        let detailProblem = await this.$api.getProblem(this.pid)
-        this.$store.commit('setProblemInfo', {detailProblem})
-        this.loading = false
-        // trigger the problem from map
-        this.cnt++
-      }
-    } catch (e) {
-      const error = e as APIException
-      this.$alert(new Alert({
-        type: 'error',
-        info: error.info ?? error.toString(),
-        time: 10000
-      }))
-      // reload
-      // setTimeout(this.loadProblem, 10000)
+    if (this.loading || force) {
+      let detailProblem = await this.$api.queryProblem(this.pid)
+      this.$store.commit('setProblemInfo', {detailProblem})
+      this.loading = false
+      // trigger the problem from map
+      this.cnt++
     }
   }
 

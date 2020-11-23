@@ -56,7 +56,7 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SPagination from "@/components/General/SPagination.vue"
 import {mapState} from "vuex"
-import {Alert, APIException, Filter, InfoContainer} from "@/ts/interfaces"
+import {Alert, Filter, InfoContainer} from "@/ts/interfaces"
 import {Problem} from '@/ts/entries'
 import STag from "@/components/General/STag.vue"
 import SEntryList from "@/components/General/SEntryList.vue"
@@ -82,16 +82,12 @@ export default class SProblemCard extends Vue {
   created() {
     let {exist, start, end} = this.problemInfo.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
     this.initFilter()
-    if (!exist || this.problemInfo.search || true) {
-      console.log({
-        start, end,
-        filter: this.problemInfo.filter
-      })
+    if (!exist || this.problemInfo.search) {
       this.loadProblems(start, end)
     }
   }
 
-  initFilter(){
+  initFilter() {
     const filter = this.problemInfo.filter
     this.s_searchID = filter.id ?? ''
     this.s_searchName = filter.name ?? ''
@@ -100,23 +96,13 @@ export default class SProblemCard extends Vue {
   }
 
   async loadProblems(start: number, end: number) {
-    try {
-      this.loading = true
-      let problems = await this.$api.searchProblemPage({
-        start, end,
-        filter: this.problemInfo.filter
-      })
-      this.$store.commit('setProblemInfo', {clear: true, list: problems})
-    } catch (e) {
-      const error = e as APIException
-      this.$alert(new Alert({
-        type: 'error',
-        info: error.info ?? error.toString(),
-        time: 10000
-      }))
-      // reload
-      // setTimeout(() => this.loadProblems(start, end), 10000)
-    }
+    this.loading = true
+    let problems = await this.$api.searchProblemPage({
+      start, end,
+      filter: this.problemInfo.filter
+    })
+    this.$store.commit('setProblemInfo', {clear: true, list: problems})
+
     this.loading = false
   }
 
@@ -151,6 +137,7 @@ export default class SProblemCard extends Vue {
   set loading(v) {
     this.$store.commit('setLoading', v)
   }
+
   get searchID(): string {
     return this.s_searchID
   }
@@ -194,10 +181,10 @@ export default class SProblemCard extends Vue {
   }
 
   private commitFilter() {
-    let filter:Filter = {
-      id:this.searchID,
-      name:this.searchName,
-      tags:this.searchTags
+    let filter: Filter = {
+      id: this.searchID,
+      name: this.searchName,
+      tags: this.searchTags
     }
     this.$store.commit('setProblemInfo', {filter})
   }

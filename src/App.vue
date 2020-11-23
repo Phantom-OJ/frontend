@@ -19,7 +19,6 @@ import SAppBar from "@/components/Root/SAppBar.vue";
 import SNavBar from "@/components/Root/SNavBar.vue";
 import SFooter from "@/components/Root/SFooter.vue";
 import SAlert from "@/components/General/SAlert.vue";
-import {Alert} from "@/ts/interfaces";
 import {API} from "@/ts/api";
 
 

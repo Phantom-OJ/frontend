@@ -7,11 +7,11 @@
             :size="48"
             class="inlist-user-avatar"
           >
-            <img :src="record.user.avatar">
+            <img :src="record.avatar">
           </v-avatar>
           <div class="inlist-user-label ellipsis-col">
             <span class="padding-l-12 ellipsis-col">
-              {{`${record.user.name}`}}
+              {{`${record.username}`}}
             </span>
             <span class="padding-l-12 ellipsis-col">
               {{record.submitTime.sString()}}

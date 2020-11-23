@@ -81,10 +81,29 @@ export default class SRecordDetailCard extends Vue {
 
   created() {
     this.$store.commit('setRecordInfo', {selectedID: this.rid})
+    this.loadRecord()
+  }
+
+  async loadRecord(force=false){
+    this.loading = !this.record
+    if(this.loading || force){
+      let detailRecord = await this.$api.queryRecord(this.rid)
+      this.$store.commit('setRecordInfo', {detailRecord})
+      this.loading = false
+      this.cnt++
+    }
   }
 
   edit(){
     this.$store.commit('setProblemInfo',{code:this.record?.code})
+  }
+
+  get loading(): boolean {
+    return this.$store.state.loading
+  }
+
+  set loading(v) {
+    this.$store.commit('setLoading', v)
   }
 
   get tab(): number {

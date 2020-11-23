@@ -1,4 +1,5 @@
 import {Entry, Tag} from "@/ts/interfaces"
+import {API} from "@/ts/api";
 
 export class Announcement implements Entry {
   ID: number
@@ -127,8 +128,8 @@ export class Record implements Entry {
   }
 
   async queryCode() {
-    // let code = await new API().queryCode(this.codeID)
-    // this.code = code.code
+    let code = await API.getInstance().queryCode(this.codeID)
+    this.code = code.code
   }
 }
 

@@ -10,7 +10,7 @@ export class APIException {
   }
 
   get info(): string {
-    return `Error code: ${this.code}\n${this.description}`
+    return `Error: ${this.code}\n${this.description}`
   }
 }
 
@@ -86,7 +86,7 @@ export class InfoContainer<T extends Entry> {
   private _search = true
   private _filter:Filter = {}
   private _list = new Array<T>()
-  private _map = new Map<number, T>()
+  private _mapTable:T[] = []
 
   get selectedID(): number {
     return this._selectedID;
@@ -120,12 +120,12 @@ export class InfoContainer<T extends Entry> {
     this._list = value;
   }
 
-  get map(): Map<number, T> {
-    return this._map;
+  get mapTable(): T[] {
+    return this._mapTable;
   }
 
-  set map(value: Map<number, T>) {
-    this._map = value;
+  set mapTable(value: T[]) {
+    this._mapTable = value;
   }
 
   pageOf(index: number, num: number): { full: boolean, list: Array<T> } {
@@ -138,15 +138,17 @@ export class InfoContainer<T extends Entry> {
     let index = this._list.length + offset
     for (let i = index; i < index + list.length; i++) {
       let t = list[i]
-      if (!this._map.has(t.ID)) {
-        this._map.set(t.ID, t)
-      }
+      this.mapTable[t.ID] = t
       this._list[i] = t
     }
   }
 
   add(entry: T): void {
-    this._map.set(entry.ID, entry)
+    this._mapTable[entry.ID] = entry
+  }
+
+  get(ID:number):T|undefined{
+    return this.mapTable[ID]
   }
 
   rangeToLoad(index: number, num: number): { exist: boolean, start: number, end: number } {

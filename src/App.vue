@@ -12,7 +12,7 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import SAppBar from "@/components/Root/SAppBar.vue";
@@ -30,15 +30,16 @@ export default class App extends Vue {
    * Inject the $api and $alert into vue instance.
    */
   beforeMount() {
-    Vue.prototype.$api = new API()
+    Vue.prototype.$api = API.getInstance()
     Vue.prototype.$api.$alert = Vue.prototype.$alert = (alert) => {
+      //@ts-ignore
       this.$refs.alert.add(alert)
     }
   }
 
   mounted() {
-    //dev TODO
-    window["vue"] = this
+    //@ts-ignore dev TODO
+    window.vue = this
     window.onresize = () =>
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
     window.onunload = () => {

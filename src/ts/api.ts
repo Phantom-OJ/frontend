@@ -4,7 +4,15 @@ import {Assignment, Code, Problem, Record} from "@/ts/entries";
 
 axios.defaults.withCredentials = true
 
+/**
+ * $alert and $dialog will be injected into the instance at runtime
+ * class is singleton pattern
+ */
 export class API{
+  private static readonly _instance:API = new API()
+
+  private constructor() {
+  }
 
   /**
    * request without catch block, it will throw APIException when GET code in ERR_CODE
@@ -17,7 +25,6 @@ export class API{
       // @ts-ignore
       return (await axios[method](`/api/${url}`, data)).data
     }catch (e) {
-      console.log(e)
       throw new APIException(e.response)
     }
   }
@@ -99,4 +106,12 @@ export class API{
   getContestEntry() {
     return this.cRequest('get', '', null)
   }
+
+  static getInstance():API{
+    return this._instance
+  }
+}
+
+export declare interface API {
+  $alert(alert:Alert):void
 }

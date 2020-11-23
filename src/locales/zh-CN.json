@@ -50,7 +50,8 @@
   },
   "assignment": {
     "searchA": "ID",
-    "searchB": "作业名"
+    "searchB": "作业名",
+    "subtitle": "生活在语法树上，永远热爱大地"
   },
   "problem": {
     "searchA": "ID",

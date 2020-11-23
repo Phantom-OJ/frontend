@@ -192,7 +192,7 @@ export default class SProblemDetailCard extends Vue {
 
   get problem(): Problem | undefined {
     let _ = this.cnt
-    return this.problemInfo.map.get(this.pid)
+    return this.problemInfo.get(this.pid)
   }
 
   async loadProblem(force = false) {
@@ -201,7 +201,7 @@ export default class SProblemDetailCard extends Vue {
       let detailProblem = await this.$api.queryProblem(this.pid)
       this.$store.commit('setProblemInfo', {detailProblem})
       this.loading = false
-      // trigger the problem from map
+      // trigger the problem from mapTable
       this.cnt++
     }
   }

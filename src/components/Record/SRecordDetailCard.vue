@@ -125,7 +125,7 @@ export default class SRecordDetailCard extends Vue {
 
   get record(): Record | undefined {
     let _ = this.cnt
-    return this.recordInfo.map.get(this.rid)
+    return this.recordInfo.get(this.rid)
   }
 }
 </script>

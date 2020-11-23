@@ -155,7 +155,7 @@ export default class SAssignmentDetailCard extends Vue {
 
   get assignment(): Assignment | undefined {
     let _ = this.cnt
-    return this.assignmentInfo.map.get(this.aid)
+    return this.assignmentInfo.get(this.aid)
   }
 
   get description() {
@@ -175,7 +175,7 @@ export default class SAssignmentDetailCard extends Vue {
       let detailAssignment = await this.$api.queryAssignment(this.aid)
       this.$store.commit('setAssignmentInfo', {detailAssignment})
       this.loading = false
-      // trigger the assignment from map
+      // trigger the assignment from mapTable
       this.cnt++
     }
   }

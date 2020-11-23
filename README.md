@@ -46,4 +46,5 @@ tag 颜色
 loading 界面
 signup 数据验证，发验证码
 全面重构所有的map
-重构API，写declare 单例化
+
+[finished] *重构API，写declare 单例化*

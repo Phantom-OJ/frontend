@@ -1,4 +1,4 @@
-import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
+import {Announcement, Assignment, Problem, Record, RecordPoint} from "@/ts/entries";
 
 export class User {
   ID: number
@@ -19,7 +19,7 @@ export class User {
 export interface Entry {
   ID: number
   title: string
-  description: string | undefined
+  description: string | RecordPoint[]
 }
 
 export interface Filter {

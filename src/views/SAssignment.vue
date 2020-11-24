@@ -1,6 +1,6 @@
 <template>
   <div id="contests-root" class="page-all-root">
-    <s-assignment-card :item-num="10"/>
+    <s-assignment-card :item-num="8"/>
   </div>
 </template>
 

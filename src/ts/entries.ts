@@ -3,7 +3,7 @@ import {API} from "@/ts/api";
 
 export class Announcement implements Entry {
   ID: number
-  description: string | undefined
+  description: string
   title: string
   createDate: Date
   lastModified: Date
@@ -12,7 +12,7 @@ export class Announcement implements Entry {
   //@ts-ignore
   constructor({ancmId, description, title, createDate, lastModified}) {
     this.ID = ancmId
-    this.description = description
+    this.description = description??''
     this.title = title
     this.createDate = createDate
     this.lastModified = lastModified
@@ -32,7 +32,7 @@ export class Announcement implements Entry {
 
 export class Problem implements Entry {
   ID: number
-  description: string | undefined
+  description: string
   title: string
   aid: number
   fullScore: number
@@ -48,7 +48,7 @@ export class Problem implements Entry {
 
   constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution}: any) {
     this.ID = id
-    this.description = description
+    this.description = description??''
     this.title = title
     this.indexInAssignment = indexInAssignment
     this.recentCode = recentCode
@@ -66,7 +66,7 @@ export class Problem implements Entry {
 
 export class Assignment implements Entry {
   ID: number
-  description: string | undefined
+  description: string
   title: string
   startTime: Date
   endTime: Date
@@ -75,7 +75,7 @@ export class Assignment implements Entry {
 
   constructor({id, description, title, startTime, endTime, status, problemList}: any) {
     this.ID = id
-    this.description = description
+    this.description = description??''
     this.title = title
     this.startTime = new Date(startTime)
     this.endTime = new Date(endTime)
@@ -86,13 +86,14 @@ export class Assignment implements Entry {
 
 export class Record implements Entry {
   ID: number
-  description: string | undefined
+  description: RecordPoint[]
   avatar: string
   username: string
+  userID:number
   codeID: number
   code?: string
   score: number
-  problemId: number
+  problemID: number
   problemTitle: string
   result: string
   space: number
@@ -101,15 +102,16 @@ export class Record implements Entry {
   codeLength: number
   submitTime: Date
 
-  constructor({id, description, avatar, username, codeId, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}: any) {
+  constructor({id, description, avatar, username, userId, codeId, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}: any) {
     this.ID = id
     this.description = description
     this.avatar = avatar
     this.username = username
+    this.userID = userId
     this.codeID = codeId
     this.code = code
     this.score = score
-    this.problemId = problemId
+    this.problemID = problemId
     this.problemTitle = problemTitle
     this.result = (<string>result)?.toUpperCase().trim()
     this.space = space
@@ -131,6 +133,14 @@ export class Record implements Entry {
     let code = await API.getInstance().queryCode(this.codeID)
     this.code = code.code
   }
+}
+
+export interface RecordPoint {
+  result:string
+  description:string
+  time:number
+  space:number
+  judgePointIndex:number
 }
 
 export class Code {

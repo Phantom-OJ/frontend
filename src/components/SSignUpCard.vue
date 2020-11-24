@@ -11,6 +11,7 @@
             :label="$t('profile.mail')"
             :disabled="loading"
             :rules="[checkMail]"
+            validate-on-blur
           >
           </v-text-field>
         </div>
@@ -29,7 +30,9 @@
             :hint="levelText[passwordLevel]"
             :color="levelColor[passwordLevel]"
             :rules="[checkPassword]"
-          >111111111</v-text-field>
+            validate-on-blur
+          >111111111
+          </v-text-field>
         </div>
         <div id="c-pwd">
           <v-text-field
@@ -37,6 +40,7 @@
             type="password"
             :label="$t('profile.c-pwd')"
             :rules="[checkPassword, confirm]"
+            validate-on-blur
           ></v-text-field>
         </div>
         <div id="v-code">
@@ -47,6 +51,8 @@
           ></v-text-field>
           <v-btn
             id="v-code-send"
+            @click="sendVCode"
+            :disabled="sendVCodeDisable"
           >
             {{$t('send')}}
           </v-btn>
@@ -80,15 +86,16 @@ export default class SSignUpCard extends Vue {
   nickname: string = ''
   confirmedPassword: string = ''
   loading: boolean = false
+  sendVCodeDisable: boolean = false
   vCode: string = ''
   readonly levelColor = ['error', 'warning', 'warning', 'accent', 'success']
 
   get levelText() {
-    return ['error.password', 'security.t-weak', 'security.weak', 'security.middle', 'security.strong']
+    return ['', 'security.t-weak', 'security.weak', 'security.middle', 'security.strong']
       .map(i => this.$t(i).toString())
   }
 
-  confirm(value:string) {
+  confirm(value: string) {
     return value === this.password || this.$t('error.confirm')
   }
 
@@ -114,32 +121,49 @@ export default class SSignUpCard extends Vue {
   }
 
   checkAll() {
-    if(this.checkMail(this.username)!==true){
+    if (this.checkMail(this.username) !== true) {
       this.$alert(new Alert({
-        type:'error',
-        info:this.checkMail(this.username).toString()
+        type: 'error',
+        info: this.checkMail(this.username).toString()
       }))
       return false
     }
-    if(this.checkPassword(this.password)!==true){
+    if (this.checkPassword(this.password) !== true) {
       this.$alert(new Alert({
-        type:'error',
-        info:this.checkPassword(this.password).toString()
+        type: 'error',
+        info: this.checkPassword(this.password).toString()
       }))
       return false
     }
-    if(this.confirm(this.confirmedPassword)!==true){
+    if (this.confirm(this.confirmedPassword) !== true) {
       this.$alert(new Alert({
-        type:'error',
-        info:this.confirm(this.confirmedPassword).toString()
+        type: 'error',
+        info: this.confirm(this.confirmedPassword).toString()
       }))
       return false
     }
     return true
   }
 
+  async sendVCode() {
+    if (this.checkMail(this.username) !== true) {
+      this.$alert(new Alert({
+        type: 'error',
+        info: this.checkMail(this.username).toString()
+      }))
+      return false
+    }
+    this.sendVCodeDisable = true
+    await this.$api.sendVCode(this.username)
+    this.$alert(new Alert({
+      type: 'success',
+      info: this.$t('success.v-code').toString()
+    }))
+    setTimeout(()=>this.sendVCodeDisable = false, 60000)
+  }
+
   async signUp() {
-    if(!this.checkAll()) return
+    if (!this.checkAll()) return
     this.loading = true
     try {
       let user = await this.$api.signUp({
@@ -149,7 +173,7 @@ export default class SSignUpCard extends Vue {
         vCode: this.vCode
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
-      await router.push((this.$route.query['then'] ?? '/') as string)
+      await router.push(this.$route.query['then'].toString() ?? '/')
     } catch (e) {
       this.loading = false
       const error = e as APIException
@@ -191,7 +215,7 @@ export default class SSignUpCard extends Vue {
 </style>
 <style lang="scss">
 
-      .v-messages__message {
-        font-size: 14px !important;
-      }
+  .v-messages__message {
+    font-size: 14px !important;
+  }
 </style>

@@ -58,6 +58,10 @@ export class API{
     return (await this.request('post', 'signup', form)).msg
   }
 
+  async sendVCode(username:string): Promise<string>{
+    return (await this.cRequest('post',`sendvcode/${username}`))
+  }
+
   async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {
     let data: Array<any> = await this.cRequest('post', 'assignment', form)
     return data.map(e => new Assignment(e))

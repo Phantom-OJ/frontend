@@ -24,6 +24,9 @@
           {{problem.ID}}
         </v-col>
         <v-col cols="4" class="ellipsis-col">
+          <v-icon class="icon-color-1">
+            mdi-quora
+          </v-icon>
           {{problem.title}}
         </v-col>
         <v-col cols="4" class="s-flex">
@@ -36,11 +39,11 @@
           ></s-tag>
         </v-col>
         <v-col cols="2" lg="2" class="ellipsis-col">
-          <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.submitted')" direction="top">
+          <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.submitted')" direction="top">
             mdi-upload
           </s-tooltip-icon>
           {{problem.numberSubmit}}
-          <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.resolved')" direction="top">
+          <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.resolved')" direction="top">
             mdi-check
           </s-tooltip-icon>
           {{problem.numberSolve}}

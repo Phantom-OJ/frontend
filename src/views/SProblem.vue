@@ -1,6 +1,6 @@
 <template>
   <div class="page-root page-all-root">
-    <s-problem-card :item-num="10"/>
+    <s-problem-card :item-num="8"/>
   </div>
 </template>
 

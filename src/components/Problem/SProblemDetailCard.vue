@@ -129,6 +129,7 @@ export default class SProblemDetailCard extends Vue {
   records: Array<Record> = []
   disableEditor: boolean = false
   loading:boolean=false
+  recordsLoading:boolean=false
   lang:string='pgsql'
   code:string=''
   private cnt = 1
@@ -136,7 +137,6 @@ export default class SProblemDetailCard extends Vue {
   created() {
     this.$store.commit('setProblemInfo', {selectedID: this.pid})
     this.loadProblem()
-    this.records = this.$store.state.recordInfo.list//TODO
   }
 
   get tabHeight(): number {
@@ -156,6 +156,9 @@ export default class SProblemDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
+    if(v===3){ // 记录页面
+      this.loadRecords()
+    }
   }
 
   get pid(): number {
@@ -165,6 +168,23 @@ export default class SProblemDetailCard extends Vue {
   get problem(): Problem | undefined {
     let _ = this.cnt
     return this.problemInfo.get(this.pid)
+  }
+
+  async loadRecords(force=false){
+    if(this.records.length===0||force) {
+      this.recordsLoading = true
+      this.records = await this.$api.searchRecordPage({
+        start:1,
+        end:10,
+        filter:{
+          problem:this.problem?.title,
+          assignment:'',
+          user:''
+        }
+      })
+      this.recordsLoading = false
+    }
+
   }
 
   async loadProblem(force = false) {

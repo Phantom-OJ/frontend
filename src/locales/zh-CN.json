@@ -56,6 +56,9 @@
     "confirm": "密码不一致",
     "pageIndex": "无效页码"
   },
+  "success": {
+    "v-code": "验证码已发送，请注意查收"
+  },
   "assignment": {
     "searchA": "ID",
     "searchB": "作业名",

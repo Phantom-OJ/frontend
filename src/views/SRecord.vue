@@ -1,6 +1,6 @@
 <template>
   <div id="" class="page-all-root">
-    <s-record-card :item-num="10" />
+    <s-record-card :item-num="8" />
   </div>
 </template>
 

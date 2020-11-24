@@ -56,6 +56,9 @@
     "confirm": "The password is inconsistent",
     "pageIndex": "Invalid page index"
   },
+  "success": {
+    "v-code": "Send verify code successfully"
+  },
   "assignment": {
     "searchA": "ID",
     "searchB": "Name",

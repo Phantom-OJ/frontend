@@ -24,7 +24,7 @@
           {{problem.ID}}
         </v-col>
         <v-col cols="4" class="ellipsis-col">
-          <v-icon class="icon-color-1">
+          <v-icon class="icon-color-1" style="position: relative;top:1px">
             mdi-quora
           </v-icon>
           {{problem.title}}

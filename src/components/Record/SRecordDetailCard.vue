@@ -1,22 +1,42 @@
 <template>
   <v-card class="detail-card">
     <div class="detail-card-title-box" :style="`padding-left: ${width_height.width/80+4}px`">
-      <div style="display: flex;align-items: center;flex-wrap: wrap;">
-        <div class="ellipsis-col detail-card-title" :style="`padding-top: ${width_height.height/100}px;padding-bottom: 12px;`">
+      <div style="display: flex;align-items: center;flex-wrap: wrap;margin-right: 40px">
+        <div class="ellipsis-col detail-card-title"
+             :style="`padding-top: ${width_height.height/100}px;padding-bottom: 12px;`">
           <v-card-title class="s-record-detail-card-title">
             {{`${$t('record.submission')}: #${record.ID.format(3,'0',false)}`}}
           </v-card-title>
-          <v-card-subtitle class="s-record-detail-card-sub s-link" @click="$router.push(`/problem/${record.problemID}`)">
+          <v-card-subtitle class="s-record-detail-card-sub s-link"
+                           @click="$router.push(`/problem/${record.problemID}`)">
             {{`${$t('record.searchP')}: ${record.problemTitle}`}}
           </v-card-subtitle>
           <v-btn text class="refresh" @click="loadRecord(true)">
             <v-icon class="icon-color-2">mdi-sync</v-icon>
           </v-btn>
         </div>
-
+        <div class="s-flex" style="width: 500px;">
+          <div class="inlist-user">
+            <v-avatar
+              :size="48"
+              class="inlist-user-avatar"
+            >
+              <img :src="record.avatar" alt="avatar">
+            </v-avatar>
+            <div class="inlist-user-label ellipsis-col" style="margin-right: 10px;">
+            <span class="padding-l-12 ellipsis-col">
+              {{`${record.username}`}}
+            </span>
+              <span class="padding-l-12 ellipsis-col">
+              {{record.submitTime.sString()}}
+            </span>
+            </div>
+          </div>
+          <s-record-result-box :result="record.result" :score="record.score"/>
+        </div>
       </div>
       <v-tabs v-model="tab" background-color="white" color="secondary" right
-              class="detail-card-tabs" height="60">
+              class="detail-card-tabs" height="50">
         <v-tabs-slider color="accent"/>
         <v-tab>
           {{$t('nav-bar.description')}}
@@ -53,27 +73,28 @@ import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import SRecordDescription from "@/components/Record/SRecordDescription.vue";
+import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
 
 @Component({
-  components: {SRecordDescription, SCodemirror, SCodeEditor},
+  components: {SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
   computed: {
     ...mapState(['width_height', 'recordInfo'])
   }
 })
 export default class SRecordDetailCard extends Vue {
-  readonly width_height!: { width: number, height:number }
+  readonly width_height!: { width: number, height: number }
   readonly recordInfo!: EntityContainer<Record>
 
-  loading:boolean=false
-  private cnt:number = 1
+  loading: boolean = false
+  private cnt: number = 1
 
   created() {
     this.loadRecord()
   }
 
-  async loadRecord(force=false){
+  async loadRecord(force = false) {
 
-    if(!this.record || force){
+    if (!this.record || force) {
       this.loading = true
       let detailRecord = await this.$api.queryRecord(this.rid)
       this.$store.commit('setRecordInfo', {detailRecord})
@@ -82,8 +103,8 @@ export default class SRecordDetailCard extends Vue {
     }
   }
 
-  edit(){
-    this.$store.commit('setProblemInfo',{code:this.record?.code})
+  edit() {
+    this.$store.commit('setProblemInfo', {code: this.record?.code})
   }
 
   get tab(): number {
@@ -121,7 +142,7 @@ export default class SRecordDetailCard extends Vue {
 
 </style>
 <style scoped lang="scss">
-  .refresh{
-    top:15px;
+  .refresh {
+    top: 15px;
   }
 </style>

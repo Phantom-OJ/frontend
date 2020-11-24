@@ -77,7 +77,7 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import router from "@/router";
 import {APIException} from "@/ts/exceptions";
-import {Alert} from "@/ts/entities";
+import {Alert, VCodeMode} from "@/ts/entities";
 
 @Component({})
 export default class SSignUpCard extends Vue {
@@ -154,7 +154,7 @@ export default class SSignUpCard extends Vue {
       return false
     }
     this.sendVCodeDisable = true
-    await this.$api.sendVCode(this.username)
+    await this.$api.sendVCode({username:this.username, mode: VCodeMode.REGISTER})
     this.$alert(new Alert({
       type: 'success',
       info: this.$t('success.v-code').toString()

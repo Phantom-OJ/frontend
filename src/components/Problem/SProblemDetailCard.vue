@@ -109,7 +109,7 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Problem, Record} from "@/ts/entities";
+import {Alert, Problem, Record} from "@/ts/entities";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
@@ -128,10 +128,10 @@ export default class SProblemDetailCard extends Vue {
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
-  loading:boolean=false
-  recordsLoading:boolean=false
-  lang:string='pgsql'
-  code:string=''
+  loading: boolean = false
+  recordsLoading: boolean = false
+  lang: string = 'pgsql'
+  code: string = ''
   private cnt = 1
 
   created() {
@@ -155,7 +155,7 @@ export default class SProblemDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-    if(v===3){ // 记录页面
+    if (v === 3) { // 记录页面
       this.loadRecords()
     }
   }
@@ -169,21 +169,20 @@ export default class SProblemDetailCard extends Vue {
     return this.problemInfo.get(this.pid)
   }
 
-  async loadRecords(force=false){
-    if(this.records.length===0||force) {
+  async loadRecords(force = false) {
+    if (this.records.length === 0 || force) {
       this.recordsLoading = true
       this.records = (await this.$api.searchRecordPage({
-        start:1,
-        end:10,
-        filter:{
-          problem:this.problem?.title,
-          assignment:'',
-          user:''
+        start: 1,
+        end: 10,
+        filter: {
+          problem: this.problem?.title,
+          assignment: '',
+          user: ''
         }
       })).entities
       this.recordsLoading = false
     }
-
   }
 
   async loadProblem(force = false) {
@@ -197,8 +196,18 @@ export default class SProblemDetailCard extends Vue {
     }
   }
 
-  submit() {
+  async submit() {
     this.disableEditor = true
+    const re = (await this.$api.submitCode(this.pid, {
+      code: this.code,
+      dialect: this.lang,
+      submitTime: Date.now()
+    }))
+    this.$alert(new Alert({
+      type:'success',
+      info:re.toString()
+    }))
+    await this.$router.push('/record/all')//TODO
   }
 }
 </script>

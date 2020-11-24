@@ -3,7 +3,7 @@
     <v-icon class="icon-color-F">
       {{recordIcon(result)}}
     </v-icon>
-    {{result}}
+    {{result + (!!score||score===0?` (${score})`:'')}}
   </div>
 </template>
 
@@ -19,6 +19,9 @@ export default class SRecordResultBox extends Vue {
     required: true
   })
   result!: string
+
+  @Prop()
+  score!:number
 
   @Prop({
     type: String,
@@ -38,10 +41,11 @@ export default class SRecordResultBox extends Vue {
     border-radius: 5px;
     box-shadow: 2px -2px 10px -1px rgba(0, 0, 0, 0.1);
     //margin: 5px 20px 5px 10px;
-    max-width: 200px;
-    min-width: 120px;
+    max-width: 220px;
+    min-width: 140px;
     height: 50px;
-    line-height: 38px;
+    line-height: 50px;
     color: #f8f8ff;
+    flex-grow: 1;
   }
 </style>

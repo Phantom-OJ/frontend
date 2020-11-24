@@ -46,8 +46,14 @@ tag 颜色
 
 loading 界面
 
-signup 数据验证，发验证码
+[finished] *signup 数据验证，发验证码*
 
 [finished] *重构API，写declare 单例化, 淦死所有Map*
 
 [finished] *大面积重构，只缓存单页原始列表*
+
+代码行号
+
+轮询结果
+
+作业界面的题目列表美化

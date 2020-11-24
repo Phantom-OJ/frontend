@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {SResponse, SEntityCollection, User} from "@/ts/interfaces";
-import {Alert, Announcement, Assignment, Code, Problem, Record} from "@/ts/entities";
+import {SResponse, SEntityCollection, User, CodeForm} from "@/ts/interfaces";
+import {Alert, Announcement, Assignment, Code, Problem, Record, VCodeMode} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, PageSearchFrom, SignOutForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
@@ -49,7 +49,7 @@ export class API{
         time:8000
       }))
       //@ts-ignore
-      return false
+      return
     }
   }
 
@@ -61,8 +61,10 @@ export class API{
     return (await this.request('post', 'signup', form)).data
   }
 
-  async sendVCode(username:string): Promise<string>{
-    return (await this.cRequest('post',`sendvcode/${username}`)).msg
+  async sendVCode({username, mode}:{username:string, mode:VCodeMode}): Promise<string>{
+    return (await this.cRequest('post',`sendvcode`,{
+      username, mode
+    })).msg
   }
 
   async searchAssignmentPage(form: PageSearchFrom): Promise<SEntityCollection<Assignment>> {
@@ -93,6 +95,11 @@ export class API{
   async queryProblem(ID:number):Promise<Problem>{
     let data = (await this.cRequest('get',`problem/${ID}`)).data
     return new Problem(data)
+  }
+
+  async submitCode(ID:number, form:CodeForm):Promise<boolean>{
+    let data = (await this.request('post', `problem/${ID}/submit`, form))
+    return data as unknown as boolean
   }
 
   async queryCode(ID:number):Promise<Code>{

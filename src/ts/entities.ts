@@ -104,7 +104,7 @@ export class Record implements Entity {
 
   constructor({id, description, avatar, username, userId, codeId, code, score, problemId, problemTitle, result, space, time, dialect, codeLength, submitTime}: any) {
     this.ID = id
-    this.description = description
+    this.description = (<RecordPoint[]>description)?.map(e => new RecordPoint(e))
     this.avatar = avatar
     this.username = username
     this.userID = userId
@@ -135,12 +135,20 @@ export class Record implements Entity {
   }
 }
 
-export interface RecordPoint {
+export class RecordPoint {
   result:string
   description:string
   time:number
   space:number
   judgePointIndex:number
+
+  constructor({result, description, time, space, judgePointIndex}:any) {
+    this.result = (<string>result)?.toUpperCase().trim();
+    this.description = description;
+    this.time = time;
+    this.space = space;
+    this.judgePointIndex = judgePointIndex;
+  }
 }
 
 export class Code {
@@ -181,3 +189,5 @@ export class Tag {
     this.description = description
   }
 }
+
+export enum VCodeMode {REGISTER, RESET_PASSWORD}

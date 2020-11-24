@@ -20,13 +20,13 @@
         </span>
       </v-col>
       <v-col class="ellipsis-col" style="min-width: 100px;font-weight: 600;">
-        <v-icon class="icon-color-1">
+        <v-icon class="icon-color-1" style="position: relative;top: 1px">
           mdi-quora
         </v-icon>
         {{record.problemTitle}}
       </v-col>
       <v-col>
-        <s-record-result-box :result="record.result"/>
+        <s-record-result-box :result="record.result" :score="record.score"/>
       </v-col>
       <v-col class="ellipsis-col" style="min-width: 280px;margin-right: 10px;max-width: 350px;">
         <v-row>

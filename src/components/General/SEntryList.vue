@@ -9,7 +9,7 @@
         class="list-item cursor-hand-hover"
         @click="click(entry.ID)"
       >
-        <v-row justify="space-between" style="width: 100%" align-content="center">
+        <v-row justify="space-between" style="width: 100%;min-height: 70px;" align-content="center">
           <slot :entry="entry"/>
         </v-row>
       </v-list-item>

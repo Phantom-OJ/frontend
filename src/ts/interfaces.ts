@@ -64,3 +64,9 @@ import {Announcement, Assignment, Problem, Record, RecordPoint} from "@/ts/entit
     entities: T[]
     count: number
   }
+
+  export interface CodeForm {
+    code:string
+    dialect:string
+    submitTime:number
+  }

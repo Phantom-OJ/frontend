@@ -61,48 +61,85 @@
               </div>
             </v-card>
 
-            <v-btn
-              color="primary"
-              @click="e1 = 2"
-            >
-              Continue
-            </v-btn>
-<!--            <v-btn text @click="showStepper=false">-->
-<!--              Cancel-->
-<!--            </v-btn>-->
+            <div class="step-button">
+              <v-btn
+                color="primary"
+                @click="e1 = 1"
+                disabled="true"
+              >
+                Previous
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="e1 = 2"
+              >
+                Continue
+              </v-btn>
+            </div>
           </v-stepper-content>
 
           <v-stepper-content step="2">
             <v-card class="step"></v-card>
 
-            <v-btn
-              color="primary"
-              @click="e1 = 3"
-            >
-              Continue
-            </v-btn>
+            <div class="step-button">
+              <v-btn
+                color="primary"
+                @click="e1 = 1"
+              >
+                Previous
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="e1 = 3"
+              >
+                Continue
+              </v-btn>
+            </div>
           </v-stepper-content>
 
           <v-stepper-content step="3">
             <v-card class="step"></v-card>
 
-            <v-btn
-              color="primary"
-              @click="e1 = 4"
-            >
-              Continue
-            </v-btn>
+            <div class="step-button">
+              <v-btn
+                color="primary"
+                @click="e1 = 2"
+              >
+                Previous
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="e1 = 4"
+              >
+                Continue
+              </v-btn>
+            </div>
           </v-stepper-content>
 
           <v-stepper-content step="4">
             <v-card class="step"></v-card>
 
-            <v-btn
-              color="primary"
-              @click="e1 = 1"
-            >
-              Back
-            </v-btn>
+            <div class="step-button">
+              <v-btn
+                color="primary"
+                @click="e1 = 3"
+              >
+                Previous
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="e1 = 1"
+              >
+                Back
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="e1 = 4"
+                disabled="true"
+              >
+                Continue
+              </v-btn>
+            </div>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -146,10 +183,15 @@ export default class SHelpCard extends Vue{
     justify-content: space-around;
     align-items: center;
   }
-  help-img{
+  .help-img{
 
   }
-  help-item-content{
+  .help-item-content{
     text-align: left;
+  }
+  .step-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

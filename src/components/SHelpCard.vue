@@ -44,12 +44,14 @@
         <v-stepper-items>
           <v-stepper-content step="1">
             <v-card class="step">
-              <v-img
-                class="help-img"
-                max-height="280"
-                max-width="450"
-                :src="$t('help.step1.img')"
-              ></v-img>
+              <v-slide-x-transition>
+                <v-img
+                  class="help-img"
+                  :max-height="(width_height.width<750)? width_height.width * 0.6 * 0.6 : 270"
+                  :max-width="(width_height.width<750)? width_height.width * 0.6 : 450"
+                  :src="$t('help.step1.img')"
+                ></v-img>
+              </v-slide-x-transition>
               <div class="help-item-content">
                 <h2>{{$t("help.step1.title")}}</h2>
                 <br>
@@ -117,12 +119,17 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
+import {mapState} from "vuex";
 
 @Component({
-  components: {SRefreshableCardTitle}
+  components: {SRefreshableCardTitle},
+  computed:{
+    ...mapState(['width_height'])
+  }
 })
 export default class SHelpCard extends Vue{
   e1:number=1
+  readonly width_height!:{width:number, height:number}
   created() {
     console.log(this.$t('help.step1.content'))
   }

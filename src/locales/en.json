@@ -84,5 +84,33 @@
     "searchU": "user",
     "subtitle": "True mastery of any skill takes a lifetime",
     "submission": "SUBMISSION"
+  },
+  "help": {
+    "title1": "1. QuickStart",
+    "step1": {
+      "img": "/step1_1_en.png",
+      "title": "Register an account",
+      "content": {
+        "s1": "(1) Click the default avatar in the navigation bar",
+        "s2": "(2) Click \"sign up\" to go to the sign up interface",
+        "s3": "(3) Fill in the form and click \"SEND\" to get vcode",
+        "s4": "(4) Check email for the vcode and click \"SUBMIT\"",
+        "s5": "(5) Log in with your new account"
+      }
+    },
+    "step2": {
+      "title": "View assignments"
+    },
+    "step3": {
+      "title": "Start coding!"
+    },
+    "step4": {
+      "title": "View submission results"
+    },
+    "button-prev": "previous",
+    "button-back": "back",
+    "button-cont": "continue",
+    "title2": "2. Caution for Code Submission",
+    "content2": "Still testing, please contact to 11811407@mail.sustech.edu.cn if there's any problem"
   }
 }

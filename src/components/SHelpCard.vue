@@ -3,7 +3,7 @@
     <s-refreshable-card-title :title="`help`"/>
     <div class="help-item">
       <div class="help-title">
-        <h1>1. QuickStart</h1>
+        <h1>{{$t("help.title1")}}</h1>
         <v-divider></v-divider>
       </div>
       <v-stepper v-model="e1" class="elevation-0">
@@ -12,7 +12,7 @@
             :complete="e1 > 1"
             step="1"
           >
-            Register an account
+            {{$t("help.step1.title")}}
           </v-stepper-step>
 
           <v-divider></v-divider>
@@ -21,7 +21,7 @@
             :complete="e1 > 2"
             step="2"
           >
-            View detail of assignments
+            {{$t("help.step2.title")}}
           </v-stepper-step>
 
           <v-divider></v-divider>
@@ -30,13 +30,13 @@
             :complete="e1 > 3"
             step="3"
           >
-            Start coding
+            {{$t("help.step3.title")}}
           </v-stepper-step>
 
           <v-divider></v-divider>
 
           <v-stepper-step step="4">
-            View submission results
+            {{$t("help.step4.title")}}
           </v-stepper-step>
 
         </v-stepper-header>
@@ -48,22 +48,20 @@
                 class="help-img"
                 max-height="280"
                 max-width="450"
-                src="@/assets/step1_1.png"
+                :src="$t('help.step1.img')"
               ></v-img>
-<!--              <v-divider vertical></v-divider>-->
               <div class="help-item-content">
-                <h2>Register an account</h2>
+                <h2>{{$t("help.step1.title")}}</h2>
                 <br>
-                <p>(1) Click the default avatar in the navigation bar</p>
-                <p>(2) Click "sign up" to go to the sign up interface</p>
-                <p>(3) Fill in the form and click "SEND" to get vcode</p>
-                <p>(4) Check email for the vcode and click "SUBMIT"</p>
+                <p v-for="item in step1Content" :key="item">
+                  {{ item }}
+                </p>
               </div>
             </v-card>
 
             <div class="step-button">
-              <v-btn color="primary" @click="e1 = 1" disabled="true">Previous</v-btn>
-              <v-btn color="primary" @click="e1 = 2">Continue</v-btn>
+              <v-btn color="primary" @click="e1 = 1" :disabled="true">{{$t("help.button-prev")}}</v-btn>
+              <v-btn color="primary" @click="e1 = 2">{{$t("help.button-cont")}}</v-btn>
             </div>
           </v-stepper-content>
 
@@ -73,8 +71,8 @@
             </v-card>
 
             <div class="step-button">
-              <v-btn color="primary" @click="e1 = 1">Previous</v-btn>
-              <v-btn color="primary" @click="e1 = 3">Continue</v-btn>
+              <v-btn color="primary" @click="e1 = 1">{{$t("help.button-prev")}}</v-btn>
+              <v-btn color="primary" @click="e1 = 3">{{$t("help.button-cont")}}</v-btn>
             </div>
           </v-stepper-content>
 
@@ -84,8 +82,8 @@
             </v-card>
 
             <div class="step-button">
-              <v-btn color="primary" @click="e1 = 2">Previous</v-btn>
-              <v-btn color="primary" @click="e1 = 4">Continue</v-btn>
+              <v-btn color="primary" @click="e1 = 2">{{$t("help.button-prev")}}</v-btn>
+              <v-btn color="primary" @click="e1 = 4">{{$t("help.button-cont")}}</v-btn>
             </div>
           </v-stepper-content>
 
@@ -95,9 +93,9 @@
             </v-card>
 
             <div class="step-button">
-              <v-btn color="primary" @click="e1 = 3">Previous</v-btn>
-              <v-btn color="primary" @click="e1 = 1">Back</v-btn>
-              <v-btn color="primary" @click="e1 = 4" disabled="true">Continue</v-btn>
+              <v-btn color="primary" @click="e1 = 3">{{$t("help.button-prev")}}</v-btn>
+              <v-btn color="primary" @click="e1 = 1">{{$t("help.button-back")}}</v-btn>
+              <v-btn color="primary" @click="e1 = 4" :disabled="true">{{$t("help.button-cont")}}</v-btn>
             </div>
           </v-stepper-content>
         </v-stepper-items>
@@ -105,11 +103,11 @@
     </div>
     <div class="help-item">
       <div class="help-title">
-        <h1>2. Caution for Code Submission</h1>
+        <h1>{{$t("help.title2")}}</h1>
         <v-divider></v-divider>
       </div>
       <div class="step">
-        <p>Please contact to 11811407@mail.sustech.edu.cn if there's any problem</p>
+        <p>{{$t("help.content2")}}</p>
       </div>
     </div>
   </v-card>
@@ -125,6 +123,12 @@ import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vu
 })
 export default class SHelpCard extends Vue{
   e1:number=1
+  created() {
+    console.log(this.$t('help.step1.content'))
+  }
+  get step1Content(){
+    return ["1","2","3","4","5"].map(i => this.$t(`help.step1.content.s${i}`))
+  }
 }
 </script>
 

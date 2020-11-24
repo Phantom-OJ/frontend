@@ -9,7 +9,7 @@
           <v-card-subtitle class="s-record-detail-card-sub" @click="$router.push(`/problem/${record.problemId}`)">
             {{`${$t('record.searchP')}: ${record.problemTitle}`}}
           </v-card-subtitle>
-          <v-btn text class="refresh">
+          <v-btn text class="refresh" @click="loadRecord(true)">
             <v-icon class="icon-color-2">mdi-sync</v-icon>
           </v-btn>
         </div>

@@ -10,7 +10,7 @@
             v-model="username"
             :label="$t('profile.mail')"
             :disabled="loading"
-            :rules="mailRules"
+            :rules="[checkMail]"
           >
           </v-text-field>
         </div>
@@ -26,17 +26,18 @@
             type="password"
             :label="$t('profile.pwd')"
             :disabled="loading"
-          ></v-text-field>
+            :hint="levelText[passwordLevel]"
+            :color="levelColor[passwordLevel]"
+            :rules="[checkPassword]"
+          >111111111</v-text-field>
         </div>
         <div id="c-pwd">
           <v-text-field
             v-model="confirmedPassword"
             type="password"
             :label="$t('profile.c-pwd')"
-            @blur="confirm"
-            @focus="confirmError = false"
+            :rules="[checkPassword, confirm]"
           ></v-text-field>
-          <span id="c-pwd-error" v-if="confirmError">{{$t('error.confirm')}}</span>
         </div>
         <div id="v-code">
           <v-text-field
@@ -74,36 +75,84 @@ import {Alert} from "@/ts/entries";
 
 @Component({})
 export default class SSignUpCard extends Vue {
-  username: string=''
-  password: string=''
+  username: string = ''
+  password: string = ''
   nickname: string = ''
-  confirmedPassword: string=''
-  loading: boolean=false
-  vCode: string=''
-  confirmError: boolean=false
-  mailRules=[(value:string)=>/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_\-])+(\.[a-zA-Z0-9_\-]+)+$/.test(value)||'Format incorrect']
+  confirmedPassword: string = ''
+  loading: boolean = false
+  vCode: string = ''
+  readonly levelColor = ['error', 'warning', 'warning', 'accent', 'success']
 
-  confirm(){
-    if(this.password!==this.confirmedPassword){
-      this.confirmError = true
-    }
+  get levelText() {
+    return ['error.password', 'security.t-weak', 'security.weak', 'security.middle', 'security.strong']
+      .map(i => this.$t(i).toString())
   }
 
-  async signUp(){
+  confirm(value:string) {
+    return value === this.password || this.$t('error.confirm')
+  }
+
+  checkMail(value: string) {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      .test(value) || this.$t('error.mail')
+  }
+
+  checkPassword(value: string) {
+    return value.length >= 6 || this.$t('error.password')
+  }
+
+  get passwordLevel() {
+    let p = this.password
+    if (p.length < 6)
+      return 0
+    let level = 0
+    level += /[a-z]/.test(p) ? 1 : 0
+    level += /[A-Z]/.test(p) ? 1 : 0
+    level += /[0-9]/.test(p) ? 1 : 0
+    level += /[^a-zA-Z0-9]/.test(p) ? 1 : 0
+    return level
+  }
+
+  checkAll() {
+    if(this.checkMail(this.username)!==true){
+      this.$alert(new Alert({
+        type:'error',
+        info:this.checkMail(this.username).toString()
+      }))
+      return false
+    }
+    if(this.checkPassword(this.password)!==true){
+      this.$alert(new Alert({
+        type:'error',
+        info:this.checkPassword(this.password).toString()
+      }))
+      return false
+    }
+    if(this.confirm(this.confirmedPassword)!==true){
+      this.$alert(new Alert({
+        type:'error',
+        info:this.confirm(this.confirmedPassword).toString()
+      }))
+      return false
+    }
+    return true
+  }
+
+  async signUp() {
+    if(!this.checkAll()) return
     this.loading = true
     try {
       let user = await this.$api.signUp({
         username: this.username,
         password: this.password,
         nickname: this.nickname,
-        vCode:this.vCode
+        vCode: this.vCode
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
-      await router.push((this.$route.query['then']??'/') as string)
-    }catch (e) {
+      await router.push((this.$route.query['then'] ?? '/') as string)
+    } catch (e) {
       this.loading = false
       const error = e as APIException
-      console.log(this.$alert)
       this.$alert(new Alert({
         type: 'error',
         info: error.info ?? error.toString(),
@@ -115,33 +164,34 @@ export default class SSignUpCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #root{
+  #root {
     width: 400px;
     max-width: 80%;
     margin: 20px auto;
   }
 
-  #c-pwd-error{
-    color: #e52f2f;
-    display: inline-block;
-    margin-bottom: 10px;
-  }
-
-  #v-code-send{
+  #v-code-send {
     margin-left: 5%;
     display: inline-block;
     width: 35%;
   }
 
-  #submit-btn{
+  #submit-btn {
     display: block;
     width: 100%;
     margin: 10px auto;
   }
 
-  #form{
-    div{
+  #form {
+    div {
       margin-bottom: 10px;
     }
   }
+
+</style>
+<style lang="scss">
+
+      .v-messages__message {
+        font-size: 14px !important;
+      }
 </style>

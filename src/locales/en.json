@@ -37,6 +37,12 @@
   },
   "submit": "submit",
   "send": "send",
+  "security": {
+    "t-weak": "Too weak",
+    "weak": "weak",
+    "middle": "middle",
+    "strong": "strong"
+  },
   "profile": {
     "mail": "Mail",
     "pwd": "Password",
@@ -45,8 +51,10 @@
     "nickname": "Nickname"
   },
   "error": {
+    "mail": "Invalid e-mail",
+    "password": "Password at least length 6",
     "confirm": "The password is inconsistent",
-    "pageIndex": "invalid page index"
+    "pageIndex": "Invalid page index"
   },
   "assignment": {
     "searchA": "ID",

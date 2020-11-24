@@ -83,7 +83,7 @@
           {{$t(bar)}}
         </v-tab>
       </v-tabs>
-      <v-btn text class="refresh">
+      <v-btn text class="refresh" @click="loadProblem(true)">
         <v-icon class="icon-color-2">mdi-sync</v-icon>
       </v-btn>
     </div>

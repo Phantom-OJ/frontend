@@ -1,6 +1,6 @@
 <template>
   <v-card id="assignment-card" class="all-card">
-    <s-refreshable-card-title :title="'assignment'" @refresh="loadAssignments">
+    <s-refreshable-card-title :title="'assignment'" @refresh="loadAssignments(true)">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -81,7 +81,7 @@ export default class SAssignmentCard extends Vue {
 
   created(){
     this.initFilter()
-    this.loadAssignments(false)
+    this.loadAssignments()
   }
 
   initFilter(){
@@ -91,7 +91,7 @@ export default class SAssignmentCard extends Vue {
     this.commitFilter()
   }
 
-  async loadAssignments(force:boolean=true){
+  async loadAssignments(force:boolean=false){
     let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, this.itemNum)
     if(this.assignmentInfo.search||force) {
       this.loading = true
@@ -99,7 +99,7 @@ export default class SAssignmentCard extends Vue {
         start, end,
         filter: this.assignmentInfo.filter
       })
-      this.$store.commit('setAssignmentInfo', {clear: true, list: assignments})
+      this.$store.commit('setAssignmentInfo', {list: assignments})
       this.loading = false
     }
   }

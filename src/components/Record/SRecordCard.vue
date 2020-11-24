@@ -1,6 +1,6 @@
 <template>
   <v-card id="record-card" class="all-card">
-    <s-searchable-card-title :title="'record'">
+    <s-searchable-card-title :title="'record'" @refresh="loadRecords(true)">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`record.searchA`)"
                       type="text" dense v-model="searchAssignment"/>

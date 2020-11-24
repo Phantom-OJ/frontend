@@ -37,6 +37,12 @@
   },
   "submit": "提交",
   "send": "发送",
+  "security": {
+    "t-weak": "弱爆了",
+    "weak": "弱",
+    "middle": "中等",
+    "strong": "强密码！"
+  },
   "profile": {
     "mail": "邮箱",
     "pwd": "密码",
@@ -45,6 +51,8 @@
     "nickname": "昵称"
   },
   "error": {
+    "mail": "无效邮箱地址",
+    "password": "密码最少6位长度",
     "confirm": "密码不一致",
     "pageIndex": "无效页码"
   },

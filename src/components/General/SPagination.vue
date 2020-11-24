@@ -12,7 +12,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop, PropSync} from 'vue-property-decorator'
-import {Alert} from "@/ts/entries";
+import {Alert} from "@/ts/entities";
 
 @Component({})
 export default class SPagination extends Vue {

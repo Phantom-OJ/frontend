@@ -21,7 +21,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import {Entry} from "@/ts/interfaces";
+import {Entity} from "@/ts/interfaces";
 
 @Component({})
 export default class SEntryList extends Vue {
@@ -29,7 +29,7 @@ export default class SEntryList extends Vue {
     type: Array,
     required: true
   })
-  readonly entries!: Array<Entry>
+  readonly entries!: Array<Entity>
 
   @Prop({
     type:String,

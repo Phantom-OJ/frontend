@@ -35,7 +35,7 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {SUtil} from "@/ts/utils";
 import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
-import {Record} from "@/ts/entries";
+import {Record} from "@/ts/entities";
 
 @Component({
   components: {SRecordResultBox}

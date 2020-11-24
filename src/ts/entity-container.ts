@@ -1,6 +1,6 @@
-import {Entry, Filter} from "@/ts/interfaces";
+import {Entity, Filter} from "@/ts/interfaces";
 
-export class EntryContainer<T extends Entry> {
+export class EntityContainer<T extends Entity> {
   private _pageIndex = 1
   private _maxLength = 0
   private _search = true

@@ -48,10 +48,10 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Record} from "@/ts/entries";
+import {Record} from "@/ts/entities";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 import SRecordDescription from "@/components/Record/SRecordDescription.vue";
 
 @Component({
@@ -62,19 +62,19 @@ import SRecordDescription from "@/components/Record/SRecordDescription.vue";
 })
 export default class SRecordDetailCard extends Vue {
   readonly width_height!: { width: number, height:number }
-  readonly recordInfo!: EntryContainer<Record>
+  readonly recordInfo!: EntityContainer<Record>
 
   loading:boolean=false
   private cnt:number = 1
 
   created() {
-    this.$store.commit('setRecordInfo', {selectedID: this.rid})
     this.loadRecord()
   }
 
   async loadRecord(force=false){
-    this.loading = !this.record
-    if(this.loading || force){
+
+    if(!this.record || force){
+      this.loading = true
       let detailRecord = await this.$api.queryRecord(this.rid)
       this.$store.commit('setRecordInfo', {detailRecord})
       this.loading = false

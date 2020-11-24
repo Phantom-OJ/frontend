@@ -48,23 +48,35 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Announcement} from "@/ts/entries";
-import {EntryContainer} from "@/ts/entry-container";
+import {Announcement} from "@/ts/entities";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   computed:{
-    ...mapState(['width_height', 'announcementInfo'])
+    ...mapState(['width_height'])
   }
 })
 export default class SHomeAnnouncement extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum!: number
   readonly width_height!: {width:number, height:number}
-  readonly announcementInfo!: EntryContainer<Announcement>
   announcements: Array<Announcement> = []
+  loading=false
 
   created(){
+    this.loadAnnouncements()
+  }
 
+  async loadAnnouncements(force=false){
+    if(this.announcements.length===0||force){
+      this.loading = true
+      const {start, end} = SUtil.rangeToLoad(1, this.itemNum)
+      const entityCollection = (await this.$api.searchAnnouncementPage({
+        start, end, filter:{ }
+      }))
+      this.announcements = entityCollection.entities
+      this.loading = false
+    }
   }
 }
 </script>

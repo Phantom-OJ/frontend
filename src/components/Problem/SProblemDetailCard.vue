@@ -109,14 +109,14 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Problem, Record} from "@/ts/entries";
+import {Problem, Record} from "@/ts/entities";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SProblemStatistic from "@/components/Problem/SProblemStatistic.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SLoading from "@/components/General/SLoading.vue";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 
 @Component({
   components: {SLoading, SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
@@ -124,7 +124,7 @@ import {EntryContainer} from "@/ts/entry-container";
 })
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly problemInfo!: EntryContainer<Problem>
+  readonly problemInfo!: EntityContainer<Problem>
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   disableEditor: boolean = false
@@ -135,7 +135,6 @@ export default class SProblemDetailCard extends Vue {
   private cnt = 1
 
   created() {
-    this.$store.commit('setProblemInfo', {selectedID: this.pid})
     this.loadProblem()
   }
 
@@ -173,7 +172,7 @@ export default class SProblemDetailCard extends Vue {
   async loadRecords(force=false){
     if(this.records.length===0||force) {
       this.recordsLoading = true
-      this.records = await this.$api.searchRecordPage({
+      this.records = (await this.$api.searchRecordPage({
         start:1,
         end:10,
         filter:{
@@ -181,7 +180,7 @@ export default class SProblemDetailCard extends Vue {
           assignment:'',
           user:''
         }
-      })
+      })).entities
       this.recordsLoading = false
     }
 

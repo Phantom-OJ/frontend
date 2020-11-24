@@ -1,8 +1,8 @@
 <template>
   <div id="home">
     <div id="home-main">
-      <s-home-announcement id="home-announcement" :item-num="10"/>
-      <s-home-contest-card id="home-contest-assignment" :item-num="10"/>
+      <s-home-announcement id="home-announcement" :item-num="5"/>
+      <s-home-contest-card id="home-contest-assignment" :item-num="5"/>
     </div>
     <v-card id="chart-card" style="margin: 10px auto 30px auto;padding: 5px 5%">
       <canvas id="home-chart" style="margin: 0 auto;" ref="homeChart"/>

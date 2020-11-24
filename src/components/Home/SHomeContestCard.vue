@@ -35,8 +35,9 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import { Assignment } from '@/ts/entries';
-import {EntryContainer} from "@/ts/entry-container";
+import { Assignment } from '@/ts/entities';
+import {EntityContainer} from "@/ts/entity-container";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   computed: {
@@ -46,11 +47,27 @@ import {EntryContainer} from "@/ts/entry-container";
 export default class SHomeContestList extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
-  readonly assignmentInfo !: EntryContainer<Assignment>
   assignments:Assignment[]=[]
+  loading=false
 
   created() {
+    this.loadAssignments()
+  }
 
+  async loadAssignments(force:boolean=false){
+    if(this.assignments.length===0||force) {
+      let {start, end} = SUtil.rangeToLoad(1, this.itemNum)
+      this.loading = true
+      let entityCollection = await this.$api.searchAssignmentPage({
+        start, end,
+        filter: {
+          id:'',
+          name:''
+        }
+      })
+      this.assignments = entityCollection.entities
+      this.loading = false
+    }
   }
 
   click(ID: number) {

@@ -1,8 +1,9 @@
 import axios from 'axios'
-import {User} from "@/ts/interfaces";
-import {Alert, Assignment, Code, Problem, Record} from "@/ts/entries";
+import {SResponse, SEntityCollection, User} from "@/ts/interfaces";
+import {Alert, Announcement, Assignment, Code, Problem, Record} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, PageSearchFrom, SignOutForm, SignUpForm} from "@/ts/forms";
+import {SUtil} from "@/ts/utils";
 
 axios.defaults.withCredentials = true
 
@@ -22,7 +23,7 @@ export class API{
    * @param url 'assignment' will become '/aip/assignment'
    * @param data
    */
-  async request(method: string, url: string, data?: any): Promise<any> {
+  async request(method: string, url: string, data?: any): Promise<SResponse> {
     try {
       // @ts-ignore
       return (await axios[method](`/api/${url}`, data)).data
@@ -37,7 +38,7 @@ export class API{
    * @param url 'assignment' will become '/aip/assignment'
    * @param data
    */
-  async cRequest(method:string, url:string, data?:any):Promise<any>{
+  async cRequest(method:string, url:string, data?:any):Promise<SResponse>{
     try{
       return await this.request(method, url, data)
     }catch (error) {
@@ -47,62 +48,65 @@ export class API{
         info:error.info??error.toString(),
         time:8000
       }))
+      //@ts-ignore
+      return false
     }
   }
 
   async login(loginForm: LoginForm): Promise<User> {
-    return (await this.request('post', 'login', loginForm)).msg
+    return (await this.request('post', 'login', loginForm)).data
   }
 
   async signUp(form: SignUpForm): Promise<User> {
-    return (await this.request('post', 'signup', form)).msg
+    return (await this.request('post', 'signup', form)).data
   }
 
   async sendVCode(username:string): Promise<string>{
-    return (await this.cRequest('post',`sendvcode/${username}`))
+    return (await this.cRequest('post',`sendvcode/${username}`)).msg
   }
 
-  async searchAssignmentPage(form: PageSearchFrom): Promise<Array<Assignment>> {
-    let data: Array<any> = await this.cRequest('post', 'assignment', form)
-    return data.map(e => new Assignment(e))
+  async searchAssignmentPage(form: PageSearchFrom): Promise<SEntityCollection<Assignment>> {
+    const data = (await this.cRequest('post', 'assignment', form)).data
+    return SUtil.pageDataTransfer(data, Assignment)
   }
 
   async queryAssignment(ID: number): Promise<Assignment> {
-    let data = await this.cRequest('get', `assignment/${ID}`)
+    const data = (await this.cRequest('get', `assignment/${ID}`)).data
     return new Assignment(data)
   }
 
-  async searchProblemPage(form: PageSearchFrom):Promise<Array<Problem>>{
-    let data: Array<any> = await this.cRequest('post','problem',form)
-    return data?.map(e => new Problem(e)) ?? []
+  async searchProblemPage(form: PageSearchFrom):Promise<SEntityCollection<Problem>>{
+    let data = (await this.cRequest('post','problem',form)).data
+    return SUtil.pageDataTransfer(data, Problem)
   }
 
-  async searchRecordPage(form: PageSearchFrom):Promise<Array<Record>>{
-    let data: Array<any> = await this.cRequest('post', 'record', form)
-    return data?.map(e => new Record(e))??[]
+  async searchRecordPage(form: PageSearchFrom):Promise<SEntityCollection<Record>>{
+    let data = (await this.cRequest('post', 'record', form)).data
+    return SUtil.pageDataTransfer(data, Record)
   }
 
   async queryRecord(ID:number):Promise<Record>{
-    let data = await this.cRequest('get', `record/${ID}`)
+    let data = (await this.cRequest('get', `record/${ID}`)).data
     return new Record(data)
   }
 
   async queryProblem(ID:number):Promise<Problem>{
-    let data = await this.cRequest('get',`problem/${ID}`)
+    let data = (await this.cRequest('get',`problem/${ID}`)).data
     return new Problem(data)
   }
 
   async queryCode(ID:number):Promise<Code>{
-    let data = await this.cRequest('get',`code/${ID}`)
+    let data = (await this.cRequest('get',`code/${ID}`)).data
     return new Code(data)
   }
 
   async signOut(signOutFrom: SignOutForm): Promise<any> {
-    return this.cRequest('post', '', signOutFrom)
+    return (await this.cRequest('post', '', signOutFrom)).msg
   }
 
-  getAnnouncement() {
-    return this.cRequest('get', '', null)
+  async searchAnnouncementPage(form: PageSearchFrom) {
+    const data =  (await this.cRequest('post', 'announcement', form)).data
+    return SUtil.pageDataTransfer(data, Announcement)
   }
 
   getHomeStatisticsData() {

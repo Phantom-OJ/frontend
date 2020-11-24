@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {InfoOptions} from "@/ts/interfaces"
-import {Announcement, Assignment, Problem, Record} from "@/ts/entries";
+import {Announcement, Assignment, Problem, Record} from "@/ts/entities";
 import '@/ts/prototypes'
 import {notLogin} from "@/store/testData";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 
 
 Vue.use(Vuex)
@@ -65,10 +65,10 @@ let vuex = new Vuex.Store({
       width: window.innerWidth,
       height: window.innerHeight
     },
-    assignmentInfo: new EntryContainer<Assignment>(),
-    problemInfo: new EntryContainer<Problem>(),
-    announcementInfo: new EntryContainer<Announcement>(),
-    recordInfo: new EntryContainer<Record>()
+    assignmentInfo: new EntityContainer<Assignment>(),
+    problemInfo: new EntityContainer<Problem>(),
+    announcementInfo: new EntityContainer<Announcement>(),
+    recordInfo: new EntityContainer<Record>()
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {

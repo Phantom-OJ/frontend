@@ -3,7 +3,7 @@
   <v-card v-else class="detail-card">
     <div v-if="width_height.width>10200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
-              class="detail-card-tabs--vertical" :height="tabHeight">
+              class="detail-card-tabs--vertical" :height="160">
         <v-tabs-slider color="accent"/>
         <v-tab
           v-for="bar in tabs"
@@ -48,7 +48,7 @@
           {{$t(bar)}}
         </v-tab>
       </v-tabs>
-      <v-btn text class="refresh" @click="loadAssignment(true)">
+      <v-btn text class="refresh" @click="refresh">
         <v-icon class="icon-color-2">mdi-sync</v-icon>
       </v-btn>
     </div>
@@ -95,13 +95,13 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import {Assignment, Record} from "@/ts/entries";
+import {Assignment, Record} from "@/ts/entities";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 
 @Component({
   components: {SMarkdown, SEntryList, SRecordList, STag},
@@ -109,26 +109,46 @@ import {EntryContainer} from "@/ts/entry-container";
 })
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
-  readonly assignmentInfo!: EntryContainer<Assignment>
+  readonly assignmentInfo!: EntityContainer<Assignment>
   readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
   records: Array<Record> = []
   now: Date = new Date()
   loading:boolean=false
+  recordsLoading:boolean=false
   private intervals: Array<number> = []
   private cnt = 1
 
   created() {
-    this.$store.commit('setAssignmentInfo', {selectedID: this.aid})
     this.loadAssignment()
-    this.records = this.$store.state.recordInfo.list//TODO
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
   }
 
-  get tabHeight(): number {
-    let height = 160
-    return height
+  async loadAssignment(force = false) {
+    this.loading = !this.assignment
+    if (this.loading || force) {
+      let detailAssignment = await this.$api.queryAssignment(this.aid)
+      this.$store.commit('setAssignmentInfo', {detailAssignment})
+      this.loading = false
+      // trigger the assignment from mapTable
+      this.cnt++
+    }
   }
 
+  async loadRecords(force=false){
+    if(this.records.length===0||force){
+      this.recordsLoading = true
+      this.records = (await this.$api.searchRecordPage({
+        start:1,
+        end:10,
+        filter:{
+          problem:'',
+          assignment:this.assignment?.title,
+          user:''
+        }
+      })).entities
+      this.recordsLoading = false
+    }
+  }
 
   get tab(): number {
     return parseInt(this.$route.hash.slice(1))
@@ -140,6 +160,9 @@ export default class SAssignmentDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
+    if(v===3){
+      this.loadRecords()
+    }
   }
 
   get aid(): number {
@@ -155,22 +178,16 @@ export default class SAssignmentDetailCard extends Vue {
     return this.assignment?.description
   }
 
+  refresh(){
+    this.loadAssignment(true)
+    this.loadRecords(true)
+  }
+
   clickTag(tag: string) {
     this.$store.commit('setProblemInfo', {
       filter: tag
     })
     this.$router.push('/problem/all')
-  }
-
-  async loadAssignment(force = false) {
-    this.loading = !this.assignment
-    if (this.loading || force) {
-      let detailAssignment = await this.$api.queryAssignment(this.aid)
-      this.$store.commit('setAssignmentInfo', {detailAssignment})
-      this.loading = false
-      // trigger the assignment from mapTable
-      this.cnt++
-    }
   }
 
   destroyed() {

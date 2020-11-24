@@ -10,7 +10,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import {Alert} from "@/ts/entries";
+import {Alert} from "@/ts/entities";
 
 @Component({})
 export default class SAlert extends Vue {

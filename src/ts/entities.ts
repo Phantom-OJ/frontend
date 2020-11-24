@@ -1,7 +1,7 @@
-import {Entry} from "@/ts/interfaces"
+import {Entity} from "@/ts/interfaces"
 import {API} from "@/ts/api";
 
-export class Announcement implements Entry {
+export class Announcement implements Entity {
   ID: number
   description: string
   title: string
@@ -14,8 +14,8 @@ export class Announcement implements Entry {
     this.ID = ancmId
     this.description = description??''
     this.title = title
-    this.createDate = createDate
-    this.lastModified = lastModified
+    this.createDate = new Date(createDate)
+    this.lastModified = new Date(lastModified)
   }
 
   static copy(a: Announcement) {
@@ -30,7 +30,7 @@ export class Announcement implements Entry {
 }
 
 
-export class Problem implements Entry {
+export class Problem implements Entity {
   ID: number
   description: string
   title: string
@@ -64,7 +64,7 @@ export class Problem implements Entry {
   }
 }
 
-export class Assignment implements Entry {
+export class Assignment implements Entity {
   ID: number
   description: string
   title: string
@@ -84,7 +84,7 @@ export class Assignment implements Entry {
   }
 }
 
-export class Record implements Entry {
+export class Record implements Entity {
   ID: number
   description: RecordPoint[]
   avatar: string

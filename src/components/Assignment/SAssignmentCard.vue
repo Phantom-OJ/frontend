@@ -1,6 +1,6 @@
 <template>
   <v-card id="assignment-card" class="all-card">
-    <s-refreshable-card-title :title="'assignment'" @refresh="loadAssignments(true)">
+    <s-refreshable-card-title :title="'assignment'" @refresh="refresh">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>
@@ -58,9 +58,9 @@ import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Filter} from "@/ts/interfaces";
 import SPagination from "@/components/General/SPagination.vue";
-import {Assignment} from '@/ts/entries';
+import {Assignment} from '@/ts/entities';
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
 
 @Component({
@@ -73,7 +73,7 @@ export default class SAssignmentCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly assignmentInfo !: EntryContainer<Assignment>
+  readonly assignmentInfo !: EntityContainer<Assignment>
 
   loading:boolean=false
   private s_searchID: string = ''
@@ -95,13 +95,17 @@ export default class SAssignmentCard extends Vue {
     let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, this.itemNum)
     if(this.assignmentInfo.search||force) {
       this.loading = true
-      let assignments = await this.$api.searchAssignmentPage({
+      let entityCollection = await this.$api.searchAssignmentPage({
         start, end,
         filter: this.assignmentInfo.filter
       })
-      this.$store.commit('setAssignmentInfo', {list: assignments})
+      this.$store.commit('setAssignmentInfo', {list: entityCollection.entities, max:entityCollection.count})
       this.loading = false
     }
+  }
+
+  refresh(){
+    this.loadAssignments(true)
   }
 
   get searchID(): string {

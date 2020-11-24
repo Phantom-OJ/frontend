@@ -28,10 +28,10 @@ import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import SSearchableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {mapState} from "vuex";
-import {Record} from "@/ts/entries";
+import {Record} from "@/ts/entities";
 import SPagination from "@/components/General/SPagination.vue";
 import SRecordList from "@/components/Record/SRecordList.vue";
-import {EntryContainer} from "@/ts/entry-container";
+import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
 import {Filter} from "@/ts/interfaces";
 
@@ -43,7 +43,7 @@ export default class SRecordCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly recordInfo !: EntryContainer<Record>
+  readonly recordInfo !: EntityContainer<Record>
 
   loading:boolean=false
   s_searchAssignment: string = ''
@@ -67,11 +67,11 @@ export default class SRecordCard extends Vue {
     if(this.recordInfo.search||force) {
       let {start, end} = SUtil.rangeToLoad(this.recordInfo.pageIndex, this.itemNum)
       this.loading = true
-      let records = await this.$api.searchRecordPage({
+      let entityCollection = await this.$api.searchRecordPage({
         start, end,
         filter: this.recordInfo.filter
       })
-      this.$store.commit('setRecordInfo', {clear: true, list: records})
+      this.$store.commit('setRecordInfo', {list: entityCollection.entities, max:entityCollection.count})
 
       this.loading = false
     }

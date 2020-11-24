@@ -60,13 +60,13 @@ import {Component, Prop} from 'vue-property-decorator'
 import SPagination from "@/components/General/SPagination.vue"
 import {mapState} from "vuex"
 import {Filter} from "@/ts/interfaces"
-import {Problem} from '@/ts/entries'
+import {Problem} from '@/ts/entities'
 import STag from "@/components/General/STag.vue"
 import SEntryList from "@/components/General/SEntryList.vue"
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
-import { SUtil } from '@/ts/utils'
-import {EntryContainer} from "@/ts/entry-container";
+import {SUtil} from '@/ts/utils'
+import {EntityContainer} from "@/ts/entity-container";
 
 @Component({
   components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
@@ -78,9 +78,9 @@ export default class SProblemCard extends Vue {
   @Prop({type: Number, required: true})
   readonly itemNum !: number
   readonly width_height !: { width: number, height: number }
-  readonly problemInfo !: EntryContainer<Problem>
+  readonly problemInfo !: EntityContainer<Problem>
 
-  loading:boolean=false
+  loading: boolean = false
   private s_searchID: string = ''
   private s_searchName: string = ''
   private s_searchTags: string = ''
@@ -98,16 +98,19 @@ export default class SProblemCard extends Vue {
     this.commitFilter()
   }
 
-  async loadProblems(force:boolean=false) {
+  async loadProblems(force: boolean = false) {
     if (this.problemInfo.search || force) {
       this.loading = true
       let {start, end} = SUtil.rangeToLoad(this.problemInfo.pageIndex, this.itemNum)
-      let problems = await this.$api.searchProblemPage({
+      let entityCollection = await this.$api.searchProblemPage({
         start, end,
         filter: this.problemInfo.filter
       })
-      this.$store.commit('setProblemInfo', {list: problems, listIndex: start - 1})
-
+      this.$store.commit('setProblemInfo', {
+        list: entityCollection.entities,
+        max: entityCollection.count,
+        listIndex: start - 1
+      })
       this.loading = false
     }
   }

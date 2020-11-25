@@ -15,7 +15,7 @@
             <v-icon class="icon-color-2">mdi-sync</v-icon>
           </v-btn>
         </div>
-        <div class="s-flex" style="width: 500px;">
+        <v-row justify="flex-start" align="center" style="width: 600px">
           <div class="inlist-user">
             <v-avatar
               :size="48"
@@ -33,9 +33,29 @@
             </div>
           </div>
           <s-record-result-box :result="record.result" :score="record.score"/>
-        </div>
+        </v-row>
+<!--        <v-row style="flex-wrap: wrap;max-width: 800px;">-->
+<!--          <v-col cols="4">-->
+<!--            <v-icon class="icon-color-0">-->
+<!--              mdi-database-->
+<!--            </v-icon>-->
+<!--            {{`${record.space}MB`}}-->
+<!--          </v-col>-->
+<!--          <v-col cols="4">-->
+<!--            <v-icon class="icon-color-0">-->
+<!--              mdi-timer-sand-->
+<!--            </v-icon>-->
+<!--            {{`${record.time}ms`}}-->
+<!--          </v-col>-->
+<!--          <v-col cols="4">-->
+<!--            <v-icon class="icon-color-0">-->
+<!--              mdi-alpha-l-box-->
+<!--            </v-icon>-->
+<!--            {{`${record.dialect.toUpperCase()}`}}-->
+<!--          </v-col>-->
+<!--        </v-row>-->
       </div>
-      <v-tabs v-model="tab" background-color="white" color="secondary" right
+      <v-tabs v-if="paginate" v-model="tab" background-color="white" color="secondary" right
               class="detail-card-tabs" height="50">
         <v-tabs-slider color="accent"/>
         <v-tab>
@@ -47,7 +67,7 @@
       </v-tabs>
     </div>
     <v-divider class="s-divider"/>
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-if="paginate" v-model="tab">
       <v-tab-item>
         <s-record-description :record="record"/>
       </v-tab-item>
@@ -93,13 +113,20 @@ export default class SRecordDetailCard extends Vue {
   }
 
   async loadRecord(force = false) {
-
     if (!this.record || force) {
       this.loading = true
       let detailRecord = await this.$api.queryRecord(this.rid)
       this.$store.commit('setRecordInfo', {detailRecord})
       this.loading = false
       this.cnt++
+    } else if (!this.record.code) {
+      let code = await this.record.queryCode()
+      this.$store.commit('setRecordInfo', {
+        code: {
+          code: code,
+          id: this.rid
+        }
+      })
     }
   }
 
@@ -126,6 +153,11 @@ export default class SRecordDetailCard extends Vue {
   get record(): Record | undefined {
     let _ = this.cnt
     return this.recordInfo.get(this.rid)
+  }
+
+  get paginate() {
+    // return this.width_height.width<800
+    return true
   }
 }
 </script>

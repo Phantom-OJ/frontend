@@ -126,6 +126,7 @@ export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly problemInfo!: EntityContainer<Problem>
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
+  pid: number = -1
   records: Array<Record> = []
   disableEditor: boolean = false
   loading: boolean = false
@@ -135,7 +136,9 @@ export default class SProblemDetailCard extends Vue {
   private cnt = 1
 
   created() {
+    this.pid = parseInt(this.$route.params.pid)
     this.loadProblem()
+    this.loadCache()
   }
 
   get tabHeight(): number {
@@ -160,13 +163,15 @@ export default class SProblemDetailCard extends Vue {
     }
   }
 
-  get pid(): number {
-    return parseInt(this.$route.params.pid)
-  }
-
   get problem(): Problem | undefined {
     let _ = this.cnt
     return this.problemInfo.get(this.pid)
+  }
+
+  loadCache(){
+    const cache = JSON.parse(localStorage[`/problem/${this.pid}`])
+    this.code = cache.code
+    this.lang = cache.lang
   }
 
   async loadRecords(force = false) {
@@ -198,16 +203,34 @@ export default class SProblemDetailCard extends Vue {
 
   async submit() {
     this.disableEditor = true
-    const re = (await this.$api.submitCode(this.pid, {
+    try {
+      const re = (await this.$api.submitCode(this.pid, {
+        code: this.code,
+        dialect: this.lang,
+        submitTime: Date.now()
+      }))
+      this.$alert(new Alert({
+        type: 'success',
+        info: re.toString()
+      }))
+      await this.$router.push('/record/all')//TODO
+    }catch (e) {
+      this.$alert(new Alert({
+        type:'error',
+        info:e.info??e.toString(),
+        time:8000
+      }))
+      await this.$router.push('/record/all')//TODO
+      //@ts-ignore
+      return
+    }
+  }
+
+  beforeDestroy() {
+    localStorage[`/problem/${this.pid}`] = JSON.stringify({
       code: this.code,
-      dialect: this.lang,
-      submitTime: Date.now()
-    }))
-    this.$alert(new Alert({
-      type:'success',
-      info:re.toString()
-    }))
-    await this.$router.push('/record/all')//TODO
+      lang: this.lang
+    })
   }
 }
 </script>

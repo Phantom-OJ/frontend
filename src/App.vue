@@ -43,6 +43,7 @@ export default class App extends Vue {
     window.onresize = () =>
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
     window.onunload = () => {
+      this.$destroy()
       navigator.sendBeacon('http://localhost:9999/api/beacon', JSON.stringify({
         problemInfo: this.$store.state.problemInfo,
         assignmentInfo: this.$store.state.assignmentInfo,

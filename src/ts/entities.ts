@@ -130,8 +130,7 @@ export class Record implements Entity {
   }
 
   async queryCode() {
-    let code = await API.getInstance().queryCode(this.codeID)
-    this.code = code.code
+    return await API.getInstance().queryCode(this.codeID)
   }
 }
 

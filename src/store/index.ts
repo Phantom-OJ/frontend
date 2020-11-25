@@ -109,12 +109,13 @@ let vuex = new Vuex.Store({
       if (!!list) state.announcementInfo.list = list
       if (!!max) state.announcementInfo.maxLength = max
     },
-    setRecordInfo(state, {pageIndex, list, detailRecord, max, filter}: InfoOptions<Record>) {
+    setRecordInfo(state, {pageIndex, list, detailRecord, max, filter, code}: InfoOptions<Record>) {
       if (!!pageIndex || pageIndex === 0) state.recordInfo.selectPage(pageIndex)
       if (!!list) state.recordInfo.list = list
       if (!!detailRecord) state.recordInfo.add(detailRecord)
       if (!!max) state.recordInfo.maxLength = max
       if (!!filter) state.recordInfo.filter = filter
+      if (!!code) state.recordInfo.get(code.id)!.code = code.code.code
     }
   },
   actions: {

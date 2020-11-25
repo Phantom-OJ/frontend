@@ -5,13 +5,15 @@
         v-for="(point,index) in points"
         :key="index"
         fill-dot
-        :icon="recordIcon(point.result)"
         :color="recordColor(point.result)"
       >
-        <v-row align="center">
-<!--          <v-col style="margin-right: 30px;max-width: 300px;">-->
-            <s-record-result-box extra-classes="" :result="point.result"/>
-<!--          </v-col>-->
+        <template v-slot:icon>
+          <span style="color:ghostwhite;">
+            {{point.judgePointIndex}}
+          </span>
+        </template>
+        <v-row align="center" class="s-record-point" justify="space-around">
+          <s-record-result-box extra-classes="" :result="point.result"/>
           <v-col style="max-width: 260px">
             <v-row>
               <v-col cols="6">
@@ -63,5 +65,10 @@ export default class SRecordDescription extends Vue {
 <style scoped lang="scss">
   .v-timeline-item {
     padding-bottom: 52px;
+  }
+</style>
+<style lang="scss">
+  .s-record-point{
+    background-color: var(--v-info-lighten5);
   }
 </style>

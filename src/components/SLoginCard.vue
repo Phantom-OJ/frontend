@@ -16,6 +16,7 @@
           v-model="password"
           type="password"
           :label="$t('profile.pwd')"
+          hide-details
         >
         </v-text-field>
       </div>
@@ -26,7 +27,7 @@
           @click="login"
           :loading="loading"
         >
-        {{$t('submit')}}
+        {{$t('nav-user.login')}}
         </v-btn>
       </div>
       <div id="sign-up">

@@ -35,7 +35,7 @@ export default class SCodemirror extends Vue {
 
   @Prop({
     type: Set,
-    default: () => new Set([` `, `\t`, ``, `*`, `(`, `)`, `'`, '`', `+`, `-`, `/`, `\\`])
+    default: () => new Set([` `, `\t`, ``, `*`, `(`, `)`, `'`, '`', `+`, `-`, `/`, `\\`, `;`])
   })
   notHint!: Set<string>
 
@@ -45,6 +45,7 @@ export default class SCodemirror extends Vue {
       readOnly: this.readOnly,
       theme: 'cobalt',
       viewportMargin: Infinity,
+      lineNumbers: true,
       hintOptions: {
         completeSingle: false
       },
@@ -55,7 +56,7 @@ export default class SCodemirror extends Vue {
   ready(codemirror: any) {
     codemirror.on('change', (instance: any, {text}: { text: Array<string> }) => {
       const hintsList = codemirror.getHelpers(codemirror, 'hint')[0](codemirror).list
-      if (!!text && hintsList.length >= 1 && hintsList[0].text !== text[0] && !this.notHint.has(text[0])) {
+      if (!!text && text[0].length === 1 && hintsList.length >= 1 && hintsList[0].text !== text[0] && !this.notHint.has(text[0])) {
         codemirror.showHint()
       }
     })
@@ -69,6 +70,7 @@ export default class SCodemirror extends Vue {
 
   .s-codemirror {
     min-height: $cm-height;
+    touch-action: none;
 
     .CodeMirror {
       .CodeMirror-scroll {

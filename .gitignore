@@ -2,6 +2,7 @@
 node_modules
 /public/dist
 /rubish_tests/
+/nginx/
 
 # local env files
 .env.local

@@ -64,6 +64,9 @@
               {{`No.${problem.indexInAssignment}`}}
             </v-col>
             <v-col cols="4" class="ellipsis-col">
+              <v-icon class="icon-color-1" style="position: relative;top:1px">
+                mdi-quora
+              </v-icon>
               {{`[${problem.fullScore}] ${problem.title}`}}
             </v-col>
             <v-col cols="3" class="s-flex">
@@ -76,8 +79,15 @@
                 @click="clickTag"
               ></s-tag>
             </v-col>
-            <v-col cols="3" lg="1" class="ellipsis-col">
-              {{`${problem.numberSolve}/${problem.numberSubmit}`}}
+            <v-col cols="2" lg="2" class="ellipsis-col">
+              <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.submitted')" direction="top">
+                mdi-upload
+              </s-tooltip-icon>
+              {{problem.numberSubmit}}
+              <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.resolved')" direction="top">
+                mdi-check
+              </s-tooltip-icon>
+              {{problem.numberSolve}}
             </v-col>
           </template>
         </s-entry-list>
@@ -102,9 +112,10 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import {EntityContainer} from "@/ts/entity-container";
+import STooltipIcon from "@/components/General/STooltipIcon.vue";
 
 @Component({
-  components: {SMarkdown, SEntryList, SRecordList, STag},
+  components: {STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
   computed: {...mapState(['width_height', 'assignmentInfo'])}
 })
 export default class SAssignmentDetailCard extends Vue {

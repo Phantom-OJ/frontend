@@ -118,6 +118,7 @@ export default class SRecordCard extends Vue {
 
   set pageIndex(v) {
     this.$store.commit('setRecordInfo', {pageIndex: v})
+    this.loadRecords(true)
   }
 
   clear(): void {

@@ -6,6 +6,7 @@ import {LoginForm, PageSearchFrom, SignOutForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 
 axios.defaults.withCredentials = true
+axios.defaults.timeout = 10000
 
 /**
  * $alert and $dialog will be injected into the instance at runtime

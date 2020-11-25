@@ -20,7 +20,7 @@ module.exports = {
       '/api':{
         // target:'https://starsky.ink:12222'
         // target:'http://localhost:8080/'
-        target:'http://10.21.105.138:8080/'
+        target:'http://10.21.129.126:8080/'
       }
     }
   }

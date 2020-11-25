@@ -1,4 +1,4 @@
-import {Announcement, Assignment, Problem, Record, RecordPoint} from "@/ts/entities";
+import {Announcement, Assignment, Code, Problem, Record, RecordPoint} from "@/ts/entities";
   export class User {
     ID: number
     name: string
@@ -39,6 +39,10 @@ import {Announcement, Assignment, Problem, Record, RecordPoint} from "@/ts/entit
     detailAnnouncement?: Announcement
     max?: number
     filter?: Filter
+    code?:{
+      code:Code,
+      id:number
+    }
   }
 
   /**

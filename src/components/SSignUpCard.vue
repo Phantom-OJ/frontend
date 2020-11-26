@@ -1,10 +1,10 @@
 <template>
-  <v-card id="root">
+  <v-card id="s-login-root">
     <v-card-title id="title">
       {{$t('nav-user.sign-up')}}
     </v-card-title>
     <v-card-text>
-      <v-form id="form">
+      <v-form id="s-login-form">
         <div id="name">
           <v-text-field
             v-model="username"
@@ -21,7 +21,7 @@
             :label="$t('profile.nickname')"
           ></v-text-field>
         </div>
-        <div id="pwd">
+        <div id="s-login-pwd">
           <v-text-field
             v-model="password"
             type="password"
@@ -188,7 +188,7 @@ export default class SSignUpCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #root {
+  #s-login-root {
     width: 400px;
     max-width: 80%;
     margin: 20px auto;
@@ -206,7 +206,7 @@ export default class SSignUpCard extends Vue {
     margin: 10px auto;
   }
 
-  #form {
+  #s-login-form {
     div {
       margin-bottom: 10px;
     }

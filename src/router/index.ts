@@ -76,6 +76,10 @@ const routes: Array<RouteConfig> = [
     path:'/help',
     name:'help',
     component: () => import('@/views/SHelp.vue')
+  }, {
+    path:'/forget-pwd',
+    name:'forget-password',
+    component: () => import('@/views/SForgetPassword.vue')
   }
 ]
 

@@ -1,17 +1,17 @@
 <template>
-  <v-card id="root">
+  <v-card id="s-login-root">
     <v-card-title id="title">
       {{$t('nav-user.login')}}
     </v-card-title>
-    <v-form id="form">
-      <div id="name">
+    <v-form id="s-login-form">
+      <div id="s-login-name">
         <v-text-field
           v-model="username"
           :label="$t('profile.mail')"
         >
         </v-text-field>
       </div>
-      <div id="pwd">
+      <div id="s-login-pwd">
         <v-text-field
           v-model="password"
           type="password"
@@ -20,7 +20,10 @@
         >
         </v-text-field>
       </div>
-      <div id="submit">
+      <div id="s-forget-pwd">
+        <a class="s-link" v-text="$t('profile.f-pwd')" @click="$router.push('/forget-pwd')"/>
+      </div>
+      <div id="s-login-submit">
         <v-btn
           id="submit-btn"
           color="rgb(92,187,246)"
@@ -30,7 +33,7 @@
         {{$t('nav-user.login')}}
         </v-btn>
       </div>
-      <div id="sign-up">
+      <div id="s-login-sign-up">
         <v-btn
           id="sign-up-btn"
           color="rgb(76,175,80)"
@@ -86,20 +89,20 @@ export default class SLoginCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #root {
+  #s-login-root {
     margin: 20px auto;
     padding-bottom: 15px;
     width: 400px;
     max-width: 80%;
   }
 
-  #form {
+  #s-login-form {
     margin: 10px 20px;
   }
 
-  #pwd {
+  #s-login-pwd {
     height: 70px;
-    margin: 10px 0;
+    margin-top:10px;
   }
 
   #submit-btn, #sign-up-btn{
@@ -108,7 +111,11 @@ export default class SLoginCard extends Vue {
     margin: 20px auto;
   }
 
-  #sign-up{
+  #s-login-sign-up{
     margin-bottom: 20px;
+  }
+
+  #s-forget-pwd{
+    text-align: right;
   }
 </style>

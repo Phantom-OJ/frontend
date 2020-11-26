@@ -46,6 +46,7 @@
   "profile": {
     "mail": "邮箱",
     "pwd": "密码",
+    "f-pwd": "忘记密码",
     "c-pwd": "确认密码",
     "v-code": "验证码",
     "nickname": "昵称"

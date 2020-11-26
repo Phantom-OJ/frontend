@@ -45,6 +45,7 @@
   },
   "profile": {
     "mail": "Mail",
+    "f-pwd": "Forget password",
     "pwd": "Password",
     "c-pwd": "Confirm Password",
     "v-code": "Verification Code",

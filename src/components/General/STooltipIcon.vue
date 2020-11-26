@@ -7,7 +7,7 @@
     :transition="transition"
   >
     <template v-slot:activator="{on,attrs}">
-      <v-icon v-on="on" v-bind="attrs" :class="iconClass" :size="size">
+      <v-icon v-on="on" v-bind="attrs" :class="iconClass" :size="size" @click="click">
         <slot/>
       </v-icon>
     </template>
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Prop} from 'vue-property-decorator'
+import {Component, Emit, Prop} from 'vue-property-decorator'
 
 @Component({})
 export default class STooltipIcon extends Vue {
@@ -53,6 +53,11 @@ export default class STooltipIcon extends Vue {
 
   is(direction: string) {
     return this.direction.toLowerCase() === direction
+  }
+
+  @Emit()
+  click(){
+
   }
 }
 </script>

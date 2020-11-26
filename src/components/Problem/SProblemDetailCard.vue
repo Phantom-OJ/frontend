@@ -93,7 +93,7 @@
         <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor"/>
+        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor" @pull="pullCode"/>
       </v-tab-item>
       <v-tab-item>
         <s-problem-statistic/>
@@ -223,6 +223,18 @@ export default class SProblemDetailCard extends Vue {
       await this.$router.push('/record/all')//TODO
       //@ts-ignore
       return
+    }
+  }
+
+  pullCode(){
+    if(!!this.problem?.recentCode){
+      this.code = this.problem.recentCode
+      console.log(this.code)
+    }else{
+      this.$alert(new Alert({
+        type:'warning',
+        info:this.$t('warning.no-code').toString()
+      }))
     }
   }
 

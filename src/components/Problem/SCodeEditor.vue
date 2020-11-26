@@ -5,7 +5,7 @@
         <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
                   dense color="secondary" :label="$t('problem.lang')" hide-details />
         <v-spacer/>
-        <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30">
+        <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30" @click="pull">
           mdi-alpha-c-box
         </s-tooltip-icon>
         <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
@@ -43,6 +43,11 @@ export default class SCodeEditor extends Vue {
 
   @Emit()
   submit() {
+
+  }
+
+  @Emit()
+  pull(){
 
   }
 }

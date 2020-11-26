@@ -1,9 +1,11 @@
 <template>
   <div id="s-alert-container">
-    <v-alert v-for="(alert,index) in alerts" :key="index" :color="alert.type" :type="alert.type"
-             transition="fade-transition" :dismissible="true" :value="alert.show" class="alert-item">
-      {{alert.info}}
-    </v-alert>
+    <transition-group name="dialog-transition">
+      <v-alert v-for="alert in alerts" :key="alert.serialID" :color="alert.type" :type="alert.type"
+               transition="fade-transition" :dismissible="true" :value="alert.show" class="alert-item">
+        {{alert.info}}
+      </v-alert>
+    </transition-group>
   </div>
 </template>
 
@@ -43,7 +45,7 @@ export default class SAlert extends Vue {
     position: fixed;
     top: 80px;
     width: 20%;
-    min-width: 120px;
+    min-width: 160px;
     right: 20px;
     z-index: 100;
     opacity: 0.75;

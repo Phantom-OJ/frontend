@@ -166,11 +166,13 @@ export class Code {
 }
 
 export class Alert {
+  private static cnt = 0
   type: string
   info: string
   time: number
   show: boolean = true
   exist:boolean = true
+  serialID:number = Alert.cnt++
 
   constructor({type, info, time}: { type: string, info: string, time?: number }) {
     this.type = type

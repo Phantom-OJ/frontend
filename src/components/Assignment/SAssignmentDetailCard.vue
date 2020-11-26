@@ -127,7 +127,7 @@ export default class SAssignmentDetailCard extends Vue {
   loading:boolean=false
   recordsLoading:boolean=false
   private intervals: Array<number> = []
-  private cnt = 1
+  private serialID = 1
 
   created() {
     this.loadAssignment()

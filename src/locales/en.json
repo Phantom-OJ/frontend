@@ -57,6 +57,9 @@
     "confirm": "The password is inconsistent",
     "pageIndex": "Invalid page index"
   },
+  "warning": {
+    "no-code": "No submitted code"
+  },
   "success": {
     "v-code": "Send verify code successfully"
   },

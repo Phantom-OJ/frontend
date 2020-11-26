@@ -109,7 +109,7 @@ export default class SRecordDescription extends Vue {
   }
 
   .s-record-des-window {
-    min-height: 400px;
+    min-height: 300px;
 
     .s-record-des {
       height: 100%;

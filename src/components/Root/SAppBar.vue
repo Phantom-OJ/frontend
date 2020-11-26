@@ -28,7 +28,7 @@
       </li>
     </ul>
     <v-spacer/>
-    <v-btn-toggle v-model="localeToggle" style="margin-right: 30px" mandatory shaped>
+    <v-btn-toggle v-model="localeToggle" class="s-locale-box" mandatory shaped>
       <v-btn v-for="(locale,i) in locales" :key="locale" text :class="`lang-${$i18n.availableLocales[i]}`">
         {{locale}}
       </v-btn>
@@ -61,8 +61,8 @@ export default class SAppBar extends Vue {
   }
 
   get locales() {
-    const locales:Array<string> = this.$i18n.availableLocales.map(Map.prototype.get.bind(this.localeMap))
-    if(this.width_height.width<800){
+    const locales: Array<string> = this.$i18n.availableLocales.map(Map.prototype.get.bind(this.localeMap))
+    if (this.width_height.width < 800) {
       return locales.map(i => i.slice(0, 2))
     }
     return locales
@@ -105,6 +105,13 @@ export default class SAppBar extends Vue {
     padding: 12px;
     font-weight: 600;
     line-height: $app-bar-height;
+  }
+
+  .s-locale-box {
+    margin-right: 30px;
+    @media screen and (max-width: 450px) {
+      margin-right: 10px !important;
+    }
   }
 
   /*@media only screen and (min-width: 1520px) {*/

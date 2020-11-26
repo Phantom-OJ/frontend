@@ -82,7 +82,9 @@
     "searchA": "作业",
     "searchP": "题目",
     "searchU": "用户",
-    "submission": "提交"
+    "subtitle": "学识告诉你，何为不可触碰",
+    "submission": "提交",
+    "code-length": "代码长度"
   },
   "help": {
     "title1": "1. 快速入门",

@@ -83,7 +83,8 @@
     "searchP": "problem",
     "searchU": "user",
     "subtitle": "True mastery of any skill takes a lifetime",
-    "submission": "SUBMISSION"
+    "submission": "SUBMISSION",
+    "code-length": "Code length"
   },
   "help": {
     "title1": "1. QuickStart",

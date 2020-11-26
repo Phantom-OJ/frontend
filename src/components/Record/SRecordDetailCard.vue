@@ -1,7 +1,7 @@
 <template>
   <v-card class="detail-card">
     <div class="detail-card-title-box" :style="`padding-left: ${width_height.width/80+4}px`">
-      <div style="display: flex;align-items: center;flex-wrap: wrap;margin-right: 40px">
+      <div class="s-record-title-box" style="">
         <div class="ellipsis-col detail-card-title"
              :style="`padding-top: ${width_height.height/100}px;padding-bottom: 12px;`">
           <v-card-title class="s-record-detail-card-title">
@@ -15,45 +15,27 @@
             <v-icon class="icon-color-2">mdi-sync</v-icon>
           </v-btn>
         </div>
-        <v-row justify="flex-start" align="center" style="width: 600px">
-          <div class="inlist-user">
-            <v-avatar
-              :size="48"
-              class="inlist-user-avatar"
-            >
-              <img :src="record.avatar" alt="avatar">
-            </v-avatar>
-            <div class="inlist-user-label ellipsis-col" style="margin-right: 10px;">
-            <span class="padding-l-12 ellipsis-col">
-              {{`${record.username}`}}
-            </span>
-              <span class="padding-l-12 ellipsis-col">
-              {{record.submitTime.sString()}}
-            </span>
-            </div>
-          </div>
-          <s-record-result-box :result="record.result" :score="record.score"/>
-        </v-row>
-<!--        <v-row style="flex-wrap: wrap;max-width: 800px;">-->
-<!--          <v-col cols="4">-->
-<!--            <v-icon class="icon-color-0">-->
-<!--              mdi-database-->
-<!--            </v-icon>-->
-<!--            {{`${record.space}MB`}}-->
-<!--          </v-col>-->
-<!--          <v-col cols="4">-->
-<!--            <v-icon class="icon-color-0">-->
-<!--              mdi-timer-sand-->
-<!--            </v-icon>-->
-<!--            {{`${record.time}ms`}}-->
-<!--          </v-col>-->
-<!--          <v-col cols="4">-->
-<!--            <v-icon class="icon-color-0">-->
-<!--              mdi-alpha-l-box-->
-<!--            </v-icon>-->
-<!--            {{`${record.dialect.toUpperCase()}`}}-->
-<!--          </v-col>-->
-<!--        </v-row>-->
+        <s-record-result-box :result="record.result" :score="record.score"/>
+        <!--        <v-row style="flex-wrap: wrap;max-width: 800px;">-->
+        <!--          <v-col cols="4">-->
+        <!--            <v-icon class="icon-color-0">-->
+        <!--              mdi-database-->
+        <!--            </v-icon>-->
+        <!--            {{`${record.space}MB`}}-->
+        <!--          </v-col>-->
+        <!--          <v-col cols="4">-->
+        <!--            <v-icon class="icon-color-0">-->
+        <!--              mdi-timer-sand-->
+        <!--            </v-icon>-->
+        <!--            {{`${record.time}ms`}}-->
+        <!--          </v-col>-->
+        <!--          <v-col cols="4">-->
+        <!--            <v-icon class="icon-color-0">-->
+        <!--              mdi-alpha-l-box-->
+        <!--            </v-icon>-->
+        <!--            {{`${record.dialect.toUpperCase()}`}}-->
+        <!--          </v-col>-->
+        <!--        </v-row>-->
       </div>
       <v-tabs v-if="paginate" v-model="tab" background-color="white" color="secondary" right
               class="detail-card-tabs" height="50">
@@ -172,9 +154,21 @@ export default class SRecordDetailCard extends Vue {
     flex-grow: 0;
   }
 
+  .s-record-title-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-right: 60px;
+    justify-content: flex-start;
+    width: 400px
+  }
 </style>
 <style scoped lang="scss">
   .refresh {
     top: 15px;
+  }
+
+  .record-box {
+    flex-grow: 3;
   }
 </style>

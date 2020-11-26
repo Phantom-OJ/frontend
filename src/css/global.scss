@@ -211,8 +211,8 @@ input:focus {
         line-height: 60px;
 
         @media only screen and (max-width: 1100px){
-          &>*{
-            padding-left: 0 !important;
+          &>*:not(.refresh){
+            padding-left: 4px !important;
           }
         }
         &>.v-card__subtitle{

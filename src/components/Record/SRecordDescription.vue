@@ -1,6 +1,47 @@
 <template>
-  <div>
-    <v-timeline dense style="width: 100%;max-width: 800px;margin: 10px auto;">
+  <div class="s-flex s-record-des-window">
+    <div class="s-record-des">
+      <div class="inlist-user">
+        <v-avatar
+          :size="72"
+          class="inlist-user-avatar"
+        >
+          <img :src="record.avatar" alt="avatar">
+        </v-avatar>
+        <div class="inlist-user-label ellipsis-col" style="margin-right: 10px;">
+            <span class="padding-l-12 ellipsis-col">
+              {{`${record.username}`}}
+            </span>
+          <span class="padding-l-12 ellipsis-col">
+              {{record.submitTime.sString()}}
+            </span>
+        </div>
+      </div>
+      <v-row>
+        <v-col cols="4">
+          <v-icon class="icon-color-0">
+            mdi-database
+          </v-icon>
+          {{`${record.space}MB`}}
+        </v-col>
+        <v-col cols="4">
+          <v-icon class="icon-color-0">
+            mdi-timer-sand
+          </v-icon>
+          {{`${record.time}ms`}}
+        </v-col>
+        <v-col cols="4">
+          <v-icon class="icon-color-0">
+            mdi-alpha-l-box
+          </v-icon>
+          {{`${record.dialect.toUpperCase()}`}}
+        </v-col>
+      </v-row>
+<!--      <p>-->
+<!--        {{`${$t('record.code-length')}: ${record.codeLength}`}}-->
+<!--      </p>-->
+    </div>
+    <v-timeline dense class="s-record-points">
       <v-timeline-item
         v-for="(point,index) in points"
         :key="index"
@@ -66,9 +107,33 @@ export default class SRecordDescription extends Vue {
   .v-timeline-item {
     padding-bottom: 52px;
   }
+
+  .s-record-des-window {
+    min-height: 400px;
+
+    .s-record-des {
+      height: 100%;
+      width: 40%;
+      min-width: 300px;
+      max-width: 420px;
+      margin: 10px auto;
+      @media screen and (max-width: 600px) {
+        .col.col-4{
+          padding-left: 6px !important;
+          padding-right: 6px !important;
+        }
+      }
+    }
+  }
 </style>
 <style lang="scss">
-  .s-record-point{
-    background-color: var(--v-info-lighten5);
+  .s-record-points {
+    width: 60%;
+    min-width: 400px;
+    margin: 10px auto;
+
+    .s-record-point {
+      background-color: var(--v-info-lighten5);
+    }
   }
 </style>

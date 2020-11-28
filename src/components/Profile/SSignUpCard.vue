@@ -22,28 +22,8 @@
             :disabled="waitForRes"
           ></v-text-field>
         </div>
-        <div>
-          <v-text-field
-            v-model="password"
-            type="password"
-            :label="$t('profile.pwd')"
-            :disabled="waitForRes"
-            :hint="levelText[passwordLevel]"
-            :color="levelColor[passwordLevel]"
-            :rules="[checkPassword]"
-            validate-on-blur
-          />
-        </div>
-        <div>
-          <v-text-field
-            v-model="confirmedPassword"
-            type="password"
-            :disabled="waitForRes"
-            :label="$t('profile.c-pwd')"
-            :rules="[checkPassword, confirm]"
-            validate-on-blur
-          ></v-text-field>
-        </div>
+        <s-set-password :password.sync="password" :confirmed.sync="confirmed" :wait-for-res="waitForRes"
+                        :pwd-label="$t('profile.pwd')" :c-pwd-lable="$t('profile.c-pwd')"/>
         <div class="v-code">
           <v-text-field
             v-model="vCode"
@@ -79,30 +59,24 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {Alert, VCodeMode} from "@/ts/entities";
 import {SUtil} from "@/ts/utils";
+import SSetPassword from "@/components/Profile/SSetPassword.vue";
 
-@Component({})
+@Component({
+  components: {SSetPassword}
+})
 export default class SSignUpCard extends Vue {
   username: string = ''
   password: string = ''
   nickname: string = ''
-  confirmedPassword: string = ''
+  confirmed: boolean = false
   sendVCodeDisable: boolean = false
   vCode: string = ''
   nextSend: number = 0
   waitForRes: boolean = false
   intervals: number[] = []
-  readonly levelColor = SUtil.pLevelColor
 
   created() {
     this.intervals.push(window.setInterval(() => this.nextSend = Math.max(0, this.nextSend - 1), 1000))
-  }
-
-  get levelText() {
-    return SUtil.pLevelText.map(i => this.$t(i).toString())
-  }
-
-  confirm(value: string) {
-    return value === this.password || this.$t('error.confirm')
   }
 
   checkMail(value: string) {
@@ -111,10 +85,6 @@ export default class SSignUpCard extends Vue {
 
   checkPassword(value: string) {
     return value.length >= 6 || this.$t('error.password')
-  }
-
-  get passwordLevel() {
-    return SUtil.passwordLevel(this.password)
   }
 
   checkAll() {
@@ -132,10 +102,10 @@ export default class SSignUpCard extends Vue {
       }))
       return false
     }
-    if (this.confirm(this.confirmedPassword) !== true) {
+    if (this.confirmed) {
       this.$alert(new Alert({
         type: 'error',
-        info: this.confirm(this.confirmedPassword).toString()
+        info: this.$t('error.confirm').toString()
       }))
       return false
     }

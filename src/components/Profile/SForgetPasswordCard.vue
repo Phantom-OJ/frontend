@@ -13,28 +13,8 @@
             validate-on-blur
           />
         </div>
-        <div id="s-fpwd-n-pwd">
-          <v-text-field
-            v-model="password"
-            type="password"
-            :label="$t('profile.n-pwd')"
-            :disabled="waitForRes"
-            :hint="levelText[passwordLevel]"
-            :color="levelColor[passwordLevel]"
-            :rules="[checkPassword]"
-            validate-on-blur
-          />
-        </div>
-        <div>
-          <v-text-field
-            v-model="confirmedPassword"
-            type="password"
-            :disabled="waitForRes"
-            :label="$t('profile.c-pwd')"
-            :rules="[checkPassword, confirm]"
-            validate-on-blur
-          ></v-text-field>
-        </div>
+        <s-set-password :confirmed.sync="confirmed" :password.sync="password" :wait-for-res="waitForRes"
+        :pwd-label="$t('profile.n-pwd')" :c-pwd-lable="$t('profile.c-pwd')"/>
         <div id="s-fpwd-v-code">
           <v-text-field v-model="vCode" :label="$t('profile.v-code')" class="v-code-text"/>
           <v-btn
@@ -65,18 +45,20 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {SUtil} from "@/ts/utils";
 import {Alert, VCodeMode} from "@/ts/entities";
+import SSetPassword from "@/components/Profile/SSetPassword.vue";
 
-@Component({})
+@Component({
+  components: {SSetPassword}
+})
 export default class SForgetPasswordCard extends Vue {
   username: string = ''
   vCode: string = ''
   password: string = ''
+  confirmed:boolean = false
   sendVCodeDisable: boolean = false
-  confirmedPassword:string=''
   nextSend: number = 0
   waitForRes:boolean = false
   intervals: number[] = []
-  readonly levelColor = SUtil.pLevelColor
 
   created() {
     this.intervals.push(window.setInterval(() => this.nextSend = Math.max(0, this.nextSend - 1), 1000))
@@ -86,20 +68,8 @@ export default class SForgetPasswordCard extends Vue {
     return SUtil.checkMail(value) || this.$t('error.mail')
   }
 
-  get levelText() {
-    return SUtil.pLevelText.map(i => this.$t(i).toString())
-  }
-
   checkPassword(value: string) {
     return value.length >= 6 || this.$t('error.password')
-  }
-
-  get passwordLevel() {
-    return SUtil.passwordLevel(this.password)
-  }
-
-  confirm(value: string) {
-    return value === this.password || this.$t('error.confirm')
   }
 
   checkAll() {
@@ -117,10 +87,10 @@ export default class SForgetPasswordCard extends Vue {
       }))
       return false
     }
-    if (this.confirm(this.confirmedPassword) !== true) {
+    if (!this.confirmed) {
       this.$alert(new Alert({
         type: 'error',
-        info: this.confirm(this.confirmedPassword).toString()
+        info: this.$t('error.confirm').toString()
       }))
       return false
     }

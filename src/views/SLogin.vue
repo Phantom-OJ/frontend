@@ -1,5 +1,5 @@
 <template>
-  <div class="page-all-root">
+  <div class="page-account-root">
     <s-login-card/>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SLoginCard from "@/components/SLoginCard.vue";
+import SLoginCard from "@/components/Profile/SLoginCard.vue";
 
 @Component({
   components: {SLoginCard}

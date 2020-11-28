@@ -18,16 +18,16 @@ export default class SRecordResultBox extends Vue {
     type: String,
     required: true
   })
-  result!: string
+  readonly result!: string
 
   @Prop()
-  score!:number
+  readonly score!:number
 
   @Prop({
     type: String,
     default: ''
   })
-  extraClasses!: string
+  readonly extraClasses!: string
 
 
   recordIcon=SUtil.recordIcon

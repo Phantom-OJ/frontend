@@ -1,5 +1,5 @@
 <template>
-  <div class="page-all-root">
+  <div class="page-account-root">
     <s-forget-password-card/>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SForgetPasswordCard from "@/components/SForgetPasswordCard.vue";
+import SForgetPasswordCard from "@/components/Profile/SForgetPasswordCard.vue";
 
 @Component({
   components: {SForgetPasswordCard}

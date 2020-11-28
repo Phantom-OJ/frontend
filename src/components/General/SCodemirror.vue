@@ -17,27 +17,27 @@ import 'codemirror/theme/cobalt.css'
 @Component({})
 export default class SCodemirror extends Vue {
   @PropSync('code')
-  _code!: string
+  readonly _code!: string
 
   @Prop({
     type: String,
     required: true
   })
-  mime!: string
+  readonly mime!: string
 
   @Prop({
     default: false
   })
-  readOnly!: boolean
+  readonly readOnly!: boolean
 
   @Prop()
-  options?: object
+  readonly options?: object
 
   @Prop({
     type: Set,
     default: () => new Set([` `, `\t`, ``, `*`, `(`, `)`, `'`, '`', `+`, `-`, `/`, `\\`, `;`])
   })
-  notHint!: Set<string>
+  readonly notHint!: Set<string>
 
   get s_options() {
     return {

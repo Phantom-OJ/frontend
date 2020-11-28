@@ -1,7 +1,12 @@
 import {Entity, EntityCollection, SEntityCollection} from "@/ts/interfaces";
+import {APIException} from "@/ts/exceptions";
+import {Vue} from "@/ts/extension";
+import {Alert} from "@/ts/entities";
 
 export class SUtil {
 
+  static readonly pLevelText = ['', 'security.t-weak', 'security.weak', 'security.middle', 'security.strong']
+  static readonly pLevelColor = ['error', 'warning', 'warning', 'accent', 'success']
   static rangeToLoad(index: number, num: number): { start: number, end: number } {
     return {
       start: (index - 1) * num + 1,
@@ -66,5 +71,28 @@ export class SUtil {
       entities:this.objs2entities(collection.entities, type),
       count:collection.count
     }
+  }
+
+  static checkMail(value:string):boolean{
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      .test(value)
+  }
+
+  static alertAPIException(error:APIException, vue:Vue){
+    vue.$alert(new Alert({
+      type:'error',
+      info:error.info??error.toString()
+    }))
+  }
+
+  static passwordLevel(p:string){
+    if (p.length < 6)
+      return 0
+    let level = 0
+    level += /[a-z]/.test(p) ? 1 : 0
+    level += /[A-Z]/.test(p) ? 1 : 0
+    level += /[0-9]/.test(p) ? 1 : 0
+    level += /[^a-zA-Z0-9]/.test(p) ? 1 : 0
+    return level
   }
 }

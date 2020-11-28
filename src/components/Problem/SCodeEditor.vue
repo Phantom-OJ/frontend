@@ -1,17 +1,18 @@
 <template>
   <div class="s-editor">
-      <v-toolbar class="elevation-0 s-flex" dense width="100%">
-<!--        <span class="s-editor-title">{{$t('problem.code-editor')}}</span>-->
-        <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
-                  dense color="secondary" :label="$t('problem.lang')" hide-details />
-        <v-spacer/>
-        <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30" @click="pull">
-          mdi-alpha-c-box
-        </s-tooltip-icon>
-        <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
-          {{$t('submit')}}
-        </v-btn>
-      </v-toolbar>
+    <v-toolbar class="elevation-0 s-flex" dense width="100%">
+      <!--        <span class="s-editor-title">{{$t('problem.code-editor')}}</span>-->
+      <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
+                dense color="secondary" :label="$t('problem.lang')" hide-details/>
+      <v-spacer/>
+      <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30"
+                      @click="pull">
+        mdi-alpha-c-box
+      </s-tooltip-icon>
+      <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
+        {{$t('submit')}}
+      </v-btn>
+    </v-toolbar>
     <s-codemirror :code.sync="s_code" :mime="mime" :read-only="disabled?'nocursor':false" class="s-editor-body"/>
   </div>
 </template>
@@ -35,9 +36,9 @@ export default class SCodeEditor extends Vue {
     type: Boolean,
     default: false
   })
-  disabled!: boolean
+  readonly disabled!: boolean
 
-  get mime():string{
+  get mime(): string {
     return `text/x-${this.s_lang}`
   }
 
@@ -47,7 +48,7 @@ export default class SCodeEditor extends Vue {
   }
 
   @Emit()
-  pull(){
+  pull() {
 
   }
 }
@@ -56,26 +57,31 @@ export default class SCodeEditor extends Vue {
 <style lang="scss">
   .s-editor {
     padding-top: 12px;
+
     .s-flex {
       justify-content: space-between;
       margin-bottom: 6px;
-      .v-toolbar__content{
+
+      .v-toolbar__content {
         width: 100%;
         padding: 0;
       }
+
       .s-editor-lang {
         margin: 0 27px;
         width: 25%;
         flex-grow: 0;
         flex-shrink: 2;
       }
-      .s-editor-submit{
+
+      .s-editor-submit {
         margin: 0 27px;
         width: 20%;
         flex-grow: 0;
         flex-shrink: 1;
       }
     }
+
     .s-editor-body {
       /*padding: 16px 16px 0 16px;*/
       padding: 0 27px 27px 27px;

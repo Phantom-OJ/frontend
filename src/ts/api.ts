@@ -2,7 +2,7 @@ import axios from 'axios'
 import {SResponse, SEntityCollection, User, CodeForm} from "@/ts/interfaces";
 import {Alert, Announcement, Assignment, Code, Problem, Record, VCodeMode} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
-import {LoginForm, PageSearchFrom, SignOutForm, SignUpForm} from "@/ts/forms";
+import {LoginForm, PageSearchFrom, ResetForm, SignOutForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 
 axios.defaults.withCredentials = true
@@ -49,8 +49,10 @@ export class API{
         info:error.info??error.toString(),
         time:8000
       }))
-      //@ts-ignore
-      return
+      return {
+        data: undefined,
+        msg: ''
+      }
     }
   }
 
@@ -60,6 +62,10 @@ export class API{
 
   async signUp(form: SignUpForm): Promise<User> {
     return (await this.request('post', 'signup', form)).data
+  }
+
+  async resetPassword(form: ResetForm):Promise<any>{
+    return (await this.request('post', 'rstpwd', form)).msg
   }
 
   async sendVCode({username, mode}:{username:string, mode:VCodeMode}): Promise<string>{

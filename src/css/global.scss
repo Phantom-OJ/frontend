@@ -32,7 +32,10 @@ a {
 
 .lang-en {
   font-family: "Segoe UI", Helvetica, serif;
-  letter-spacing: 1px;
+  div, p, span, i {
+    letter-spacing: 0.5px;
+  }
+  //letter-spacing: 1px;
 }
 
 .cursor-hand-hover:hover {
@@ -54,7 +57,7 @@ ul, ol {
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined) {
-  box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
 .border-radius4 {
@@ -174,8 +177,19 @@ input:focus {
   outline: none;
 }
 
+.page-account-root {
+  min-height: 100%;
+
+  .account-card {
+    margin: 20px auto;
+    padding-bottom: 15px;
+    width: 400px;
+    max-width: 80%;
+  }
+}
+
 .page-all-root {
-  min-height: 80%;
+  min-height: 100%;
 
   .all-card {
     width: $app-width;
@@ -184,7 +198,7 @@ input:focus {
 }
 
 .page-detail-root {
-  min-height: 80%;
+  min-height: 100%;
 
   .detail-card {
     width: $app-width;
@@ -210,14 +224,16 @@ input:focus {
         padding: 10px 10px 0 0;
         line-height: 60px;
 
-        @media only screen and (max-width: 1100px){
-          &>*:not(.refresh){
+        @media only screen and (max-width: 1100px) {
+          & > *:not(.refresh) {
             padding-left: 4px !important;
           }
         }
-        &>.v-card__subtitle{
+
+        & > .v-card__subtitle {
           padding-bottom: 24px;
         }
+
         //font-family: "Segoe UI", Consolas, serif;
       }
 
@@ -245,7 +261,7 @@ input:focus {
       //position: relative;
       height: 160px;
       //left: -100px;
-      box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2 cpx 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.4), 0px 2px 2 cpx 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
       .detail-card-tabs--vertical {
         display: inline-block;
@@ -357,10 +373,11 @@ input:focus {
   padding: 8px !important;
 }
 
-.s-link{
-  color:var(--v-accent-base) !important;
+.s-link {
+  color: var(--v-accent-base) !important;
   padding-bottom: 8px !important;
-  &:hover{
+
+  &:hover {
     cursor: pointer;
   }
 }
@@ -397,4 +414,22 @@ li.CodeMirror-hint-active {
     justify-content: center;
     line-height: 1.5;
   }
+}
+
+div.v-code-text {
+  width: 60%;
+  display: inline-block
+}
+
+.v-code-send {
+  margin-left: 5%;
+  display: inline-block;
+  width: 35%;
+}
+
+button.s-submit-btn {
+  display: block;
+  width: 100%;
+  margin: 10px auto;
+  color: black !important;
 }

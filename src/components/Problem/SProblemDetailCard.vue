@@ -191,8 +191,8 @@ export default class SProblemDetailCard extends Vue {
   }
 
   async loadProblem(force = false) {
-    this.loading = !this.problem
-    if (this.loading || force) {
+    if (!this.problem || force) {
+      this.loading = true
       let detailProblem = await this.$api.queryProblem(this.pid)
       this.$store.commit('setProblemInfo', {detailProblem})
       this.loading = false

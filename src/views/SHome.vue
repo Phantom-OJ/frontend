@@ -17,7 +17,8 @@ import {Component} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
 import SAvatar from "@/components/Root/SAvatar.vue";
 import SHomeAnnouncement from "@/components/Home/SHomeAnnouncement.vue";
-import SHomeContestCard from "@/components/Home/SHomeContestCard"; // @ is an alias to /src
+import SHomeContestCard from "@/components/Home/SHomeContestCard";
+import {SUtil} from "@/ts/utils"; // @ is an alias to /src
 
 @Component({
   components: {
@@ -60,24 +61,7 @@ export default class Home extends Vue {
           type: 'line'
         }]
       },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines:{
-              display:false
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              maxRotation: 0,
-              autoSkipPadding: 15
-            }
-          }]
-        },
-      }
+      options: SUtil.barChartOption
     })
   }
 

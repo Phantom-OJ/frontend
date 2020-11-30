@@ -1,12 +1,22 @@
-import axios from 'axios'
+import Axios from 'axios'
 import {SResponse, SEntityCollection, User, CodeForm} from "@/ts/interfaces";
-import {Alert, Announcement, Assignment, Code, Problem, Record, VCodeMode} from "@/ts/entities";
+import {
+  Alert,
+  Announcement,
+  Assignment,
+  Code,
+  Problem,
+  ProblemStat,
+  ProblemStatSet,
+  Record,
+  VCodeMode
+} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, PageSearchFrom, ResetForm, SignOutForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 
-axios.defaults.withCredentials = true
-axios.defaults.timeout = 10000
+Axios.defaults.withCredentials = true
+Axios.defaults.timeout = 10000
 
 /**
  * $alert and $dialog will be injected into the instance at runtime
@@ -27,7 +37,7 @@ export class API{
   async request(method: string, url: string, data?: any): Promise<SResponse> {
     try {
       // @ts-ignore
-      return (await axios[method](`/api/${url}`, data)).data
+      return (await Axios[method](`/api/${url}`, data)).data
     }catch (e) {
       throw new APIException(e.response)
     }
@@ -102,6 +112,11 @@ export class API{
   async queryProblem(ID:number):Promise<Problem>{
     let data = (await this.cRequest('get',`problem/${ID}`)).data
     return new Problem(data)
+  }
+
+  async queryProblemStatSet(ID:number):Promise<ProblemStatSet>{
+    let data = (await this.cRequest('get',`problem/${ID}/statistics`)).data
+    return new ProblemStatSet(data)
   }
 
   async submitCode(ID:number, form:CodeForm):Promise<boolean>{

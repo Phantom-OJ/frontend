@@ -191,4 +191,27 @@ export class Tag {
   }
 }
 
+export class ProblemStatSet {
+  resultSet:ProblemStat[]
+  dialectSet:ProblemStat[]
+
+  constructor({resultSet, dialectSet}:any) {
+    this.resultSet = (<any[]>resultSet)?.map(e => new ProblemStat(e))??[]
+    this.dialectSet = (<any[]>dialectSet)?.map(e => new ProblemStat(e))??[]
+  }
+
+
+}
+
+export class ProblemStat{
+  key:string
+  count:number
+
+  constructor({key, count}:any) {
+    this.key = key
+    this.count = count
+  }
+
+}
+
 export enum VCodeMode {REGISTER, RESET_PASSWORD}

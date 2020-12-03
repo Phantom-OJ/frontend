@@ -65,3 +65,7 @@ loading 界面
 作业界面的题目列表美化
 
 @copyright
+
+btn可以自定义loader 是slot
+
+recorddetail 重新请求

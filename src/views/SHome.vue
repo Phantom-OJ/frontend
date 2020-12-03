@@ -15,7 +15,6 @@ import Chart from 'chart.js'
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import HelloWorld from '@/components/HelloWorld.vue'
-import SAvatar from "@/components/Root/SAvatar.vue";
 import SHomeAnnouncement from "@/components/Home/SHomeAnnouncement.vue";
 import SHomeContestCard from "@/components/Home/SHomeContestCard";
 import {SUtil} from "@/ts/utils"; // @ is an alias to /src
@@ -24,7 +23,6 @@ import {SUtil} from "@/ts/utils"; // @ is an alias to /src
   components: {
     SHomeContestCard,
     SHomeAnnouncement,
-    SAvatar,
     HelloWorld
   }
 })

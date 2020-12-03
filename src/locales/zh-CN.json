@@ -44,6 +44,10 @@
     "strong": "强密码！"
   },
   "profile": {
+    "home": "个人主页",
+    "edit": "编辑信息",
+    "security": "安全设置",
+    "not-login": "请登录",
     "mail": "邮箱",
     "pwd": "密码",
     "f-pwd": "忘记密码",

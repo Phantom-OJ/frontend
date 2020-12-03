@@ -44,6 +44,10 @@
     "strong": "strong"
   },
   "profile": {
+    "home": "Overview",
+    "edit": "Edit Profile",
+    "security": "Security Settings",
+    "not-login": "Please login",
     "mail": "Mail",
     "f-pwd": "Forget password",
     "pwd": "Password",
@@ -118,5 +122,17 @@
     "button-cont": "continue",
     "title2": "2. Caution for Code Submission",
     "content2": "Still testing, please contact to 11811407@mail.sustech.edu.cn if there's any problem"
+  },
+  "create": {
+    "title":"Title",
+    "description": "Description",
+    "start-time": "Start Time",
+    "end-time": "End Time",
+    "problem": {
+      "&": "Problem"
+    },
+    "assignment": {
+      "&": "Assignment"
+    }
   }
 }

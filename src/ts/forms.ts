@@ -14,10 +14,6 @@ export interface SignUpForm {
   verifyCode: string
 }
 
-export interface SignOutForm {
-
-}
-
 export interface ResetForm{
   username:string
   password:string

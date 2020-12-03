@@ -1,18 +1,18 @@
 <template>
   <div class="page-detail-root">
-    <s-profile-card :readonly="false"/>
+    <s-create-assignment-card/>
   </div>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SProfileCard from "@/components/Profile/SProfileCard.vue";
+import SCreateAssignmentCard from "@/components/Assignment/SCreateAssignmentCard.vue";
 
 @Component({
-  components: {SProfileCard}
+  components: {SCreateAssignmentCard}
 })
-export default class SProfile extends Vue {
+export default class SCreateAssignment extends Vue {
 }
 </script>
 

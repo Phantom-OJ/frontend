@@ -53,8 +53,7 @@ let vuex = new Vuex.Store({
       },
       profile: {
         text: 'nav-user.profile',
-        icon: 'mdi-account',
-        to: '/user/profile'
+        icon: 'mdi-account'
       },
       signOut: {
         text: 'nav-user.sign-out',
@@ -129,8 +128,8 @@ let vuex = new Vuex.Store({
     //   commit('setUser', {user: user, isAuthenticated: true})
     //   await router.push(payload.then || '/')
     // },
-    // async signOut({commit, state}) {
-    //   let re = await API.signOut('')
+    // async logOut({commit, state}) {
+    //   let re = await API.logOut('')
     //   commit('setUser', {user: notLogin, isAuthenticated: false})
     //   await router.push('/')
     // }

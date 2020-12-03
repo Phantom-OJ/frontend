@@ -50,6 +50,7 @@ export default class App extends Vue {
         recordInfo: this.$store.state.recordInfo
       }))
     }
+    this.$api.checkState()
   }
 }
 </script>

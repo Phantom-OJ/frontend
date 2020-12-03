@@ -11,10 +11,10 @@
         </v-avatar>
         <div style="margin: 0 0 0 20px">
           <p class="title-text">
-            {{user.name}}
+            {{ (!!user.nickname)?user.nickname:$t('profile.not-login')}}
           </p>
           <p class="title-text">
-            {{user.group}}
+            {{ (!!user.groupList)?user.groupList.join(', '):''}}
           </p>
         </div>
       </v-card-title>
@@ -63,7 +63,7 @@
           </v-list-item>
           <v-list-item
             v-if="isAuthenticated"
-            :to="navUser.profile.to"
+            :to="`/profile/${user.ID}/home`"
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
@@ -99,8 +99,9 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SAvatar from "@/components/Root/SAvatar.vue"
+import SAvatar from "@/components/Root/SAppBarAvatar.vue"
 import {mapState} from "vuex"
+import {User} from "@/ts/user";
 
 @Component({
   components: {SAvatar},
@@ -109,6 +110,9 @@ import {mapState} from "vuex"
   }
 })
 export default class SNavBar extends Vue {
+  readonly user!:User
+  readonly isAuthenticated!:boolean
+
   get hideNav() {
     return this.$store.state.sideNav
   }
@@ -118,8 +122,7 @@ export default class SNavBar extends Vue {
   }
 
   async signOut(){
-    let re = await this.$api.signOut({})
-    console.log(re)
+    let re = await this.$api.logOut()
     this.$store.commit('setUser',{isAuthenticated:false})
   }
 }

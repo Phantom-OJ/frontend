@@ -1,21 +1,5 @@
 import {Announcement, Assignment, Code, Problem, Record, RecordPoint} from "@/ts/entities";
 
-export class User {
-  ID: number
-  name: string
-  group: string
-  avatar: string
-  role: string
-
-  constructor({id, name, group, avatar, role}: { id: number, name: string, group: string, avatar: string, role: string }) {
-    this.ID = id;
-    this.name = name;
-    this.group = group;
-    this.avatar = avatar;
-    this.role = role;
-  }
-}
-
 export interface Entity {
   ID: number
   title: string

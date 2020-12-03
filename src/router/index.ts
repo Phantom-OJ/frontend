@@ -27,12 +27,24 @@ const routes: Array<RouteConfig> = [
     path: '/i18n',
     name: 'HelloI18n',
     component: () => import('@/components/HelloI18n.vue')
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
+  }, {
+    path: '/profile/:uid',
+    name: 'profile-other',
     component: () => import('@/views/SProfile.vue'),
-    beforeEnter: requireAuthenticatedEnter
+    beforeEnter: requireAuthenticatedEnter,
+    children: [{
+      path: 'edit',
+      name: 'profile-edit',
+      component: () => import('@/views/profiles/SProfileEdit.vue')
+    }, {
+      path: 'security',
+      name: 'profile-security',
+      component: void 0
+    }, {
+      path: '*',
+      name: 'profile-home',
+      component: () => import('@/views/profiles/SProfileHome.vue')
+    }]
   },
   {
     path: '/login',
@@ -60,26 +72,30 @@ const routes: Array<RouteConfig> = [
     path: '/record/all',
     name: 'record-all',
     component: () => import('@/views/SRecord.vue')
-  },{
+  }, {
     path: '/assignment/:aid',
     name: 'assignment-detail',
     component: () => import('@/views/SAssignmentDetail.vue')
-  },{
+  }, {
     path: '/problem/:pid',
     name: 'problem-detail',
     component: () => import('@/views/SProblemDetail.vue')
-  },{
-    path:'/record/:rid',
-    name:'record-detail',
+  }, {
+    path: '/record/:rid',
+    name: 'record-detail',
     component: () => import('@/views/SRecordDetail.vue')
-  },{
-    path:'/help',
-    name:'help',
+  }, {
+    path: '/help',
+    name: 'help',
     component: () => import('@/views/SHelp.vue')
   }, {
-    path:'/forget-pwd',
-    name:'forget-password',
+    path: '/forget-pwd',
+    name: 'forget-password',
     component: () => import('@/views/SForgetPassword.vue')
+  }, {
+    path: '/create/assignment',
+    name: 'create-assignment',
+    component: () => import('@/views/SCreateAssignment.vue')
   }
 ]
 

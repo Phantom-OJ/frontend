@@ -194,11 +194,25 @@ input:focus {
   .all-card {
     width: $app-width;
     margin: 30px auto;
+    position: relative;
+    .s-add-btn{
+      right: 10px;
+      width: 70px;
+      height: 70px;
+      bottom:  10px;
+    }
   }
 }
 
 .page-detail-root {
   min-height: 100%;
+
+  .top-tabs-card{
+    width: $app-width;
+    margin: 70px auto;
+    min-height: 706px;
+    position: relative;
+  }
 
   .detail-card {
     width: $app-width;

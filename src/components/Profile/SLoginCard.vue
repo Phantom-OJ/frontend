@@ -17,6 +17,7 @@
           type="password"
           :label="$t('profile.pwd')"
           hide-details
+          name="password"
         >
         </v-text-field>
       </div>

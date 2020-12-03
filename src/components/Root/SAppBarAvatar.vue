@@ -35,7 +35,7 @@
           </v-list-item>
           <v-list-item
             v-if="isAuthenticated"
-            :to="navUser.profile.to"
+            :to="`/profile/${user.ID}/home`"
             class="cursor-hand-hover avatar-list-item"
           >
             {{$t(navUser.profile.text)}}
@@ -73,8 +73,7 @@ export default class SAvatar extends Vue {
   }
 
   async signOut(){
-    let re = await this.$api.signOut({})
-    console.log(re)
+    let re = await this.$api.logOut()
     this.$store.commit('setUser',{isAuthenticated:false})
   }
 }

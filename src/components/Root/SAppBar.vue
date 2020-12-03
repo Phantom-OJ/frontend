@@ -33,21 +33,21 @@
         {{locale}}
       </v-btn>
     </v-btn-toggle>
-    <s-avatar
+    <s-app-bar-avatar
       :size="48"
       id="app-bar-s-avatar"
-    ></s-avatar>
+    ></s-app-bar-avatar>
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Watch} from 'vue-property-decorator'
-import SAvatar from "@/components/Root/SAvatar.vue";
+import SAppBarAvatar from "@/components/Root/SAppBarAvatar.vue";
 import {mapState} from "vuex";
 
 @Component({
-  components: {SAvatar},
+  components: {SAppBarAvatar},
   computed: {...mapState(['width_height'])}
 })
 export default class SAppBar extends Vue {

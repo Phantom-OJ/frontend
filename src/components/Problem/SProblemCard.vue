@@ -21,13 +21,13 @@
     <s-entry-list :entries="problems" :path="'problem'">
       <template v-slot="{entry:problem}">
         <v-col cols="2" class="ellipsis-col">
-          {{problem.ID}}
+          {{ problem.ID }}
         </v-col>
         <v-col cols="4" class="ellipsis-col">
           <v-icon class="icon-color-1" style="position: relative;top:1px">
             mdi-quora
           </v-icon>
-          {{problem.title}}
+          {{ problem.title }}
         </v-col>
         <v-col cols="4" class="s-flex">
           <s-tag
@@ -42,11 +42,11 @@
           <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.submitted')" direction="top">
             mdi-upload
           </s-tooltip-icon>
-          {{problem.numberSubmit}}
+          {{ problem.numberSubmit }}
           <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.resolved')" direction="top">
             mdi-check
           </s-tooltip-icon>
-          {{problem.numberSolve}}
+          {{ problem.numberSolve }}
         </v-col>
       </template>
     </s-entry-list>
@@ -67,6 +67,7 @@ import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vu
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from '@/ts/utils'
 import {EntityContainer} from "@/ts/entity-container";
+import {Permission} from "@/ts/user";
 
 @Component({
   components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
@@ -173,6 +174,7 @@ export default class SProblemCard extends Vue {
     this.s_searchName = ''
     this.s_searchTags = ''
     this.commitFilter()
+    this.loadProblems(true)
   }
 
   private commitFilter() {
@@ -183,6 +185,7 @@ export default class SProblemCard extends Vue {
     }
     this.$store.commit('setProblemInfo', {filter})
   }
+
 }
 </script>
 

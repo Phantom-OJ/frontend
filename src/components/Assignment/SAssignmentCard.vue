@@ -49,6 +49,11 @@
     </v-list>
     <s-pagination :item-num="itemNum" :max-length="assignmentInfo.maxLength"
                   :page-index.sync="pageIndex"></s-pagination>
+    <v-btn v-if="permitAdd" fab absolute @click="$router.push('/create/assignment')" class="s-add-btn" color="secondary">
+      <v-icon>
+        mdi-plus-thick
+      </v-icon>
+    </v-btn>
   </v-card>
 </template>
 
@@ -62,6 +67,7 @@ import {Assignment} from '@/ts/entities';
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
+import {Permission} from "@/ts/user";
 
 @Component({
   components: {SRefreshableCardTitle, SPagination},
@@ -159,6 +165,10 @@ export default class SAssignmentCard extends Vue {
       name:this.searchName
     }
     this.$store.commit('setAssignmentInfo', {filter})
+  }
+
+  get permitAdd() {
+    return this.$store.state.user?.hasPermission(Permission.ALLOWANCE.CREATE_ASSIGNMENT) ?? false
   }
 }
 </script>

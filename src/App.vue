@@ -20,6 +20,7 @@ import SNavBar from "@/components/Root/SNavBar.vue";
 import SFooter from "@/components/Root/SFooter.vue";
 import SAlert from "@/components/General/SAlert.vue";
 import {API} from "@/ts/api";
+import phantomIcon from '@/ts/phantom-icon'
 
 
 @Component({
@@ -38,6 +39,7 @@ export default class App extends Vue {
   }
 
   mounted() {
+    console.log(phantomIcon)
     //@ts-ignore dev TODO
     window.vue = this
     window.onresize = () =>

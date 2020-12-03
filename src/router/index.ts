@@ -96,6 +96,11 @@ const routes: Array<RouteConfig> = [
     path: '/create/assignment',
     name: 'create-assignment',
     component: () => import('@/views/SCreateAssignment.vue')
+  },
+  {
+    path:'/*',
+    name:'not-found',
+    component: () => import('@/views/SNotFound.vue')
   }
 ]
 

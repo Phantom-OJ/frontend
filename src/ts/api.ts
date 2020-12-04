@@ -2,7 +2,7 @@ import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
 import {Alert, Announcement, Assignment, Code, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
-import {LoginForm, PageSearchFrom, ResetForm, SignUpForm} from "@/ts/forms";
+import {LoginForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {User} from "@/ts/user";
 
@@ -83,7 +83,7 @@ export class API {
     })).msg
   }
 
-  async searchAssignmentPage(form: PageSearchFrom): Promise<SEntityCollection<Assignment>> {
+  async searchAssignmentPage(form: PageSearchForm): Promise<SEntityCollection<Assignment>> {
     const data = (await this.cRequest('post', 'assignment', form)).data
     return SUtil.pageDataTransfer(data, Assignment)
   }
@@ -93,12 +93,12 @@ export class API {
     return new Assignment(data)
   }
 
-  async searchProblemPage(form: PageSearchFrom): Promise<SEntityCollection<Problem>> {
+  async searchProblemPage(form: PageSearchForm): Promise<SEntityCollection<Problem>> {
     let data = (await this.cRequest('post', 'problem', form)).data
     return SUtil.pageDataTransfer(data, Problem)
   }
 
-  async searchRecordPage(form: PageSearchFrom): Promise<SEntityCollection<Record>> {
+  async searchRecordPage(form: PageSearchForm): Promise<SEntityCollection<Record>> {
     let data = (await this.cRequest('post', 'record', form)).data
     return SUtil.pageDataTransfer(data, Record)
   }
@@ -137,7 +137,7 @@ export class API {
     return (await this.cRequest('post', 'logout')).msg
   }
 
-  async searchAnnouncementPage(form: PageSearchFrom) {
+  async searchAnnouncementPage(form: PageSearchForm) {
     const data = (await this.cRequest('post', 'announcement', form)).data
     return SUtil.pageDataTransfer(data, Announcement)
   }

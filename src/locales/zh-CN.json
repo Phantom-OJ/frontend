@@ -37,6 +37,7 @@
   },
   "submit": "提交",
   "send": "发送",
+  "search": "搜索",
   "security": {
     "t-weak": "弱爆了",
     "weak": "弱",
@@ -49,6 +50,7 @@
     "security": "安全设置",
     "not-login": "请登录",
     "mail": "邮箱",
+    "group": "群组",
     "pwd": "密码",
     "f-pwd": "忘记密码",
     "c-pwd": "确认密码",
@@ -78,7 +80,7 @@
     "searchB": "题名",
     "searchC": "标签",
     "subtitle": "不讲武德",
-    "back":"回到作业",
+    "back": "回到作业",
     "lang": "语言",
     "time": "时间限制",
     "memory": "内存限制",
@@ -122,6 +124,20 @@
     "button-cont": "下一页",
     "title2": "2. 代码提交注意事项",
     "content2": "仍在测试阶段，请联系11811407@mail.sustech.edu.cn反映问题"
+  },
+  "create": {
+    "title": "标题",
+    "description": "描述",
+    "start-time": "开始时间",
+    "end-time": "结束时间",
+    "status": "状态",
+    "problem": {
+      "&": "问题",
+      "type": "类型"
+    },
+    "assignment": {
+      "&": "作业"
+    }
   },
   "not-found": {
     "text": "糟糕！页面好像走丢了喔……",

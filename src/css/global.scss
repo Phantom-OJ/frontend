@@ -13,6 +13,10 @@ a {
   display: inline-block;
 }
 
+.relative{
+  position: relative;
+}
+
 .h-center {
   margin: 0 auto;
 }
@@ -188,6 +192,13 @@ input:focus {
   }
 }
 
+.s-add-btn{
+  right: 10px;
+  width: 70px;
+  height: 70px;
+  bottom:  10px;
+}
+
 .page-all-root {
   min-height: 100%;
 
@@ -195,12 +206,6 @@ input:focus {
     width: $app-width;
     margin: 30px auto;
     position: relative;
-    .s-add-btn{
-      right: 10px;
-      width: 70px;
-      height: 70px;
-      bottom:  10px;
-    }
   }
 }
 
@@ -212,6 +217,7 @@ input:focus {
     margin: 70px auto;
     min-height: 706px;
     position: relative;
+    border-top-left-radius: 0 !important;
   }
 
   .detail-card {

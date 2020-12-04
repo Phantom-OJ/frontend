@@ -17,10 +17,25 @@ declare module 'vue/types/vue' {
     destroyed():void
   }
 }
+
 const sXssOptions = {}
 const sXss = new xss.FilterXSS(sXssOptions)
 
-marked.setOptions({})
+marked.use({
+  tokenizer:{
+    escape(src: string): marked.Tokens.Escape {
+      if (src.includes('\\;')) {
+        return {
+          type: 'escape',
+          raw: src,
+          text: src
+        }
+      }else{
+        return false
+      }
+    }
+  }
+})
 
 
 export class Vue extends V.Vue {

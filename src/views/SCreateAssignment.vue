@@ -1,16 +1,16 @@
 <template>
   <div class="page-detail-root">
-    <s-create-assignment-card/>
+    <s-manager-assignment-card/>
   </div>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SCreateAssignmentCard from "@/components/Assignment/SCreateAssignmentCard.vue";
+import SManagerAssignmentCard from "@/components/Assignment/SManagerAssignmentCard.vue";
 
 @Component({
-  components: {SCreateAssignmentCard}
+  components: {SManagerAssignmentCard}
 })
 export default class SCreateAssignment extends Vue {
 }

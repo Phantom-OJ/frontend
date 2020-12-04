@@ -215,3 +215,4 @@ export class ProblemStat{
 }
 
 export enum VCodeMode {REGISTER, RESET_PASSWORD}
+

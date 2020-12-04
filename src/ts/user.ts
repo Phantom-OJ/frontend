@@ -92,12 +92,14 @@ export class Permission {
   }
 }
 
-export class Group {
+export class Group{
+  ID:number
+  description:string
 
-  constructor({}: any) {
-
+  constructor({id, description}: any) {
+    this.ID = id;
+    this.description = description
   }
-
 }
 
 export class State {

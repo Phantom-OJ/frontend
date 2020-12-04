@@ -13,7 +13,7 @@ Vue.use(Vuex)
 let vuex = new Vuex.Store({
   state: {
     user: notLogin,
-    isAuthenticated: false,
+    isAuthenticated: true,
     // loading: false,
     sideNav: <boolean>false,
     nav: [

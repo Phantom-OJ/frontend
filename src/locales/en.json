@@ -35,8 +35,9 @@
       "content": "Shilong Li, Zunyao Mao, Qiushi Nie, Jiaxi Zhang"
     }
   },
-  "submit": "submit",
-  "send": "send",
+  "submit": "Submit",
+  "send": "Send",
+  "search": "Search",
   "security": {
     "t-weak": "Too weak",
     "weak": "weak",
@@ -49,6 +50,7 @@
     "security": "Security Settings",
     "not-login": "Please login",
     "mail": "Mail",
+    "group": "Group",
     "f-pwd": "Forget password",
     "pwd": "Password",
     "c-pwd": "Confirm Password",
@@ -128,8 +130,10 @@
     "description": "Description",
     "start-time": "Start Time",
     "end-time": "End Time",
+    "statue": "Status",
     "problem": {
-      "&": "Problem"
+      "&": "Problem",
+      "type": "Type"
     },
     "assignment": {
       "&": "Assignment"

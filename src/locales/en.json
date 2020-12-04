@@ -136,7 +136,7 @@
     }
   },
   "not-found": {
-    "text": "This is not the webpage you are looking for...",
+    "text": "Oops! Phantom cannot find your page...",
     "button": "Back to home"
   }
 }

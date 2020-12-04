@@ -122,5 +122,9 @@
     "button-cont": "下一页",
     "title2": "2. 代码提交注意事项",
     "content2": "仍在测试阶段，请联系11811407@mail.sustech.edu.cn反映问题"
+  },
+  "not-found": {
+    "text": "你似乎来到了没有知识的荒原……",
+    "button": "回到主页"
   }
 }

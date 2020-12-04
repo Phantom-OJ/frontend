@@ -1,11 +1,15 @@
 <template>
   <v-card class="all-card ErrorPage-container">
+    <v-slide-x-transition>
     <div>
       <h1 class="Error-title">404</h1>
-      <p class="Error-text">你似乎来到了没有知识的荒原</p>
-      <v-btn color="secondary">Back to Home</v-btn>
+      <p class="Error-text">{{$t("not-found.text")}}</p>
+      <v-btn color="secondary" @click="click()">{{$t("not-found.button")}}</v-btn>
     </div>
-    <v-img src="/404.jpg" class="ErrorPage-image"></v-img>
+    </v-slide-x-transition>
+    <v-slide-x-transition>
+      <v-img src="/404.jpg" class="ErrorPage-image"></v-img>
+    </v-slide-x-transition>
   </v-card>
 </template>
 
@@ -14,7 +18,9 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 @Component({})
 export default class SNotFoundCard extends Vue{
-
+  click() {
+    this.$router.push(`/`)
+  }
 }
 </script>
 
@@ -26,12 +32,12 @@ export default class SNotFoundCard extends Vue{
     align-items: center;
   }
   .Error-title{
-    font-size: 60px;
+    font-size: 65px;
   }
   .Error-text{
     font-size: 20px;
   }
   .ErrorPage-image{
-    max-width: 250px;
+    max-width: 230px;
   }
 </style>

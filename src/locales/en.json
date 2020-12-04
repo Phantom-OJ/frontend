@@ -134,5 +134,9 @@
     "assignment": {
       "&": "Assignment"
     }
+  },
+  "not-found": {
+    "text": "This is not the webpage you are looking for...",
+    "button": "Back to home"
   }
 }

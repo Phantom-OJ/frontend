@@ -9,7 +9,7 @@
           v-for="problem in problemList"
           :key="problem.indexInAssignment"
         >
-          {{ `${$t('create.problem.&')}. ${problem.title}` }}
+          {{ `${$t('create.problem.&')}. ${problem.indexInAssignment}` }}
         </v-tab>
       </v-tabs>
     </v-sheet>
@@ -118,10 +118,11 @@ import SManagerProblemSheet from "@/components/Problem/SManagerProblemSheet.vue"
 })
 export default class SCreateAssignmentCard extends Vue {
   readonly STATUS = STATUS.values()
-  pI = 0
+  readonly defaultMd = '# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$'
+  pI = 1
   groupDialog: boolean = false
   tab: number = 0
-  description: string = `# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$`
+  description: string = this.defaultMd
   title: string = ''
   startDate: string = new Date().toISOString().substring(0, 10)
   startTime: string = '00:00'
@@ -148,13 +149,13 @@ export default class SCreateAssignmentCard extends Vue {
   addProblem() {
     this.problemList.push({
       title: `${this.pI++}`,
-      description: '# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$',
+      description: this.defaultMd,
       status: 'public',
       solution: '',
       spaceLimit: 64,
       timeLimit: 3000,
       fullScore: 20,
-      indexInAssignment: this.problemList.length,
+      indexInAssignment: this.problemList.length+1,
       type: 'SELECT',
       tagList: [0]
     })
@@ -166,21 +167,21 @@ export default class SCreateAssignmentCard extends Vue {
 
   upProb(p: ProblemForm) {
     const idx = p.indexInAssignment
-    if (idx === 0) return
+    if (idx === 1) return
     this.problemList[idx].indexInAssignment--
     this.problemList[idx - 1].indexInAssignment++
     this.sortProblems()
   }
 
   editProb(prob:ProblemForm){
-    this.tab = prob.indexInAssignment + 1
+    this.tab = prob.indexInAssignment
   }
 
   deleteProb(prob: ProblemForm) {
     const idx = prob.indexInAssignment
     this.problemList = this.problemList.filter(p => p.indexInAssignment !== idx)
     this.problemList.forEach((p, i) => {
-      p.indexInAssignment = i
+      p.indexInAssignment = i+1
     })
   }
 }

@@ -20,18 +20,27 @@
             </template>
           </v-text-field>
         </div>
-        <v-radio-group v-model="problem_.status" :label="$t('create.status')" row>
+        <v-radio-group v-model="problem_.status" :label="$t('create.status')" row >
           <v-radio v-for="_status in STATUS" :key="_status" :label="_status" :value="_status"/>
         </v-radio-group>
+
+        <div class="s-flex s-mp-form--switch">
+          <div>{{ $t('create.description') }}</div>
+          <v-switch v-model="des_sol" color="info" style="margin: 0;align-items: center" hide-details/>
+          <div>{{ $t('create.problem.solution') }}</div>
+        </div>
         <v-select :label="$t('create.problem.type')" v-model="problem_.type" :items="TYPE"></v-select>
-        <label>{{$t('create.problem.solution')}}</label>
-        <s-codemirror :code="problem_.solution" :mime="'text/x-sql'"/>
         <v-btn color="success" shaped>{{ $t('submit') }}</v-btn>
       </div>
-      <div class="s-right s-flex">
+      <div v-if="!des_sol" class="s-right s-flex">
         <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="problem_.description"
                     class="s-mp-form--description inline-block" filled auto-grow height="706"/>
         <s-markdown :markdown="problem_.description" class="s-mp-form--description__show"/>
+      </div>
+      <div v-else class="s-right s-flex">
+        <v-textarea :label="$t('create.problem.solution')" color="primary" hide-details v-model="problem_.solution"
+                    class="s-mp-form--description inline-block" filled auto-grow height="706"/>
+        <s-markdown :markdown="problem_.solution" class="s-mp-form--description__show"/>
       </div>
     </v-form>
   </v-sheet>
@@ -54,27 +63,49 @@ export default class SManagerProblemSheet extends Vue {
   readonly STATUS = STATUS.values()
   @PropSync('problem')
   problem_!: ProblemForm
-
+  des_sol: boolean = false
 
 }
 </script>
 
 <style lang="scss">
-$mp-cm-height:300px;
+$mp-cm-height: 300px;
 .s-mp-form {
   margin: 0 auto 10px;
-
   div.s-left {
     width: 30%;
     min-width: 380px;
     margin: 5px 12px 10px 16px;
 
+    .s-mp-form--switch {
+      margin-bottom: 16px;
+      .v-input--switch__track,.v-input--selection-controls__ripple,.v-input--switch__thumb {
+        color: var(--v-success-base);
+      }
+      .v-input--switch {
+        padding: 0;
+        margin: 0;
+      }
+
+      & > div:first-child {
+        margin-right: 12px;
+        color: rgba(0,0,0,0.6);
+      }
+
+      & > div:last-child {
+        margin-left: 12px;
+        color: rgba(0,0,0,0.6);
+      }
+    }
+
     .s-codemirror {
       min-height: $mp-cm-height;
+
       .CodeMirror {
         .CodeMirror-scroll {
           min-height: $mp-cm-height;
         }
+
         min-height: $mp-cm-height;
       }
     }
@@ -94,7 +125,7 @@ $mp-cm-height:300px;
     }
 
     .s-mp-form--time, .s-mp-form--space {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       flex-grow: 0;
     }
 
@@ -102,7 +133,7 @@ $mp-cm-height:300px;
       margin-top: 6px;
     }
 
-    >*:last-child{
+    > *:last-child {
       margin-top: 15px;
     }
   }

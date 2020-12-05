@@ -101,7 +101,7 @@
   "help": {
     "title1": "1. QuickStart",
     "step1": {
-      "img": "/step1_1_en.png",
+      "img": "/img/step1_1_en.png",
       "title": "Register an account",
       "content": {
         "s1": "(1) Click the default avatar in the navigation bar",

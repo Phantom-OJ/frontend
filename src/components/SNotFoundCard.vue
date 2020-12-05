@@ -6,7 +6,7 @@
       <v-btn color="secondary" @click="click()">{{$t("not-found.button")}}</v-btn>
     </div>
     <v-img
-      src="/phantom_404.jpg"
+      src="@/assets/phantom_404.jpg"
       class="ErrorPage-image"
     ></v-img>
   </v-card>

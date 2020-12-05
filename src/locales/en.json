@@ -38,6 +38,7 @@
   "submit": "Submit",
   "send": "Send",
   "search": "Search",
+  "No": "No.",
   "security": {
     "t-weak": "Too weak",
     "weak": "weak",
@@ -82,8 +83,8 @@
     "subtitle": "True mastery of any skill takes a lifetime",
     "back":"Back to Assignment",
     "lang": "language",
-    "time": "time limit",
-    "memory": "memory limit",
+    "time": "Time limit",
+    "memory": "Memory limit",
     "score": "Full Score",
     "submitted":"submitted number",
     "resolved": "resolved number",
@@ -130,10 +131,12 @@
     "description": "Description",
     "start-time": "Start Time",
     "end-time": "End Time",
-    "statue": "Status",
+    "status": "Status",
+    "operation": "Operation",
     "problem": {
       "&": "Problem",
-      "type": "Type"
+      "type": "Type",
+      "solution": "Solution"
     },
     "assignment": {
       "&": "Assignment"

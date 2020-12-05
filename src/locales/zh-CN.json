@@ -38,6 +38,7 @@
   "submit": "提交",
   "send": "发送",
   "search": "搜索",
+  "No": "序号",
   "security": {
     "t-weak": "弱爆了",
     "weak": "弱",
@@ -131,9 +132,11 @@
     "start-time": "开始时间",
     "end-time": "结束时间",
     "status": "状态",
+    "operation": "操作",
     "problem": {
       "&": "问题",
-      "type": "类型"
+      "type": "类型",
+      "solution": "题解"
     },
     "assignment": {
       "&": "作业"

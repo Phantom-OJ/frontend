@@ -137,27 +137,27 @@ div.s-card-container.home-card {
   }
 }
 
-i.icon-color-0.v-icon.mdi {
+.icon-color-0.v-icon.mdi {
 
 }
 
-i.icon-color-1.v-icon.mdi {
+.icon-color-1.v-icon.mdi {
   color: var(--v-secondary-darken1);
 }
 
-i.icon-color-2.v-icon.mdi {
+.icon-color-2.v-icon.mdi {
   color: var(--v-secondary-darken2);
 }
 
-i.icon-color-3.v-icon.mdi {
+.icon-color-3.v-icon.mdi {
   color: var(--v-secondary-darken3)
 }
 
-i.icon-color-a3.v-icon.mdi {
+.icon-color-a3.v-icon.mdi {
   color: var(--v-accent-lighten3)
 }
 
-i.icon-color-F.v-icon.mdi {
+.icon-color-F.v-icon.mdi {
   color: ghostwhite;
 }
 
@@ -452,4 +452,11 @@ button.s-submit-btn {
   width: 100%;
   margin: 10px auto;
   color: black !important;
+}
+
+.table-icon{
+  &:first-child{
+    margin-left: 3px;
+  }
+  margin-right: 3px;
 }

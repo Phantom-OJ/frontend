@@ -1,21 +1,17 @@
 <template>
   <v-card class="top-tabs-card">
     <v-sheet class="s-top-tabs">
-      <v-slide-x-transition>
-        <v-tabs :height="40" v-model="tab">
-          <v-tab>
-            {{ $t('create.description') }}
-          </v-tab>
-          <v-slide-x-transition>
-            <v-tab
-              v-for="problem in problemList"
-              :key="problem.indexInAssignment"
-            >
-              {{ `${$t('create.problem.&')}. ${problem.title}` }}
-            </v-tab>
-          </v-slide-x-transition>
-        </v-tabs>
-      </v-slide-x-transition>
+      <v-tabs :height="40" v-model="tab">
+        <v-tab>
+          {{ $t('create.description') }}
+        </v-tab>
+        <v-tab
+          v-for="problem in problemList"
+          :key="problem.indexInAssignment"
+        >
+          {{ `${$t('create.problem.&')}. ${problem.title}` }}
+        </v-tab>
+      </v-tabs>
     </v-sheet>
     <v-tabs-items v-model="tab">
       <v-tab-item>
@@ -29,45 +25,57 @@
               <s-date-time-picker :date.sync="endDate" :time.sync="endTime" s-class="s-ca-form--end-time"
                                   :label="$t('create.end-time')"/>
             </div>
-            <v-dialog>
+            <v-dialog v-model="groupDialog">
               <template v-slot:activator="{on, attrs}">
                 <v-text-field readonly v-on="on" v-bind="attrs" :value="activeGroupNames" :label="$t('profile.group')"/>
               </template>
-              <s-splitted-select :active.sync="activeGroups" :inactive.sync="inactiveGroups"
-                                 :filter="(e, f)=>e.description.includes(f)">
+              <s-split-select :active.sync="activeGroups" :inactive.sync="inactiveGroups"
+                                 :filter="(e, f)=>e.description.includes(f)" @close="groupDialog=false">
                 <template v-slot:active="{entity}">
-                  <v-chip label color="white">
+                  <v-chip label color="info">
                     <v-icon left>mdi-account-multiple</v-icon>
                     {{ entity.description }}
                   </v-chip>
                 </template>
                 <template v-slot:inactive="{entity}">
-                  <v-chip label color="white">
+                  <v-chip label color="info">
                     <v-icon left>mdi-account-multiple</v-icon>
                     {{ entity.description }}
                   </v-chip>
                 </template>
                 <v-card-title style="padding-bottom: 0">Please Select Groups</v-card-title>
-              </s-splitted-select>
+              </s-split-select>
             </v-dialog>
             <v-radio-group v-model="status" :label="$t('create.status')" row>
               <v-radio v-for="_status in STATUS" :key="_status" :label="_status" :value="_status"/>
             </v-radio-group>
-
-            <!--            <v-select :label="$t('create.problem.type')" v-model="type" :items="TYPE"></v-select>TODO-->
             <v-simple-table class="relative" style="margin-bottom: 76px">
               <thead>
               <tr>
+                <th>{{ $t('No') }}</th>
                 <th>{{ $t('create.problem.&') }}</th>
                 <th>{{ $t('problem.score') }}</th>
                 <th>{{ $t('create.status') }}</th>
+                <th>{{ $t('create.operation') }}</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="p in problemList" :key="p.indexInAssignment">
+                <th>{{ p.indexInAssignment }}</th>
                 <th>{{ p.title }}</th>
                 <th>{{ p.fullScore }}</th>
                 <th>{{ p.status }}</th>
+                <th>
+                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="upProb(p)">
+                    mdi-arrow-up-bold
+                  </v-icon>
+                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="editProb(p)">
+                    mdi-pencil
+                  </v-icon>
+                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="deleteProb(p)">
+                    mdi-delete
+                  </v-icon>
+                </th>
               </tr>
               </tbody>
               <v-btn v-if="permitAddProblem" fab absolute @click="addProblem" class="s-add-btn" color="secondary">
@@ -85,6 +93,12 @@
           </div>
         </v-form>
       </v-tab-item>
+      <v-tab-item
+        v-for="problem in problemList"
+        :key="problem.indexInAssignment"
+      >
+        <s-manager-problem-sheet :problem.sync="problem"/>
+      </v-tab-item>
     </v-tabs-items>
   </v-card>
 </template>
@@ -94,16 +108,18 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import SDateTimePicker from "@/components/General/SDateTimePicker.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
-import {ProblemForm, STATUS, TYPE} from "@/ts/forms";
+import {ProblemForm, STATUS} from "@/ts/forms";
 import {Group, Permission} from "@/ts/user";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
+import SManagerProblemSheet from "@/components/Problem/SManagerProblemSheet.vue";
 
 @Component({
-  components: {SSplittedSelect: SSplitSelect, SMarkdown, SDateTimePicker}
+  components: {SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker}
 })
 export default class SCreateAssignmentCard extends Vue {
   readonly STATUS = STATUS.values()
-  readonly TYPE = TYPE.values()
+  pI = 0
+  groupDialog: boolean = false
   tab: number = 0
   description: string = `# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$`
   title: string = ''
@@ -114,8 +130,8 @@ export default class SCreateAssignmentCard extends Vue {
   status: string = 'public'
   type: string = 'SELECT'
   problemList: ProblemForm[] = []
-  activeGroups: Group[] = [{ID: 1, description: 'lslnb'}, {ID: 1, description: 'lslnb'}]
-  inactiveGroups: Group[] = [{ID: 2, description: 'qsyyds'}]
+  activeGroups: Group[] = [{ID: 1, description: 'lab1'}, {ID: 2, description: 'lab2'}]
+  inactiveGroups: Group[] = [{ID: 3, description: 'lab3'}]
 
   get permitAddProblem() {
     return this.$store.state.user?.hasPermission(Permission.ALLOWANCE.CREATE_PROBLEM) ?? false
@@ -131,7 +147,7 @@ export default class SCreateAssignmentCard extends Vue {
 
   addProblem() {
     this.problemList.push({
-      title: `${this.problemList.length}`,
+      title: `${this.pI++}`,
       description: '# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$',
       status: 'public',
       solution: '',
@@ -144,8 +160,28 @@ export default class SCreateAssignmentCard extends Vue {
     })
   }
 
-  addGroup() {
+  sortProblems() {
+    this.problemList.sort((e1, e2) => e1.indexInAssignment - e2.indexInAssignment)
+  }
 
+  upProb(p: ProblemForm) {
+    const idx = p.indexInAssignment
+    if (idx === 0) return
+    this.problemList[idx].indexInAssignment--
+    this.problemList[idx - 1].indexInAssignment++
+    this.sortProblems()
+  }
+
+  editProb(prob:ProblemForm){
+    this.tab = prob.indexInAssignment + 1
+  }
+
+  deleteProb(prob: ProblemForm) {
+    const idx = prob.indexInAssignment
+    this.problemList = this.problemList.filter(p => p.indexInAssignment !== idx)
+    this.problemList.forEach((p, i) => {
+      p.indexInAssignment = i
+    })
   }
 }
 </script>
@@ -157,6 +193,9 @@ export default class SCreateAssignmentCard extends Vue {
   height: 60px;
   bottom: -70px;
 }
+th:last-child{
+  padding-right: 0!important;
+}
 </style>
 
 <style lang="scss">
@@ -167,7 +206,7 @@ export default class SCreateAssignmentCard extends Vue {
 }
 
 .s-ca-form {
-  margin: 10px auto;
+  margin: 0 auto 10px;
 
   div.s-left {
     width: 30%;

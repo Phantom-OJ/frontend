@@ -8,7 +8,6 @@ import vuetify from './plugins/vuetify'
 import vueMathjax from './plugins/vue-mathjax'
 import codemirror from './plugins/vue-codemirror'
 import i18n from './i18n'
-import '@/ts/prototypes'
 
 Vue.config.productionTip = false
 

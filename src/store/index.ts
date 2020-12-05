@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {InfoOptions} from "@/ts/interfaces"
-import {Announcement, Assignment, Problem, Record} from "@/ts/entities";
-import '@/ts/prototypes'
+import {Announcement, Assignment, Problem, Record} from "@/ts/entities"
 import {notLogin} from "@/store/testData";
 import {EntityContainer} from "@/ts/entity-container";
 
@@ -136,9 +135,5 @@ let vuex = new Vuex.Store({
   },
   strict: true
 })
-// vuex.commit('setAnnouncementInfo', {list: announcementList, max: 2})
-// vuex.commit('setAssignmentInfo', {list: assignmentList, max: 2})
-// vuex.commit('setProblemInfo', {list: problemList, max: 2})
-// vuex.commit('setRecordInfo', {list: recordList, max: 5})
 
 export default vuex

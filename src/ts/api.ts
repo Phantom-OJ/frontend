@@ -5,6 +5,7 @@ import {APIException} from "@/ts/exceptions";
 import {LoginForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {User} from "@/ts/user";
+import {Vue} from "@/ts/extension";
 
 Axios.defaults.withCredentials = true
 Axios.defaults.timeout = 10000
@@ -45,7 +46,7 @@ export class API {
       return await this.request(method, url, data)
     } catch (error) {
       //$alert is injected in App.vue
-      this.$alert(new Alert({
+      this.$vue.$alert(new Alert({
         type: 'error',
         info: error.info ?? error.toString(),
         time: 8000
@@ -156,5 +157,5 @@ export class API {
 }
 
 export declare interface API {
-  $alert(alert: Alert): void
+  $vue:Vue
 }

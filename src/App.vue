@@ -22,7 +22,6 @@ import SAlert from "@/components/General/SAlert.vue";
 import {API} from "@/ts/api";
 import phantomIcon from '@/ts/phantom-icon'
 
-
 @Component({
   components: {SAlert, SFooter, SNavBar, SAppBar}
 })
@@ -32,10 +31,10 @@ export default class App extends Vue {
    */
   beforeMount() {
     Vue.prototype.$api = API.getInstance()
-    Vue.prototype.$api.$alert = Vue.prototype.$alert = (alert) => {
-      //@ts-ignore
-      this.$refs.alert.add(alert)
+    Vue.prototype.$alert = (alert) => {
+      (this.$refs.alert as any).add(alert)
     }
+    Vue.prototype.$api.$vue = this
   }
 
   mounted() {
@@ -45,12 +44,14 @@ export default class App extends Vue {
     window.onresize = () =>
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
     window.onunload = () => {
-      this.$destroy()
-      navigator.sendBeacon('http://localhost:9999/api/beacon', JSON.stringify({
+      let state = {
         problemInfo: this.$store.state.problemInfo,
         assignmentInfo: this.$store.state.assignmentInfo,
-        recordInfo: this.$store.state.recordInfo
-      }))
+        recordInfo: this.$store.state.recordInfo,
+        route:this.$route.fullPath,
+      }
+      this.$destroy()
+      navigator.sendBeacon('/api/beacon', JSON.stringify(state))
     }
     this.$api.checkState()
   }

@@ -45,6 +45,23 @@ export class API {
     try {
       return await this.request(method, url, data)
     } catch (error) {
+      if(error instanceof APIException){
+        switch (error.code){
+          case 403:
+            await this.$vue.$router.replace({
+              name: 'forbidden'
+            })
+            break
+          case 404:
+            console.log('lsl')
+            await this.$vue.$router.replace({
+              name:'not-found'
+            })
+            break
+        }
+        //@ts-ignore
+        return
+      }
       //$alert is injected in App.vue
       this.$vue.$alert(new Alert({
         type: 'error',
@@ -58,12 +75,12 @@ export class API {
     }
   }
 
-  async checkState(): Promise<User> {
-    let data = (await this.cRequest('post', 'beacon')).data
-    if (!!data)
-      return new User(data)
-    else
-      return new User('')
+  async checkState(): Promise<any> {
+    // let data = (await this.cRequest('post', 'beacon')).data
+    // if (!!data)
+    //   return new User(data)
+    // else
+    //   return new User('')
   }
 
   async login(loginForm: LoginForm): Promise<User> {

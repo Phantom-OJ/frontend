@@ -3,7 +3,7 @@ export class APIException {
   description: string
 
   constructor({data, status, statusText}: any) {
-    this.code = status
+    this.code = parseInt(status)
     this.description = data?.msg
   }
 

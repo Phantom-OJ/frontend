@@ -88,7 +88,8 @@ export class Permission {
   allowance: symbol
 
   constructor(str:string) {
-    this.allowance = Permission.ALLOWANCE.forName(str.trim())!
+    console.log(str)
+    this.allowance = Permission.ALLOWANCE.forName(str?.trim()??'')!
   }
 }
 

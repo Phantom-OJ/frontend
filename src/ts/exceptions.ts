@@ -1,13 +1,15 @@
 export class APIException {
   code: number
   description: string
+  url:string
 
-  constructor({data, status, statusText}: any) {
-    this.code = parseInt(status)
-    this.description = data?.msg
+  constructor({data, status, statusText, code}: any, url:string) {
+    this.code = parseInt(status)??code
+    this.description = data?.msg??statusText
+    this.url = url
   }
 
   get info(): string {
-    return `Error: ${this.code}\n${this.description}`
+    return `Error from ${this.url}: ${this.code}\n${this.description}`
   }
 }

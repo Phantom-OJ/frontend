@@ -70,7 +70,7 @@ let vuex = new Vuex.Store({
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
-      state.user = isAuthenticated ? user : notLogin
+      state.user = user
       state.isAuthenticated = isAuthenticated
     },
     setSideNav(state, value) {

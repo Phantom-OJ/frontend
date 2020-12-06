@@ -88,7 +88,7 @@
           </div>
           <div class="s-right s-flex">
             <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="description"
-                        class="s-ca-form--description inline-block" filled auto-grow height="706"/>
+                        class="s-ca-form--description inline-block" filled auto-grow/>
             <s-markdown :markdown="description" class="s-ca-form--description__show"/>
           </div>
         </v-form>
@@ -111,7 +111,7 @@ import SMarkdown from "@/components/General/SMarkdown.vue";
 import {ProblemForm, STATUS} from "@/ts/forms";
 import {Group, Permission} from "@/ts/user";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
-import SManagerProblemSheet from "@/components/Problem/SManagerProblemSheet.vue";
+import SManagerProblemSheet from "@/components/Problem/SManageProblemSheet.vue";
 
 @Component({
   components: {SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker}
@@ -157,7 +157,8 @@ export default class SCreateAssignmentCard extends Vue {
       fullScore: 20,
       indexInAssignment: this.problemList.length+1,
       type: 'SELECT',
-      tagList: [0]
+      tagList: [0],
+      judgePointList: []
     })
   }
 
@@ -194,8 +195,13 @@ export default class SCreateAssignmentCard extends Vue {
   height: 60px;
   bottom: -70px;
 }
-th:last-child{
-  padding-right: 0!important;
+th{
+  padding: 6px !important;
+  &:last-child {
+    padding-right: 0 !important;
+    padding-left: 8px !important;
+    min-width: 95px !important;
+  }
 }
 </style>
 
@@ -212,8 +218,8 @@ th:last-child{
   div.s-left {
     width: 30%;
     min-width: 380px;
-    margin: 5px 12px 10px 16px;
-
+    padding: 5px 12px 10px 16px;
+    flex-grow: 100;
     .s-ca-form--title {
       width: 100%;
       margin-bottom: 16px;
@@ -226,6 +232,7 @@ th:last-child{
     .s-ca-form--start-time, .s-ca-form--end-time {
       margin-bottom: 16px;
       flex-grow: 0;
+      width: 180px;
     }
 
     .v-input--selection-controls {
@@ -235,15 +242,19 @@ th:last-child{
 
   div.s-right {
     position: relative;
-    width: 60%;
-    flex-grow: 10;
-    padding-left: 12px;
+    width: 65%;
+    flex-grow: 1;
+    min-height: 705px;
 
     .s-ca-form--description {
-      width: 48%;
+      width: 50%;
       flex-grow: 0;
-
+      height: 100%;
+      .v-input__control{
+        height: 100%;
+      }
       .v-input__slot {
+        height: 100%;
         background-color: rgba(0, 0, 0, 0.03);
       }
 
@@ -260,6 +271,7 @@ th:last-child{
     .s-ca-form--description__show {
       padding: 5px 10px;
       width: 48%;
+      flex-grow: 1;
     }
   }
 }

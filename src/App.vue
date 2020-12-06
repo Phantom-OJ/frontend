@@ -53,7 +53,12 @@ export default class App extends Vue {
       this.$destroy()
       navigator.sendBeacon('/api/beacon', JSON.stringify(state))
     }
-    this.$api.checkState()
+    this.checkState()
+  }
+
+  async checkState(){
+    const [user, isAuthenticated] = await this.$api.checkState()
+    this.$store.commit('setUser', {user, isAuthenticated})
   }
 }
 </script>

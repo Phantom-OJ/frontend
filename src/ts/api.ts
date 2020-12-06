@@ -1,11 +1,12 @@
 import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
-import {Alert, Announcement, Assignment, Code, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
+import {Announcement, Assignment, Code, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {User} from "@/ts/user";
 import {Vue} from "@/ts/extension";
+import {notLogin} from "@/store/testData";
 
 Axios.defaults.withCredentials = true
 Axios.defaults.timeout = 10000
@@ -26,12 +27,15 @@ export class API {
    * @param url 'assignment' will become '/aip/assignment'
    * @param data
    */
-  async request(method: string, url: string, data?: any): Promise<SResponse> {
+  async request(method: string, url: string, data?: any): Promise<SResponse>|never {
     try {
       // @ts-ignore
       return (await Axios[method](`/api/${url}`, data)).data
     } catch (e) {
-      throw new APIException(e.response)
+      if(e.isAxiosError){
+        throw new APIException(e, url)
+      }
+      throw new APIException(e.response, url)
     }
   }
 
@@ -45,42 +49,44 @@ export class API {
     try {
       return await this.request(method, url, data)
     } catch (error) {
-      if(error instanceof APIException){
-        switch (error.code){
+      if (error instanceof APIException) {
+        switch (error.code) {
           case 403:
             await this.$vue.$router.replace({
               name: 'forbidden'
             })
             break
           case 404:
-            console.log('lsl')
             await this.$vue.$router.replace({
-              name:'not-found'
+              name: 'not-found'
             })
             break
+          default:
+            SUtil.alertAPIException(error, this.$vue)
         }
-        //@ts-ignore
-        return
       }
-      //$alert is injected in App.vue
-      this.$vue.$alert(new Alert({
-        type: 'error',
-        info: error.info ?? error.toString(),
-        time: 8000
-      }))
       return {
-        data: undefined,
-        msg: ''
+        msg:'error',
+        data:undefined
       }
     }
   }
 
-  async checkState(): Promise<any> {
-    // let data = (await this.cRequest('post', 'beacon')).data
-    // if (!!data)
-    //   return new User(data)
-    // else
-    //   return new User('')
+  async uploadJudgeScript(form:FormData):Promise<string>{
+    return (await this.cRequest('post','upload/judgescript', form)).msg
+  }
+
+  async checkState(): Promise<[User, boolean]> {
+    try {
+      let data = (await this.request('post', 'checkstate')).data
+      return [new User(data), true]
+    } catch (error) {
+      if (error instanceof APIException && error.code === 401) {
+        return [notLogin, false]
+      }
+      SUtil.alertAPIException(error, this.$vue)
+      return [notLogin, false]
+    }
   }
 
   async login(loginForm: LoginForm): Promise<User> {
@@ -174,5 +180,5 @@ export class API {
 }
 
 export declare interface API {
-  $vue:Vue
+  $vue: Vue
 }

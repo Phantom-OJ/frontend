@@ -69,3 +69,9 @@ loading 界面
 btn可以自定义loader 是slot
 
 recorddetail 重新请求
+
+tag 放上去显示 description
+
+自动捕获回车的焦点
+
+nickname 和 code xss

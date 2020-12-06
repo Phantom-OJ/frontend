@@ -7,7 +7,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SManagerAssignmentCard from "@/components/Assignment/SManagerAssignmentCard.vue";
+import SManagerAssignmentCard from "@/components/Assignment/SManageAssignmentCard.vue";
 
 @Component({
   components: {SManagerAssignmentCard}

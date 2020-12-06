@@ -120,7 +120,8 @@ export default class SSplitSelect extends Vue {
           top: -2px;
           left: -2px;
           background-color: var(--v-success-lighten1);
-          opacity: 0.07;
+          opacity: 0.1;
+          z-index: 0;
         }
       }
     }
@@ -139,7 +140,7 @@ export default class SSplitSelect extends Vue {
           top: -2px;
           left: -2px;
           background-color: var(--v-accent-lighten1);
-          opacity: 0.07;
+          opacity: 0.1;
         }
       }
     }

@@ -79,8 +79,8 @@
   "problem": {
     "searchA": "ID",
     "searchB": "题名",
-    "searchC": "标签",
-    "subtitle": "不讲武德",
+    "tag": "标签",
+    "subtitle": "别让你的骄傲使你孤独一人",
     "back": "回到作业",
     "lang": "语言",
     "time": "时间限制",
@@ -94,7 +94,7 @@
     "searchA": "作业",
     "searchP": "题目",
     "searchU": "用户",
-    "subtitle": "学识告诉你，何为不可触碰",
+    "subtitle": "逃避困难是一场永远跑不赢的比赛",
     "submission": "提交",
     "code-length": "代码长度"
   },
@@ -136,7 +136,12 @@
     "problem": {
       "&": "问题",
       "type": "类型",
-      "solution": "题解"
+      "solution": "题解",
+      "judge-point": {
+        "&": "判题点",
+        "script": "给分脚本",
+        "db": "数据库"
+      }
     },
     "assignment": {
       "&": "作业"

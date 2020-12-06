@@ -79,8 +79,8 @@
   "problem": {
     "searchA": "ID",
     "searchB": "Name",
-    "searchC": "Tag",
-    "subtitle": "True mastery of any skill takes a lifetime",
+    "tag": "Tag",
+    "subtitle": "Don't let your pride leave you all alone",
     "back":"Back to Assignment",
     "lang": "language",
     "time": "Time limit",
@@ -94,7 +94,7 @@
     "searchA": "Assignment",
     "searchP": "problem",
     "searchU": "user",
-    "subtitle": "True mastery of any skill takes a lifetime",
+    "subtitle": "I can accept failure,but I can't accept not trying",
     "submission": "SUBMISSION",
     "code-length": "Code length"
   },
@@ -136,7 +136,12 @@
     "problem": {
       "&": "Problem",
       "type": "Type",
-      "solution": "Solution"
+      "solution": "Solution",
+      "judge-point": {
+        "&": "Judge Point",
+        "script": "Scoring Script",
+        "db": "Database"
+      }
     },
     "assignment": {
       "&": "Assignment"

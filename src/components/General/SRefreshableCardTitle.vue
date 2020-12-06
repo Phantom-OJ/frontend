@@ -3,7 +3,7 @@
     <div style="flex-grow: 3;margin-right: 10px">
       {{$t(`nav-bar.${title}`).toUpperCase()}}
       <v-card-subtitle v-if="width_height.width>580" style="display: inline-block">
-        {{$t(subtitle)}}
+        {{subtitle}}
       </v-card-subtitle>
     </div>
     <slot></slot>
@@ -32,7 +32,7 @@ export default class SRefreshableCardTitle extends Vue {
 
   @Prop({
     type: String,
-    default: 'assignment.subtitle'
+    default:''
   })
   readonly subtitle!: string
 

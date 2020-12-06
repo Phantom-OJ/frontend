@@ -47,7 +47,16 @@ export interface ProblemForm {
   solution: string
   indexInAssignment: number
   tagList: number[]
+  judgePointList:JudgePointForm[]
   type: string
+}
+
+export interface JudgePointForm{
+  beforeSql:string
+  afterSql:string
+  judgeScriptId:number
+  answer:string
+  judgeDatabaseId:number
 }
 
 export const STATUS = Object.freeze({

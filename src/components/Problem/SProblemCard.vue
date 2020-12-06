@@ -1,12 +1,12 @@
 <template>
   <v-card id="problem-card" class="all-card">
-    <s-refreshable-card-title :title="'problem'" @refresh="loadProblems(true)">
+    <s-refreshable-card-title :title="'problem'" @refresh="loadProblems(true)" :subtitle="$t('problem.subtitle')">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchA`)"
                       type="text" dense v-model="searchID"/>
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchB`)"
                       type="text" dense v-model="searchName"/>
-        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.searchC`)"
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`problem.tag`)"
                       type="text" dense v-model="searchTags"/>
         <div>
           <v-btn class="search-btn" @click="search">filter</v-btn>
@@ -67,7 +67,6 @@ import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vu
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from '@/ts/utils'
 import {EntityContainer} from "@/ts/entity-container";
-import {Permission} from "@/ts/user";
 
 @Component({
   components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},

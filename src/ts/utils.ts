@@ -97,10 +97,10 @@ export class SUtil {
     return list?.map(i => new type(i)) ?? []
   }
 
-  static pageDataTransfer<T extends Entity>(collection: EntityCollection, type: new (arg: any) => T): SEntityCollection<T> {
+  static pageDataTransfer<T extends Entity>(collection: EntityCollection|undefined, type: new (arg: any) => T): SEntityCollection<T> {
     return {
-      entities: this.objs2entities(collection.entities, type),
-      count: collection.count
+      entities: this.objs2entities(collection?.entities??[], type),
+      count: collection?.count??0
     }
   }
 

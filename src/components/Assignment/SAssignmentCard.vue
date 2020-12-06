@@ -1,6 +1,6 @@
 <template>
   <v-card id="assignment-card" class="all-card">
-    <s-refreshable-card-title :title="'assignment'" @refresh="refresh">
+    <s-refreshable-card-title :title="'assignment'" @refresh="refresh" :subtitle="$t('assignment.subtitle')">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
                       type="text" dense v-model="searchID"/>

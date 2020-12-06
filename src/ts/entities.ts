@@ -186,7 +186,7 @@ export class Tag {
   description: string
 
   constructor({keyword, description}: any) {
-    this.tag = keyword;
+    this.tag = keyword
     this.description = description
   }
 }

@@ -39,6 +39,8 @@
   "send": "发送",
   "search": "搜索",
   "No": "序号",
+  "cancel": "取消",
+  "OK": "确认",
   "security": {
     "t-weak": "弱爆了",
     "weak": "弱",
@@ -57,7 +59,8 @@
     "c-pwd": "确认密码",
     "v-code": "验证码",
     "nickname": "昵称",
-    "n-pwd": "新密码"
+    "n-pwd": "新密码",
+    "recover": "恢复最近的登录状态?"
   },
   "error": {
     "mail": "无效邮箱地址",
@@ -136,12 +139,15 @@
     "problem": {
       "&": "问题",
       "type": "类型",
-      "solution": "题解",
-      "judge-point": {
-        "&": "判题点",
-        "script": "给分脚本",
-        "db": "数据库"
-      }
+      "solution": "题解"
+    },
+    "judge-point": {
+      "&": "判题点",
+      "script": "计分脚本",
+      "db": "数据库",
+      "bes": "前置SQL",
+      "afs": "后置SQL",
+      "ans": "答案"
     },
     "assignment": {
       "&": "作业"

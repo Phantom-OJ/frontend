@@ -59,8 +59,8 @@
           <thead>
           <tr>
             <th>{{ $t('No') }}</th>
-            <th>{{ $t('create.problem.judge-point.script') }}</th>
-            <th>{{ $t('create.problem.judge-point.db') }}</th>
+            <th>{{ $t('create.judge-point.script') }}</th>
+            <th>{{ $t('create.judge-point.db') }}</th>
             <th>{{ $t('create.operation') }}</th>
           </tr>
           </thead>
@@ -76,6 +76,9 @@
                     mdi-pencil
                   </v-icon>
                 </template>
+                <v-card style="padding: 24px">
+                  <s-manage-judge-point-sheet :judge-point.sync="j"/>
+                </v-card>
               </v-dialog>
               <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="deleteJ(j)">
                 mdi-delete
@@ -89,20 +92,11 @@
             </v-icon>
           </v-btn>
         </v-simple-table>
-        <form ref="uploadForm">
-          <v-text-field name="keyword"/>
-          <input v-show="false" type="file" name="file" ref="script"/>
-          <div class="s-flex">
-            <v-btn @click="chooseScript" style="margin: 0 12px 12px 0">choose</v-btn>
-            <span style="margin-bottom: 12px">{{ scriptFileName }}</span>
-          </div>
-          <v-btn @click="upload" block>upload</v-btn>
-        </form>
         <v-btn color="success" shaped>{{ $t('submit') }}</v-btn>
       </div>
       <div v-if="!des_sol" class="s-right s-flex">
         <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="problem_.description"
-                    class="s-mp-form--description inline-block" filled auto-grow />
+                    class="s-mp-form--description inline-block" filled auto-grow/>
         <s-markdown :markdown="problem_.description" class="s-mp-form--description__show"/>
       </div>
       <div v-else class="s-right s-flex">
@@ -125,9 +119,14 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
 import {Tag} from "@/ts/entities";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import STag from "@/components/General/STag.vue";
+import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
+import SManageJudgePointSheet from "@/components/Problem/SManageJudgePointSheet.vue";
 
 @Component({
-  components: {STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker}
+  components: {
+    SManageJudgePointSheet,
+    SUploadFileForm, STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker
+  }
 })
 export default class SManagerProblemSheet extends Vue {
   readonly TYPE = TYPE.values()
@@ -144,20 +143,6 @@ export default class SManagerProblemSheet extends Vue {
     description: 'test tag 1'
   }]
   tagDialog: boolean = false
-  scriptFileName: string = ''
-  intervals: number[] = []
-
-  mounted() {
-    this.intervals.push(window.setInterval(() => {
-      const form = this.$refs.uploadForm as HTMLFormElement
-      const jsForm = new FormData(form)
-      this.scriptFileName = (jsForm.get('file') as any).name
-    }, 1000))
-  }
-
-  beforeDestroy() {
-    this.intervals.forEach(window.clearInterval)
-  }
 
   get activeTagNames() {
     return this.activeTags.map(t => t.tag).join(' ')
@@ -175,10 +160,6 @@ export default class SManagerProblemSheet extends Vue {
       answer: '',
       judgeDatabaseId: 1
     })
-  }
-
-  chooseScript() {
-    (this.$refs.script as HTMLInputElement).click()
   }
 
   async upload() {
@@ -277,13 +258,16 @@ $mp-cm-height: 300px;
     flex-grow: 1;
     box-sizing: border-box;
     min-height: 705px;
+
     .s-mp-form--description {
       width: 50%;
       flex-grow: 1;
       height: 100%;
-      .v-input__control{
+
+      .v-input__control {
         height: 100%;
       }
+
       .v-input__slot {
         height: 100%;
         background-color: rgba(0, 0, 0, 0.03);

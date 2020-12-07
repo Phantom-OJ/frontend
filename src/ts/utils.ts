@@ -2,6 +2,7 @@ import {Entity, EntityCollection, LabelDataList, SEntityCollection} from "@/ts/i
 import {APIException} from "@/ts/exceptions";
 import {Vue} from "@/ts/extension";
 import {Alert, ProblemStat} from "@/ts/entities";
+import {State} from "@/ts/user";
 
 export class SUtil {
 
@@ -132,5 +133,23 @@ export class SUtil {
       labels: statList.map(p => p.key),
       data: statList.map(p => p.count)
     }
+  }
+
+  static recover(_state:State, vue:Vue){
+    if(!_state.route) return
+    vue.$store.commit('setProblemInfo', _state.problemInfo)
+    vue.$store.commit('setAssignmentInfo', _state.assignmentInfo)
+    vue.$store.commit('setRecordInfo', _state.recordInfo)
+    window.state = _state.state
+    vue.$router.replace({
+      path: _state.route,
+      query: {
+        recover: 'true'
+      }
+    }).catch(e=>void e)
+  }
+
+  static async sleep(ms:number){
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 }

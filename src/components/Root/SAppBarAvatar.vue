@@ -73,8 +73,9 @@ export default class SAvatar extends Vue {
   }
 
   async signOut(){
-    let re = await this.$api.logOut()
+    await this.$api.logOut()
     this.$store.commit('setUser',{isAuthenticated:false})
+    await this.$router.push('/')
   }
 }
 </script>

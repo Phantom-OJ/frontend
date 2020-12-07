@@ -36,6 +36,8 @@ export default class SRefreshableCardTitle extends Vue {
   })
   readonly subtitle!: string
 
+  readonly width_height!:{width:number}
+
   @Emit('refresh')
   click(){
   }

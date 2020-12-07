@@ -1,7 +1,7 @@
 <template>
   <v-card class="account-card">
     <v-card-title>
-      {{$t('nav-user.login')}}
+      {{ $t('nav-user.login') }}
     </v-card-title>
     <v-form id="s-login-form">
       <div id="s-login-name">
@@ -31,7 +31,7 @@
           @click="login"
           :loading="waitForRes"
         >
-        {{$t('nav-user.login')}}
+          {{ $t('nav-user.login') }}
         </v-btn>
       </div>
       <div id="s-login-sign-up">
@@ -41,10 +41,25 @@
           @click="signUp"
           :disabled="waitForRes"
         >
-        {{$t('nav-user.sign-up')}}
+          {{ $t('nav-user.sign-up') }}
         </v-btn>
       </div>
     </v-form>
+    <v-dialog v-model="showDialog" width="400">
+      <v-card max-width="600px" class="inline-block" style="margin: 0 auto;">
+        <v-card-title>
+          {{ $t('profile.recover') }}
+        </v-card-title>
+        <v-card-actions class="s-flex" style="justify-content: flex-end;padding:16px;padding-top: 8px">
+          <v-btn @click="showDialog=false;recover=false;">
+            {{ $t('cancel') }}
+          </v-btn>
+          <v-btn color="success" @click="showDialog=false;recover=true;">
+            {{ $t('OK') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -59,8 +74,10 @@ export default class SLoginCard extends Vue {
   username: string = ''
   password: string = ''
   waitForRes: boolean = false
+  showDialog: boolean = false
+  recover: boolean = true
 
-  async login(){
+  async login() {
     this.waitForRes = true
     try {
       let user = await this.$api.login({
@@ -68,15 +85,24 @@ export default class SLoginCard extends Vue {
         password: this.password
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
-      await router.push((this.$route.query['then']??'/') as string)
-    }catch (e) {
+      if (user.stateSave) {
+        this.showDialog = true
+        while (this.showDialog) {
+          await SUtil.sleep(1000)
+        }
+        if (this.recover) {
+          SUtil.recover(user.state, this)
+        }
+      }
+      await router.push((this.$route.query['then'] ?? '/') as string)
+    } catch (e) {
       this.waitForRes = false
-      SUtil.alertAPIException(e,this)
+      SUtil.alertAPIException(e, this)
     }
   }
 
-  signUp(){
-    this.$router.push({name:'sign-up', query:this.$route.query})
+  signUp() {
+    this.$router.push({name: 'sign-up', query: this.$route.query})
   }
 
 }
@@ -84,20 +110,20 @@ export default class SLoginCard extends Vue {
 
 <style scoped lang="scss">
 
-  #s-login-form {
-    margin: 10px 20px;
-  }
+#s-login-form {
+  margin: 10px 20px;
+}
 
-  #s-login-pwd {
-    height: 70px;
-    margin-top:10px;
-  }
+#s-login-pwd {
+  height: 70px;
+  margin-top: 10px;
+}
 
-  #s-login-sign-up{
-    margin-bottom: 20px;
-  }
+#s-login-sign-up {
+  margin-bottom: 20px;
+}
 
-  #s-forget-pwd{
-    text-align: right;
-  }
+#s-forget-pwd {
+  text-align: right;
+}
 </style>

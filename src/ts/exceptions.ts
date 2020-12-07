@@ -4,7 +4,7 @@ export class APIException {
   url:string
 
   constructor({data, status, statusText, code}: any, url:string) {
-    this.code = parseInt(status)??code
+    this.code = status??code
     this.description = data?.msg??statusText
     this.url = url
   }

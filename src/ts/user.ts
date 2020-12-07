@@ -1,3 +1,5 @@
+import {Filter} from "@/ts/interfaces";
+
 export class User {
   ID: number
   avatar: string
@@ -11,15 +13,16 @@ export class User {
   username: string
 
   constructor({id, avatar, groupList, lang, nickname, permissionList, role, stateSave, state, username}: any) {
+    console.log(state)
     this.ID = id
-    this.groupList = (<any[]>groupList)?.map(e => new Group(e))
+    this.groupList = (<any[]>groupList)?.map(e => new Group(e))??[]
     this.avatar = avatar
     this.role = role
     this.lang = lang
     this.nickname = nickname
-    this.permissionList = (<any[]>permissionList)?.map(e => new Permission(e))
-    this.stateSave = stateSave
-    this.state = new State(JSON.parse(state??'{}'))
+    this.permissionList = (<any[]>permissionList)?.map(e => new Permission(e))??[]
+    this.stateSave = stateSave??false
+    this.state = JSON.parse(state||'{}')
     this.username = username
   }
 
@@ -102,9 +105,15 @@ export class Group{
   }
 }
 
-export class State {
+interface SavedInfo{
+  pageIndex:number
+  filter:Filter
+}
 
-  constructor({}: any) {
-  }
-
+export interface State{
+  problemInfo:SavedInfo
+  assignmentInfo:SavedInfo
+  recordInfo:SavedInfo
+  route:string
+  state:any
 }

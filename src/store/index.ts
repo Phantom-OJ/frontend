@@ -70,7 +70,7 @@ let vuex = new Vuex.Store({
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
-      state.user = user
+      state.user = isAuthenticated?user:notLogin
       state.isAuthenticated = isAuthenticated
     },
     setSideNav(state, value) {
@@ -132,8 +132,7 @@ let vuex = new Vuex.Store({
     //   commit('setUser', {user: notLogin, isAuthenticated: false})
     //   await router.push('/')
     // }
-  },
-  strict: true
+  }
 })
 
 export default vuex

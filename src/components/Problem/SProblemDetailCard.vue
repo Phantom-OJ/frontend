@@ -125,6 +125,7 @@ import {EntityContainer} from "@/ts/entity-container";
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly problemInfo!: EntityContainer<Problem>
+  readonly keyInState:string = 'problem-detail'
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   pid: number = -1
   records: Array<Record> = []
@@ -139,6 +140,18 @@ export default class SProblemDetailCard extends Vue {
     this.pid = parseInt(this.$route.params.pid)
     this.loadProblem()
     this.loadCache()
+  }
+
+  mounted(){
+    if(this.$route.query.recover){
+      if(!window.state?.[this.keyInState]) return
+      for (let stateKey in window.state[this.keyInState]) {
+        if (window.state[this.keyInState].hasOwnProperty(stateKey)&&this.hasOwnProperty(stateKey)) {
+          //@ts-ignore
+          this[stateKey] = window.state[this.keyInState][stateKey]
+        }
+      }
+    }
   }
 
   get tabHeight(): number {
@@ -243,6 +256,10 @@ export default class SProblemDetailCard extends Vue {
       code: this.code,
       lang: this.lang
     })
+    window.state[this.keyInState] = {
+      code:this.code,
+      lang:this.lang
+    }
   }
 }
 </script>

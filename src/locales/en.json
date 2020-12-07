@@ -39,6 +39,8 @@
   "send": "Send",
   "search": "Search",
   "No": "No.",
+  "cancel": "Cancel",
+  "OK": "OK",
   "security": {
     "t-weak": "Too weak",
     "weak": "weak",
@@ -57,7 +59,8 @@
     "c-pwd": "Confirm Password",
     "v-code": "Verification Code",
     "nickname": "Nickname",
-    "n-pwd": "New password"
+    "n-pwd": "New password",
+    "recover": "Recover the lastly state?"
   },
   "error": {
     "mail": "Invalid e-mail",
@@ -81,12 +84,12 @@
     "searchB": "Name",
     "tag": "Tag",
     "subtitle": "Don't let your pride leave you all alone",
-    "back":"Back to Assignment",
+    "back": "Back to Assignment",
     "lang": "language",
     "time": "Time limit",
     "memory": "Memory limit",
     "score": "Full Score",
-    "submitted":"submitted number",
+    "submitted": "submitted number",
     "resolved": "resolved number",
     "last-code": "pull code submitted lastly"
   },
@@ -127,7 +130,7 @@
     "content2": "Still testing, please contact to 11811407@mail.sustech.edu.cn if there's any problem"
   },
   "create": {
-    "title":"Title",
+    "title": "Title",
     "description": "Description",
     "start-time": "Start Time",
     "end-time": "End Time",
@@ -136,12 +139,15 @@
     "problem": {
       "&": "Problem",
       "type": "Type",
-      "solution": "Solution",
-      "judge-point": {
-        "&": "Judge Point",
-        "script": "Scoring Script",
-        "db": "Database"
-      }
+      "solution": "Solution"
+    },
+    "judge-point": {
+      "&": "Judge Point",
+      "script": "Scoring Script",
+      "db": "Database",
+      "bes": "Before SQL",
+      "afs": "After SQL",
+      "ans": "answer"
     },
     "assignment": {
       "&": "Assignment"

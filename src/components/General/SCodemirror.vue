@@ -30,8 +30,10 @@ export default class SCodemirror extends Vue {
   })
   readonly readOnly!: boolean
 
-  @Prop()
-  readonly options?: object
+  @Prop({
+    default:()=>{}
+  })
+  readonly options!: object
 
   @Prop({
     type: Set,

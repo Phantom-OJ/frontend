@@ -32,9 +32,6 @@ export class API {
       // @ts-ignore
       return (await Axios[method](`/api/${url}`, data)).data
     } catch (e) {
-      if(e.isAxiosError){
-        throw new APIException(e, url)
-      }
       throw new APIException(e.response, url)
     }
   }
@@ -81,7 +78,7 @@ export class API {
       let data = (await this.request('post', 'checkstate')).data
       return [new User(data), true]
     } catch (error) {
-      if (error instanceof APIException && error.code === 401) {
+      if (error instanceof APIException && (error.code === 401||error.code===403||error.code===404)) {
         return [notLogin, false]
       }
       SUtil.alertAPIException(error, this.$vue)

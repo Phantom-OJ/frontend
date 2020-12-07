@@ -1,7 +1,7 @@
 <template>
   <v-card class="account-card">
     <v-card-title id="title">
-      {{$t('nav-user.sign-up')}}
+      {{ $t('nav-user.sign-up') }}
     </v-card-title>
     <v-card-text>
       <v-form id="s-login-form">
@@ -36,7 +36,7 @@
             @click="sendVCode"
             :disabled="sendVCodeDisable"
           >
-            {{nextSend||$t('send')}}
+            {{ nextSend || $t('send') }}
           </v-btn>
         </div>
         <div>
@@ -46,7 +46,7 @@
             @click="signUp"
             :loading="waitForRes"
           >
-            {{$t('nav-user.sign-up')}}
+            {{ $t('nav-user.sign-up') }}
           </v-btn>
         </div>
       </v-form>
@@ -65,6 +65,7 @@ import SSetPassword from "@/components/Profile/SSetPassword.vue";
   components: {SSetPassword}
 })
 export default class SSignUpCard extends Vue {
+  readonly keyInState = 'sign-up'
   username: string = ''
   password: string = ''
   nickname: string = ''
@@ -77,6 +78,26 @@ export default class SSignUpCard extends Vue {
 
   created() {
     this.intervals.push(window.setInterval(() => this.nextSend = Math.max(0, this.nextSend - 1), 1000))
+  }
+
+  mounted() {
+    if (this.$route.query.recover) {
+      if (!window.state?.[this.keyInState]) return
+      for (let stateKey in window.state[this.keyInState]) {
+        if (window.state[this.keyInState].hasOwnProperty(stateKey)&&this.hasOwnProperty(stateKey)) {
+          //@ts-ignore
+          this[stateKey] = window.state[this.keyInState][stateKey]
+        }
+      }
+    }
+  }
+
+  beforeDestroy() {
+    window.state[this.keyInState] = {
+      username: this.username,
+      password: this.password,
+      nickname: this.nickname
+    }
   }
 
   checkMail(value: string) {
@@ -158,22 +179,22 @@ export default class SSignUpCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #s-login-root {
-    width: 400px;
-    max-width: 80%;
-    margin: 20px auto;
-  }
+#s-login-root {
+  width: 400px;
+  max-width: 80%;
+  margin: 20px auto;
+}
 
-  #s-login-form {
-    div {
-      margin-bottom: 10px;
-    }
+#s-login-form {
+  div {
+    margin-bottom: 10px;
   }
+}
 
 </style>
 <style lang="scss">
 
-  .v-messages__message {
-    font-size: 14px !important;
-  }
+.v-messages__message {
+  font-size: 14px !important;
+}
 </style>

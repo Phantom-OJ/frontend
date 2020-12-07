@@ -211,6 +211,13 @@ export class ProblemStat{
     this.key = key
     this.count = count
   }
+}
+
+export class JudgeScript{
+
+}
+
+export class JudgeDB{
 
 }
 

@@ -7,7 +7,7 @@
     <v-card flat>
       <v-card-title>
         <v-avatar :size="72" style="margin: 10px 0 10px 10%;display: block">
-          <img :src="user.avatar">
+          <img :src="user.avatar" :alt="user.nickname">
         </v-avatar>
         <div style="margin: 0 0 0 20px">
           <p class="title-text">
@@ -122,8 +122,9 @@ export default class SNavBar extends Vue {
   }
 
   async signOut(){
-    let re = await this.$api.logOut()
+    await this.$api.logOut()
     this.$store.commit('setUser',{isAuthenticated:false})
+    await this.$router.push('/')
   }
 }
 </script>

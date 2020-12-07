@@ -63,6 +63,12 @@ export declare global {
   interface String {
     hash(): number
   }
+
+  let state:any
+
+  interface Window{
+    state:any
+  }
 }
 
 Number.prototype.format = function (num, prefix = '0', mod = true) {

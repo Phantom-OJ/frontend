@@ -75,3 +75,7 @@ tag 放上去显示 description
 自动捕获回车的焦点
 
 nickname 和 code xss
+
+user 可点击
+
+assignment 显示 group

@@ -119,6 +119,7 @@ import SManagerProblemSheet from "@/components/Problem/SManageProblemSheet.vue";
 export default class SCreateAssignmentCard extends Vue {
   readonly STATUS = STATUS.values()
   readonly defaultMd = '# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$'
+  readonly keyInState = 'create-assignment'
   pI = 1
   groupDialog: boolean = false
   tab: number = 0
@@ -133,6 +134,24 @@ export default class SCreateAssignmentCard extends Vue {
   problemList: ProblemForm[] = []
   activeGroups: Group[] = [{ID: 1, description: 'lab1'}, {ID: 2, description: 'lab2'}]
   inactiveGroups: Group[] = [{ID: 3, description: 'lab3'}]
+
+  mounted(){
+    if(this.$route.query.recover){
+      if(!window.state?.[this.keyInState]) return
+      for (let stateKey in window.state[this.keyInState]) {
+        if (window.state[this.keyInState].hasOwnProperty(stateKey)&&this.hasOwnProperty(stateKey)) {
+          //@ts-ignore
+          this[stateKey] = window.state[this.keyInState][stateKey]
+        }
+      }
+    }
+  }
+
+  beforeDestroy() {
+    window.state[this.keyInState] = {
+      ...this.$data
+    }
+  }
 
   get permitAddProblem() {
     return this.$store.state.user?.hasPermission(Permission.ALLOWANCE.CREATE_PROBLEM) ?? false

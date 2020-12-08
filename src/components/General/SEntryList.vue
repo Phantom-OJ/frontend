@@ -1,20 +1,22 @@
 <template>
   <v-list class="list problem-list">
-    <div
-      v-for="(entry, index) in entries"
-      :key="index"
-      class="list-item-container"
-    >
-      <v-list-item
-        class="list-item cursor-hand-hover"
-        @click="click(entry.ID)"
+    <transition-group name="slide-x-transition">
+      <div
+        v-for="entry in entries"
+        :key="entry.ID"
+        class="list-item-container"
       >
-        <v-row justify="space-between" style="width: 100%;min-height: 70px;" align-content="center">
-          <slot :entry="entry"/>
-        </v-row>
-      </v-list-item>
-      <v-divider/>
-    </div>
+        <v-list-item
+          class="list-item cursor-hand-hover"
+          @click="click(entry.ID)"
+        >
+          <v-row justify="space-between" style="width: 100%;min-height: 70px;" align-content="center">
+            <slot :entry="entry"/>
+          </v-row>
+        </v-list-item>
+        <v-divider/>
+      </div>
+    </transition-group>
   </v-list>
 </template>
 
@@ -32,8 +34,8 @@ export default class SEntryList extends Vue {
   readonly entries!: Array<Entity>
 
   @Prop({
-    type:String,
-    required:true
+    type: String,
+    required: true
   })
   readonly path!: string
 

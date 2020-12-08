@@ -16,26 +16,6 @@
           </v-btn>
         </div>
         <s-record-result-box :result="record.result" :score="record.score"/>
-        <!--        <v-row style="flex-wrap: wrap;max-width: 800px;">-->
-        <!--          <v-col cols="4">-->
-        <!--            <v-icon class="icon-color-0">-->
-        <!--              mdi-database-->
-        <!--            </v-icon>-->
-        <!--            {{`${record.space}MB`}}-->
-        <!--          </v-col>-->
-        <!--          <v-col cols="4">-->
-        <!--            <v-icon class="icon-color-0">-->
-        <!--              mdi-timer-sand-->
-        <!--            </v-icon>-->
-        <!--            {{`${record.time}ms`}}-->
-        <!--          </v-col>-->
-        <!--          <v-col cols="4">-->
-        <!--            <v-icon class="icon-color-0">-->
-        <!--              mdi-alpha-l-box-->
-        <!--            </v-icon>-->
-        <!--            {{`${record.dialect.toUpperCase()}`}}-->
-        <!--          </v-col>-->
-        <!--        </v-row>-->
       </div>
       <v-tabs v-if="paginate" v-model="tab" background-color="white" color="secondary" right
               class="detail-card-tabs" height="50">
@@ -91,7 +71,7 @@ export default class SRecordDetailCard extends Vue {
   private cnt: number = 1
 
   created() {
-    this.loadRecord()
+    this.loadRecord(true)
   }
 
   async loadRecord(force = false) {

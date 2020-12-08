@@ -29,7 +29,7 @@ export default class STooltipIcon extends Vue {
 
   @Prop({
     type: String,
-    default: 'fab-transition'
+    default: 'scale-transition'
   })
   readonly transition!: string
 

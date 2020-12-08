@@ -21,6 +21,9 @@
     <s-entry-list :entries="problems" :path="'problem'">
       <template v-slot="{entry:problem}">
         <v-col cols="2" class="ellipsis-col">
+          <v-icon :color="solveStateColor(problem.solved)">
+            {{solveStateIcon(problem.solved)}}
+          </v-icon>
           {{ problem.ID }}
         </v-col>
         <v-col cols="4" class="ellipsis-col">
@@ -33,12 +36,11 @@
           <s-tag
             v-for="(tag, index) in problem.tags"
             :key="index"
-            :tag="tag.tag"
-            :color="tag.tag.hash().format(6)"
+            :tag="tag"
             @click="clickTag"
           ></s-tag>
         </v-col>
-        <v-col cols="2" lg="2" class="ellipsis-col">
+        <v-col cols="2" class="">
           <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.submitted')" direction="top">
             mdi-upload
           </s-tooltip-icon>
@@ -84,6 +86,9 @@ export default class SProblemCard extends Vue {
   private s_searchID: string = ''
   private s_searchName: string = ''
   private s_searchTags: string = ''
+
+  solveStateColor=SUtil.solveStateColor
+  solveStateIcon=SUtil.solveStateIcon
 
   created() {
     this.initFilter()

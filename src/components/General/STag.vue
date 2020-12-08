@@ -1,17 +1,25 @@
 <template>
-  <div class="s-tag" @click="click" ref="s-tag">
-    <v-icon v-if="width_height.width>600" dense>
-      {{ icon }}
-    </v-icon>
-    {{ tag }}
-    <slot/>
-  </div>
+  <v-tooltip
+    bottom
+    transition="scale-transition"
+  >
+    <template v-slot:activator="{on,attrs}">
+      <div class="s-tag" v-on="on" v-bind="attrs" @click="click" ref="s-tag">
+        <v-icon v-if="width_height.width>600" dense>
+          {{ icon }}
+        </v-icon>
+        {{ tag.keyword }}
+      </div>
+    </template>
+    {{ tag.description }}
+  </v-tooltip>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
+import {Tag} from "@/ts/entities";
 
 @Component({
   computed: {
@@ -19,23 +27,18 @@ import {mapState} from "vuex";
   }
 })
 export default class STag extends Vue {
-  @Prop({type: String, required: true})
-  readonly tag!: string
-  @Prop({type: String, required: false})
-  readonly to?: string
-  @Prop({type: String, default: `mdi-tag-outline`})
-  readonly icon!: string
-  @Prop({type: String, default: `var(--v-success-lighten1)`})
-  readonly color!: string
+  @Prop({
+    type: Tag,
+    required: true
+  })
+  readonly tag!: Tag
+
   @Prop({
     type: Boolean,
     default: true
   })
   readonly stopClickPropagate!: boolean
   readonly width_height!: { width: number }
-
-  created() {
-  }
 
   mounted() {
     //@ts-ignore
@@ -44,15 +47,19 @@ export default class STag extends Vue {
     style.setProperty('--bgcolor-stop', `#${this.color}42`)
   }
 
+  get color() {
+    return this.tag.keyword.hash().format(6)
+  }
+
+  get icon() {
+    return 'mdi-tag-outline'
+  }
+
   click(e: MouseEvent) {
     if (this.stopClickPropagate) {
       e.stopPropagation();
     }
-    if (!!this.to) {
-      this.$router.push(this.to)
-    } else {
-      this.$emit('click', this.tag)
-    }
+    this.$emit('click', this.tag)
   }
 }
 </script>
@@ -61,7 +68,6 @@ export default class STag extends Vue {
 
 @mixin linear-gradient($from, $to) {
   /* Fallback for sad browsers */
-  background-color: #51b0ff;
   background-color: $to;
   /* Mozilla Firefox */
   background-image: -moz-linear-gradient($from, $to);

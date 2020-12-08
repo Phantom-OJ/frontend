@@ -1,7 +1,7 @@
 import {Entity, EntityCollection, LabelDataList, SEntityCollection} from "@/ts/interfaces";
 import {APIException} from "@/ts/exceptions";
 import {Vue} from "@/ts/extension";
-import {Alert, ProblemStat} from "@/ts/entities";
+import {Alert, ProblemStat, SolveState} from "@/ts/entities";
 import {State} from "@/ts/user";
 
 export class SUtil {
@@ -91,6 +91,46 @@ export class SUtil {
         return 'warning'
       default:
         return 'accent'
+    }
+  }
+
+  static recordStatisticColor(result:string):string{
+    result = result.toUpperCase().trim()
+    switch (result) {
+      case 'AC':
+        return '#4caf50'
+      case 'WA':
+        return '#ff5722'
+      case 'TLE':
+      case 'MLE':
+      case 'RE':
+        return '#ff9800'
+      default:
+        return '#3165e5'
+    }
+  }
+
+  static solveStateColor(state:SolveState){
+    switch (state){
+      case SolveState.AC:
+        return 'success'
+      case SolveState.WA:
+        return 'warning'
+      case SolveState.NO_SUBMIT:
+      default:
+        return 'white'
+    }
+  }
+
+  static solveStateIcon(state:SolveState){
+    switch (state){
+      case SolveState.AC:
+        return 'mdi-check'
+      case SolveState.WA:
+        return 'mdi-bomb'
+      case SolveState.NO_SUBMIT:
+      default:
+        return ''
     }
   }
 

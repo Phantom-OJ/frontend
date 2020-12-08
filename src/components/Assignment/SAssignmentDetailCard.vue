@@ -61,6 +61,9 @@
         <s-entry-list :entries="assignment.problemList" :path="'problem'">
           <template v-slot="{entry:problem}">
             <v-col cols="2" class="ellipsis-col">
+              <v-icon :color="solveStateColor(problem.solved)">
+                {{solveStateIcon(problem.solved)}}
+              </v-icon>
               {{`No.${problem.indexInAssignment}`}}
             </v-col>
             <v-col cols="4" class="ellipsis-col">
@@ -73,9 +76,7 @@
               <s-tag
                 v-for="(tag, index) in problem.tags"
                 :key="index"
-                :tag="tag.tag"
-                :color="tag.tag.hash().format(6)"
-                class=""
+                :tag="tag"
                 @click="clickTag"
               ></s-tag>
             </v-col>
@@ -113,6 +114,7 @@ import SEntryList from "@/components/General/SEntryList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
@@ -128,6 +130,9 @@ export default class SAssignmentDetailCard extends Vue {
   recordsLoading:boolean=false
   private intervals: Array<number> = []
   private cnt = 1
+
+  solveStateColor=SUtil.solveStateColor
+  solveStateIcon=SUtil.solveStateIcon
 
   created() {
     this.loadAssignment()

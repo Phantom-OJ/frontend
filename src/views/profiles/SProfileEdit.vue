@@ -1,15 +1,22 @@
 <template>
-  <div>
-
-  </div>
+  <s-profile-edit-sheet :user="user"/>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
+import {User} from "@/ts/user";
+import SProfileEditSheet from "@/components/Profile/SProfileEditSheet.vue";
 
-@Component({})
+@Component({
+  components: {SProfileEditSheet}
+})
 export default class SProfileEdit extends Vue {
+  @Prop({
+    type:User,
+    required:true
+  })
+  user!:User
 }
 </script>
 

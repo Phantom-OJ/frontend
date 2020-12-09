@@ -4,14 +4,18 @@
     <div class="profile-container">
       <div class="profile-left-menu" :style="`width:${width_height.width/5+20}px`">
         <v-avatar :size="width_height.width/5+20">
-<!--          <img :src="user.avatar">-->
-          <img src="@/assets/view.jpg">
+          <img :src="user.avatar" :alt="user.nickname">
         </v-avatar>
         <h3 style="font-weight: 600;font-size: 32px">
-          {{user.nickname}}
+          {{ user.nickname }}
         </h3>
-        <p style="font-size: 22px;margin-bottom: 32px;" class="ellipsis-col">
-          {{user.username}}
+        <p style="font-size: 22px;margin-bottom: 18px;" class="ellipsis-col">
+          {{ user.username }}
+        </p>
+        <p style="font-size: 16px;font-weight: 100;margin-bottom: 26px" class="ellipsis-col">
+          {{ user.role }}
+          <br v-if="user.role.length>0">
+          {{ $t('profile.group') }}: {{ user.groupList.map(g => g.description).join(', ') }}
         </p>
         <v-btn
           v-for="(item, index) in items"
@@ -21,12 +25,12 @@
           class="profile-menu-btn ellipsis-col"
         >
           <v-icon class="profile-menu-btn-icon">
-            {{item.icon}}
+            {{ item.icon }}
           </v-icon>
-          {{$t(item.title)}}
+          {{ $t(item.title) }}
         </v-btn>
       </div>
-      <router-view/>
+      <router-view :user="user"/>
     </div>
   </v-card>
 </template>
@@ -52,27 +56,29 @@ export default class SProfileCard extends Vue {
   readonly width_height!: { width: number }
 
   s_readonly = false
-  user!: User
+  user_: User | boolean = false
   loading: boolean = true
-  readonly items = [{
-    icon:'mdi-book-open-variant',
+  readonly items_ = [{
+    icon: 'mdi-book-open-variant',
     title: 'profile.home',
     to: './home'
-  },{
+  }, {
     icon: 'mdi-pencil',
     title: 'profile.edit',
     to: './edit'
-  },{
+  }, {
     icon: 'mdi-shield-edit',
     title: 'profile.security',
     to: './security'
   }]
 
+  get items(){
+    return this.isSelf?this.items_:this.items_.slice(0, 1)
+  }
+
   created() {
     if (!this.isSelf) {
       this.loadUser()
-    } else {
-      this.user = this.$store.state.user
     }
     this.s_readonly = this.readonly || !this.isSelf
   }
@@ -80,6 +86,14 @@ export default class SProfileCard extends Vue {
   mounted() {
     if (this.isSelf) {
       this.loading = false
+    }
+  }
+
+  get user() {
+    if (!this.isSelf) {
+      return this.user_
+    } else {
+      return this.$store.state.user
     }
   }
 
@@ -92,9 +106,9 @@ export default class SProfileCard extends Vue {
   }
 
   async loadUser(force: boolean = false) {
-    if (!!this.user || force) {
+    if (!this.user || force) {
       this.loading = true
-      this.user = await this.$api.queryUser(this.uid)
+      this.user_ = await this.$api.queryUser(this.uid)
       this.loading = false
     }
   }
@@ -107,63 +121,68 @@ export default class SProfileCard extends Vue {
   padding: 10px 20px 32px 32px;
   display: flex;
 
-  .profile-left-menu{
+  .profile-left-menu {
     margin-top: 22px;
     display: flex;
     flex-direction: column;
     position: relative;
-    .profile-menu-btn{
+
+    .profile-menu-btn {
       position: relative;
       text-align: left;
       padding: 30px 0 30px 30%;
 
-      @media screen and (max-width: 1500px){
-        &{
+      @media screen and (max-width: 1500px) {
+        & {
           padding-left: 25%;
         }
-        .v-btn__content{
+        .v-btn__content {
           width: 75%;
         }
       }
-      @media screen and (max-width: 1350px){
-        &{
+      @media screen and (max-width: 1350px) {
+        & {
           padding-left: 20%;
         }
-        .v-btn__content{
+        .v-btn__content {
           width: 80%;
         }
       }
-      @media screen and (max-width: 1200px){
-        &{
+      @media screen and (max-width: 1200px) {
+        & {
           padding-left: 15%;
         }
-        .v-btn__content{
+        .v-btn__content {
           width: 85%;
         }
       }
-      @media screen and (max-width: 900px){
+      @media screen and (max-width: 900px) {
         & {
           padding-left: 5%;
         }
-        .v-btn__content{
+        .v-btn__content {
           width: 95%;
         }
       }
       margin: 6px 0;
-      &:last-child{
+
+      &:last-child {
         margin-bottom: 0;
       }
-      &.v-btn--active::before{
+
+      &.v-btn--active::before {
         opacity: 0.05;
       }
-      .v-btn__content{
+
+      .v-btn__content {
         display: inline;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         width: 70%;
       }
-      .profile-menu-btn-icon{
+
+      .profile-menu-btn-icon {
         margin-right: 10px;
         //position: absolute;
         //left: 45%;

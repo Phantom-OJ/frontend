@@ -4,7 +4,8 @@
       <div class="inlist-user">
         <v-avatar
           :size="72"
-          class="inlist-user-avatar"
+          class="inlist-user-avatar cursor-hand-hover"
+          @click="$router.push(`/profile/${record.userID}/home`)"
         >
           <img :src="record.avatar" alt="avatar">
         </v-avatar>
@@ -37,9 +38,6 @@
           {{`${record.dialect.toUpperCase()}`}}
         </v-col>
       </v-row>
-<!--      <p>-->
-<!--        {{`${$t('record.code-length')}: ${record.codeLength}`}}-->
-<!--      </p>-->
     </div>
     <v-timeline dense class="s-record-points">
       <v-timeline-item
@@ -94,7 +92,6 @@ export default class SRecordDescription extends Vue {
   })
   record!: Record
 
-  recordIcon = SUtil.recordIcon
   recordColor = SUtil.recordColor
 
   get points() {

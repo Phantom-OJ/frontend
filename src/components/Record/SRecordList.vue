@@ -2,12 +2,13 @@
   <s-entry-list :entries="records" :path="'record'">
     <template v-slot="{entry:record}">
       <v-col>
-        <span class="inlist-user">
+        <div class="inlist-user">
           <v-avatar
             :size="48"
-            class="inlist-user-avatar"
+            class="inlist-user-avatar cursor-hand-hover"
+            @click="$router.push(`/profile/${record.userID}/home`)"
           >
-            <img :src="record.avatar">
+            <img :src="record.avatar" :alt="record.username">
           </v-avatar>
           <div class="inlist-user-label ellipsis-col">
             <span class="padding-l-12 ellipsis-col">
@@ -17,7 +18,7 @@
               {{record.submitTime.sString()}}
             </span>
           </div>
-        </span>
+        </div>
       </v-col>
       <v-col class="ellipsis-col" style="min-width: 100px;font-weight: 600;">
         <v-icon class="icon-color-1" style="position: relative;top: 1px">

@@ -135,17 +135,17 @@ export default class SManagerProblemSheet extends Vue {
   problem_!: ProblemForm
   des_sol: boolean = false
   activeTags: Tag[] = [{
-    tag: 'tag1',
+    keyword: 'tag1',
     description: 'test tag 1'
   }]
   inactiveTags: Tag[] = [{
-    tag: 'tag1',
+    keyword: 'tag1',
     description: 'test tag 1'
   }]
   tagDialog: boolean = false
 
   get activeTagNames() {
-    return this.activeTags.map(t => t.tag).join(' ')
+    return this.activeTags.map(t => t.keyword).join(' ')
   }
 
   deleteJ(j: JudgePointForm) {

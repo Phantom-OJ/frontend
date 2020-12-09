@@ -55,6 +55,7 @@ export default class SUploadFileForm extends Vue {
     }else{
       const form = this.$refs.uploadForm as HTMLFormElement
       const jsForm = new FormData(form)
+      console.log(jsForm.get('file'))
       this.$emit('upload', jsForm)
     }
   }

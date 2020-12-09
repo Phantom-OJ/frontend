@@ -13,25 +13,24 @@
     </div>
     <div class="s-right">
       <v-textarea v-model="judgePoint_.answer" :label="$t('create.judge-point.ans')" auto-grow/>
+      <s-upload-file-form/>
       <div>
-        <v-responsive
-          max-width="400"
-        >
+        <v-responsive max-width="400">
           <v-text-field
             v-model="searchScript"
             type="number"
             label="Total Benched"
           ></v-text-field>
         </v-responsive>
-
         <v-virtual-scroll
           :bench="2"
           :items="scripts"
           height="300"
           item-height="32"
+          max-width="400"
         >
           <template v-slot:default="{ item }">
-            <v-list-item :key="item">
+            <v-list-item :key="item.id">
 
               <v-list-item-content>
                 <v-list-item-title>
@@ -61,9 +60,10 @@ import {JudgePointForm} from "@/ts/forms";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {JudgeDB, JudgeScript} from "@/ts/entities";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
+import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
 
 @Component({
-  components: {SCodeEditor, SCodemirror}
+  components: {SUploadFileForm, SCodeEditor, SCodemirror}
 })
 export default class SManageJudgePoint extends Vue {
   @PropSync('judgePoint')

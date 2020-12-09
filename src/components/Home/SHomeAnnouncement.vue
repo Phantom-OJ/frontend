@@ -33,8 +33,8 @@
               <v-card-title>
                 {{a.title}}
               </v-card-title>
-              <v-card-text>
-                {{a.description}}
+              <v-card-text >
+                <s-markdown :markdown="a.description"/>
               </v-card-text>
             </v-card>
           </v-dialog>
@@ -50,8 +50,10 @@ import {Component, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex";
 import {Announcement} from "@/ts/entities";
 import {SUtil} from "@/ts/utils";
+import SMarkdown from "@/components/General/SMarkdown.vue";
 
 @Component({
+  components: {SMarkdown},
   computed:{
     ...mapState(['width_height'])
   }

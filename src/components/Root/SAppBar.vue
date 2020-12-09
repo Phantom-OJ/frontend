@@ -45,6 +45,7 @@ import {Vue} from '@/ts/extension'
 import {Component, Watch} from 'vue-property-decorator'
 import SAppBarAvatar from "@/components/Root/SAppBarAvatar.vue";
 import {mapState} from "vuex";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {SAppBarAvatar},
@@ -52,16 +53,24 @@ import {mapState} from "vuex";
 })
 export default class SAppBar extends Vue {
   readonly width_height!: { width: number }
-  readonly localeMap = new Map<string, string>([['en', 'English'], ['zh-CN', '简体中文']])
   localeToggle: number = 1
 
   @Watch('localeToggle', {immediate: true})
   changeLocale() {
-    this.$i18n.locale = this.$i18n.availableLocales[this.localeToggle]
+    if(this.$i18n.locale !== this.$i18n.availableLocales[this.localeToggle]) {
+      this.$i18n.locale = this.$i18n.availableLocales[this.localeToggle]
+    }
+  }
+
+  @Watch('$i18n.locale')
+  localeChanged(){
+    if(this.$i18n.locale !== this.$i18n.availableLocales[this.localeToggle]) {
+      this.localeToggle = this.$i18n.availableLocales.findIndex(l => l=== this.$i18n.locale)
+    }
   }
 
   get locales() {
-    const locales: Array<string> = this.$i18n.availableLocales.map(Map.prototype.get.bind(this.localeMap))
+    const locales: Array<string> = this.$i18n.availableLocales.map(Map.prototype.get.bind(SUtil.localeMap))
     if (this.width_height.width < 800) {
       return locales.map(i => i.slice(0, 2))
     }

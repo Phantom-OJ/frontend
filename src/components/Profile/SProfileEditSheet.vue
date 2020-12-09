@@ -143,7 +143,6 @@ export default class SProfileEditSheet extends Vue {
       type: 'success',
       info: this.$t('success.submit').toString()
     }))
-    this.load()
   }
 
 }

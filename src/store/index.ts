@@ -5,9 +5,7 @@ import {Announcement, Assignment, Problem, Record} from "@/ts/entities"
 import {notLogin} from "@/store/testData";
 import {EntityContainer} from "@/ts/entity-container";
 
-
 Vue.use(Vuex)
-
 
 let vuex = new Vuex.Store({
   state: {

@@ -8,7 +8,7 @@
         <canvas ref="chart2"/>
       </v-responsive>
     </div>
-    <div >
+    <div>
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -21,7 +21,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="grades"
         :search="search"
       ></v-data-table>
     </div>
@@ -32,7 +32,7 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {SUtil} from "@/ts/utils";
-import {ProblemStatSet} from "@/ts/entities";
+import {Grade, ProblemStatSet} from "@/ts/entities";
 import {LabelDataList} from "@/ts/interfaces";
 
 const Chart = require('chart.js')
@@ -40,11 +40,10 @@ const Chart = require('chart.js')
 @Component({})
 export default class SProfileHomeSheet extends Vue {
   private readonly s_cType: Array<string> = ['problem.result', 'problem.dialect']
-  readonly keyInState='profile-home'
+  readonly keyInState = 'profile-home'
   search: string = ''
-  headers: { text: string, value: string }[] = []
-  desserts: {}[] = []
   loading: boolean = false
+  grades:Grade[]=[]
   statistic!: ProblemStatSet
   labelData: LabelDataList = {
     labels: [],
@@ -57,9 +56,23 @@ export default class SProfileHomeSheet extends Vue {
     return this.s_cType.map(s => this.$t(s).toString())
   }
 
+  get headers(): { text: string, value: string }[] {
+    return [{
+      text: this.$t('create.title').toString(),value:'title'
+    },{
+      text: this.$t('profile.score').toString(),value:'score'
+    },{
+      text: this.$t('problem.score').toString(), value:'fullScore'
+    }]
+  }
+
+  created() {
+    this.loadGrade()
+  }
+
   mounted() {
-    if(this.$route.query.recover){
-      if(!window.state?.[this.keyInState]) return
+    if (this.$route.query.recover) {
+      if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
         if (window.state[this.keyInState].hasOwnProperty(stateKey)) {
           //@ts-ignore
@@ -74,10 +87,9 @@ export default class SProfileHomeSheet extends Vue {
     this.loadStatisticSet()
   }
 
-
   beforeDestroy() {
     window.state[this.keyInState] = {
-      search:this.search
+      search: this.search
     }
   }
 
@@ -90,6 +102,10 @@ export default class SProfileHomeSheet extends Vue {
     this.statistic = await this.$api.queryUserStatSet(this.uid)
     this.loading = false
     this.draw()
+  }
+
+  async loadGrade(){
+    this.grades = await this.$api.queryUserGrade(this.uid)
   }
 
   draw() {

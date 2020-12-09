@@ -38,7 +38,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 #### look for icon
 https://material.iconhelper.cn/
 
-beaconAPI
+[finished] *beaconAPI*
 
 vue-ace-editor
 
@@ -62,20 +62,22 @@ loading 界面
 
 轮询结果
 
-作业界面的题目列表美化
+[finished] 作业界面的题目列表美化
 
 @copyright
 
 btn可以自定义loader 是slot
 
-recorddetail 重新请求
+[finished] recorddetail 重新请求
 
-tag 放上去显示 description
+[finished] tag 放上去显示 description
 
-自动捕获回车的焦点
+[finished] 自动捕获回车的焦点
 
-nickname 和 code xss
+[finished] *nickname 和 code xss*
 
 user 可点击
 
-assignment 显示 group
+[finished] 题目显示现在的提交状态
+
+得分

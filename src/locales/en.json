@@ -64,7 +64,8 @@
     "v-code": "Verification Code",
     "nickname": "Nickname",
     "n-pwd": "New password",
-    "recover": "Recover the lastly state"
+    "recover": "Recover the lastly state",
+    "score": "My Score"
   },
   "error": {
     "mail": "Invalid e-mail",

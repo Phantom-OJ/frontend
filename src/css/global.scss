@@ -476,7 +476,9 @@ button.s-submit-btn {
   position: relative;
   margin-bottom: 10px;
 
-  width: 45%;
+  width: 33%;
+  flex-grow: 0;
+  padding-top: 24px;
 
   &:last-child {
     margin-bottom: 20px;
@@ -487,9 +489,9 @@ button.s-submit-btn {
   max-width: 380px;
 }
 
-@media only screen and (max-width: 920px) {
+@media only screen and (max-width: 1080px) {
   .s-statistics-chart {
-    width: 70%;
+    width: 60%;
   }
   .s-profile-home{
     .s-statistics-chart{

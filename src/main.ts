@@ -10,6 +10,8 @@ import codemirror from './plugins/vue-codemirror'
 import i18n from './i18n'
 
 Vue.config.productionTip = false
+Vue.config.errorHandler = console.log
+
 
 const vm = new Vue({
   router,

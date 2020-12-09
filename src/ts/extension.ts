@@ -43,6 +43,7 @@ export class Vue extends V.Vue {
   }
 
   $m2h(md: string): string {
+    console.log('debug')
     return marked(md)
   }
 }

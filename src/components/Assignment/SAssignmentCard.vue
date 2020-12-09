@@ -40,7 +40,7 @@
               ${assignment.endTime.sString()}`}}
             </v-col>
             <v-col id="status" :cols="2">
-              {{assignment.status}}
+              {{assignment.status.toUpperCase()}}
             </v-col>
           </v-row>
         </v-list-item>

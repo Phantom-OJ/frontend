@@ -146,7 +146,7 @@ export default class SProblemDetailCard extends Vue {
     if(this.$route.query.recover){
       if(!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
-        if (window.state[this.keyInState].hasOwnProperty(stateKey)&&this.hasOwnProperty(stateKey)) {
+        if (window.state[this.keyInState].hasOwnProperty(stateKey)) {
           //@ts-ignore
           this[stateKey] = window.state[this.keyInState][stateKey]
         }

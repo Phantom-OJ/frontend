@@ -50,6 +50,9 @@
   "profile": {
     "home": "个人主页",
     "edit": "编辑信息",
+    "choose-avatar": "选择头像文件",
+    "username": "用户名",
+    "modify-pwd": "修改密码",
     "security": "安全设置",
     "not-login": "请登录",
     "mail": "邮箱",
@@ -60,19 +63,24 @@
     "v-code": "验证码",
     "nickname": "昵称",
     "n-pwd": "新密码",
-    "recover": "恢复最近的登录状态?"
+    "recover": "恢复最近的登录状态"
   },
   "error": {
     "mail": "无效邮箱地址",
     "password": "密码最少6位长度",
     "confirm": "密码不一致",
-    "pageIndex": "无效页码"
+    "pageIndex": "无效页码",
+    "upload": "请选择文件",
+    "upload-img": "请选择图片文件",
+    "t-large": "太大了"
   },
   "warning": {
     "no-code": "还没有交过代码！"
   },
   "success": {
-    "v-code": "验证码已发送，请注意查收"
+    "v-code": "验证码已发送，请注意查收",
+    "upload": "上传成功",
+    "submit": "提交成功"
   },
   "assignment": {
     "searchA": "ID",
@@ -91,7 +99,9 @@
     "score": "满分",
     "submitted": "提交数",
     "resolved": "解决数",
-    "last-code": "拉取上次提交代码"
+    "last-code": "拉取上次提交代码",
+    "result": "提交结果",
+    "dialect": "提交语言"
   },
   "record": {
     "searchA": "作业",

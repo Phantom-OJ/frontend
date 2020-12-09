@@ -1,8 +1,8 @@
 import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
-import {Announcement, Assignment, Code, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
+import {Announcement, Assignment, Code, Grade, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
-import {LoginForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
+import {LoginForm, ModifyPasswordForm, ModifyUserForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {User} from "@/ts/user";
 import {Vue} from "@/ts/extension";
@@ -10,6 +10,7 @@ import {notLogin} from "@/store/testData";
 
 Axios.defaults.withCredentials = true
 Axios.defaults.timeout = 10000
+
 
 /**
  * $alert and $dialog will be injected into the instance at runtime
@@ -48,6 +49,9 @@ export class API {
     } catch (error) {
       if (error instanceof APIException) {
         switch (error.code) {
+          case 401:
+            await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
+            break
           case 403:
             await this.$vue.$router.replace({
               name: 'forbidden'
@@ -64,13 +68,25 @@ export class API {
       }
       return {
         msg:'error',
-        data:undefined
+        data:{}
       }
     }
   }
 
+  async modifyProfile(form:ModifyUserForm):Promise<User>{
+    return new User((await this.cRequest('post', 'modify/basic', form)).data)
+  }
+
+  async modifyPassword(form:ModifyPasswordForm):Promise<string>{
+    return (await this.request('post','modify/password', form)).msg
+  }
+
   async uploadJudgeScript(form:FormData):Promise<string>{
     return (await this.cRequest('post','upload/judgescript', form)).msg
+  }
+
+  async uploadAvatar(form:FormData):Promise<string>{
+    return (await this.cRequest('post', 'upload/avatar', form)).msg
   }
 
   async checkState(): Promise<[User, boolean]> {
@@ -109,6 +125,11 @@ export class API {
     return SUtil.pageDataTransfer(data, Assignment)
   }
 
+  async queryUserGrade(ID:number): Promise<Grade[]>{
+    const data = (await this.cRequest('get', `user/${ID}/grade`)).data
+    return (data as any[])?.map(e => new Grade(e))??[]
+  }
+
   async queryAssignment(ID: number): Promise<Assignment> {
     const data = (await this.cRequest('get', `assignment/${ID}`)).data
     return new Assignment(data)
@@ -136,6 +157,11 @@ export class API {
 
   async queryProblemStatSet(ID: number): Promise<ProblemStatSet> {
     let data = (await this.cRequest('get', `problem/${ID}/statistics`)).data
+    return new ProblemStatSet(data)
+  }
+
+  async queryUserStatSet(ID:number):Promise<ProblemStatSet>{
+    let data = (await this.cRequest('get', `user/${ID}/statistics`)).data
     return new ProblemStatSet(data)
   }
 

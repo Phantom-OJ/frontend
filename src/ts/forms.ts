@@ -59,6 +59,17 @@ export interface JudgePointForm{
   judgeDatabaseId:number
 }
 
+export interface ModifyUserForm{
+  lang:string
+  stateSave:boolean
+  nickname:string
+}
+
+export interface ModifyPasswordForm{
+  newPassword:string
+  oldPassword:string
+}
+
 export const STATUS = Object.freeze({
   PUBLIC: 'public',
   PRIVATE: 'private',

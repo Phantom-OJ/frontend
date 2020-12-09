@@ -8,6 +8,7 @@
         <v-text-field
           v-model="username"
           :label="$t('profile.mail')"
+          autocomplete
         >
         </v-text-field>
       </div>
@@ -18,6 +19,7 @@
           :label="$t('profile.pwd')"
           hide-details
           name="password"
+          autocomplete
         >
         </v-text-field>
       </div>
@@ -29,6 +31,7 @@
           class="s-submit-btn"
           color="primary"
           @click="login"
+          @keypress.enter="login"
           :loading="waitForRes"
         >
           {{ $t('nav-user.login') }}
@@ -45,27 +48,12 @@
         </v-btn>
       </div>
     </v-form>
-    <v-dialog v-model="showDialog" width="400">
-      <v-card max-width="600px" class="inline-block" style="margin: 0 auto;">
-        <v-card-title>
-          {{ $t('profile.recover') }}
-        </v-card-title>
-        <v-card-actions class="s-flex" style="justify-content: flex-end;padding:16px;padding-top: 8px">
-          <v-btn @click="showDialog=false;recover=false;">
-            {{ $t('cancel') }}
-          </v-btn>
-          <v-btn color="success" @click="showDialog=false;recover=true;">
-            {{ $t('OK') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component} from 'vue-property-decorator'
+import {Component, Watch} from 'vue-property-decorator'
 import router from "@/router";
 import {SUtil} from "@/ts/utils";
 
@@ -74,8 +62,6 @@ export default class SLoginCard extends Vue {
   username: string = ''
   password: string = ''
   waitForRes: boolean = false
-  showDialog: boolean = false
-  recover: boolean = true
 
   async login() {
     this.waitForRes = true
@@ -85,14 +71,9 @@ export default class SLoginCard extends Vue {
         password: this.password
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
+      this.$i18n.locale = user.lang
       if (user.stateSave) {
-        this.showDialog = true
-        while (this.showDialog) {
-          await SUtil.sleep(1000)
-        }
-        if (this.recover) {
-          SUtil.recover(user.state, this)
-        }
+        SUtil.recover(user.state, this)
       }
       await router.push((this.$route.query['then'] ?? '/') as string)
     } catch (e) {
@@ -103,6 +84,14 @@ export default class SLoginCard extends Vue {
 
   signUp() {
     this.$router.push({name: 'sign-up', query: this.$route.query})
+  }
+
+  @Watch('$store.state.isAuthenticated', {immediate: true})
+  authenticatedChange() {
+    console.log(this.$store.state.isAuthenticated)
+    if (!this.waitForRes&&this.$store.state.isAuthenticated){
+      router.replace((this.$route.query['then'] ?? '/') as string)
+    }
   }
 
 }

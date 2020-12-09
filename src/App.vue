@@ -21,7 +21,6 @@ import SFooter from "@/components/Root/SFooter.vue";
 import SAlert from "@/components/General/SAlert.vue";
 import {API} from "@/ts/api";
 import phantomIcon from '@/ts/phantom-icon'
-import {State} from "@/ts/user";
 import {SUtil} from "@/ts/utils";
 
 @Component({
@@ -62,7 +61,7 @@ export default class App extends Vue {
       this.$destroy()
       state.state = window.state
       const _state = JSON.stringify(state)
-      sessionStorage.setItem('state', _state)
+      sessionStorage.setItem('leave', Date.now()+'')
       navigator.sendBeacon('/api/beacon', _state)
     }
     this.checkState()
@@ -71,17 +70,13 @@ export default class App extends Vue {
   async checkState() {
     const [user, isAuthenticated] = await this.$api.checkState()
     this.$store.commit('setUser', {user, isAuthenticated})
+    this.$i18n.locale = user.lang
 
-    let sessionState = sessionStorage.getItem('state')
-    let _state: State | undefined = undefined
+    let leave = sessionStorage.getItem('leave')
 
-    if (!!sessionState) {
-      _state = JSON.parse(sessionState)
-    } else if (isAuthenticated && user.stateSave) {
-      _state = user.state
+    if ((!!leave&&Date.now() - parseInt(leave) > 3e4)||(!leave&&isAuthenticated && user.stateSave)) { // 30s
+      SUtil.recover(user.state, this)
     }
-    if (_state === undefined) return
-    SUtil.recover(_state, this)
   }
 
 }

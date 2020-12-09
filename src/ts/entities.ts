@@ -45,8 +45,9 @@ export class Problem implements Entity {
   tags: Array<Tag>
   indexInAssignment: number
   sampleOut: string
+  solved:SolveState
 
-  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution}: any) {
+  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved}: any) {
     this.ID = id
     this.description = description??''
     this.title = title
@@ -61,6 +62,7 @@ export class Problem implements Entity {
     this.numberSolve = numberSolve
     this.solution = solution
     this.tags = (tagList as Array<any>)?.map(e => new Tag(e))??[]
+    this.solved = solved??SolveState.NO_SUBMIT
   }
 }
 
@@ -182,11 +184,11 @@ export class Alert {
 }
 
 export class Tag {
-  tag: string
+  keyword: string
   description: string
 
   constructor({keyword, description}: any) {
-    this.tag = keyword
+    this.keyword = keyword
     this.description = description
   }
 }
@@ -199,8 +201,21 @@ export class ProblemStatSet {
     this.resultSet = (<any[]>resultSet)?.map(e => new ProblemStat(e))??[]
     this.dialectSet = (<any[]>dialectSet)?.map(e => new ProblemStat(e))??[]
   }
+}
+
+export class Grade{
+  id:number
+  score:number
+  fullScore:number
+  title:string
 
 
+  constructor({id, score, fullScore, title}:any) {
+    this.id = id;
+    this.score = score??0;
+    this.fullScore = fullScore??0;
+    this.title = title??'';
+  }
 }
 
 export class ProblemStat{
@@ -222,4 +237,6 @@ export class JudgeDB{
 }
 
 export enum VCodeMode {REGISTER, RESET_PASSWORD}
+
+export enum SolveState {WA, AC, NO_SUBMIT}
 

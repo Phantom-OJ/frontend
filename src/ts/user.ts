@@ -13,7 +13,6 @@ export class User {
   username: string
 
   constructor({id, avatar, groupList, lang, nickname, permissionList, role, stateSave, state, username}: any) {
-    console.log(state)
     this.ID = id
     this.groupList = (<any[]>groupList)?.map(e => new Group(e))??[]
     this.avatar = avatar

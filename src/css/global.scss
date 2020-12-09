@@ -137,7 +137,7 @@ div.s-card-container.home-card {
   }
 
   .list-item {
-    padding: 10px 16px 10px 24px;
+    padding: 10px 16px 10px 16px;
   }
 }
 
@@ -469,4 +469,46 @@ button.s-submit-btn {
     margin-left: 3px;
   }
   margin-right: 3px;
+}
+
+
+.s-statistics-chart {
+  position: relative;
+  margin-bottom: 10px;
+
+  width: 45%;
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
+}
+
+.s-profile-home .s-statistics-chart {
+  max-width: 380px;
+}
+
+@media only screen and (max-width: 920px) {
+  .s-statistics-chart {
+    width: 70%;
+  }
+  .s-profile-home{
+    .s-statistics-chart{
+      width: 90%;
+    }
+  }
+}
+
+
+.s-statistics-root{
+  @media only screen and (max-width: 920px) {
+    &{
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+}
+
+.v-application .v-list-item .col, .v-application .v-list-item .col-1, .v-application .v-list-item .col-2, .v-application .v-list-item .col-3, .v-application .v-list-item .col-4, .v-application .v-list-item .col-5, .v-application .v-list-item .col-6, .v-application .v-list-item .col-7, .v-application .v-list-item .col-8, .v-application .v-list-item .col-9, .v-application .v-list-item .col-10, .v-application .v-list-item .col-11, .v-application .v-list-item .col-12{
+  padding: 6px;
 }

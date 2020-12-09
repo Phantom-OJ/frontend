@@ -1,29 +1,17 @@
 <template>
-    <!--    <v-btn-toggle v-model="type" group tile>-->
-    <!--      <v-btn-->
-    <!--        v-for="type in cType"-->
-    <!--        :key="type"-->
-    <!--        v-text="type"-->
-    <!--      />-->
-    <!--    </v-btn-toggle>-->
-    <div class="s-flex s-statistics-root">
-      <div class="s-flex s-statistics-box">
-        <div class="s-statistics-chart">
-          <canvas ref="chart1"/>
-        </div>
-        <div class="s-statistics-chart">
-          <canvas ref="chart2"/>
-        </div>
-      </div>
-      <div class="s-statistics-rank">
-
-      </div>
-    </div>
+  <div class="s-flex s-statistics-root space-around">
+    <v-responsive aspect-ratio="1" class="s-statistics-chart">
+      <canvas ref="chart1"/>
+    </v-responsive>
+    <v-responsive aspect-ratio="1" class="s-statistics-chart">
+      <canvas ref="chart2"/>
+    </v-responsive>
+  </div>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Watch} from 'vue-property-decorator'
+import {Component} from 'vue-property-decorator'
 import {ProblemStatSet} from "@/ts/entities";
 import {SUtil} from "@/ts/utils";
 import {LabelDataList} from "@/ts/interfaces";
@@ -39,10 +27,9 @@ const Chart = require('chart.js')
   }
 })
 export default class SProblemStatistic extends Vue {
-  private readonly s_cType: Array<string> = ['result', 'dialect', 'rank']
+  private readonly s_cType: Array<string> = ['problem.result', 'problem.dialect']
   readonly width_height !: { width: number }
   loading: boolean = false
-  type: number = 0
   statistic!: ProblemStatSet
   labelData: LabelDataList = {
     labels: [],
@@ -74,21 +61,17 @@ export default class SProblemStatistic extends Vue {
     return this.s_cType.map(s => this.$t(s).toString())
   }
 
-  @Watch('type')
   draw() {
     let data
-    // switch (this.type) {
-    // case 0:
     this.labelData = SUtil.genLabelDataFromStat(this.statistic.resultSet)
     data = {
       labels: this.labelData.labels,
       datasets: [{
         label: this.cType[0],
         data: this.labelData.data,
-        borderWidth: 0,
-        //@ts-ignore
-        backgroundColor: this.labelData.labels.map(s => `#${s.hash().format(6)}`)
-        // backgroundColor:'#069d61'
+        borderWidth: 1,
+        backgroundColor: this.labelData.labels.map(s => `${SUtil.recordStatisticColor(s)}1f`),
+        borderColor: this.labelData.labels.map(SUtil.recordStatisticColor)
       }]
     }
     this.charts[0] = new Chart(this.chartContexts[0], {
@@ -99,26 +82,25 @@ export default class SProblemStatistic extends Vue {
         animation: {
           animateRotate: true,
           animateScale: true
+        },
+        title:{
+          display:true,
+          text:this.cType[0]
         }
       }
     })
-    // break
-    // case 1:
+
     this.labelData = SUtil.genLabelDataFromStat(this.statistic.dialectSet)
     data = {
       labels: this.labelData.labels,
       datasets: [{
-        label: this.cType[1],
         data: this.labelData.data,
         borderWidth: 0,
-        //@ts-ignore
-        backgroundColor: this.labelData.labels.map(s => `#${s.hash().format(6)}`)
+        backgroundColor: this.labelData.labels.map(s => `#${s.hash().format(6)}9f`)
         // backgroundColor:'#177FFF'
       }]
     }
-    // break
 
-    // }
     this.charts[1] = new Chart(this.chartContexts[1], {
       type: 'pie', data,
       options: {
@@ -127,6 +109,10 @@ export default class SProblemStatistic extends Vue {
         animation: {
           animateRotate: true,
           animateScale: true
+        },
+        title:{
+          display:true,
+          text:this.cType[1]
         }
       }
     })
@@ -135,20 +121,4 @@ export default class SProblemStatistic extends Vue {
 </script>
 
 <style lang="scss">
-.s-statistics-chart {
-  position: relative;
-  max-width: 360px;
-  max-height: 360px;
-  margin-right: 2%;
-  margin-bottom: 10px;
-
-  &:last-child {
-    margin-bottom: 20px;
-  }
-}
-
-.s-statistics-box {
-  flex-direction: column;
-  justify-content: space-around;
-}
 </style>

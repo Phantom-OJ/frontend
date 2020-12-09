@@ -39,6 +39,8 @@ export class SUtil {
     }
   }
 
+  static readonly localeMap = new Map<string, string>([['en', 'English'], ['zh-CN', '简体中文']])
+
   static rangeToLoad(index: number, num: number): { start: number, end: number } {
     return {
       start: (index - 1) * num + 1,
@@ -118,7 +120,7 @@ export class SUtil {
         return 'warning'
       case SolveState.NO_SUBMIT:
       default:
-        return 'white'
+        return 'accent'
     }
   }
 
@@ -130,7 +132,7 @@ export class SUtil {
         return 'mdi-bomb'
       case SolveState.NO_SUBMIT:
       default:
-        return ''
+        return 'mdi-minus'
     }
   }
 

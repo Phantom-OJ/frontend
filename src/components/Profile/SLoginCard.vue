@@ -20,6 +20,7 @@
           hide-details
           name="password"
           autocomplete
+          @keydown.enter.native="login"
         >
         </v-text-field>
       </div>
@@ -31,7 +32,6 @@
           class="s-submit-btn"
           color="primary"
           @click="login"
-          @keypress.enter="login"
           :loading="waitForRes"
         >
           {{ $t('nav-user.login') }}
@@ -72,9 +72,11 @@ export default class SLoginCard extends Vue {
       })
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
       this.$i18n.locale = user.lang
-      if (user.stateSave) {
+      let leave = sessionStorage.getItem('leave')
+      if (user.stateSave && ((!!leave && parseInt(user.state.time) >= parseInt(leave)) || !leave)) {
         SUtil.recover(user.state, this)
       }
+      console.log(this.$route.query['then'])
       await router.push((this.$route.query['then'] ?? '/') as string)
     } catch (e) {
       this.waitForRes = false
@@ -88,8 +90,7 @@ export default class SLoginCard extends Vue {
 
   @Watch('$store.state.isAuthenticated', {immediate: true})
   authenticatedChange() {
-    console.log(this.$store.state.isAuthenticated)
-    if (!this.waitForRes&&this.$store.state.isAuthenticated){
+    if (!this.waitForRes && this.$store.state.isAuthenticated) {
       router.replace((this.$route.query['then'] ?? '/') as string)
     }
   }

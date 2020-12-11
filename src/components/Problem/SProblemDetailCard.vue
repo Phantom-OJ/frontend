@@ -140,6 +140,9 @@ export default class SProblemDetailCard extends Vue {
     this.pid = parseInt(this.$route.params.pid)
     this.loadProblem()
     this.loadCache()
+    if(this.$route.params.code){
+      this.code = this.$route.params.code
+    }
   }
 
   mounted(){
@@ -234,15 +237,12 @@ export default class SProblemDetailCard extends Vue {
         time:8000
       }))
       await this.$router.push('/record/all')//TODO
-      //@ts-ignore
-      return
     }
   }
 
   pullCode(){
     if(!!this.problem?.recentCode){
       this.code = this.problem.recentCode
-      console.log(this.code)
     }else{
       this.$alert(new Alert({
         type:'warning',

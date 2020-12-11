@@ -1,6 +1,6 @@
 <template>
   <v-card id="record-card" class="all-card">
-    <s-searchable-card-title :title="'record'" @refresh="loadRecords(true)" :subtitle="$t('record.subtitle')">
+    <s-refreshable-card-title :title="'record'" @refresh="loadRecords(true)" :subtitle="$t('record.subtitle')">
       <div class="search">
         <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`record.searchA`)"
                       type="text" dense v-model="searchAssignment"/>
@@ -17,7 +17,7 @@
           </v-btn>
         </div>
       </div>
-    </s-searchable-card-title>
+    </s-refreshable-card-title>
     <s-record-list :records="records"/>
     <s-pagination :item-num="itemNum" :max-length="recordInfo.maxLength" :page-index.sync="pageIndex"/>
   </v-card>
@@ -26,7 +26,6 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
-import SSearchableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import {mapState} from "vuex";
 import {Record} from "@/ts/entities";
 import SPagination from "@/components/General/SPagination.vue";
@@ -34,9 +33,10 @@ import SRecordList from "@/components/Record/SRecordList.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
 import {Filter} from "@/ts/interfaces";
+import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 
 @Component({
-  components: {SRecordList, SPagination, SSearchableCardTitle},
+  components: {SRefreshableCardTitle, SRecordList, SPagination},
   computed: {...mapState(['width_height', 'recordInfo'])}
 })
 export default class SRecordCard extends Vue {

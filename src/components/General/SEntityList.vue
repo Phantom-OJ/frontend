@@ -11,7 +11,7 @@
           @click="click(entity.ID)"
         >
           <v-row justify="space-between" style="width: 100%;min-height: 70px;" align-content="center">
-            <slot :entry="entity"/>
+            <slot :entity="entity"/>
           </v-row>
         </v-list-item>
         <v-divider/>
@@ -40,21 +40,34 @@ export default class SEntryList extends Vue {
   })
   readonly path!: string
 
-  entities_:Entity[]=[]
+  @Prop()
+  clickItem?:(ID:number)=>void
 
-  @Watch('entities', {immediate:true})
-  async entityChange(){
-    while(this.entities_.length>0){
+  entities_: Entity[] = []
+  flagAni: boolean = false
+
+  @Watch('entities', {immediate: true})
+  async entityChange() {
+    if (this.flagAni) {
+      return
+    }
+    this.flagAni = true
+    while (this.entities_.length > 0) {
       this.entities_.shift()
     }
     await SUtil.sleep(300)
-    for (let i of this.entities){
+    for (let i of [...this.entities]) {
       this.entities_.push(i)
     }
+    this.flagAni = false
   }
 
   click(ID: number) {
-    this.$router.push(`/${this.path}/${ID}`)
+    if (!this.clickItem) {
+      this.$router.push(`/${this.path}/${ID}`)
+    }else{
+      this.clickItem(ID)
+    }
   }
 }
 </script>

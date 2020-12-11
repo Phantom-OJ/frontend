@@ -18,11 +18,11 @@
         </div>
       </div>
     </s-refreshable-card-title>
-    <s-entry-list :entries="problems" :path="'problem'">
-      <template v-slot="{entry:problem}">
+    <s-entry-list :entities="problems" path="problem">
+      <template v-slot="{entity:problem}">
         <v-col cols="2" class="ellipsis-col">
           <v-icon :color="solveStateColor(problem.solved)">
-            {{solveStateIcon(problem.solved)}}
+            {{ solveStateIcon(problem.solved) }}
           </v-icon>
           {{ problem.ID }}
         </v-col>
@@ -34,7 +34,7 @@
         </v-col>
         <v-col cols="4" class="s-flex">
           <s-tag
-            v-for="(tag, index) in problem.tags"
+            v-for="(tag, index) in problem.tagList"
             :key="index"
             :tag="tag"
             @click="clickTag"
@@ -64,7 +64,7 @@ import {mapState} from "vuex"
 import {Filter} from "@/ts/interfaces"
 import {Problem} from '@/ts/entities'
 import STag from "@/components/General/STag.vue"
-import SEntryList from "@/components/General/SEntryList.vue"
+import SEntryList from "@/components/General/SEntityList.vue"
 import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from '@/ts/utils'
@@ -87,8 +87,8 @@ export default class SProblemCard extends Vue {
   private s_searchName: string = ''
   private s_searchTags: string = ''
 
-  solveStateColor=SUtil.solveStateColor
-  solveStateIcon=SUtil.solveStateIcon
+  solveStateColor = SUtil.solveStateColor
+  solveStateIcon = SUtil.solveStateIcon
 
   created() {
     this.initFilter()
@@ -113,8 +113,7 @@ export default class SProblemCard extends Vue {
       })
       this.$store.commit('setProblemInfo', {
         list: entityCollection.entities,
-        max: entityCollection.count,
-        listIndex: start - 1
+        max: entityCollection.count
       })
       this.loading = false
     }
@@ -182,12 +181,15 @@ export default class SProblemCard extends Vue {
   }
 
   private commitFilter() {
-    let filter: Filter = {
-      id: this.searchID,
-      name: this.searchName,
-      tags: this.searchTags
+    const f = this.problemInfo.filter
+    if (this.searchID !== f.id || this.searchName !== f.name || this.s_searchTags !== f.tags) {
+      let filter: Filter = {
+        id: this.searchID,
+        name: this.searchName,
+        tags: this.searchTags
+      }
+      this.$store.commit('setProblemInfo', {filter})
     }
-    this.$store.commit('setProblemInfo', {filter})
   }
 
 }

@@ -16,40 +16,31 @@
         </div>
       </div>
     </s-refreshable-card-title>
-    <v-list class="list">
-      <div
-        v-for="(assignment, index) in assignments"
-        :key="index"
-        class="list-item-container"
-      >
-        <v-list-item
-          class="list-item cursor-hand-hover"
-          @click="click(assignment.ID)"
-        >
-          <v-row justify="space-between" style="width: 100%">
-            <v-col id="ID" :cols="2" class="ellipsis-col">
-              {{assignment.ID}}
-            </v-col>
-            <v-col id="title" :cols="4" class="ellipsis-col">
-              <v-icon class="icon-color-1" style="margin-right: 2px">mdi-trophy-variant</v-icon>
-              {{assignment.title}}
-            </v-col>
-            <v-col id="time" :cols="4">
-              <v-icon class="icon-color-1" style="margin-right: 2px">mdi-camera-timer</v-icon>
-              {{(width_height.width&lt;750)?`@${assignment.endTime.sString()}`:`${assignment.startTime.sString()} >>
-              ${assignment.endTime.sString()}`}}
-            </v-col>
-            <v-col id="status" :cols="2">
-              {{assignment.status.toUpperCase()}}
-            </v-col>
-          </v-row>
-        </v-list-item>
-        <v-divider/>
-      </div>
-    </v-list>
+    <s-entity-list :entities="assignments" path="assignment">
+      <template v-slot:default="{entity:assignment}">
+        <v-col id="ID" :cols="2" class="ellipsis-col">
+          {{ assignment.ID }}
+        </v-col>
+        <v-col id="title" :cols="4" class="ellipsis-col">
+          <v-icon class="icon-color-1" style="margin-right: 2px">mdi-trophy-variant</v-icon>
+          {{ assignment.title }}
+        </v-col>
+        <v-col id="time" :cols="4">
+          <v-icon class="icon-color-1" style="margin-right: 2px">mdi-camera-timer</v-icon>
+          {{
+            (width_height.width &lt; 750) ? `@${assignment.endTime.sString()}` : `${assignment.startTime.sString()} >>
+            ${assignment.endTime.sString()}`
+          }}
+        </v-col>
+        <v-col id="status" :cols="2">
+          {{ assignment.status.toUpperCase() }}
+        </v-col>
+      </template>
+    </s-entity-list>
     <s-pagination :item-num="itemNum" :max-length="assignmentInfo.maxLength"
                   :page-index.sync="pageIndex"></s-pagination>
-    <v-btn v-if="permitAdd" fab absolute @click="$router.push('/create/assignment')" class="s-add-btn" color="secondary">
+    <v-btn v-if="permitAdd" fab absolute @click="$router.push('/create/assignment')" class="s-add-btn"
+           color="secondary">
       <v-icon>
         mdi-plus-thick
       </v-icon>
@@ -68,9 +59,10 @@ import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vu
 import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
 import {Permission} from "@/ts/user";
+import SEntityList from "@/components/General/SEntityList.vue";
 
 @Component({
-  components: {SRefreshableCardTitle, SPagination},
+  components: {SEntityList, SRefreshableCardTitle, SPagination},
   computed: {
     ...mapState(['width_height', 'assignmentInfo'])
   }
@@ -81,36 +73,36 @@ export default class SAssignmentCard extends Vue {
   readonly width_height !: { width: number, height: number }
   readonly assignmentInfo !: EntityContainer<Assignment>
 
-  loading:boolean=false
+  loading: boolean = false
   private s_searchID: string = ''
   private s_searchName: string = ''
 
-  created(){
+  created() {
     this.initFilter()
     this.loadAssignments()
   }
 
-  initFilter(){
+  initFilter() {
     let filter = this.assignmentInfo.filter
-    this.s_searchID = filter.id??''
-    this.s_searchName = filter.name??''
+    this.s_searchID = filter.id ?? ''
+    this.s_searchName = filter.name ?? ''
     this.commitFilter()
   }
 
-  async loadAssignments(force:boolean=false){
+  async loadAssignments(force: boolean = false) {
     let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, this.itemNum)
-    if(this.assignmentInfo.search||force) {
+    if (this.assignmentInfo.search || force) {
       this.loading = true
       let entityCollection = await this.$api.searchAssignmentPage({
         start, end,
         filter: this.assignmentInfo.filter
       })
-      this.$store.commit('setAssignmentInfo', {list: entityCollection.entities, max:entityCollection.count})
+      this.$store.commit('setAssignmentInfo', {list: entityCollection.entities, max: entityCollection.count})
       this.loading = false
     }
   }
 
-  refresh(){
+  refresh() {
     this.loadAssignments(true)
   }
 
@@ -153,18 +145,21 @@ export default class SAssignmentCard extends Vue {
     this.loadAssignments(true)
   }
 
-  clear(){
+  clear() {
     this.s_searchName = ''
     this.s_searchID = ''
     this.commitFilter()
   }
 
   commitFilter() {
-    let filter:Filter = {
-      id:this.searchID,
-      name:this.searchName
+    const f = this.assignmentInfo.filter
+    if(this.searchID !== f.id||this.searchName !== f.name) {
+      let filter: Filter = {
+        id: this.searchID,
+        name: this.searchName
+      }
+      this.$store.commit('setAssignmentInfo', {filter})
     }
-    this.$store.commit('setAssignmentInfo', {filter})
   }
 
   get permitAdd() {
@@ -174,5 +169,5 @@ export default class SAssignmentCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "../../css/variable";
+@import "../../css/variable";
 </style>

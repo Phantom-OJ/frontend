@@ -18,7 +18,7 @@
               {{a.title}}
             </v-col>
             <v-col v-if="width_height.width > 960" lg="3" md="4" class="s-card-item-text">
-              {{a.lastModified.sString()||typeof a.lastModified}}
+              {{a.lastModified.sString()}}
             </v-col>
             <v-btn
               icon
@@ -28,7 +28,7 @@
               <v-icon>{{a.show?'':'mdi-chevron-down'}}</v-icon>
             </v-btn>
           </v-row>
-          <v-dialog v-model="a.show" width="500">
+          <v-dialog v-model="a.show" width="800">
             <v-card class="lang-en">
               <v-card-title>
                 {{a.title}}

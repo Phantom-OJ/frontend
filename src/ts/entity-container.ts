@@ -66,6 +66,7 @@ export class EntityContainer<T extends Entity> {
 
   set list(list) {
     this._list = list
+    this._search = false
     this.addAll(list)
   }
 

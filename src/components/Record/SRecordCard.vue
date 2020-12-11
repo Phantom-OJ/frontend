@@ -129,12 +129,15 @@ export default class SRecordCard extends Vue {
   }
 
   private commitFilter() {
-    let filter: Filter = {
-      assignment: this.s_searchAssignment,
-      problem: this.s_searchProblem,
-      user: this.s_searchUser
+    const f = this.recordInfo.filter
+    if(this.searchAssignment!==f.assignment||this.searchProblem!==f.problem||this.searchUser!==f.user) {
+      let filter: Filter = {
+        assignment: this.searchAssignment,
+        problem: this.searchProblem,
+        user: this.searchUser
+      }
+      this.$store.commit('setRecordInfo', {filter})
     }
-    this.$store.commit('setRecordInfo', {filter})
   }
 }
 </script>

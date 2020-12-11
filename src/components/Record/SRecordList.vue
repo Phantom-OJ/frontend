@@ -1,6 +1,6 @@
 <template>
-  <s-entry-list :entries="records" :path="'record'">
-    <template v-slot="{entry:record}">
+  <s-entry-list :entities="records" :path="'record'">
+    <template v-slot="{entity:record}">
       <v-col>
         <div class="inlist-user">
           <v-avatar
@@ -59,7 +59,7 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop} from 'vue-property-decorator'
 import {Record} from "@/ts/entities"
-import SEntryList from "@/components/General/SEntryList.vue";
+import SEntryList from "@/components/General/SEntityList.vue";
 import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
 
 @Component({

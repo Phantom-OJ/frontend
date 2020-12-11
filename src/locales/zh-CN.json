@@ -6,6 +6,7 @@
     "problem": "题库",
     "record": "记录",
     "assignment": "作业",
+    "admin": "管理",
     "description": "描述",
     "statistic": "统计",
     "rec": "记录",
@@ -17,7 +18,8 @@
     "profile": "个人信息",
     "sign-out": "注销",
     "login": "登录",
-    "sign-up": "注册"
+    "sign-up": "注册",
+    "admin": "管理"
   },
   "home": {
     "announcement": "公告",
@@ -74,7 +76,7 @@
     "pageIndex": "无效页码",
     "upload": "请选择文件",
     "upload-img": "请选择图片文件",
-    "t-large": "太大了"
+    "t-large": "太大了 (最大5MB)"
   },
   "warning": {
     "no-code": "还没有交过代码！"
@@ -148,6 +150,8 @@
     "end-time": "结束时间",
     "status": "状态",
     "operation": "操作",
+    "group": "创建群组",
+    "keyword": "关键字",
     "problem": {
       "&": "问题",
       "type": "类型",
@@ -164,6 +168,10 @@
     "assignment": {
       "&": "作业"
     }
+  },
+  "admin": {
+    "subtitle": "一切皆有可能",
+    "manage":"管理 "
   },
   "not-found": {
     "text": "糟糕！页面好像走丢了喔……",

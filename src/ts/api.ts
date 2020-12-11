@@ -1,15 +1,26 @@
 import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
-import {Announcement, Assignment, Code, Grade, Problem, ProblemStatSet, Record, VCodeMode} from "@/ts/entities";
+import {
+  Announcement,
+  Assignment,
+  Code,
+  Grade, JudgeDB,
+  JudgeScript,
+  Problem,
+  ProblemStatSet,
+  Record,
+  Tag,
+  VCodeMode
+} from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, ModifyPasswordForm, ModifyUserForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
-import {User} from "@/ts/user";
+import {Group, User} from "@/ts/user";
 import {Vue} from "@/ts/extension";
 import {notLogin} from "@/store/testData";
 
 Axios.defaults.withCredentials = true
-Axios.defaults.timeout = 10000
+Axios.defaults.timeout = 20000
 
 
 /**
@@ -50,7 +61,8 @@ export class API {
       if (error instanceof APIException) {
         switch (error.code) {
           case 401:
-            await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
+            // this.$vue.$store.commit('setUser',{isAuthenticated:false})
+            // await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
             break
           case 403:
             await this.$vue.$router.replace({
@@ -118,6 +130,26 @@ export class API {
     return (await this.cRequest('post', `sendvcode`, {
       username, mode
     })).msg
+  }
+
+  async allGroups():Promise<Group[]>{
+    let data = (await this.cRequest('get','require/group')).data
+    return (data as any[])?.map(e=>new Group(e))??[]
+  }
+
+  async allTags():Promise<Tag[]>{
+    let data = (await this.cRequest('get','require/tag')).data
+    return (data as any[])?.map(e => new Tag(e))??[]
+  }
+
+  async allScripts():Promise<JudgeScript[]>{
+    let data = (await this.cRequest('get','require/judgescript')).data
+    return (data as any[])?.map(e => new JudgeScript(e))??[]
+  }
+
+  async allDBs():Promise<JudgeDB[]>{
+    let data = (await this.cRequest('get','require/judgedb')).data
+    return (data as any[])?.map(e => new JudgeDB(e))??[]
   }
 
   async searchAssignmentPage(form: PageSearchForm): Promise<SEntityCollection<Assignment>> {

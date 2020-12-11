@@ -2,9 +2,9 @@
   <div class="s-profile-security">
     <label>{{ $t('profile.modify-pwd') }}</label>
     <v-text-field v-model="oldPWD" type="password" color="secondary" style="margin-top: 12px"
-                  :label="$t('profile.pwd')"/>
+                  :label="$t('profile.pwd')" @keyup.enter.native="submit"/>
     <s-set-password :password.sync="password" :confirmed.sync="confirmed" :pwd-label="$t('profile.n-pwd')"
-                    :c-pwd-lable="$t('profile.c-pwd')" :wait-for-res="waitForSetPWD"/>
+                    :c-pwd-lable="$t('profile.c-pwd')" :wait-for-res="waitForSetPWD" @keyup.enter.native="submit"/>
     <v-btn block @click="submit" color="success">
       {{ $t('submit') }}
     </v-btn>

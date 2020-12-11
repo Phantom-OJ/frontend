@@ -1,6 +1,6 @@
 <template>
   <v-tooltip
-    bottom
+    top
     transition="scale-transition"
   >
     <template v-slot:activator="{on,attrs}">
@@ -28,7 +28,7 @@ import {Tag} from "@/ts/entities";
 })
 export default class STag extends Vue {
   @Prop({
-    type: Tag,
+    type: Object,
     required: true
   })
   readonly tag!: Tag
@@ -59,7 +59,7 @@ export default class STag extends Vue {
     if (this.stopClickPropagate) {
       e.stopPropagation();
     }
-    this.$emit('click', this.tag)
+    this.$emit('click', this.tag.keyword)
   }
 }
 </script>

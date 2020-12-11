@@ -9,6 +9,7 @@
       :color="levelColor[passwordLevel]"
       :rules="[checkPassword]"
       validate-on-blur
+      @blur="confirm"
     />
     <v-text-field
       v-model="confirmedPassword"
@@ -17,6 +18,7 @@
       :label="cPwdLable"
       :rules="[checkPassword, confirm]"
       validate-on-blur
+      @blur="confirm"
     ></v-text-field>
   </div>
 </template>
@@ -52,7 +54,7 @@ export default class SSetPassword extends Vue {
 
 
   confirm(value: string) {
-    return value === this.s_password || this.$t('error.confirm')
+    return (this.s_confirmed = (value === this.s_password)) || this.$t('error.confirm')
   }
 
   get levelText() {

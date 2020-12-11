@@ -130,11 +130,11 @@ export default class SProfileCard extends Vue {
     .profile-menu-btn {
       position: relative;
       text-align: left;
-      padding: 30px 0 30px 30%;
+      padding: 30px 0 30px 33%;
 
       @media screen and (max-width: 1500px) {
         & {
-          padding-left: 25%;
+          padding-left: 27%;
         }
         .v-btn__content {
           width: 75%;
@@ -142,7 +142,7 @@ export default class SProfileCard extends Vue {
       }
       @media screen and (max-width: 1350px) {
         & {
-          padding-left: 20%;
+          padding-left: 22%;
         }
         .v-btn__content {
           width: 80%;

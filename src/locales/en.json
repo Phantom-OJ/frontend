@@ -1,23 +1,25 @@
 {
   "message": "hello i18n !!",
   "nav-bar": {
-    "home": "home",
-    "help": "help",
-    "problem": "problems",
-    "record": "records",
-    "assignment": "assignments",
+    "home": "Home",
+    "help": "Help",
+    "problem": "Problems",
+    "record": "Records",
+    "assignment": "Assignments",
+    "admin": "Administrate",
     "description": "descrip.",
-    "statistic": "stat.",
-    "rec": "rec.",
-    "prob": "prob.",
-    "solution": "sol.",
-    "code": "code"
+    "statistic": "Stat.",
+    "rec": "Rec.",
+    "prob": "Prob.",
+    "solution": "Sol.",
+    "code": "Code"
   },
   "nav-user": {
     "profile": "Profile",
     "sign-out": "Sign out",
     "login": "Login",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "admin": "Administrate"
   },
   "home": {
     "announcement": "Announcement",
@@ -71,7 +73,10 @@
     "mail": "Invalid e-mail",
     "password": "Password at least length 6",
     "confirm": "The password is inconsistent",
-    "pageIndex": "Invalid page index"
+    "pageIndex": "Invalid page index",
+    "upload": "Please choose file",
+    "upload-img": "Please choose an image",
+    "t-large": "Too large (max 5 MB)"
   },
   "warning": {
     "no-code": "No submitted code"
@@ -104,8 +109,8 @@
   },
   "record": {
     "searchA": "Assignment",
-    "searchP": "problem",
-    "searchU": "user",
+    "searchP": "Problem",
+    "searchU": "User",
     "subtitle": "I can accept failure,but I can't accept not trying",
     "submission": "SUBMISSION",
     "code-length": "Code length"
@@ -145,6 +150,8 @@
     "end-time": "End Time",
     "status": "Status",
     "operation": "Operation",
+    "group": "Create Group",
+    "keyword": "Key word",
     "problem": {
       "&": "Problem",
       "type": "Type",
@@ -161,6 +168,10 @@
     "assignment": {
       "&": "Assignment"
     }
+  },
+  "admin": {
+    "subtitle": "Anything is possible if you have got enough nerve.",
+    "manage": "Manage "
   },
   "not-found": {
     "text": "Oops! Phantom cannot find your page...",

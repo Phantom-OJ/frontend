@@ -8,9 +8,10 @@
 import {Vue} from '@/ts/extension'
 import {Component, Prop, PropSync} from 'vue-property-decorator'
 import 'codemirror/mode/sql/sql'
-import 'codemirror/mode/clike/clike'
+import 'codemirror/mode/python/python'
 import 'codemirror/addon/hint/show-hint'
 import 'codemirror/addon/hint/sql-hint'
+import 'codemirror/addon/hint/anyword-hint'
 import 'codemirror/addon/hint/show-hint.css'
 import 'codemirror/theme/cobalt.css'
 
@@ -57,6 +58,7 @@ export default class SCodemirror extends Vue {
 
   ready(codemirror: any) {
     codemirror.on('change', (instance: any, {text}: { text: Array<string> }) => {
+      if(!codemirror.getHelpers(codemirror,'hint')[0]) return
       const hintsList = codemirror.getHelpers(codemirror, 'hint')[0](codemirror).list
       if (!!text && text[0].length === 1 && hintsList.length >= 1 && hintsList[0].text !== text[0] && !this.notHint.has(text[0])) {
         codemirror.showHint()

@@ -22,12 +22,13 @@ import {Vue} from '@/ts/extension'
 import {Component, Emit, Prop, PropSync} from 'vue-property-decorator'
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {STooltipIcon, SCodemirror}
 })
 export default class SCodeEditor extends Vue {
-  readonly languages = ['pgsql', 'sqlite', 'mysql']
+  readonly languages = SUtil.languages
   @PropSync('lang')
   s_lang !: string
   @PropSync('code')

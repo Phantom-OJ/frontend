@@ -1,51 +1,7 @@
 <template>
   <s-loading v-if="loading"/>
   <v-card v-else class="detail-card">
-    <div v-if="width_height.width>9200" class="detail-card-title-box--vertical">
-      <v-tabs v-model="tab" background-color="white" color="secondary" vertical
-              class="detail-card-tabs--vertical" :height="tabHeight">
-        <v-tabs-slider color="accent"/>
-        <v-tab
-          v-for="bar in tabs"
-          :key="bar"
-        >
-          {{$t(bar)}}
-        </v-tab>
-        <v-tab v-if="!!problem.solution">
-          {{$t('solution')}}
-        </v-tab>
-      </v-tabs>
-      <div class="ellipsis-col detail-card-title--vertical">
-        <v-card-title class="s-problem-detail-card-title">
-          {{problem.title}}
-        </v-card-title>
-        <div class="s-problem-detail-card-sub">
-          <div style="margin: 7px auto 10px auto">
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-database
-            </v-icon>
-            {{`${problem.spaceLimit}MB`}}
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-timer-sand
-            </v-icon>
-            {{`${problem.timeLimit}ms`}}
-            <v-icon class="icon-color-0 icon-left-5" style="transform: scale(1.2) translateY(-1px)">
-              mdi-cash-100
-            </v-icon>
-            {{`${problem.fullScore}`}}
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-upload
-            </v-icon>
-            {{problem.numberSubmit}}
-            <v-icon class="icon-color-0 icon-left-5">
-              mdi-check
-            </v-icon>
-            {{problem.numberSolve}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else class="detail-card-title-box">
+    <div class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
         <v-card-title class="detail-card-title-main" style="padding-bottom: 0">
           {{problem.title}}
@@ -82,6 +38,9 @@
         >
           {{$t(bar)}}
         </v-tab>
+        <v-tab v-if="!!problem.solution">
+          {{$t('nav-bar.solution')}}
+        </v-tab>
       </v-tabs>
       <v-btn text class="refresh" @click="loadProblem(true)">
         <v-icon class="icon-color-2">mdi-sync</v-icon>
@@ -100,6 +59,9 @@
       </v-tab-item>
       <v-tab-item>
         <s-record-list :records="records"/>
+      </v-tab-item>
+      <v-tab-item v-if="!!problem.solution">
+        <s-markdown :markdown="problem.solution" class="description"/>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -181,6 +143,7 @@ export default class SProblemDetailCard extends Vue {
 
   get problem(): Problem | undefined {
     let _ = this.cnt
+    console.log(!!this.problemInfo.get(this.pid)?.solution)
     return this.problemInfo.get(this.pid)
   }
 

@@ -4,9 +4,9 @@
     <div class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
         <v-card-title class="detail-card-title-main" style="padding-bottom: 0">
-          {{problem.title}}
+          {{ problem.title }}
           <v-card-subtitle>
-            {{`${$t('problem.score')}: ${problem.fullScore}`}}
+            {{ `${$t('problem.score')}: ${problem.fullScore}` }}
           </v-card-subtitle>
         </v-card-title>
         <v-card-subtitle class="s-problem-detail-card-sub">
@@ -14,19 +14,19 @@
             <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.memory')" direction="top">
               mdi-database
             </s-tooltip-icon>
-            {{`${problem.spaceLimit}MB`}}
+            {{ `${problem.spaceLimit}MB` }}
             <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.time')" direction="top">
               mdi-timer-sand
             </s-tooltip-icon>
-            {{`${problem.timeLimit}ms`}}
+            {{ `${problem.timeLimit}ms` }}
             <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.submitted')" direction="top">
               mdi-upload
             </s-tooltip-icon>
-            {{problem.numberSubmit}}
+            {{ problem.numberSubmit }}
             <s-tooltip-icon :icon-class="`icon-color-0 icon-left-5`" :text="$t('problem.resolved')" direction="top">
               mdi-check
             </s-tooltip-icon>
-            {{problem.numberSolve}}
+            {{ problem.numberSolve }}
           </span>
         </v-card-subtitle>
       </div>
@@ -36,10 +36,10 @@
           v-for="bar in tabs"
           :key="bar"
         >
-          {{$t(bar)}}
+          {{ $t(bar) }}
         </v-tab>
         <v-tab v-if="!!problem.solution">
-          {{$t('nav-bar.solution')}}
+          {{ $t('nav-bar.solution') }}
         </v-tab>
       </v-tabs>
       <v-btn text class="refresh" @click="loadProblem(true)">
@@ -51,8 +51,10 @@
       <v-tab-item>
         <s-markdown :markdown="problem.description" class="description"/>
       </v-tab-item>
-      <v-tab-item>
-        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor" @pull="pullCode"/>
+      <v-tab-item class="s-flex">
+        <s-markdown v-if="flagShowProblem" :markdown="problem.description" class="description"/>
+        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor" @pull="pullCode"
+                       @show-des="flagShowProblem=!flagShowProblem" :style="`width:${flagShowProblem?'48%':'100%'}`"/>
       </v-tab-item>
       <v-tab-item>
         <s-problem-statistic/>
@@ -87,13 +89,14 @@ import {EntityContainer} from "@/ts/entity-container";
 export default class SProblemDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly problemInfo!: EntityContainer<Problem>
-  readonly keyInState:string = 'problem-detail'
+  readonly keyInState: string = 'problem-detail'
   readonly tabs: Array<string> = ['nav-bar.description', 'submit', 'nav-bar.statistic', 'nav-bar.rec']
   pid: number = -1
   records: Array<Record> = []
   disableEditor: boolean = false
   loading: boolean = false
   recordsLoading: boolean = false
+  flagShowProblem: boolean = false
   lang: string = 'pgsql'
   code: string = ''
   private cnt = 1
@@ -102,14 +105,14 @@ export default class SProblemDetailCard extends Vue {
     this.pid = parseInt(this.$route.params.pid)
     this.loadProblem()
     this.loadCache()
-    if(this.$route.params.code){
+    if (this.$route.params.code) {
       this.code = this.$route.params.code
     }
   }
 
-  mounted(){
-    if(this.$route.query.recover){
-      if(!window.state?.[this.keyInState]) return
+  mounted() {
+    if (this.$route.query.recover) {
+      if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
         if (window.state[this.keyInState].hasOwnProperty(stateKey)) {
           //@ts-ignore
@@ -147,7 +150,7 @@ export default class SProblemDetailCard extends Vue {
     return this.problemInfo.get(this.pid)
   }
 
-  loadCache(){
+  loadCache() {
     const cache = JSON.parse(localStorage[`/problem/${this.pid}`])
     this.code = cache.code
     this.lang = cache.lang
@@ -193,51 +196,49 @@ export default class SProblemDetailCard extends Vue {
         info: re.toString()
       }))
       await this.$router.push('/record/all')//TODO
-    }catch (e) {
+    } catch (e) {
       this.$alert(new Alert({
-        type:'error',
-        info:e.info??e.toString(),
-        time:8000
+        type: 'error',
+        info: e.info ?? e.toString(),
+        time: 8000
       }))
       await this.$router.push('/record/all')//TODO
     }
   }
 
-  pullCode(){
-    if(!!this.problem?.recentCode){
+  pullCode() {
+    if (!!this.problem?.recentCode) {
       this.code = this.problem.recentCode
-    }else{
+    } else {
       this.$alert(new Alert({
-        type:'warning',
-        info:this.$t('warning.no-code').toString()
+        type: 'warning',
+        info: this.$t('warning.no-code').toString()
       }))
     }
   }
 
   beforeDestroy() {
-    localStorage[`/problem/${this.pid}`] = JSON.stringify({
+    const _ = {
       code: this.code,
       lang: this.lang
-    })
-    window.state[this.keyInState] = {
-      code:this.code,
-      lang:this.lang
     }
+    window.state[this.keyInState] = _
+    localStorage[`/problem/${this.pid}`] = JSON.stringify(_)
   }
 }
 </script>
 
 <style lang="scss">
 
-  .s-problem-detail-card-sub {
-    padding-top: 6px !important;
-    padding-bottom: 10px;
-  }
+.s-problem-detail-card-sub {
+  padding-top: 6px !important;
+  padding-bottom: 10px;
+}
 
 
 </style>
 <style scoped lang="scss">
-  .refresh {
-    top: 15px;
-  }
+.refresh {
+  top: 15px;
+}
 </style>

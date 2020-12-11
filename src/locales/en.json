@@ -109,7 +109,8 @@
     "resolved": "resolved number",
     "last-code": "pull code submitted lastly",
     "result": "Results of submissions",
-    "dialect": "Dialect of submissions"
+    "dialect": "Dialect of submissions",
+    "show-des": "Show the Description of Problem"
   },
   "record": {
     "searchA": "Assignment",
@@ -117,7 +118,8 @@
     "searchU": "User",
     "subtitle": "I can accept failure,but I can't accept not trying",
     "submission": "SUBMISSION",
-    "code-length": "Code length"
+    "code-length": "Code length",
+    "edit": "Edit in Problem"
   },
   "announce": {
     "subtitle": "?"

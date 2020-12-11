@@ -5,12 +5,16 @@
       <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
                 dense color="secondary" :label="$t('problem.lang')" hide-details/>
       <v-spacer/>
-      <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.last-code')" :size="30"
+      <s-tooltip-icon direction="top" icon-class="icon-color-0 mr12" :text="$t('problem.last-code')" :size="30"
                       @click="pull">
         mdi-alpha-c-box
       </s-tooltip-icon>
+      <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.show-des')" :size="30"
+                      @click="showDes">
+        {{ !flagShowDes ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
+      </s-tooltip-icon>
       <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">
-        {{$t('submit')}}
+        {{ $t('submit') }}
       </v-btn>
     </v-toolbar>
     <s-codemirror :code.sync="s_code" :mime="mime" :read-only="disabled?'nocursor':false" class="s-editor-body"/>
@@ -38,6 +42,7 @@ export default class SCodeEditor extends Vue {
     default: false
   })
   readonly disabled!: boolean
+  flagShowDes: boolean = false
 
   get mime(): string {
     return `text/x-${this.s_lang}`
@@ -52,42 +57,52 @@ export default class SCodeEditor extends Vue {
   pull() {
 
   }
+
+  @Emit()
+  showDes() {
+    this.flagShowDes = !this.flagShowDes
+  }
 }
 </script>
 
 <style lang="scss">
-  .s-editor {
-    padding-top: 12px;
+.mr12 {
+  margin-right: 12px;
+}
 
-    .s-flex {
-      justify-content: space-between;
-      margin-bottom: 6px;
+.s-editor {
+  padding-top: 12px;
+  flex-grow: 1;
 
-      .v-toolbar__content {
-        width: 100%;
-        padding: 0;
-      }
+  .s-flex {
+    justify-content: space-between;
+    margin-bottom: 6px;
 
-      .s-editor-lang {
-        margin: 0 27px;
-        width: 25%;
-        flex-grow: 0;
-        flex-shrink: 2;
-      }
-
-      .s-editor-submit {
-        margin: 0 27px;
-        width: 20%;
-        flex-grow: 0;
-        flex-shrink: 1;
-      }
+    .v-toolbar__content {
+      width: 100%;
+      padding: 0;
     }
 
-    .s-editor-body {
-      /*padding: 16px 16px 0 16px;*/
-      padding: 0 27px 27px 27px;
-      border-radius: 10px;
-      /*border: 1px solid var(--v-secondary-darken2);*/
+    .s-editor-lang {
+      margin: 0 27px;
+      width: 25%;
+      flex-grow: 0;
+      flex-shrink: 2;
+    }
+
+    .s-editor-submit {
+      margin: 0 27px;
+      width: 20%;
+      flex-grow: 0;
+      flex-shrink: 1;
     }
   }
+
+  .s-editor-body {
+    /*padding: 16px 16px 0 16px;*/
+    padding: 0 27px 27px 27px;
+    border-radius: 10px;
+    /*border: 1px solid var(--v-secondary-darken2);*/
+  }
+}
 </style>

@@ -109,7 +109,8 @@
     "resolved": "解决数",
     "last-code": "拉取上次提交代码",
     "result": "提交结果",
-    "dialect": "提交语言"
+    "dialect": "提交语言",
+    "show-des": "显示题目描述"
   },
   "record": {
     "searchA": "作业",
@@ -117,7 +118,8 @@
     "searchU": "用户",
     "subtitle": "逃避困难是一场永远跑不赢的比赛",
     "submission": "提交",
-    "code-length": "代码长度"
+    "code-length": "代码长度",
+    "edit": "去题目页面编辑此代码"
   },
   "announce": {
     "subtitle": "?"

@@ -33,14 +33,20 @@
       <v-tab-item>
         <s-record-description :record="record"/>
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="s-flex">
         <s-codemirror v-if="!!record.code" :code="record.code" :mime="`text/x-${record.dialect.toLowerCase()}`"
-                      read-only="nocursor"/>
+                      read-only="nocursor" :class="{'show-problem':flagShowProblem}" style="flex-grow: 1"/>
+        <s-markdown v-if="flagShowProblem" :markdown="description" style="padding: 16px;width: 48%"/>
         <div class="s-record-tool">
+          <v-btn fab color="info" @click="flagShowProblem=!flagShowProblem">
+            <s-tooltip-icon :text="$t('problem.show-des')" direction="top">
+              {{flagShowProblem?'mdi-eye-off-outline':'mdi-eye-outline'}}
+            </s-tooltip-icon>
+          </v-btn>
           <v-btn fab color="accent" @click="edit">
-            <v-icon>
+            <s-tooltip-icon :text="$t('record.edit')" direction="top">
               mdi-pencil
-            </v-icon>
+            </s-tooltip-icon>
           </v-btn>
         </div>
       </v-tab-item>
@@ -52,15 +58,17 @@
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {Record} from "@/ts/entities";
+import {Problem, Record} from "@/ts/entities";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import SRecordDescription from "@/components/Record/SRecordDescription.vue";
 import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
+import SMarkdown from "@/components/General/SMarkdown.vue";
+import STooltipIcon from "@/components/General/STooltipIcon.vue";
 
 @Component({
-  components: {SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
+  components: {STooltipIcon, SMarkdown, SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
   computed: {
     ...mapState(['width_height', 'recordInfo'])
   }
@@ -71,6 +79,8 @@ export default class SRecordDetailCard extends Vue {
 
   loading: boolean = false
   private cnt: number = 1
+  problem:Problem ={} as Problem
+  flagShowProblem:boolean=false
 
   created() {
     this.loadRecord(true)
@@ -91,6 +101,12 @@ export default class SRecordDetailCard extends Vue {
           id: this.rid
         }
       })
+    }
+    if(this.$store.state.problemInfo.get(this.record?.problemID)){
+      this.problem = this.$store.state.problemInfo.get(this.record?.problemID)
+    }else{
+      this.problem = await this.$api.queryProblem(this.record!.problemID)
+      this.$store.commit('setProblemInfo',{detailProblem:this.problem})
     }
   }
 
@@ -123,6 +139,10 @@ export default class SRecordDetailCard extends Vue {
     let _ = this.cnt
     return this.recordInfo.get(this.rid)
   }
+
+  get description(){
+    return this.problem.description??''
+  }
 }
 </script>
 
@@ -146,10 +166,15 @@ export default class SRecordDetailCard extends Vue {
 }
 
 .s-record-tool {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   bottom: 20px;
   right: 20px;
   z-index: 10000;
+  &>*{
+    margin-top:10px;
+  }
 }
 </style>
 <style scoped lang="scss">
@@ -159,5 +184,9 @@ export default class SRecordDetailCard extends Vue {
 
 .record-box {
   flex-grow: 3;
+}
+
+.show-problem{
+  width: 48%;
 }
 </style>

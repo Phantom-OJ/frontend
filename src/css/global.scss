@@ -321,6 +321,7 @@ button.v-btn.s-add-btn{
 
     .description {
       padding: 24px 32px 2px 32px;
+      min-width: 48%;
     }
   }
 
@@ -522,7 +523,7 @@ button.s-submit-btn {
   border-bottom-left-radius: 16px;
 }
 .s-permission{
-  border: 1px dot-dash var(--v-warning-base);
+  border: 1px dashed var(--v-warning-base);
   padding: 2px 12px;
   min-width: 220px;
 }

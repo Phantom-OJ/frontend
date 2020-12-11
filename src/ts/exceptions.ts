@@ -10,6 +10,6 @@ export class APIException {
   }
 
   get info(): string {
-    return `Error from ${this.url}: ${this.code}\n${this.description}`
+    return `Error : ${this.code}\n${this.description}`
   }
 }

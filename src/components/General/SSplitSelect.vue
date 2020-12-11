@@ -1,16 +1,16 @@
 <template>
   <v-card class="s-split-select--root">
     <div class="s-split-select--title">
-      <v-btn text absolute right top @click="close">
+      <v-btn v-if="isDialog" text absolute right top @click="close">
         <v-icon>
           mdi-close
         </v-icon>
       </v-btn>
       <slot/>
     </div>
-    <div class="s-flex" style="min-height: 800px">
+    <div class="s-flex s-split-select--body">
       <div class="s-split-select--active__box">
-        <v-text-field :label="$t('search')" v-model="activeFilter" class="s-split-select--search"/>
+        <slot name="aSearch"/>
         <div class="s-split-select--active">
         <span v-for="(entity,index) in activeItems" :key="index" @click="inactivate(entity)" class="s-split-select--item">
           <slot name="active" :entity="entity"/>
@@ -23,7 +23,7 @@
         </v-icon>
       </div>
       <div class="s-split-select--inactive__box">
-        <v-text-field :label="$t('search')" v-model="inactiveFilter" class="s-split-select--search"/>
+        <slot name="iSearch"/>
         <div class="s-split-select--inactive">
         <span v-for="(entity,index) in inactiveItems" :key="index" @click="activate(entity)" class="s-split-select--item">
           <slot name="inactive" :entity="entity"/>
@@ -45,28 +45,34 @@ export default class SSplitSelect extends Vue {
   @PropSync('active')
   s_active!: Array<any>
   @Prop({
-    type:Function,
-    required:true
+    type:Boolean,
+    default:true
   })
-  filter!:(e:any, filter:string)=>boolean
-
-  activeFilter=''
-  inactiveFilter=''
+  isDialog!:boolean
+  @Prop()
+  activeFilter?:any
+  @Prop()
+  inactiveFilter?:any
+  @Prop()
+  filter?:(i:any, j:any)=>boolean
 
   get activeItems(){
-    return this.s_active.filter(e=>this.filter(e, this.activeFilter))
+    if(!this.filter) return this.s_active
+    return this.s_active.filter(e=>this.filter!(e, this.activeFilter))
   }
 
   get inactiveItems(){
-    return this.s_inactive.filter(e=>this.filter(e, this.inactiveFilter))
+    if(!this.filter) return this.s_inactive
+    return this.s_inactive.filter(e=>this.filter!(e, this.inactiveFilter))
   }
 
+  @Emit()
   activate(entity: any) {
-    console.log(entity)
     this.s_inactive.remove(entity)
     this.s_active.push(entity)
   }
 
+  @Emit()
   inactivate(entity: any) {
     this.s_inactive.push(entity)
     this.s_active.remove(entity)
@@ -79,12 +85,19 @@ export default class SSplitSelect extends Vue {
 
 <style lang="scss">
 .s-split-select--root {
-  width: 100%;
-  min-height: 830px;
+  min-width: 400px;
+  max-width: 1200px;
+  min-height: 630px;
+  flex-grow: 1;
 
   .s-split-select--title {
     min-height: 30px;
     position: relative;
+  }
+
+  .s-split-select--body{
+    min-height: 600px;
+    max-height: 930px;
   }
 
   .s-split-select--active__box, .s-split-select--inactive__box {
@@ -92,15 +105,15 @@ export default class SSplitSelect extends Vue {
     padding: 16px 8px;
     display: flex;
     flex-direction: column;
-    .s-split-select--search{
-      flex-grow: 0;
-      padding-top: 0;
-    }
     .s-split-select--active, .s-split-select--inactive {
       padding: 8px 8px;
       border-radius: 16px;
       flex-grow: 1;
 
+
+      min-height: 600px;
+      max-height: 830px;
+      overflow: auto;
       .s-split-select--item {
         margin: 6px 6px;
         display: inline-block;
@@ -111,37 +124,15 @@ export default class SSplitSelect extends Vue {
       border: 2px solid var(--v-success-lighten1);
       &:hover{
         position: relative;
-        &::before{
-          content: "";
-          position: absolute;
-          width: calc(100% + 2px);
-          height: calc(100% + 2px);
-          border-radius: 16px;
-          top: -2px;
-          left: -2px;
-          background-color: var(--v-success-lighten1);
-          opacity: 0.1;
-          z-index: 0;
-        }
+        background-color: #69cb691f;
       }
     }
 
     .s-split-select--inactive {
-      //background-color: var(--v-accent-lighten1);
       border: 2px solid var(--v-accent-lighten1);
       &:hover{
         position: relative;
-        &::before{
-          content: "";
-          position: absolute;
-          width: calc(100% + 2px);
-          height: calc(100% + 2px);
-          border-radius: 16px;
-          top: -2px;
-          left: -2px;
-          background-color: var(--v-accent-lighten1);
-          opacity: 0.1;
-        }
+        background-color: #597eff1f;
       }
     }
   }

@@ -56,7 +56,7 @@ loading 界面
 
 代码编辑器功能栏
 
-个人界面
+[finished] 个人界面
 
 管理员
 
@@ -76,8 +76,8 @@ btn可以自定义loader 是slot
 
 [finished] *nickname 和 code xss*
 
-user 可点击
+[finished] user 可点击
 
 [finished] 题目显示现在的提交状态
 
-得分
+[finished] 得分

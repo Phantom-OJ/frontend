@@ -11,20 +11,18 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     component: SHome
-  },
-  {
+  }, {
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '@/views/SAbout.vue')
-  },
-  {
+  }, {
     path: '/profile/:uid',
     name: 'profile-other',
     component: () => import('@/views/SProfile.vue'),
     beforeEnter: (to, from, next) => {
       if (!isPositiveNumber(to.params.uid)) {
         next({name: 'not-found'})
-      }else{
+      } else {
         next()
       }
     },
@@ -43,33 +41,32 @@ const routes: Array<RouteConfig> = [
       name: 'profile-home',
       component: () => import('@/views/profiles/SProfileHome.vue')
     }]
-  },
-  {
+  }, {
     path: '/login',
     name: 'login',
     component: SLogin,
     beforeEnter: requireNotAuthenticated,
-  },
-  {
+  }, {
     path: '/sign up',
     name: 'sign-up',
     component: () => import('@/views/SSignUp.vue'),
     beforeEnter: requireNotAuthenticated
-  },
-  {
+  }, {
     path: '/assignment/all',
     name: 'assignment-all',
     component: () => import('@/views/SAssignment.vue')
-  },
-  {
+  }, {
     path: '/problem/all',
     name: 'problem-all',
     component: () => import('@/views/SProblem.vue')
-  },
-  {
+  }, {
     path: '/record/all',
     name: 'record-all',
     component: () => import('@/views/SRecord.vue')
+  }, {
+    path: '/announcement',
+    name: 'announcement-all',
+    component: () => import('@/views/SAnnouncement.vue')
   }, {
     path: '/assignment/:aid',
     name: 'assignment-detail',
@@ -77,7 +74,7 @@ const routes: Array<RouteConfig> = [
     beforeEnter: (to, from, next) => {
       if (!isPositiveNumber(to.params.aid)) {
         next({name: 'not-found'})
-      }else{
+      } else {
         next()
       }
     }
@@ -88,7 +85,7 @@ const routes: Array<RouteConfig> = [
     beforeEnter: (to, from, next) => {
       if (!isPositiveNumber(to.params.pid)) {
         next({name: 'not-found'})
-      }else{
+      } else {
         next()
       }
     }
@@ -99,7 +96,7 @@ const routes: Array<RouteConfig> = [
     beforeEnter: (to, from, next) => {
       if (!isPositiveNumber(to.params.rid)) {
         next({name: 'not-found'})
-      }else{
+      } else {
         next()
       }
     }
@@ -115,13 +112,23 @@ const routes: Array<RouteConfig> = [
     path: '/create/assignment',
     name: 'create-assignment',
     component: () => import('@/views/SCreateAssignment.vue'),
-    beforeEnter:requireAuthenticatedEnter
+    beforeEnter: requireAuthenticatedEnter
+  }, {
+    path: '/administrate',
+    name: 'administrate',
+    component: () => import('@/views/SAdmin.vue'),
+    beforeEnter: function (to: Route, from: Route, next: Function) {
+      if (vuex.state.isAuthenticated && vuex.state.user.permissionList.length > 0) {
+        next()
+      } else {
+        next('/')
+      }
+    }
   }, {
     path: '/forbidden',
     name: 'forbidden',
     component: () => import('@/views/SForbidden.vue')
-  },
-  {
+  }, {
     path: '/*',
     name: 'not-found',
     component: () => import('@/views/SNotFound.vue')
@@ -134,7 +141,7 @@ const router = new VueRouter({
   routes
 })
 
-router.onError(()=>void 0)
+router.onError(() => void 0)
 
 function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
   if (!vuex.state.isAuthenticated) {
@@ -146,7 +153,7 @@ function requireAuthenticatedEnter(to: Route, from: Route, next: Function) {
 
 function requireNotAuthenticated(to: Route, from: Route, next: Function) {
   if (vuex.state.isAuthenticated) {
-    next({name: 'Home'})
+    next('/')
   } else {
     next()
   }

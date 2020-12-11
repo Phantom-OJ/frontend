@@ -8,36 +8,36 @@ export class SUtil {
 
   static readonly pLevelText = ['', 'security.t-weak', 'security.weak', 'security.middle', 'security.strong']
   static readonly pLevelColor = ['error', 'warning', 'warning', 'accent', 'success']
-  static readonly barChartOption =
-    {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          },
-          gridLines: {
-            display: false
-          }
-        }],
-        xAxes: [{
-          ticks: {
-            maxRotation: 0,
-            autoSkipPadding: 15
-          }
-        }]
-      },
-    }
-  static readonly pieChartOption= {
-    aspectRatio:1,
-    scales:{
-      yAxes:[{
-        display:false
+  static readonly barChartOption = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        },
+        gridLines: {
+          display: false
+        }
       }],
-      xAxes:[{
-        display:false
+      xAxes: [{
+        ticks: {
+          maxRotation: 0,
+          autoSkipPadding: 15
+        }
+      }]
+    },
+  }
+  static readonly pieChartOption = {
+    aspectRatio: 1,
+    scales: {
+      yAxes: [{
+        display: false
+      }],
+      xAxes: [{
+        display: false
       }]
     }
   }
+  static readonly languages = ['pgsql', 'sqlite', 'mysql']
 
   static readonly localeMap = new Map<string, string>([['en', 'English'], ['zh-CN', '简体中文']])
 
@@ -96,7 +96,7 @@ export class SUtil {
     }
   }
 
-  static recordStatisticColor(result:string):string{
+  static recordStatisticColor(result: string): string {
     result = result.toUpperCase().trim()
     switch (result) {
       case 'AC':
@@ -112,8 +112,8 @@ export class SUtil {
     }
   }
 
-  static solveStateColor(state:SolveState){
-    switch (state){
+  static solveStateColor(state: SolveState) {
+    switch (state) {
       case SolveState.AC:
         return 'success'
       case SolveState.WA:
@@ -124,8 +124,8 @@ export class SUtil {
     }
   }
 
-  static solveStateIcon(state:SolveState){
-    switch (state){
+  static solveStateIcon(state: SolveState) {
+    switch (state) {
       case SolveState.AC:
         return 'mdi-check'
       case SolveState.WA:
@@ -140,10 +140,10 @@ export class SUtil {
     return list?.map(i => new type(i)) ?? []
   }
 
-  static pageDataTransfer<T extends Entity>(collection: EntityCollection|undefined, type: new (arg: any) => T): SEntityCollection<T> {
+  static pageDataTransfer<T extends Entity>(collection: EntityCollection | undefined, type: new (arg: any) => T): SEntityCollection<T> {
     return {
-      entities: this.objs2entities(collection?.entities??[], type),
-      count: collection?.count??0
+      entities: this.objs2entities(collection?.entities ?? [], type),
+      count: collection?.count ?? 0
     }
   }
 
@@ -177,8 +177,8 @@ export class SUtil {
     }
   }
 
-  static recover(_state:State, vue:Vue){
-    if(!_state.route) return
+  static recover(_state: State, vue: Vue) {
+    if (!_state.route) return
     vue.$store.commit('setProblemInfo', _state.problemInfo)
     vue.$store.commit('setAssignmentInfo', _state.assignmentInfo)
     vue.$store.commit('setRecordInfo', _state.recordInfo)
@@ -188,10 +188,18 @@ export class SUtil {
       query: {
         recover: 'true'
       }
-    }).catch(e=>void e)
+    }).catch(e => void e)
   }
 
-  static async sleep(ms:number){
+  static async sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  static differenceByID<T extends { ID: number }>(a: T[], b: T[]): T[] {
+    return a.filter(i => b.find(j => i.ID === j.ID) === undefined)
+  }
+
+  static difference<T>(a: T[], b: T[]): T[] {
+    return a.filter(i => b.find(j => j === i) === undefined)
   }
 }

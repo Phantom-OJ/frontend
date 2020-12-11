@@ -7,6 +7,7 @@
     "record": "Records",
     "assignment": "Assignments",
     "admin": "Administrate",
+    "announcement": "Announcements",
     "description": "descrip.",
     "statistic": "Stat.",
     "rec": "Rec.",
@@ -41,6 +42,7 @@
   "send": "Send",
   "search": "Search",
   "No": "No.",
+  "not": "Not",
   "upload": "Upload",
   "cancel": "Cancel",
   "OK": "OK",
@@ -79,7 +81,8 @@
     "t-large": "Too large (max 5 MB)"
   },
   "warning": {
-    "no-code": "No submitted code"
+    "no-code": "No submitted code",
+    "l50": "Only show top 50 results"
   },
   "success": {
     "v-code": "Send verify code successfully",
@@ -89,7 +92,8 @@
   "assignment": {
     "searchA": "ID",
     "searchB": "Name",
-    "subtitle": "True mastery of any skill takes a lifetime"
+    "subtitle": "True mastery of any skill takes a lifetime",
+    "require": "Require"
   },
   "problem": {
     "searchA": "ID",
@@ -97,7 +101,7 @@
     "tag": "Tag",
     "subtitle": "Don't let your pride leave you all alone",
     "back": "Back to Assignment",
-    "lang": "language",
+    "lang": "Language",
     "time": "Time limit",
     "memory": "Memory limit",
     "score": "Full Score",
@@ -114,6 +118,9 @@
     "subtitle": "I can accept failure,but I can't accept not trying",
     "submission": "SUBMISSION",
     "code-length": "Code length"
+  },
+  "announce": {
+    "subtitle": "?"
   },
   "help": {
     "title1": "1. QuickStart",
@@ -171,7 +178,14 @@
   },
   "admin": {
     "subtitle": "Anything is possible if you have got enough nerve.",
-    "manage": "Manage "
+    "permission": "Permission",
+    "role": "Role"
+  },
+  "select": {
+    "user": "Please Select Users",
+    "group": "Please Select Groups",
+    "tag": "Please Select Tags",
+    "permission":"Please Select Permissions"
   },
   "not-found": {
     "text": "Oops! Phantom cannot find your page...",

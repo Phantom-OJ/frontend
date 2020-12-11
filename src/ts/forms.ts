@@ -38,6 +38,7 @@ export interface AssignmentForm {
 }
 
 export interface ProblemForm {
+  id?:number
   title: string
   description: string
   status: string
@@ -52,6 +53,7 @@ export interface ProblemForm {
 }
 
 export interface JudgePointForm{
+  dialect:string
   beforeSql:string
   afterSql:string
   judgeScriptId:number
@@ -68,6 +70,27 @@ export interface ModifyUserForm{
 export interface ModifyPasswordForm{
   newPassword:string
   oldPassword:string
+}
+
+export interface DBForm{
+  id:number
+  keyword:string
+  databaseUrl:string
+  dialect:string
+}
+
+export interface ScriptForm{
+  id:number
+  keyword:string
+  script:string
+}
+
+export class SearchUserForm{
+  username:string=''
+  group:number=-1
+  notGroup:number=-1
+  role:string=''
+  notRole:string=''
 }
 
 export const STATUS = Object.freeze({

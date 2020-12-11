@@ -146,7 +146,7 @@ export default class SSignUpCard extends Vue {
       username: this.username,
       mode: VCodeMode.REGISTER
     })
-    if (!msg) {
+    if (!msg || msg.toUpperCase() !== 'SUCCESS') {
       this.sendVCodeDisable = false
       return false
     }

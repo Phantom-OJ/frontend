@@ -2,7 +2,7 @@ import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
 import {
   Announcement,
-  Assignment,
+  Assignment, AssignmentStat,
   Code,
   Grade, JudgeDB,
   JudgeScript,
@@ -15,7 +15,7 @@ import {
 import {APIException} from "@/ts/exceptions";
 import {LoginForm, ModifyPasswordForm, ModifyUserForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
-import {Group, User} from "@/ts/user";
+import {Group, Permission, User} from "@/ts/user";
 import {Vue} from "@/ts/extension";
 import {notLogin} from "@/store/testData";
 
@@ -61,8 +61,8 @@ export class API {
       if (error instanceof APIException) {
         switch (error.code) {
           case 401:
-            // this.$vue.$store.commit('setUser',{isAuthenticated:false})
-            // await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
+            this.$vue.$store.commit('setUser',{isAuthenticated:false})
+            await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
             break
           case 403:
             await this.$vue.$router.replace({
@@ -132,6 +132,11 @@ export class API {
     })).msg
   }
 
+  async allPermissions():Promise<Permission[]>{
+    let data = (await this.cRequest('get', 'require/permission')).data
+    return (data as any[])?.map(e => new Permission(e))??[]
+  }
+
   async allGroups():Promise<Group[]>{
     let data = (await this.cRequest('get','require/group')).data
     return (data as any[])?.map(e=>new Group(e))??[]
@@ -165,6 +170,11 @@ export class API {
   async queryAssignment(ID: number): Promise<Assignment> {
     const data = (await this.cRequest('get', `assignment/${ID}`)).data
     return new Assignment(data)
+  }
+
+  async queryAssignmentStat(ID:number):Promise<AssignmentStat[]>{
+    const data = (await this.cRequest('get', `assignment/${ID}/statistics`)).data
+    return (data as any[])?.map(e=>new AssignmentStat(e))??[]
   }
 
   async searchProblemPage(form: PageSearchForm): Promise<SEntityCollection<Problem>> {

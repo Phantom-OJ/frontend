@@ -69,6 +69,7 @@ export declare global {
 
   interface Window{
     state:any
+    beaconSend:boolean
   }
 }
 
@@ -91,7 +92,7 @@ String.prototype.hash = function (): number {
   let hash = 0
   if (!!this) {
     for (let i = this.length - 1; i >= 0; i--) {
-      hash = hash * 56163 + this.charCodeAt(i)
+      hash = hash * 97864 + this.charCodeAt(i)
       hash &= 0x7fffffff
     }
   }

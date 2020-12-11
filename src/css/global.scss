@@ -196,7 +196,7 @@ input:focus {
   }
 }
 
-.s-add-btn{
+button.v-btn.s-add-btn{
   right: 10px;
   width: 70px;
   height: 70px;
@@ -415,6 +415,9 @@ input:focus {
   &.space-between{
     justify-content: space-between;
   }
+  &.flex-start{
+    justify-content: flex-start;
+  }
 }
 
 .problem-list {
@@ -511,4 +514,15 @@ button.s-submit-btn {
 
 .v-application .v-list-item .col, .v-application .v-list-item .col-1, .v-application .v-list-item .col-2, .v-application .v-list-item .col-3, .v-application .v-list-item .col-4, .v-application .v-list-item .col-5, .v-application .v-list-item .col-6, .v-application .v-list-item .col-7, .v-application .v-list-item .col-8, .v-application .v-list-item .col-9, .v-application .v-list-item .col-10, .v-application .v-list-item .col-11, .v-application .v-list-item .col-12{
   padding: 6px;
+}
+
+.s-item__active{
+  background-color: #2d94377f;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.s-permission{
+  border: 1px dot-dash var(--v-warning-base);
+  padding: 2px 12px;
+  min-width: 220px;
 }

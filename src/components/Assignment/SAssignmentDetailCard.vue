@@ -58,8 +58,8 @@
         <s-markdown :markdown="description" class="description"/>
       </v-tab-item>
       <v-tab-item>
-        <s-entry-list :entries="assignment.problemList" :path="'problem'">
-          <template v-slot="{entry:problem}">
+        <s-entry-list :entities="assignment.problemList" :path="'problem'">
+          <template v-slot="{entity:problem}">
             <v-col cols="2" class="ellipsis-col">
               <v-icon :color="solveStateColor(problem.solved)">
                 {{solveStateIcon(problem.solved)}}
@@ -74,7 +74,7 @@
             </v-col>
             <v-col cols="3" class="s-flex">
               <s-tag
-                v-for="(tag, index) in problem.tags"
+                v-for="(tag, index) in problem.tagList"
                 :key="index"
                 :tag="tag"
                 @click="clickTag"
@@ -94,7 +94,7 @@
         </s-entry-list>
       </v-tab-item>
       <v-tab-item>
-        TODO
+        <s-assignment-statistic/>
       </v-tab-item>
       <v-tab-item>
         <s-record-list :records="records"/>
@@ -110,14 +110,15 @@ import {Assignment, Record} from "@/ts/entities";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
 import SRecordList from "@/components/Record/SRecordList.vue";
-import SEntryList from "@/components/General/SEntryList.vue";
+import SEntryList from "@/components/General/SEntityList.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from "@/ts/utils";
+import SAssignmentStatistic from "@/components/Assignment/SAssignmentStatistic.vue";
 
 @Component({
-  components: {STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
+  components: {SAssignmentStatistic, STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
   computed: {...mapState(['width_height', 'assignmentInfo'])}
 })
 export default class SAssignmentDetailCard extends Vue {

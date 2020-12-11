@@ -1,53 +1,93 @@
 <template>
   <v-sheet class="s-mj-form s-flex">
-    <div class="s-flex s-left">
-      <!--      <div class="s-flex">-->
+    <div class="s-left">
+      <v-select :items="languages" v-model="judgePoint_.dialect" color="secondary" style="width: 95%;"/>
       <label>{{ $t('create.judge-point.bes') }}</label>
-      <s-codemirror :code.sync="judgePoint_.beforeSql" :mime="'text/x-pgsql'"/>
+      <s-codemirror :code.sync="judgePoint_.beforeSql" :mime="`text/x-${judgePoint_.dialect}`" :options="cmOption"/>
       <br>
-      <!--      </div>-->
-      <!--      <div class="s-flex">-->
       <label>{{ $t('create.judge-point.afs') }}</label>
-      <s-codemirror :code.sync="judgePoint_.afterSql" :mime="'text/x-pgsql'"/>
-      <!--      </div>-->
+      <s-codemirror :code.sync="judgePoint_.afterSql" :mime="`text/x-${judgePoint_.dialect}`" :options="cmOption"/>
+      <br>
+      <label>{{ $t('create.judge-point.ans') }}</label>
+      <s-codemirror :code.sync="judgePoint_.answer" :mime="`text/x-${judgePoint_.dialect}`" :options="cmOption"/>
     </div>
     <div class="s-right">
-      <v-textarea v-model="judgePoint_.answer" :label="$t('create.judge-point.ans')" auto-grow/>
-      <s-upload-file-form/>
-      <div>
-        <v-responsive max-width="400">
-          <v-text-field
-            v-model="searchScript"
-            type="number"
-            label="Total Benched"
-          ></v-text-field>
-        </v-responsive>
-        <v-virtual-scroll
-          :bench="2"
-          :items="scripts"
-          height="300"
-          item-height="32"
-          max-width="400"
-        >
-          <template v-slot:default="{ item }">
-            <v-list-item :key="item.id">
-
-              <v-list-item-content>
-                <v-list-item-title>
+      <div class="s-flex space-around" style="margin-bottom: 46px">
+        <div class="s-search-vs">
+          <v-responsive class="s-vc--search">
+            <v-text-field
+              v-model="searchScript"
+              :label="$t('create.judge-point.script')"
+            ></v-text-field>
+          </v-responsive>
+          <br>
+          <div class="s-vs">
+            <v-virtual-scroll
+              :bench="2"
+              :items="scripts"
+              item-height="44"
+            >
+              <template v-slot:default="{ item }">
+                <div :key="item.ID" :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===script.ID}" @click="showScript(item)">
                   {{ item.keyword }}
-                </v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action>
-                <v-icon small>
-                  mdi-open-in-new
-                </v-icon>
-              </v-list-item-action>
-            </v-list-item>
-
-            <v-divider></v-divider>
-          </template>
-        </v-virtual-scroll>
+                </div>
+                <v-divider></v-divider>
+              </template>
+            </v-virtual-scroll>
+            <v-btn fab absolute color="secondary" @click="addScript" class="s-vs--btn">
+              <v-icon>
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </div>
+        </div>
+        <div class="s-search-vs">
+          <v-responsive class="s-vs--search">
+            <v-text-field
+              v-model="searchDB"
+              :label="$t('create.judge-point.db')"
+            ></v-text-field>
+          </v-responsive>
+          <br>
+          <div class="s-vs">
+            <v-virtual-scroll
+              :bench="2"
+              :items="dbs"
+              item-height="44"
+            >
+              <template v-slot:default="{ item }">
+                <div :key="item.ID" :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===DB.ID}" @click="showDB(item)">
+                  {{ item.keyword }}
+                </div>
+                <v-divider></v-divider>
+              </template>
+            </v-virtual-scroll>
+            <v-btn fab absolute color="secondary" @click="addDB" class="s-vs--btn">
+              <v-icon>
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </div>
+      <v-textarea v-if="flagActiveDB" readonly :value="`${DB.dialect}\n${DB.databaseUrl}`" filled disabled height="180"
+                  class="s-vs--append" hide-details/>
+      <s-codemirror v-else-if="flagActiveSC" :code="script.script" mime="text/x-python" :options="cmOption"
+                    read-only="nocursor" class="s-vs--append"/>
+      <div v-else-if="flagAddDB" class="s-vs--append">
+        <v-select :items="languages" v-model="create_DB.dialect" hide-details style="margin-bottom: 16px"/>
+        <v-text-field v-model="create_DB.keyword" hide-details class="s-c-keyword" :label="$t('create.keyword')"/>
+        <v-btn @click="submitDB" class="s-c-btn" color="success">
+          {{ $t('submit') }}
+        </v-btn>
+        <v-textarea v-model="create_DB.databaseUrl" filled label="database URL" height="120"/>
+      </div>
+      <div v-else-if="flagAddSC" class="s-vs--append">
+        <v-text-field v-model="create_SC.keyword" hide-details class="s-c-keyword" :label="$t('create.keyword')"/>
+        <v-btn @click="submitSC" color="success" class="s-c-btn">
+          {{ $t('submit') }}
+        </v-btn>
+        <s-codemirror :code.sync="create_SC.script" mime="text/x-python" :options="cmOption"/>
       </div>
     </div>
   </v-sheet>
@@ -55,31 +95,90 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, PropSync} from 'vue-property-decorator'
-import {JudgePointForm} from "@/ts/forms";
+import {Component, Prop, PropSync} from 'vue-property-decorator'
+import {DBForm, JudgePointForm, ScriptForm} from "@/ts/forms";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {JudgeDB, JudgeScript} from "@/ts/entities";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
+import {SUtil} from "@/ts/utils";
+import {mapState} from "vuex";
 
 @Component({
-  components: {SUploadFileForm, SCodeEditor, SCodemirror}
+  components: {SUploadFileForm, SCodeEditor, SCodemirror},
+  computed:{...mapState(['scripts','dbs'])}
 })
 export default class SManageJudgePoint extends Vue {
+  readonly cmOption = {
+    lineNumbers: false,
+    viewportMargin: 10
+  }
+  readonly languages = SUtil.languages
+  readonly scripts!: JudgeScript[]
+  readonly dbs!: JudgeDB[]
+
   @PropSync('judgePoint')
   judgePoint_!: JudgePointForm
+  @Prop({type:Boolean,required:true})
+  isCreate!:boolean
 
   searchScript: string = ''
   searchDB: string = ''
-  scripts: JudgeScript[] = [{
-    id:1,keyword:'lslnb'
-  }]
-  dbs: JudgeDB[] = [{
-    id:1,keyword:'lslnb'
-  }]
+  flagActiveDB: boolean = false
+  flagActiveSC: boolean = false
+  flagAddDB: boolean = false
+  flagAddSC: boolean = false
+  DB: JudgeDB = {} as JudgeDB
+  script: JudgeScript = {} as JudgeScript
 
+  create_DB: DBForm = {
+    id: 0,
+    databaseUrl: '',
+    dialect: 'pgsql',
+    keyword: ''
+  }
 
-  created() {
+  create_SC: ScriptForm = {
+    id: 0,
+    keyword: '',
+    script: 'def mzynb():'
+  }
+
+  addScript() {
+    this.flagAddDB = false
+    this.flagAddSC = true
+    this.flagActiveDB = false
+    this.flagActiveSC = false
+  }
+
+  addDB() {
+    this.flagAddDB = true
+    this.flagAddSC = false
+    this.flagActiveDB = false
+    this.flagActiveSC = false
+  }
+
+  showScript(s: JudgeScript) {
+    this.flagAddDB = false
+    this.flagAddSC = false
+    this.flagActiveDB = false
+    this.flagActiveSC = true
+    this.script = s
+  }
+
+  showDB(d: JudgeDB) {
+    this.flagAddDB = false
+    this.flagAddSC = false
+    this.flagActiveDB = true
+    this.flagActiveSC = false
+    this.DB = d
+  }
+
+  submitDB() {
+
+  }
+
+  submitSC() {
 
   }
 }
@@ -90,20 +189,77 @@ export default class SManageJudgePoint extends Vue {
   z-index: 10000 !important;
 }
 
-.s-mj-form {
-  min-width: 500px;
-  --s-code-mirror-height: 360px;
+.s-c-keyword {
+  width: 60%;
+  margin-right: 5%;
+  display: inline-flex;
+  min-width: 120px;
+  margin-bottom: 16px;
+}
 
-  .s-left {
-    flex-direction: column;
-    flex-grow: 1;
-    width: 50%;
-    min-width: 500px;
+.s-c-btn {
+  width: 35%;
+  min-width: 60px;
+  margin-bottom: 16px;
+}
+
+.s-mj-form {
+  min-width: 380px;
+  --s-code-mirror-height: 180px;
+
+  .theme--light.v-label {
+    color: rgba(0, 0, 0, 0.86);
   }
 
-  .s-right{
+  .s-left {
+    width: 50%;
+    min-width: 380px;
+    flex-grow: 1;
+  }
+
+  .s-right {
     flex-grow: 1;
     width: 50%;
+    max-width: 95%;
+
+    .s-search-vs {
+      padding: 0 12px;
+      width: 42%;
+
+      .s-vs {
+        border: 1px dashed var(--v-info-base);
+        height: 410px;
+        position: relative;
+
+        .s-vs--item {
+          padding: 6px 12px;
+          height: 43px;
+          line-height: 31px;
+        }
+
+        .s-vs--item__active{
+          background-color: #2d94377f;
+        }
+
+        .s-vs--btn {
+          right: -15px;
+          bottom: -15px;
+        }
+      }
+    }
+
+    .s-vs--append {
+      padding-left: 24px;
+      width: 95%;
+
+      .s-codemirror {
+        width: 100%;
+      }
+    }
+
+    .theme--light.v-input--is-disabled input, .theme--light.v-input--is-disabled textarea {
+      color: rgba(0, 0, 0, 0.9);
+    }
   }
 
   .s-codemirror {

@@ -9,7 +9,7 @@ export const notLogin =
     groupList:[],
     lang:'zh-CN',
     nickname:'lslnb',
-    permissionList:['submit codes', 'create assignment','create problem'],
+    permissionList:['create groups', 'create assignment'],
     role:'student',
     stateSave:true,
     state:'{}',

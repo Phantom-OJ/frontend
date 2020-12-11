@@ -7,6 +7,7 @@
     "record": "记录",
     "assignment": "作业",
     "admin": "管理",
+    "announcement": "公告",
     "description": "描述",
     "statistic": "统计",
     "rec": "记录",
@@ -41,6 +42,7 @@
   "send": "发送",
   "search": "搜索",
   "No": "序号",
+  "not": "非",
   "upload": "确认上传",
   "cancel": "取消",
   "OK": "确认",
@@ -79,7 +81,8 @@
     "t-large": "太大了 (最大5MB)"
   },
   "warning": {
-    "no-code": "还没有交过代码！"
+    "no-code": "还没有交过代码！",
+    "l50": "只显示前50条结果"
   },
   "success": {
     "v-code": "验证码已发送，请注意查收",
@@ -89,7 +92,8 @@
   "assignment": {
     "searchA": "ID",
     "searchB": "作业名",
-    "subtitle": "生活在语法树上，永远热爱大地"
+    "subtitle": "生活在语法树上，永远热爱大地",
+    "require": "应交"
   },
   "problem": {
     "searchA": "ID",
@@ -114,6 +118,9 @@
     "subtitle": "逃避困难是一场永远跑不赢的比赛",
     "submission": "提交",
     "code-length": "代码长度"
+  },
+  "announce": {
+    "subtitle": "?"
   },
   "help": {
     "title1": "1. 快速入门",
@@ -171,7 +178,14 @@
   },
   "admin": {
     "subtitle": "一切皆有可能",
-    "manage":"管理 "
+    "permission": "权限",
+    "role": "角色"
+  },
+  "select": {
+    "user": "请选择用户",
+    "group": "请选择群组",
+    "tag": "请选择标签",
+    "permission":"请选择权限"
   },
   "not-found": {
     "text": "糟糕！页面好像走丢了喔……",

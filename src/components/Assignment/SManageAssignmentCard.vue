@@ -25,17 +25,24 @@
               <s-date-time-picker :date.sync="endDate" :time.sync="endTime" s-class="s-ca-form--end-time"
                                   :label="$t('create.end-time')"/>
             </div>
-            <v-dialog v-model="groupDialog">
+            <v-dialog v-model="groupDialog" max-width="1200">
               <template v-slot:activator="{on, attrs}">
                 <v-text-field readonly v-on="on" v-bind="attrs" :value="activeGroupNames" :label="$t('profile.group')"/>
               </template>
-              <s-split-select :active.sync="activeGroups" :inactive.sync="inactiveGroups"
-                                 :filter="(e, f)=>e.description.includes(f)" @close="groupDialog=false">
+              <s-split-select :active.sync="activeGroups" :inactive.sync="inactiveGroups" :active-filter="activeGF"
+                              :filter="(e, f)=>e.description.includes(f)" @close="groupDialog=false"
+                              :inactive-filter="inactiveGF">
+                <template v-slot:aSearch>
+                  <v-text-field :label="$t('search')" v-model="activeGF" hide-details style="padding-bottom: 12px"/>
+                </template>
                 <template v-slot:active="{entity}">
                   <v-chip label color="info">
                     <v-icon left>mdi-account-multiple</v-icon>
                     {{ entity.description }}
                   </v-chip>
+                </template>
+                <template v-slot:iSearch>
+                  <v-text-field :label="$t('search')" v-model="inactiveGF" hide-details style="padding-bottom: 12px"/>
                 </template>
                 <template v-slot:inactive="{entity}">
                   <v-chip label color="info">
@@ -43,7 +50,7 @@
                     {{ entity.description }}
                   </v-chip>
                 </template>
-                <v-card-title style="padding-bottom: 0">Please Select Groups</v-card-title>
+                <v-card-title style="padding-bottom: 0">{{$t('select.group')}}</v-card-title>
               </s-split-select>
             </v-dialog>
             <v-radio-group v-model="status" :label="$t('create.status')" row>
@@ -78,13 +85,13 @@
                 </th>
               </tr>
               </tbody>
-              <v-btn v-if="permitAddProblem" fab absolute @click="addProblem" class="s-add-btn" color="secondary">
+              <v-btn fab absolute @click="addProblem" class="s-add-btn" color="secondary">
                 <v-icon>
                   mdi-plus-thick
                 </v-icon>
               </v-btn>
             </v-simple-table>
-            <v-btn color="success" shaped>{{ $t('submit') }}</v-btn>
+            <v-btn color="success" shaped @click="submit">{{ $t('submit') }}</v-btn>
           </div>
           <div class="s-right s-flex">
             <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="description"
@@ -97,7 +104,7 @@
         v-for="problem in problemList"
         :key="problem.indexInAssignment"
       >
-        <s-manager-problem-sheet :problem.sync="problem"/>
+        <s-manager-problem-sheet :problem.sync="problem" :is-create="isCreate"/>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -109,17 +116,22 @@ import {Component} from 'vue-property-decorator'
 import SDateTimePicker from "@/components/General/SDateTimePicker.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import {ProblemForm, STATUS} from "@/ts/forms";
-import {Group, Permission} from "@/ts/user";
+import {Group} from "@/ts/user";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import SManagerProblemSheet from "@/components/Problem/SManageProblemSheet.vue";
+import {mapState} from "vuex";
+import {SUtil} from "@/ts/utils";
 
 @Component({
-  components: {SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker}
+  components: {SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker},
+  computed: {...mapState(['groups'])}
 })
-export default class SCreateAssignmentCard extends Vue {
+export default class SManageAssignmentCard extends Vue {
   readonly STATUS = STATUS.values()
   readonly defaultMd = '# markdown supported\n\n$$\nembedded\\;latex\\;supported\n$$'
   readonly keyInState = 'create-assignment'
+  readonly groups!: Group[]
+
   pI = 1
   groupDialog: boolean = false
   tab: number = 0
@@ -132,12 +144,33 @@ export default class SCreateAssignmentCard extends Vue {
   status: string = 'public'
   type: string = 'SELECT'
   problemList: ProblemForm[] = []
-  activeGroups: Group[] = [{ID: 1, description: 'lab1'}, {ID: 2, description: 'lab2'}]
-  inactiveGroups: Group[] = [{ID: 3, description: 'lab3'}]
 
-  mounted(){
-    if(this.$route.query.recover){
-      if(!window.state?.[this.keyInState]) return
+  activeGroups: Group[] = []
+  activeGF: string = ''
+  inactiveGroups: Group[] = []
+  inactiveGF: string = ''
+
+  created() {
+    this.loadGroups()
+    if (this.isCreate) {
+      this.inactiveGroups.push(...this.groups)
+    } else {
+      this.loadActiveGroups()
+    }
+  }
+
+  loadGroups() {
+    this.$store.dispatch('loadGroups', {vue: this})
+  }
+
+  async loadActiveGroups() {
+    // this.activeGroups = await this.$api.queryActiveGroups(this.aid) TODO
+    this.inactiveGroups = SUtil.differenceByID(this.groups, this.activeGroups)
+  }
+
+  mounted() {
+    if (this.$route.query.recover) {
+      if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
         if (window.state[this.keyInState].hasOwnProperty(stateKey)) {
           //@ts-ignore
@@ -153,8 +186,12 @@ export default class SCreateAssignmentCard extends Vue {
     }
   }
 
-  get permitAddProblem() {
-    return this.$store.state.user?.hasPermission(Permission.ALLOWANCE.CREATE_PROBLEM) ?? false
+  get aid() {
+    return parseInt(this.$route.params.aid)
+  }
+
+  get isCreate() {
+    return !(this.aid > 0)
   }
 
   get activeGroupList() {
@@ -167,6 +204,7 @@ export default class SCreateAssignmentCard extends Vue {
 
   addProblem() {
     this.problemList.push({
+      id: -1,
       title: `${this.pI++}`,
       description: this.defaultMd,
       status: 'public',
@@ -174,7 +212,7 @@ export default class SCreateAssignmentCard extends Vue {
       spaceLimit: 64,
       timeLimit: 3000,
       fullScore: 20,
-      indexInAssignment: this.problemList.length+1,
+      indexInAssignment: this.problemList.length + 1,
       type: 'SELECT',
       tagList: [0],
       judgePointList: []
@@ -193,7 +231,7 @@ export default class SCreateAssignmentCard extends Vue {
     this.sortProblems()
   }
 
-  editProb(prob:ProblemForm){
+  editProb(prob: ProblemForm) {
     this.tab = prob.indexInAssignment
   }
 
@@ -201,21 +239,27 @@ export default class SCreateAssignmentCard extends Vue {
     const idx = prob.indexInAssignment
     this.problemList = this.problemList.filter(p => p.indexInAssignment !== idx)
     this.problemList.forEach((p, i) => {
-      p.indexInAssignment = i+1
+      p.indexInAssignment = i + 1
     })
+  }
+
+  async submit() {
+
   }
 }
 </script>
 
 <style scoped lang="scss">
-.s-add-btn {
+button.v-btn.s-add-btn {
   right: 10px;
   width: 60px;
   height: 60px;
   bottom: -70px;
 }
-th{
+
+th {
   padding: 6px !important;
+
   &:last-child {
     padding-right: 0 !important;
     padding-left: 8px !important;
@@ -239,6 +283,7 @@ th{
     min-width: 380px;
     padding: 5px 12px 10px 16px;
     flex-grow: 100;
+
     .s-ca-form--title {
       width: 100%;
       margin-bottom: 16px;
@@ -269,9 +314,11 @@ th{
       width: 50%;
       flex-grow: 0;
       height: 100%;
-      .v-input__control{
+
+      .v-input__control {
         height: 100%;
       }
+
       .v-input__slot {
         height: 100%;
         background-color: rgba(0, 0, 0, 0.03);

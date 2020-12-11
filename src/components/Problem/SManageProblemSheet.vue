@@ -31,27 +31,32 @@
             <div>{{ $t('create.problem.solution') }}</div>
           </div>
         </div>
-        <v-dialog v-model="tagDialog">
+        <v-dialog v-model="tagDialog" max-width="1200">
           <template v-slot:activator="{on, attrs}">
             <v-text-field readonly v-on="on" v-bind="attrs" :value="activeTagNames" :label="$t('problem.tag')"/>
           </template>
-          <s-split-select :active.sync="activeTags" :inactive.sync="inactiveTags"
-                          :filter="(e, f)=>e.description.includes(f)" @close="tagDialog=false">
+          <s-split-select :active.sync="activeTags" :inactive.sync="inactiveTags" :active-filter="activeTF"
+                          :inactive-filter="inactiveTF" :filter="(e, f)=>e.description.includes(f)"
+                          @close="tagDialog=false">
+            <template v-slot:aSearch>
+              <v-text-field :label="$t('search')" hide-details style="padding-bottom: 12px" v-model="activeTF"/>
+            </template>
             <template v-slot:active="{entity}">
               <s-tag
-                :tag="entity.tag"
-                :color="entity.tag.hash().format(6)"
+                :tag="entity"
                 :stop-click-propagate="false"
               ></s-tag>
+            </template>
+            <template v-slot:iSearch>
+              <v-text-field :label="$t('search')" hide-details style="padding-bottom: 12px" v-model="inactiveTF"/>
             </template>
             <template v-slot:inactive="{entity}">
               <s-tag
-                :tag="entity.tag"
-                :color="entity.tag.hash().format(6)"
+                :tag="entity"
                 :stop-click-propagate="false"
               ></s-tag>
             </template>
-            <v-card-title style="padding-bottom: 0">Please Select Groups</v-card-title>
+            <v-card-title style="padding-bottom: 0">{{$t('select.tag')}}</v-card-title>
           </s-split-select>
         </v-dialog>
         <v-select :label="$t('create.problem.type')" v-model="problem_.type" :items="TYPE"></v-select>
@@ -61,6 +66,7 @@
             <th>{{ $t('No') }}</th>
             <th>{{ $t('create.judge-point.script') }}</th>
             <th>{{ $t('create.judge-point.db') }}</th>
+            <th>{{ $t('problem.lang') }}</th>
             <th>{{ $t('create.operation') }}</th>
           </tr>
           </thead>
@@ -69,15 +75,21 @@
             <th>{{ index }}</th>
             <th>{{ j.judgeScriptId }}</th>
             <th>{{ j.judgeDatabaseId }}</th>
+            <th>{{ j.dialect }}</th>
             <th>
-              <v-dialog>
+              <v-dialog v-model="jpDialog">
                 <template v-slot:activator="{on, attrs}">
                   <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" v-on="on" v-bind="attrs">
                     mdi-pencil
                   </v-icon>
                 </template>
-                <v-card style="padding: 24px">
-                  <s-manage-judge-point-sheet :judge-point.sync="j"/>
+                <v-card style="padding: 36px 24px 36px 24px">
+                  <s-manage-judge-point-sheet :judge-point.sync="j" :is-create="isCreate"/>
+                  <v-btn absolute text top right @click="jpDialog=false">
+                    <v-icon>
+                      mdi-close
+                    </v-icon>
+                  </v-btn>
                 </v-card>
               </v-dialog>
               <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="deleteJ(j)">
@@ -92,7 +104,6 @@
             </v-icon>
           </v-btn>
         </v-simple-table>
-        <v-btn color="success" shaped>{{ $t('submit') }}</v-btn>
       </div>
       <div v-if="!des_sol" class="s-right s-flex">
         <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="problem_.description"
@@ -101,7 +112,8 @@
       </div>
       <div v-else class="s-right s-flex">
         <v-textarea :label="$t('create.problem.solution')" color="primary" hide-details v-model="problem_.solution"
-                    class="s-mp-form--description inline-block" filled auto-grow height="706"/>
+                    class="s-mp-form--description inline-block" filled auto-grow height="706"
+                    :disabled="!permitSolution"/>
         <s-markdown :markdown="problem_.solution" class="s-mp-form--description__show"/>
       </div>
     </v-form>
@@ -110,7 +122,7 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, PropSync} from 'vue-property-decorator'
+import {Component, Prop, PropSync, Watch} from 'vue-property-decorator'
 import {JudgePointForm, ProblemForm, STATUS, TYPE} from "@/ts/forms";
 import SDateTimePicker from "@/components/General/SDateTimePicker.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
@@ -121,28 +133,68 @@ import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import STag from "@/components/General/STag.vue";
 import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
 import SManageJudgePointSheet from "@/components/Problem/SManageJudgePointSheet.vue";
+import {mapState} from "vuex";
+import {Permission, User} from "@/ts/user";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {
     SManageJudgePointSheet,
     SUploadFileForm, STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker
-  }
+  },
+  computed: mapState(['user', 'tags'])
 })
 export default class SManagerProblemSheet extends Vue {
   readonly TYPE = TYPE.values()
   readonly STATUS = STATUS.values()
+  readonly user!: User
+  readonly tags!: Tag[]
   @PropSync('problem')
   problem_!: ProblemForm
+  @Prop({type: Boolean, required: true})
+  isCreate!: boolean
+
   des_sol: boolean = false
-  activeTags: Tag[] = [{
-    keyword: 'tag1',
-    description: 'test tag 1'
-  }]
-  inactiveTags: Tag[] = [{
-    keyword: 'tag1',
-    description: 'test tag 1'
-  }]
+  activeTags: Tag[] = []
+  activeTF: string = ''
+  inactiveTags: Tag[] = []
+  inactiveTF: string = ''
   tagDialog: boolean = false
+  jpDialog: boolean = false
+
+  created() {
+    this.init()
+  }
+
+  async init() {
+    await Promise.all([this.loadScripts(), this.loadDBs(), this.loadTags()])
+    if (this.isCreate) {
+      this.inactiveTags.push(...this.tags)
+    } else {
+      this.problemChanged()
+    }
+
+  }
+
+  @Watch('problem_.id')
+  problemChanged() {
+    if ((this.problem_.id ?? -1) > 0 && !this.isCreate) {
+      this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
+      this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
+    }
+  }
+
+  async loadScripts() {
+    return this.$store.dispatch('loadScripts', {vue: this})
+  }
+
+  async loadDBs() {
+    return this.$store.dispatch('loadDBs', {vue: this})
+  }
+
+  async loadTags() {
+    return this.$store.dispatch('loadTags', {vue: this})
+  }
 
   get activeTagNames() {
     return this.activeTags.map(t => t.keyword).join(' ')
@@ -154,6 +206,7 @@ export default class SManagerProblemSheet extends Vue {
 
   addJ() {
     this.problem_.judgePointList.push({
+      dialect:'pgsql',
       beforeSql: '',
       afterSql: '',
       judgeScriptId: 1,
@@ -167,6 +220,10 @@ export default class SManagerProblemSheet extends Vue {
     const jsForm = new FormData(form)
     console.log(jsForm.get('file'))
     // console.log(await this.$api.uploadJudgeScript(jsForm))
+  }
+
+  get permitSolution() {
+    return this.user.hasPermission(Permission.ALLOWANCE.PROVIDE_THE_SOLUTION)
   }
 }
 </script>
@@ -289,5 +346,13 @@ $mp-cm-height: 300px;
       flex-grow: 1;
     }
   }
+}
+</style>
+<style scoped lang="scss">
+button.v-btn.s-add-btn {
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  bottom: -70px;
 }
 </style>

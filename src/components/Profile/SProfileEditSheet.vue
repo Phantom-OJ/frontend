@@ -128,6 +128,7 @@ export default class SProfileEditSheet extends Vue {
         type: 'success',
         info: this.$t('success.upload').toString()
       }))
+      this.$forceUpdate()
     }
   }
 

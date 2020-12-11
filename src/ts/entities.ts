@@ -10,9 +10,9 @@ export class Announcement implements Entity {
   show: boolean = false
 
   //@ts-ignore
-  constructor({ancmId, description, title, createDate, lastModified}) {
-    this.ID = ancmId
-    this.description = description??''
+  constructor({id, description, title, createDate, lastModified}) {
+    this.ID = id
+    this.description = description ?? ''
     this.title = title
     this.createDate = new Date(createDate)
     this.lastModified = new Date(lastModified)
@@ -20,7 +20,7 @@ export class Announcement implements Entity {
 
   static copy(a: Announcement) {
     return new Announcement({
-      ancmId: a.ID.toString(),
+      id: a.ID,
       description: a.description?.toString(),
       title: a.title.toString(),
       createDate: new Date(a.createDate.getTime()),
@@ -42,14 +42,14 @@ export class Problem implements Entity {
   numberSolve: number
   solution?: string
   recentCode?: string
-  tags: Array<Tag>
+  tagList: Array<Tag>
   indexInAssignment: number
   sampleOut: string
-  solved:SolveState
+  solved: SolveState
 
   constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved}: any) {
     this.ID = id
-    this.description = description??''
+    this.description = description ?? ''
     this.title = title
     this.indexInAssignment = indexInAssignment
     this.recentCode = recentCode
@@ -61,8 +61,8 @@ export class Problem implements Entity {
     this.numberSubmit = numberSubmit
     this.numberSolve = numberSolve
     this.solution = solution
-    this.tags = (tagList as Array<any>)?.map(e => new Tag(e))??[]
-    this.solved = solved??SolveState.NO_SUBMIT
+    this.tagList = (tagList as Array<any>)?.map(e => new Tag(e)) ?? []
+    this.solved = solved ?? SolveState.NO_SUBMIT
   }
 }
 
@@ -77,12 +77,12 @@ export class Assignment implements Entity {
 
   constructor({id, description, title, startTime, endTime, status, problemList}: any) {
     this.ID = id
-    this.description = description??''
+    this.description = description ?? ''
     this.title = title
     this.startTime = new Date(startTime)
     this.endTime = new Date(endTime)
     this.status = status
-    this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value))??[]
+    this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value)) ?? []
   }
 }
 
@@ -91,7 +91,7 @@ export class Record implements Entity {
   description: RecordPoint[]
   avatar: string
   username: string
-  userID:number
+  userID: number
   codeID: number
   code?: string
   score: number
@@ -137,13 +137,13 @@ export class Record implements Entity {
 }
 
 export class RecordPoint {
-  result:string
-  description:string
-  time:number
-  space:number
-  judgePointIndex:number
+  result: string
+  description: string
+  time: number
+  space: number
+  judgePointIndex: number
 
-  constructor({result, description, time, space, judgePointIndex}:any) {
+  constructor({result, description, time, space, judgePointIndex}: any) {
     this.result = (<string>result)?.toUpperCase().trim();
     this.description = description;
     this.time = time;
@@ -173,8 +173,8 @@ export class Alert {
   info: string
   time: number
   show: boolean = true
-  exist:boolean = true
-  serialID:number = Alert.cnt++
+  exist: boolean = true
+  serialID: number = Alert.cnt++
 
   constructor({type, info, time}: { type: string, info: string, time?: number }) {
     this.type = type
@@ -184,56 +184,95 @@ export class Alert {
 }
 
 export class Tag {
+  ID: number
   keyword: string
   description: string
 
-  constructor({keyword, description}: any) {
+  constructor({id, keyword, description}: any) {
+    this.ID = id
     this.keyword = keyword
     this.description = description
   }
 }
 
 export class ProblemStatSet {
-  resultSet:ProblemStat[]
-  dialectSet:ProblemStat[]
+  resultSet: ProblemStat[]
+  dialectSet: ProblemStat[]
 
-  constructor({resultSet, dialectSet}:any) {
-    this.resultSet = (<any[]>resultSet)?.map(e => new ProblemStat(e))??[]
-    this.dialectSet = (<any[]>dialectSet)?.map(e => new ProblemStat(e))??[]
+  constructor({resultSet, dialectSet}: any) {
+    this.resultSet = (<any[]>resultSet)?.map(e => new ProblemStat(e)) ?? []
+    this.dialectSet = (<any[]>dialectSet)?.map(e => new ProblemStat(e)) ?? []
   }
 }
 
-export class Grade{
-  id:number
-  score:number
-  fullScore:number
-  title:string
+export class Grade {
+  id: number
+  score: number
+  fullScore: number
+  title: string
 
 
-  constructor({id, score, fullScore, title}:any) {
+  constructor({id, score, fullScore, title}: any) {
     this.id = id;
-    this.score = score??0;
-    this.fullScore = fullScore??0;
-    this.title = title??'';
+    this.score = score ?? 0;
+    this.fullScore = fullScore ?? 0;
+    this.title = title ?? '';
   }
 }
 
-export class ProblemStat{
-  key:string
-  count:number
+export class ProblemStat {
+  key: string
+  count: number
 
-  constructor({key, count}:any) {
+  constructor({key, count}: any) {
     this.key = key
     this.count = count
   }
 }
 
-export class JudgeScript{
+export class JudgeScript {
+  ID: number
+  keyword: string
+  script: string
 
+  constructor({id, keyword, script}: any) {
+    this.ID = id;
+    this.keyword = keyword;
+    this.script = script;
+  }
 }
 
-export class JudgeDB{
+export class JudgeDB {
+  ID: number
+  keyword: string
+  databaseUrl: string
+  dialect: string
 
+  constructor({id, keyword, databaseUrl, dialect}: any) {
+    this.ID = id;
+    this.keyword = keyword;
+    this.databaseUrl = databaseUrl;
+    this.dialect = dialect;
+  }
+}
+
+export class AssignmentStat {
+  ac: number
+  noSubmission: number
+  problemId: number
+  problemTitle: string
+  total: number
+  wa: number
+
+
+  constructor({ac, noSubmission, problemId, problemTitle, total, wa}: any) {
+    this.ac = ac;
+    this.noSubmission = noSubmission;
+    this.problemId = problemId;
+    this.problemTitle = problemTitle;
+    this.total = total;
+    this.wa = wa;
+  }
 }
 
 export enum VCodeMode {REGISTER, RESET_PASSWORD}

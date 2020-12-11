@@ -89,6 +89,19 @@
               {{$t(navUser.signOut.text)}}
             </v-list-item-content>
           </v-list-item>
+          <v-list-item
+            v-if="isAdmin"
+            :to="navUser.admin.to"
+          >
+            <v-list-item-icon>
+              <v-icon class="icon-color-0">
+                {{navUser.admin.icon}}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content class="nav-content">
+              {{$t(navUser.admin.text)}}
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-card-actions>
       <div style="height: 25%"></div>
@@ -125,6 +138,10 @@ export default class SNavBar extends Vue {
     await this.$api.logOut()
     this.$store.commit('setUser',{isAuthenticated:false})
     await this.$router.push('/')
+  }
+
+  get isAdmin(){
+    return this.isAuthenticated&&this.user.permissionList.length>0
   }
 }
 </script>

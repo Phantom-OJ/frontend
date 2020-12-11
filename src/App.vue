@@ -36,33 +36,35 @@ export default class App extends Vue {
   beforeMount() {
     //@ts-ignore dev TODO
     window.vue = this
-
+    window.beaconSend = false
     window.state = {}
     Vue.prototype.$api = API.getInstance()
     Vue.prototype.$alert = (alert) => {
       (this.$refs.alert as any).add(alert)
     }
     Vue.prototype.$api.$vue = this
+
     console.log(phantomIcon)
 
     window.onresize = () => {
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
     }
-    window.onunload = () => {
+    window.onbeforeunload = () => {
+      if(window.beaconSend) return
+      window.beaconSend = true
       let state = {
+        time: Date.now() + '',
         route: this.$route.path,
         problemInfo: this.$store.state.problemInfo,
         assignmentInfo: this.$store.state.assignmentInfo,
         recordInfo: this.$store.state.recordInfo,
         state: undefined as any
-        // , time:Date.now()
       }
       window.state = {}
       this.$destroy()
       state.state = window.state
-      const _state = JSON.stringify(state)
-      sessionStorage.setItem('leave', Date.now()+'')
-      navigator.sendBeacon('/api/beacon', _state)
+      sessionStorage.setItem('leave', state.time)
+      navigator.sendBeacon('/api/beacon', JSON.stringify(state))
     }
     this.checkState()
   }
@@ -74,7 +76,7 @@ export default class App extends Vue {
 
     let leave = sessionStorage.getItem('leave')
 
-    if ((!!leave&&Date.now() - parseInt(leave) > 3e4)||(!leave&&isAuthenticated && user.stateSave)) { // 30s
+    if (isAuthenticated && user.stateSave && ((!!leave && parseInt(user.state.time) >= parseInt(leave)) || !leave)) {
       SUtil.recover(user.state, this)
     }
   }

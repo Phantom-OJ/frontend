@@ -1,16 +1,18 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, {Commit} from 'vuex'
 import {InfoOptions} from "@/ts/interfaces"
-import {Announcement, Assignment, Problem, Record} from "@/ts/entities"
+import {Announcement, Assignment, JudgeDB, JudgeScript, Problem, Record, Tag} from "@/ts/entities"
 import {notLogin} from "@/store/testData";
 import {EntityContainer} from "@/ts/entity-container";
+import {Group, Permission} from "@/ts/user";
+import {API} from "@/ts/api";
 
 Vue.use(Vuex)
 
 let vuex = new Vuex.Store({
   state: {
     user: notLogin,
-    isAuthenticated: false,
+    isAuthenticated: true,
     // loading: false,
     sideNav: <boolean>false,
     nav: [
@@ -55,6 +57,11 @@ let vuex = new Vuex.Store({
       signOut: {
         text: 'nav-user.sign-out',
         icon: 'mdi-logout'
+      },
+      admin:{
+        text: 'nav-user.admin',
+        icon: 'mdi-account-supervisor',
+        to: '/administrate'
       }
     },
     width_height: {
@@ -64,7 +71,13 @@ let vuex = new Vuex.Store({
     assignmentInfo: new EntityContainer<Assignment>(),
     problemInfo: new EntityContainer<Problem>(),
     announcementInfo: new EntityContainer<Announcement>(),
-    recordInfo: new EntityContainer<Record>()
+    recordInfo: new EntityContainer<Record>(),
+    tags:[] as Tag[],
+    scripts:[] as JudgeScript[],
+    dbs:[] as JudgeDB[],
+    groups:[] as Group[],
+    permissions:[] as Permission[],
+    roles:[] as string[]
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
@@ -112,24 +125,60 @@ let vuex = new Vuex.Store({
       if (!!max) state.recordInfo.maxLength = max
       if (!!filter) state.recordInfo.filter = filter
       if (!!code) state.recordInfo.get(code.id)!.code = code.code.code
+    },
+    setTags(state, tags){
+      state.tags = tags
+    },
+    setScripts(state, scripts){
+      state.scripts = scripts
+    },
+    setDBs(state, dbs){
+      state.dbs = dbs
+    },
+    setGroups(state, groups){
+      state.groups = groups
+    },
+    setPermissions(state, ps){
+      state.permissions = ps
+    },
+    setRoles(state,rs){
+      state.roles = rs
     }
   },
   actions: {
-    // async login({commit}, payload: { loginForm: LoginForm, then: string }) {
-    //   let user = await API.login(payload.loginForm)
-    //   commit('setUser', {user: user, isAuthenticated: true})
-    //   await router.push(payload.then || '/')
-    // },
-    // async signUp({commit}, payload: { signForm: SignUpForm, then: string }) {
-    //   let user = await API.signUp(payload.signForm)
-    //   commit('setUser', {user: user, isAuthenticated: true})
-    //   await router.push(payload.then || '/')
-    // },
-    // async logOut({commit, state}) {
-    //   let re = await API.logOut('')
-    //   commit('setUser', {user: notLogin, isAuthenticated: false})
-    //   await router.push('/')
-    // }
+    async loadTags({commit, state}, {vue, force}){
+      if(state.tags.length===0||force){
+        let tags = await (vue.$api as API).allTags()
+        commit('setTags', tags)
+      }
+    },
+    async loadScripts({commit, state}, {vue, force}){
+      if(state.scripts.length===0||force){
+        let scripts = await (vue.$api as API).allScripts()
+        commit('setScripts', scripts)
+      }
+    },
+    async loadDBs({commit, state}, {vue, force}){
+      if(state.dbs.length===0||force){
+        let dbs = await (vue.$api as API).allDBs()
+        commit('setDBs', dbs)
+      }
+    },
+    async loadGroups({commit, state}, {vue, force}){
+      if(state.groups.length===0||force){
+        let groups = await (vue.$api as API).allGroups()
+        commit('setGroups', groups)
+      }
+    },
+    async loadPermissions({commit, state}, {vue, force}){
+      if(state.permissions.length===0||force){
+        let ps = await (vue.$api as API).allPermissions()
+        commit('setPermissions', ps)
+        let rs = new Set<string>()
+        ps.forEach(e =>rs.add(e.role??'ROLE_STUDENT'))
+        commit('setRoles', [...rs.values()])
+      }
+    }
   }
 })
 

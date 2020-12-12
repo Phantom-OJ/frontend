@@ -191,10 +191,12 @@
   },
   "not-found": {
     "text": "糟糕！页面好像走丢了喔……",
-    "button": "回到主页"
+    "home-button": "回到主页",
+    "back-button": "回到上页"
   },
   "forbidden": {
     "text": "你好像没有权限访问这个页面喔……",
-    "button": "回到主页"
+    "home-button": "回到主页",
+    "back-button": "回到上页"
   }
 }

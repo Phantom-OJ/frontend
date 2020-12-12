@@ -3,7 +3,8 @@
     <div>
       <h1 class="Error-title">403</h1>
       <p class="Error-text">{{$t("forbidden.text")}}</p>
-      <v-btn color="secondary" @click="click()">{{$t("forbidden.button")}}</v-btn>
+      <v-btn style="margin-right: 5px" color="secondary" @click="clickHome()">{{$t("forbidden.home-button")}}</v-btn>
+      <v-btn style="margin-left: 5px" color="secondary" @click="clickBack()">{{$t("forbidden.back-button")}}</v-btn>
     </div>
     <v-img
       src="@/assets/phantom_404.jpg"
@@ -23,8 +24,11 @@ import {mapState} from "vuex";
   }
 })
 export default class SForbiddenCard extends Vue{
-  click() {
+  clickHome() {
     this.$router.push(`/`)
+  }
+  clickBack() {
+    this.$router.back()
   }
 }
 </script>
@@ -37,7 +41,7 @@ export default class SForbiddenCard extends Vue{
   align-items: center;
 }
 .Error-title{
-  font-size: 65px;
+  font-size: 80px;
 }
 .Error-text{
   font-size: 20px;

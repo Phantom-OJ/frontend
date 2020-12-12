@@ -198,10 +198,12 @@
   },
   "not-found": {
     "text": "Oops! Phantom cannot find your page...",
-    "button": "Back to home"
+    "home-button": "Back to home",
+    "back-button": "Back to previous page"
   },
   "forbidden": {
     "text": "Oops! Phantom rejected your request...",
-    "button": "Back to home"
+    "home-button": "Back to home",
+    "back-button": "Back to previous page"
   }
 }

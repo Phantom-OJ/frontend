@@ -1,123 +1,91 @@
 <template>
-  <canvas ref="threeCanvas" id="s-loading-canvas"/>
+  <div style="position: relative">
+    <img class="mydiv" id="phantom1" src="@/assets/load.png" alt="loading..."/>
+    <img class="mydiv" id="phantom2" src="@/assets/load.png" alt="loading..."/>
+    <img class="mydiv" id="phantom3" src="@/assets/load.png" alt="loading..."/>
+    <canvas ref="threeCanvas" id="s-loading-canvas"/>
+  </div>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {Vue} from '@/ts/extension'
-import {Component, Prop, Watch} from 'vue-property-decorator'
-import * as Three from 'three'
+import {Component} from 'vue-property-decorator'
 import {mapState} from "vuex";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
 @Component({
   computed: {...mapState(['width_height'])}
 })
 export default class SLoading extends Vue {
-  readonly width_height!: { width: number, height: number }
-  @Prop({
-    type: Number
-  })
-  canvasWidth?: number
-  @Prop({
-    type: Number
-  })
-  canvasHeight?: number
-
-  scene!: Three.Scene
-  geometry!: Three.BoxGeometry
-  material!: Three.MeshLambertMaterial
-  mesh!: Three.Mesh
-  point!: Three.PointLight
-  ambient!: Three.AmbientLight
-  camera!: Three.OrthographicCamera
-  renderer!: Three.WebGLRenderer
-  controls!:OrbitControls
-  canvas!:HTMLCanvasElement
-  lastAnimate = Date.now()
-  readonly s = 200
-
-  created() {
-    this.scene = new Three.Scene()
-    this.geometry = new Three.BoxGeometry(100, 100, 100)
-    this.material = new Three.MeshLambertMaterial({
-      color: 0x00FF00
-    })
-    this.mesh = new Three.Mesh(this.geometry, this.material)
-    this.scene.add(this.mesh)
-    this.point = new Three.PointLight(0xFFFFFF)
-    this.point.position.set(400, 200, 300)
-    this.scene.add(this.point)
-    this.ambient = new Three.AmbientLight(0x777777)
-    this.scene.add(this.ambient)
-    this.camera = new Three.OrthographicCamera(-this.s * this.k, this.s * this.k, this.s, -this.s, 1, 1000)
-    this.camera.position.set(200, 300, 200)
-    this.camera.lookAt(this.scene.position)
-  }
-
+  interval:number=-1
   mounted() {
-    this.canvas = this.$refs.threeCanvas as HTMLCanvasElement
-    this.renderer = new Three.WebGLRenderer({
-      canvas: this.canvas
-    })
-    this.renderer.setSize(this.width, this.height)
-    this.renderer.setClearColor(0xF8F8FF, 1)
-    this.renderer.render(this.scene, this.camera)
-    this.controls = new OrbitControls(this.camera, this.canvas)
-    this.animate()
+    this.show()
   }
 
-  get k() {
-    return this.width / this.height
+  move() {
+    let obj1 = document.getElementById("phantom1");
+    let obj2 = document.getElementById("phantom2");
+    let obj3 = document.getElementById("phantom3");
+    if (obj3.offsetLeft >= -123) {
+      obj1.style.cssText = "left:" + (obj1.offsetLeft - 1) + "px;";
+      obj2.style.cssText = "left:" + (obj2.offsetLeft - 1) + "px;";
+      obj3.style.cssText = "left:" + (obj3.offsetLeft - 1) + "px;";
+    } else {
+      obj1.style.cssText = "left:100%";
+      obj2.style.cssText = "left:109%";
+      obj3.style.cssText = "left:115%";
+    }
   }
 
-  get height() {
-    return this.canvasHeight ?? this.width_height.height - 180
+  show() {
+    this.interval = window.setInterval(() => this.move(), 6);
   }
 
-  get width() {
-    return this.canvasWidth ?? this.width_height.width * 0.84 - 10
+  beforeDestroy() {
+    window.clearInterval(this.interval)
   }
-
-  animate(){
-    const time = Date.now()
-    const t = time - this.lastAnimate
-    this.lastAnimate = time
-    requestAnimationFrame(this.animate)
-    this.rerender()
-    this.mesh.rotateX(.001*t)
-  }
-
-  rerender(){
-    this.renderer.render(this.scene, this.camera)
-  }
-
-  canvasResize() {
-    this.camera.left = -this.s * this.k
-    this.camera.right = this.s * this.k
-    this.camera.top = this.s
-    this.camera.bottom = -this.s
-    this.camera.updateProjectionMatrix()
-    this.renderer.setSize(this.width, this.height)
-    this.rerender()
-  }
-
-  @Watch('width')
-  widthChanged() {
-    this.canvasResize()
-  }
-
-  @Watch('height')
-  heightChanged() {
-    this.canvasResize()
-  }
-
 }
 </script>
 
 <style scoped lang="scss">
-  #s-loading-canvas {
-    display: block;
-    margin: 10px auto;
+  #phantom1
+  {
+    width: 100px;
+    height: 100px;
+    left: 100%;
+    bottom: 60%;
+  }
+  #phantom2
+  {
+    width: 60px;
+    height: 60px;
+    left: 109%;
+    bottom: 60%;
+  }
+  #phantom3
+  {
+    width: 40px;
+    height: 40px;
+    left: 115%;
+    bottom: 60%;
   }
 
+  .mydiv{
+    position: absolute;
+    animation:rotateImg 5s;
+    animation-iteration-count:infinite;
+
+    -webkit-animation:rotateImg 5s;
+    -webkit-animation-iteration-count: infinite;
+  }
+
+  @keyframes rotateImg {
+    0% {transform : rotate(360deg);}
+    100% {transform : rotate(0deg);}
+  }
+
+  @-webkit-keyframes rotateImg {
+    0%{-webkit-transform : rotate(360deg);}
+    100%{-webkit-transform : rotate(0deg);}
+  }
 </style>

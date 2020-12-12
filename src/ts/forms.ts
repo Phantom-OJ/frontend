@@ -27,18 +27,19 @@ export interface PageSearchForm {
 }
 
 export interface AssignmentForm {
+  id:number
   title: string
   description: string
   startTime: number
   endTime: number
   status: string
   fullScore: number
-  problemList: ProblemForm[]
+  uploadProblemFormList: ProblemForm[]
   groupList: number[]
 }
 
 export interface ProblemForm {
-  id?:number
+  id:number
   title: string
   description: string
   status: string
@@ -53,6 +54,7 @@ export interface ProblemForm {
 }
 
 export interface JudgePointForm{
+  id:number
   dialect:string
   beforeSql:string
   afterSql:string
@@ -79,6 +81,12 @@ export interface DBForm{
   dialect:string
 }
 
+export interface AnnouncementForm{
+  createDate:number
+  description:string
+  title:string
+}
+
 export interface ScriptForm{
   id:number
   keyword:string
@@ -87,8 +95,8 @@ export interface ScriptForm{
 
 export class SearchUserForm{
   username:string=''
-  group:number=-1
-  notGroup:number=-1
+  group:number=0
+  notGroup:number=0
   role:string=''
   notRole:string=''
 }

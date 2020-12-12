@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, {Commit} from 'vuex'
+import Vuex from 'vuex'
 import {InfoOptions} from "@/ts/interfaces"
 import {Announcement, Assignment, JudgeDB, JudgeScript, Problem, Record, Tag} from "@/ts/entities"
 import {notLogin} from "@/store/testData";
@@ -58,7 +58,7 @@ let vuex = new Vuex.Store({
         text: 'nav-user.sign-out',
         icon: 'mdi-logout'
       },
-      admin:{
+      admin: {
         text: 'nav-user.admin',
         icon: 'mdi-account-supervisor',
         to: '/administrate'
@@ -72,16 +72,16 @@ let vuex = new Vuex.Store({
     problemInfo: new EntityContainer<Problem>(),
     announcementInfo: new EntityContainer<Announcement>(),
     recordInfo: new EntityContainer<Record>(),
-    tags:[] as Tag[],
-    scripts:[] as JudgeScript[],
-    dbs:[] as JudgeDB[],
-    groups:[] as Group[],
-    permissions:[] as Permission[],
-    roles:[] as string[]
+    tags: [] as Tag[],
+    scripts: [] as JudgeScript[],
+    dbs: [] as JudgeDB[],
+    groups: [] as Group[],
+    permissions: [] as Permission[],
+    roles: [] as string[]
   },
   mutations: {
     setUser(state, {user, isAuthenticated}) {
-      state.user = isAuthenticated?user:notLogin
+      state.user = isAuthenticated ? user : notLogin
       state.isAuthenticated = isAuthenticated
     },
     setSideNav(state, value) {
@@ -126,56 +126,56 @@ let vuex = new Vuex.Store({
       if (!!filter) state.recordInfo.filter = filter
       if (!!code) state.recordInfo.get(code.id)!.code = code.code.code
     },
-    setTags(state, tags){
+    setTags(state, tags) {
       state.tags = tags
     },
-    setScripts(state, scripts){
+    setScripts(state, scripts) {
       state.scripts = scripts
     },
-    setDBs(state, dbs){
+    setDBs(state, dbs) {
       state.dbs = dbs
     },
-    setGroups(state, groups){
+    setGroups(state, groups) {
       state.groups = groups
     },
-    setPermissions(state, ps){
+    setPermissions(state, ps) {
       state.permissions = ps
     },
-    setRoles(state,rs){
+    setRoles(state, rs) {
       state.roles = rs
     }
   },
   actions: {
-    async loadTags({commit, state}, {vue, force}){
-      if(state.tags.length===0||force){
-        let tags = await (vue.$api as API).allTags()
+    async loadTags({commit, state}, force) {
+      if (state.tags.length === 0 || force) {
+        let tags = await API.getInstance().allTags()
         commit('setTags', tags)
       }
     },
-    async loadScripts({commit, state}, {vue, force}){
-      if(state.scripts.length===0||force){
-        let scripts = await (vue.$api as API).allScripts()
+    async loadScripts({commit, state}, force) {
+      if (state.scripts.length === 0 || force) {
+        let scripts = await API.getInstance().allScripts()
         commit('setScripts', scripts)
       }
     },
-    async loadDBs({commit, state}, {vue, force}){
-      if(state.dbs.length===0||force){
-        let dbs = await (vue.$api as API).allDBs()
+    async loadDBs({commit, state}, force) {
+      if (state.dbs.length === 0 || force) {
+        let dbs = await API.getInstance().allDBs()
         commit('setDBs', dbs)
       }
     },
-    async loadGroups({commit, state}, {vue, force}){
-      if(state.groups.length===0||force){
-        let groups = await (vue.$api as API).allGroups()
+    async loadGroups({commit, state}, force) {
+      if (state.groups.length === 0 || force) {
+        let groups = await API.getInstance().allGroups()
         commit('setGroups', groups)
       }
     },
-    async loadPermissions({commit, state}, {vue, force}){
-      if(state.permissions.length===0||force){
-        let ps = await (vue.$api as API).allPermissions()
+    async loadPermissions({commit, state}, force) {
+      if (state.permissions.length === 0 || force) {
+        let ps = await API.getInstance().allPermissions()
         commit('setPermissions', ps)
         let rs = new Set<string>()
-        ps.forEach(e =>rs.add(e.role??'ROLE_STUDENT'))
+        ps.forEach(e => rs.add(e.role ?? 'ROLE_STUDENT'))
         commit('setRoles', [...rs.values()])
       }
     }

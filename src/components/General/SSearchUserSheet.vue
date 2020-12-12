@@ -1,10 +1,8 @@
 <template>
   <div class="s-s-user s-flex flex-start">
     <v-text-field :label="$t('profile.username')" v-model="userSF.username"/>
-    <v-select v-if="group" :value="groups.findIndex(e => e.ID===userSF.group)" :items="groups_"
-              @input="setGroupID" :label="$t('profile.group')"/>
-    <v-select v-if="notGroup" :value="groups.findIndex(e => e.ID===userSF.notGroup)" :items="groups_"
-              @input="setGroupID" :label="`${$t('not')} ${$t('profile.group')}`"/>
+    <v-select v-if="group" :items="groups_" :label="$t('profile.group')" v-model="group_"/>
+    <v-select v-if="notGroup" :items="groups_" :label="`${$t('not')} ${$t('profile.group')}`" v-model="nGroup_"/>
     <v-select v-if="role" v-model="userSF.role" :items="roles_" :label="$t('admin.role')"/>
     <v-select v-if="notRole" v-model="userSF.notRole" :items="roles_" :label="`${$t('not')} ${$t('admin.role')}`"/>
     <v-btn color="secondary" @click="search" style="margin-right: 0">{{ $t('search') }}</v-btn>
@@ -35,12 +33,24 @@ export default class SSearchUserSheet extends Vue {
   @Prop({type: Boolean, default: true})
   notRole!: boolean
 
-  setGroupID(g: Group) {
+  get group_(){
+    return this.groups.find(g=> g.ID === this.userSF.group)!
+  }
+
+  set group_(g:Group){
     this.userSF.group = g.ID
   }
 
+  get nGroup_(){
+    return this.groups.find(g=> g.ID === this.userSF.notGroup)!
+  }
+
+  set nGroup_(g:Group){
+    this.userSF.notGroup = g.ID
+  }
+
   get groups_() {
-    return [new Group({id: -1, description: ''}), ...this.groups]
+    return [new Group({id: 0, description: ''}), ...this.groups]
   }
 
   get roles_() {

@@ -131,16 +131,14 @@ import SCodemirror from "@/components/General/SCodemirror.vue";
 import {Tag} from "@/ts/entities";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import STag from "@/components/General/STag.vue";
-import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
-import SManageJudgePointSheet from "@/components/Problem/SManageJudgePointSheet.vue";
+import SManageJudgePointSheet from "@/components/Administrator/SManageJudgePointSheet.vue";
 import {mapState} from "vuex";
 import {Permission, User} from "@/ts/user";
 import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {
-    SManageJudgePointSheet,
-    SUploadFileForm, STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker
+    SManageJudgePointSheet, STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker
   },
   computed: mapState(['user', 'tags'])
 })
@@ -161,6 +159,11 @@ export default class SManagerProblemSheet extends Vue {
   inactiveTF: string = ''
   tagDialog: boolean = false
   jpDialog: boolean = false
+
+  @Watch('activeTags',{immediate:true})
+  setTagList(){
+    this.problem_.tagList = this.activeTags.map(e=>e.ID)
+  }
 
   created() {
     this.init()
@@ -185,15 +188,15 @@ export default class SManagerProblemSheet extends Vue {
   }
 
   async loadScripts() {
-    return this.$store.dispatch('loadScripts', {vue: this})
+    return this.$store.dispatch('loadScripts')
   }
 
   async loadDBs() {
-    return this.$store.dispatch('loadDBs', {vue: this})
+    return this.$store.dispatch('loadDBs')
   }
 
   async loadTags() {
-    return this.$store.dispatch('loadTags', {vue: this})
+    return this.$store.dispatch('loadTags')
   }
 
   get activeTagNames() {
@@ -206,6 +209,7 @@ export default class SManagerProblemSheet extends Vue {
 
   addJ() {
     this.problem_.judgePointList.push({
+      id:-1,
       dialect:'pgsql',
       beforeSql: '',
       afterSql: '',
@@ -213,13 +217,6 @@ export default class SManagerProblemSheet extends Vue {
       answer: '',
       judgeDatabaseId: 1
     })
-  }
-
-  async upload() {
-    const form = this.$refs.uploadForm as HTMLFormElement
-    const jsForm = new FormData(form)
-    console.log(jsForm.get('file'))
-    // console.log(await this.$api.uploadJudgeScript(jsForm))
   }
 
   get permitSolution() {

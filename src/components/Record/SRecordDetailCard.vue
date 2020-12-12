@@ -168,9 +168,10 @@ export default class SRecordDetailCard extends Vue {
 .s-record-tool {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  //position: absolute;
+  position: fixed;
+  bottom: 60px;
+  right: 40px;
   z-index: 10000;
   &>*{
     margin-top:10px;

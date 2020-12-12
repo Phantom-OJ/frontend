@@ -36,7 +36,6 @@ export default class App extends Vue {
   beforeMount() {
     //@ts-ignore dev TODO
     window.vue = this
-    window.beaconSend = false
     window.state = {}
     Vue.prototype.$api = API.getInstance()
     Vue.prototype.$alert = (alert) => {
@@ -50,8 +49,6 @@ export default class App extends Vue {
       this.$store.commit('windowResize', {width: window.innerWidth, height: window.innerHeight})
     }
     window.onbeforeunload = () => {
-      if(window.beaconSend) return
-      window.beaconSend = true
       let state = {
         time: Date.now() + '',
         route: this.$route.path,

@@ -46,6 +46,7 @@
   "upload": "Upload",
   "cancel": "Cancel",
   "OK": "OK",
+  "delete": "Delete",
   "security": {
     "t-weak": "Too weak",
     "weak": "weak",
@@ -81,13 +82,15 @@
     "t-large": "Too large (max 5 MB)"
   },
   "warning": {
+    "warn": "I hope you know what you're doing",
     "no-code": "No submitted code",
     "l50": "Only show top 50 results"
   },
   "success": {
     "v-code": "Send verify code successfully",
     "upload": "Upload successfully",
-    "submit": "Submit successfully"
+    "submit": "Submit successfully",
+    "delete": "Delete successfully"
   },
   "assignment": {
     "searchA": "ID",
@@ -153,13 +156,16 @@
     "content2": "Still testing, please contact to 11811407@mail.sustech.edu.cn if there's any problem"
   },
   "create": {
+    "leave": "Changes in current page will not be saved",
     "title": "Title",
     "description": "Description",
     "start-time": "Start Time",
     "end-time": "End Time",
+    "edit": "Edit",
     "status": "Status",
     "operation": "Operation",
     "group": "Create Group",
+    "announcement": "Create Announcement",
     "keyword": "Key word",
     "problem": {
       "&": "Problem",
@@ -172,7 +178,8 @@
       "db": "Database",
       "bes": "Before SQL",
       "afs": "After SQL",
-      "ans": "answer"
+      "ans": "answer",
+      "edit": "Edit Judge Points"
     },
     "assignment": {
       "&": "Assignment"

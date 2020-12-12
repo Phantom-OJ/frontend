@@ -1,13 +1,13 @@
 <template>
   <div class="page-detail-root">
-    <s-manager-assignment-card/>
+    <s-manager-assignment-card />
   </div>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import SManagerAssignmentCard from "@/components/Assignment/SManageAssignmentCard.vue";
+import SManagerAssignmentCard from "@/components/Administrator/SManageAssignmentCard.vue";
 
 @Component({
   components: {SManagerAssignmentCard}

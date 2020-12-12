@@ -7,6 +7,9 @@
           {{ problem.title }}
           <v-card-subtitle>
             {{ `${$t('problem.score')}: ${problem.fullScore}` }}
+            <router-link :to="`/assignment/${problem.assignmentId}`" style="padding-left: 12px">
+              {{ $t('problem.back') }}
+            </router-link>
           </v-card-subtitle>
         </v-card-title>
         <v-card-subtitle class="s-problem-detail-card-sub">
@@ -28,6 +31,7 @@
             </s-tooltip-icon>
             {{ problem.numberSolve }}
           </span>
+          <br>
         </v-card-subtitle>
       </div>
       <v-tabs v-model="tab" background-color="white" right class="detail-card-tabs" height="60" color="secondary">
@@ -66,6 +70,21 @@
         <s-markdown :markdown="problem.solution" class="description"/>
       </v-tab-item>
     </v-tabs-items>
+
+    <v-scale-transition>
+      <div v-if="showEdit&&tab%4===0" class="s-problem-tool">
+        <v-btn fab color="info" @click="$router.push(`/modify/problem/${pid}`)" width="72" height="72">
+          <s-tooltip-icon :text="$t('create.edit')" direction="top" :size="32">
+            mdi-pencil
+          </s-tooltip-icon>
+        </v-btn>
+        <v-btn fab color="accent" @click="$router.push(`/modify/judge-points/${pid}`)" width="72" height="72">
+          <s-tooltip-icon :text="$t('create.judge-point.edit')" direction="top" :size="32">
+            mdi-playlist-edit
+          </s-tooltip-icon>
+        </v-btn>
+      </div>
+    </v-scale-transition>
   </v-card>
 </template>
 
@@ -81,6 +100,7 @@ import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SLoading from "@/components/General/SLoading.vue";
 import {EntityContainer} from "@/ts/entity-container";
+import {Permission} from "@/ts/user";
 
 @Component({
   components: {SLoading, SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
@@ -108,6 +128,10 @@ export default class SProblemDetailCard extends Vue {
     if (this.$route.params.code) {
       this.code = this.$route.params.code
     }
+  }
+
+  get showEdit() {
+    return this.$store.state.isAuthenticated && this.$store.state.user.hasPermission(Permission.ALLOWANCE.MODIFY_ASSIGNMENT)
   }
 
   mounted() {
@@ -146,7 +170,6 @@ export default class SProblemDetailCard extends Vue {
 
   get problem(): Problem | undefined {
     let _ = this.cnt
-    console.log(!!this.problemInfo.get(this.pid)?.solution)
     return this.problemInfo.get(this.pid)
   }
 
@@ -240,5 +263,19 @@ export default class SProblemDetailCard extends Vue {
 <style scoped lang="scss">
 .refresh {
   top: 15px;
+}
+
+.s-problem-tool {
+  display: flex;
+  flex-direction: column;
+  //position: absolute;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+
+  & > * {
+    margin-top: 10px;
+  }
 }
 </style>

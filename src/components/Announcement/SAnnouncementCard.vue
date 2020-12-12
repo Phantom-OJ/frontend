@@ -19,7 +19,7 @@
       </template>
     </s-entry-list>
     <s-pagination :item-num="itemNum" :max-length="announcementInfo.maxLength" :page-index.sync="pageIndex"/>
-    <v-dialog v-model="dialog" width="600">
+    <v-dialog v-model="dialog" width="80%">
       <v-card class="lang-en">
         <v-card-title>
           {{announce.title}}
@@ -83,8 +83,7 @@ export default class SAnnouncementCard extends Vue {
   }
 
   get announcements(): Array<Announcement> {
-    console.log(this.announcementInfo.list)
-    return this.announcementInfo.list.map(e => Announcement.copy(e))
+    return this.announcementInfo.list
   }
 
   get pageIndex() {

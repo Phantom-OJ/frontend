@@ -159,6 +159,15 @@ export class SUtil {
     }))
   }
 
+  static alertIfSuccess(msg:string, t:string, vue:Vue){
+    if(msg.toUpperCase().trim()==='SUCCESS'){
+      vue.$alert(new Alert({
+        type:'success',
+        info:vue.$t(t).toString()
+      }))
+    }
+  }
+
   static passwordLevel(p: string) {
     if (p.length < 6)
       return 0
@@ -179,6 +188,7 @@ export class SUtil {
 
   static recover(_state: State, vue: Vue) {
     if (!_state.route) return
+    if(!window.confirm(vue.$t('profile.recover').toString())) return
     vue.$store.commit('setProblemInfo', _state.problemInfo)
     vue.$store.commit('setAssignmentInfo', _state.assignmentInfo)
     vue.$store.commit('setRecordInfo', _state.recordInfo)
@@ -195,11 +205,14 @@ export class SUtil {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  static differenceByID<T extends { ID: number }>(a: T[], b: T[]): T[] {
-    return a.filter(i => b.find(j => i.ID === j.ID) === undefined)
+  static differenceByID<T extends { ID?: number, id?: number }>(a: T[], b: T[]): T[] {
+    if (a[0].ID)
+      return a.filter(i => b.find(j => i.ID === j.ID) === void 0)
+    else
+      return a.filter(i => b.find(j => i.id === j.id) === void 0)
   }
 
   static difference<T>(a: T[], b: T[]): T[] {
-    return a.filter(i => b.find(j => j === i) === undefined)
+    return a.filter(i => b.find(j => j === i) === void 0)
   }
 }

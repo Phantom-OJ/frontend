@@ -29,17 +29,17 @@
         </v-list>
       </v-navigation-drawer>
       <v-tabs-items v-model="tab" continuous class="s-admin-tabs s-flex">
-        <v-tab-item class="s-flex s-admin-tab">
-          <s-manage-group-sheet/>
+        <v-tab-item class="s-flex s-admin-tab" eager>
+          <s-manage-group-sheet ref="group"/>
         </v-tab-item>
-        <v-tab-item class="s-flex s-admin-tab">
-          fsnb
+        <v-tab-item class="s-flex s-admin-tab" eager>
+          <s-manage-role-sheet @add-role="tab=3" ref="role"/>
         </v-tab-item>
-        <v-tab-item class="s-flex s-admin-tab">
-          <s-manage-role-sheet @add-role="tab=3"/>
+        <v-tab-item class="s-flex s-admin-tab" eager>
+          <s-manage-permission-sheet ref="permission"/>
         </v-tab-item>
-        <v-tab-item class="s-flex s-admin-tab">
-          <s-manage-permission-sheet/>
+        <v-tab-item class="s-flex s-admin-tab" eager>
+          <s-manage-announcement-sheet ref="announcement"/>
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -56,9 +56,12 @@ import {mapState} from "vuex";
 import SManageRoleSheet from "@/components/Administrator/SManageRoleSheet.vue";
 import SManageGroupSheet from "@/components/Administrator/SManageGroupSheet.vue";
 import SManagePermissionSheet from "@/components/Administrator/SManagePermissionSheet.vue";
+import SManageAnnouncementSheet from "@/components/Administrator/SManageAnnouncementSheet.vue";
 
 @Component({
-  components: {SManagePermissionSheet, SManageGroupSheet, SManageRoleSheet, SSplitSelect, SRefreshableCardTitle},
+  components: {
+    SManageAnnouncementSheet,
+    SManagePermissionSheet, SManageGroupSheet, SManageRoleSheet, SSplitSelect, SRefreshableCardTitle},
   computed: {...mapState(['groups', 'user', 'permissions', 'roles'])}
 })
 export default class SAdminCard extends Vue {
@@ -67,8 +70,7 @@ export default class SAdminCard extends Vue {
   tab: number = 0
 
   created() {
-    this.$store.dispatch('loadGroups', {vue: this})
-    this.$store.dispatch('loadPermissions', {vue: this})
+    this.load()
   }
 
   mounted() {
@@ -83,6 +85,13 @@ export default class SAdminCard extends Vue {
     }
   }
 
+  async load(force: boolean = false) {
+    await Promise.all([this.$store.dispatch('loadGroups', force), this.$store.dispatch('loadPermissions', force),
+      this.$store.dispatch('loadTags', force), this.$store.dispatch('loadDBs', force), this.$store.dispatch('loadScripts', force)])
+    //@ts-ignore
+    this.$refs.group.refresh();this.$refs.role.refresh();this.$refs.permission.refresh();this.$refs.announcement.refresh();
+  }
+
   beforeDestroy() {
     window.state[this.keyInState] = {
       ...this.$data
@@ -90,7 +99,7 @@ export default class SAdminCard extends Vue {
   }
 
   get items() {
-    return ['profile.group', 'nav-bar.assignment', 'record.searchU', 'admin.permission'].map(s => this.$t(s))
+    return ['profile.group', 'record.searchU', 'admin.permission', 'nav-bar.announcement'].map(s => this.$t(s))
   }
 }
 </script>

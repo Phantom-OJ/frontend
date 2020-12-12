@@ -2,9 +2,11 @@ import Axios from 'axios'
 import {CodeForm, SEntityCollection, SResponse} from "@/ts/interfaces";
 import {
   Announcement,
-  Assignment, AssignmentStat,
+  Assignment,
+  AssignmentStat,
   Code,
-  Grade, JudgeDB,
+  Grade,
+  JudgeDB,
   JudgeScript,
   Problem,
   ProblemStatSet,
@@ -13,7 +15,19 @@ import {
   VCodeMode
 } from "@/ts/entities";
 import {APIException} from "@/ts/exceptions";
-import {LoginForm, ModifyPasswordForm, ModifyUserForm, PageSearchForm, ResetForm, SignUpForm} from "@/ts/forms";
+import {
+  AnnouncementForm,
+  AssignmentForm,
+  DBForm,
+  LoginForm,
+  ModifyPasswordForm,
+  ModifyUserForm,
+  PageSearchForm,
+  ResetForm,
+  ScriptForm,
+  SearchUserForm,
+  SignUpForm
+} from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {Group, Permission, User} from "@/ts/user";
 import {Vue} from "@/ts/extension";
@@ -39,7 +53,7 @@ export class API {
    * @param url 'assignment' will become '/aip/assignment'
    * @param data
    */
-  async request(method: string, url: string, data?: any): Promise<SResponse>|never {
+  async request(method: string, url: string, data?: any): Promise<SResponse> | never {
     try {
       // @ts-ignore
       return (await Axios[method](`/api/${url}`, data)).data
@@ -61,7 +75,7 @@ export class API {
       if (error instanceof APIException) {
         switch (error.code) {
           case 401:
-            this.$vue.$store.commit('setUser',{isAuthenticated:false})
+            this.$vue.$store.commit('setUser', {isAuthenticated: false})
             await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
             break
           case 403:
@@ -79,25 +93,21 @@ export class API {
         }
       }
       return {
-        msg:'error',
-        data:{}
+        msg: 'error',
+        data: {}
       }
     }
   }
 
-  async modifyProfile(form:ModifyUserForm):Promise<User>{
+  async modifyProfile(form: ModifyUserForm): Promise<User> {
     return new User((await this.cRequest('post', 'modify/basic', form)).data)
   }
 
-  async modifyPassword(form:ModifyPasswordForm):Promise<string>{
-    return (await this.request('post','modify/password', form)).msg
+  async modifyPassword(form: ModifyPasswordForm): Promise<string> {
+    return (await this.request('post', 'modify/password', form)).msg
   }
 
-  async uploadJudgeScript(form:FormData):Promise<string>{
-    return (await this.cRequest('post','upload/judgescript', form)).msg
-  }
-
-  async uploadAvatar(form:FormData):Promise<string>{
+  async uploadAvatar(form: FormData): Promise<string> {
     return (await this.cRequest('post', 'upload/avatar', form)).msg
   }
 
@@ -106,7 +116,7 @@ export class API {
       let data = (await this.request('post', 'checkstate')).data
       return [new User(data), true]
     } catch (error) {
-      if (error instanceof APIException && (error.code === 401||error.code===403||error.code===404)) {
+      if (error instanceof APIException && (error.code === 401 || error.code === 403 || error.code === 404)) {
         return [notLogin, false]
       }
       SUtil.alertAPIException(error, this.$vue)
@@ -132,29 +142,77 @@ export class API {
     })).msg
   }
 
-  async allPermissions():Promise<Permission[]>{
+  async addUser2Group(gid: number, uid: number): Promise<string> {
+    return (await this.cRequest('put', `modify/user_group/${uid}/${gid}`)).msg
+  }
+
+  async deleteUserFromGroup(gid: number, uid: number): Promise<string> {
+    return (await this.cRequest('delete', `modify/user_group/${uid}/${gid}`)).msg
+  }
+
+  async allPermissions(): Promise<Permission[]> {
     let data = (await this.cRequest('get', 'require/permission')).data
-    return (data as any[])?.map(e => new Permission(e))??[]
+    return (data as any[])?.map(e => new Permission(e)) ?? []
   }
 
-  async allGroups():Promise<Group[]>{
-    let data = (await this.cRequest('get','require/group')).data
-    return (data as any[])?.map(e=>new Group(e))??[]
+  async putPermission(form: { allowance: string, role: string, id: number }): Promise<string> {
+    return (await this.cRequest('put', 'modify/permission', form)).msg
   }
 
-  async allTags():Promise<Tag[]>{
-    let data = (await this.cRequest('get','require/tag')).data
-    return (data as any[])?.map(e => new Tag(e))??[]
+  async delPermission(ID: number): Promise<string> {
+    return (await this.cRequest('delete', `modify/permission/${ID}`)).msg
   }
 
-  async allScripts():Promise<JudgeScript[]>{
-    let data = (await this.cRequest('get','require/judgescript')).data
-    return (data as any[])?.map(e => new JudgeScript(e))??[]
+  async putGroup(key: string): Promise<string> {
+    return (await this.cRequest('put', 'modify/group', key)).msg
   }
 
-  async allDBs():Promise<JudgeDB[]>{
-    let data = (await this.cRequest('get','require/judgedb')).data
-    return (data as any[])?.map(e => new JudgeDB(e))??[]
+  async grant(form: { [key: string]: number[] }): Promise<string> {
+    return (await this.cRequest('post', 'modify/grant', form)).msg
+  }
+
+  async putAnnouncement(form: AnnouncementForm): Promise<string> {
+    return (await this.cRequest('post', 'upload/announcement', form)).msg
+  }
+
+  async delAnnouncement(ID: number): Promise<string> {
+    return (await this.cRequest('delete', `modify/announcement/${ID}`)).msg
+  }
+
+  async modifyAnnouncement(ID: number, form: AnnouncementForm): Promise<string> {
+    return (await this.cRequest('post', `modify/announcement/${ID}`, form)).msg
+  }
+
+  async allGroups(): Promise<Group[]> {
+    let data = (await this.cRequest('get', 'require/group')).data
+    return (data as any[])?.map(e => new Group(e)) ?? []
+  }
+
+  async allTags(): Promise<Tag[]> {
+    let data = (await this.cRequest('get', 'require/tag')).data
+    return (data as any[])?.map(e => new Tag(e)) ?? []
+  }
+
+  async putScript(form: ScriptForm): Promise<string> {
+    return (await this.cRequest('post', 'upload/judgescript', form)).msg
+  }
+
+  async allScripts(): Promise<JudgeScript[]> {
+    let data = (await this.cRequest('get', 'require/judgescript')).data
+    return (data as any[])?.map(e => new JudgeScript(e)) ?? []
+  }
+
+  async putDB(form: DBForm): Promise<string> {
+    return (await this.cRequest('post', 'upload/judgedb', form)).msg
+  }
+
+  async allDBs(): Promise<JudgeDB[]> {
+    let data = (await this.cRequest('get', 'require/judgedb')).data
+    return (data as any[])?.map(e => new JudgeDB(e)) ?? []
+  }
+
+  async putAssignment(form: AssignmentForm): Promise<string> {
+    return (await this.cRequest('post', 'upload/assignment', form)).msg
   }
 
   async searchAssignmentPage(form: PageSearchForm): Promise<SEntityCollection<Assignment>> {
@@ -162,9 +220,9 @@ export class API {
     return SUtil.pageDataTransfer(data, Assignment)
   }
 
-  async queryUserGrade(ID:number): Promise<Grade[]>{
+  async queryUserGrade(ID: number): Promise<Grade[]> {
     const data = (await this.cRequest('get', `user/${ID}/grade`)).data
-    return (data as any[])?.map(e => new Grade(e))??[]
+    return (data as any[])?.map(e => new Grade(e)) ?? []
   }
 
   async queryAssignment(ID: number): Promise<Assignment> {
@@ -172,53 +230,58 @@ export class API {
     return new Assignment(data)
   }
 
-  async queryAssignmentStat(ID:number):Promise<AssignmentStat[]>{
+  async queryAssignmentStat(ID: number): Promise<AssignmentStat[]> {
     const data = (await this.cRequest('get', `assignment/${ID}/statistics`)).data
-    return (data as any[])?.map(e=>new AssignmentStat(e))??[]
+    return (data as any[])?.map(e => new AssignmentStat(e)) ?? []
   }
 
   async searchProblemPage(form: PageSearchForm): Promise<SEntityCollection<Problem>> {
-    let data = (await this.cRequest('post', 'problem', form)).data
+    const data = (await this.cRequest('post', 'problem', form)).data
     return SUtil.pageDataTransfer(data, Problem)
   }
 
   async searchRecordPage(form: PageSearchForm): Promise<SEntityCollection<Record>> {
-    let data = (await this.cRequest('post', 'record', form)).data
+    const data = (await this.cRequest('post', 'record', form)).data
     return SUtil.pageDataTransfer(data, Record)
   }
 
+  async searchUser(form: SearchUserForm): Promise<User[]> {
+    const data = (await this.cRequest('post', 'require/user', form)).data
+    return (data as any[] ?? []).map(e => new User(e))
+  }
+
   async queryRecord(ID: number): Promise<Record> {
-    let data = (await this.cRequest('get', `record/${ID}`)).data
+    const data = (await this.cRequest('get', `record/${ID}`)).data
     return new Record(data)
   }
 
   async queryProblem(ID: number): Promise<Problem> {
-    let data = (await this.cRequest('get', `problem/${ID}`)).data
+    const data = (await this.cRequest('get', `problem/${ID}`)).data
     return new Problem(data)
   }
 
   async queryProblemStatSet(ID: number): Promise<ProblemStatSet> {
-    let data = (await this.cRequest('get', `problem/${ID}/statistics`)).data
+    const data = (await this.cRequest('get', `problem/${ID}/statistics`)).data
     return new ProblemStatSet(data)
   }
 
-  async queryUserStatSet(ID:number):Promise<ProblemStatSet>{
-    let data = (await this.cRequest('get', `user/${ID}/statistics`)).data
+  async queryUserStatSet(ID: number): Promise<ProblemStatSet> {
+    const data = (await this.cRequest('get', `user/${ID}/statistics`)).data
     return new ProblemStatSet(data)
   }
 
   async queryUser(ID: number): Promise<User> {
-    let data = (await this.cRequest('get', `user/${ID}`)).data
+    const data = (await this.cRequest('get', `user/${ID}`)).data
     return new User(data)
   }
 
   async submitCode(ID: number, form: CodeForm): Promise<boolean> {
-    let data = (await this.request('post', `problem/${ID}/submit`, form))
+    const data = (await this.request('post', `problem/${ID}/submit`, form))
     return data as unknown as boolean
   }
 
   async queryCode(ID: number): Promise<Code> {
-    let data = (await this.cRequest('get', `code/${ID}`)).data
+    const data = (await this.cRequest('get', `code/${ID}`)).data
     return new Code(data)
   }
 

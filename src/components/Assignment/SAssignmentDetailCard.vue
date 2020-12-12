@@ -9,19 +9,19 @@
           v-for="bar in tabs"
           :key="bar"
         >
-          {{$t(bar)}}
+          {{ $t(bar) }}
         </v-tab>
       </v-tabs>
       <div class="ellipsis-col detail-card-title--vertical">
         <v-card-title style="text-align: center;display: inline-block">
-          {{assignment.title}}
+          {{ assignment.title }}
         </v-card-title>
         <v-card-subtitle>
-          {{`${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}`}}<br>
+          {{ `${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}` }}<br>
           <v-icon class="icon-left-5 icon-color-0">
             mdi-clock
           </v-icon>
-          {{now.sString()}} {{`| ${assignment.status}`}}
+          {{ now.sString() }} {{ `| ${assignment.status}` }}
         </v-card-subtitle>
       </div>
     </div>
@@ -29,14 +29,17 @@
     <div v-else class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
         <v-card-title class="detail-card-title-main">
-          {{assignment.title}}
+          {{ assignment.title }}
+          <v-card-subtitle>
+            {{ `${$t('problem.score')}: ${assignment.fullScore}` }}
+          </v-card-subtitle>
         </v-card-title>
         <v-card-subtitle>
-          {{`${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}`}}<br>
+          {{ `${assignment.startTime.sString()} >>> ${assignment.endTime.sString()}` }}<br>
           <v-icon class="icon-left-5 icon-color-0">
             mdi-clock
           </v-icon>
-          {{now.sString()}} {{`| ${assignment.status}`}}
+          {{ now.sString() }} {{ `| ${assignment.status}` }}
         </v-card-subtitle>
       </div>
       <v-tabs v-model="tab" background-color="white" right class="detail-card-tabs" height="60" color="secondary">
@@ -45,7 +48,10 @@
           v-for="bar in tabs"
           :key="bar"
         >
-          {{$t(bar)}}
+          {{ $t(bar) }}
+        </v-tab>
+        <v-tab v-if="showStatistics">
+          {{ $t('nav-bar.statistic') }}
         </v-tab>
       </v-tabs>
       <v-btn text class="refresh" @click="refresh">
@@ -62,15 +68,15 @@
           <template v-slot="{entity:problem}">
             <v-col cols="2" class="ellipsis-col">
               <v-icon :color="solveStateColor(problem.solved)">
-                {{solveStateIcon(problem.solved)}}
+                {{ solveStateIcon(problem.solved) }}
               </v-icon>
-              {{`No.${problem.indexInAssignment}`}}
+              {{ `No.${problem.indexInAssignment}` }}
             </v-col>
             <v-col cols="4" class="ellipsis-col">
               <v-icon class="icon-color-1" style="position: relative;top:1px">
                 mdi-quora
               </v-icon>
-              {{`[${problem.fullScore}] ${problem.title}`}}
+              {{ `[${problem.fullScore}] ${problem.title}` }}
             </v-col>
             <v-col cols="3" class="s-flex">
               <s-tag
@@ -84,22 +90,31 @@
               <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.submitted')" direction="top">
                 mdi-upload
               </s-tooltip-icon>
-              {{problem.numberSubmit}}
+              {{ problem.numberSubmit }}
               <s-tooltip-icon icon-class="icon-color-1 icon-left-5" :text="$t('problem.resolved')" direction="top">
                 mdi-check
               </s-tooltip-icon>
-              {{problem.numberSolve}}
+              {{ problem.numberSolve }}
             </v-col>
           </template>
         </s-entry-list>
       </v-tab-item>
       <v-tab-item>
-        <s-assignment-statistic/>
-      </v-tab-item>
-      <v-tab-item>
         <s-record-list :records="records"/>
       </v-tab-item>
+      <v-tab-item v-if="showStatistics">
+        <s-assignment-statistic/>
+      </v-tab-item>
     </v-tabs-items>
+    <v-scale-transition>
+      <div v-if="showEdit&&tab===0" class="s-assignment-tool">
+        <v-btn fab color="info" @click="$router.push(`/modify/assignment/${aid}`)" width="72" height="72">
+          <s-tooltip-icon :text="$t('create.edit')" direction="top" :size="32">
+            mdi-pencil
+          </s-tooltip-icon>
+        </v-btn>
+      </div>
+    </v-scale-transition>
   </v-card>
 </template>
 
@@ -116,6 +131,7 @@ import {EntityContainer} from "@/ts/entity-container";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from "@/ts/utils";
 import SAssignmentStatistic from "@/components/Assignment/SAssignmentStatistic.vue";
+import {Permission} from "@/ts/user";
 
 @Component({
   components: {SAssignmentStatistic, STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
@@ -124,20 +140,28 @@ import SAssignmentStatistic from "@/components/Assignment/SAssignmentStatistic.v
 export default class SAssignmentDetailCard extends Vue {
   readonly width_height!: { width: number }
   readonly assignmentInfo!: EntityContainer<Assignment>
-  readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.statistic', 'nav-bar.rec']
+  readonly tabs: Array<string> = ['nav-bar.description', 'nav-bar.prob', 'nav-bar.rec']
   records: Array<Record> = []
   now: Date = new Date()
-  loading:boolean=false
-  recordsLoading:boolean=false
+  loading: boolean = false
+  recordsLoading: boolean = false
   private intervals: Array<number> = []
   private cnt = 1
 
-  solveStateColor=SUtil.solveStateColor
-  solveStateIcon=SUtil.solveStateIcon
+  solveStateColor = SUtil.solveStateColor
+  solveStateIcon = SUtil.solveStateIcon
 
   created() {
     this.loadAssignment()
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
+  }
+
+  get showEdit() {
+    return this.$store.state.isAuthenticated && this.$store.state.user.hasPermission(Permission.ALLOWANCE.MODIFY_ASSIGNMENT)
+  }
+
+  get showStatistics() {
+    return this.$store.state.isAuthenticated && this.$store.state.user.hasPermission(Permission.ALLOWANCE.VIEW_ALL_SUBMISSIONS)
   }
 
   async loadAssignment(force = false) {
@@ -151,16 +175,16 @@ export default class SAssignmentDetailCard extends Vue {
     }
   }
 
-  async loadRecords(force=false){
-    if(this.records.length===0||force){
+  async loadRecords(force = false) {
+    if (this.records.length === 0 || force) {
       this.recordsLoading = true
       this.records = (await this.$api.searchRecordPage({
-        start:1,
-        end:10,
-        filter:{
-          problem:'',
-          assignment:this.assignment?.title,
-          user:''
+        start: 1,
+        end: 10,
+        filter: {
+          problem: '',
+          assignment: this.assignment?.title,
+          user: ''
         }
       })).entities
       this.recordsLoading = false
@@ -177,7 +201,7 @@ export default class SAssignmentDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-    if(v===3){
+    if (v === 3) {
       this.loadRecords()
     }
   }
@@ -195,7 +219,7 @@ export default class SAssignmentDetailCard extends Vue {
     return this.assignment?.description
   }
 
-  refresh(){
+  refresh() {
     this.loadAssignment(true)
     this.loadRecords(true)
   }
@@ -214,15 +238,26 @@ export default class SAssignmentDetailCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .detail-card-tabs {
-    display: inline-block;
-  }
+.detail-card-tabs {
+  display: inline-block;
+}
 
-  .v-list.list {
-    padding-top: 0;
-  }
+.v-list.list {
+  padding-top: 0;
+}
 
-  .refresh {
-    top: 20px;
+.refresh {
+  top: 20px;
+}
+
+.s-assignment-tool {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+
+  & > * {
+    margin-top: 10px;
   }
+}
 </style>

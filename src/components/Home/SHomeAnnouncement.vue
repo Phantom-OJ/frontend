@@ -28,7 +28,7 @@
               <v-icon>{{a.show?'':'mdi-chevron-down'}}</v-icon>
             </v-btn>
           </v-row>
-          <v-dialog v-model="a.show" width="800">
+          <v-dialog v-model="a.show" width="80%">
             <v-card class="lang-en">
               <v-card-title>
                 {{a.title}}

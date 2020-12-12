@@ -28,7 +28,9 @@
               item-height="44"
             >
               <template v-slot:default="{ item }">
-                <div :key="item.ID" :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===script.ID}" @click="showScript(item)">
+                <div :key="item.ID"
+                     :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===script.ID}"
+                     @click="showScript(item)">
                   {{ item.keyword }}
                 </div>
                 <v-divider></v-divider>
@@ -56,7 +58,9 @@
               item-height="44"
             >
               <template v-slot:default="{ item }">
-                <div :key="item.ID" :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===DB.ID}" @click="showDB(item)">
+                <div :key="item.ID"
+                     :class="{'cursor-hand-hover':true, 's-vs--item':true, 's-vs--item__active':item.ID===DB.ID}"
+                     @click="showDB(item)">
                   {{ item.keyword }}
                 </div>
                 <v-divider></v-divider>
@@ -70,11 +74,11 @@
           </div>
         </div>
       </div>
-      <v-textarea v-if="flagActiveDB" readonly :value="`${DB.dialect}\n${DB.databaseUrl}`" filled disabled height="180"
+      <v-textarea v-if="flag===2" readonly :value="`${DB.dialect}\n${DB.databaseUrl}`" filled disabled height="180"
                   class="s-vs--append" hide-details/>
-      <s-codemirror v-else-if="flagActiveSC" :code="script.script" mime="text/x-python" :options="cmOption"
+      <s-codemirror v-else-if="flag===3" :code="script.script" mime="text/x-python" :options="cmOption"
                     read-only="nocursor" class="s-vs--append"/>
-      <div v-else-if="flagAddDB" class="s-vs--append">
+      <div v-else-if="flag===0" class="s-vs--append">
         <v-select :items="languages" v-model="create_DB.dialect" hide-details style="margin-bottom: 16px"/>
         <v-text-field v-model="create_DB.keyword" hide-details class="s-c-keyword" :label="$t('create.keyword')"/>
         <v-btn @click="submitDB" class="s-c-btn" color="success">
@@ -82,7 +86,7 @@
         </v-btn>
         <v-textarea v-model="create_DB.databaseUrl" filled label="database URL" height="120"/>
       </div>
-      <div v-else-if="flagAddSC" class="s-vs--append">
+      <div v-else-if="flag===1" class="s-vs--append">
         <v-text-field v-model="create_SC.keyword" hide-details class="s-c-keyword" :label="$t('create.keyword')"/>
         <v-btn @click="submitSC" color="success" class="s-c-btn">
           {{ $t('submit') }}
@@ -100,13 +104,16 @@ import {DBForm, JudgePointForm, ScriptForm} from "@/ts/forms";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {JudgeDB, JudgeScript} from "@/ts/entities";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
-import SUploadFileForm from "@/components/General/SUploadFileForm.vue";
-import {SUtil} from "@/ts/utils";
 import {mapState} from "vuex";
+import {SUtil} from "@/ts/utils";
+
+enum Mode {
+  ADD_DB, ADD_SC, SHOW_DB, SHOW_SC
+}
 
 @Component({
-  components: {SUploadFileForm, SCodeEditor, SCodemirror},
-  computed:{...mapState(['scripts','dbs'])}
+  components: {SCodeEditor, SCodemirror},
+  computed: {...mapState(['scripts', 'dbs'])}
 })
 export default class SManageJudgePoint extends Vue {
   readonly cmOption = {
@@ -119,15 +126,12 @@ export default class SManageJudgePoint extends Vue {
 
   @PropSync('judgePoint')
   judgePoint_!: JudgePointForm
-  @Prop({type:Boolean,required:true})
-  isCreate!:boolean
+  @Prop({type: Boolean, required: true})
+  isCreate!: boolean
 
   searchScript: string = ''
   searchDB: string = ''
-  flagActiveDB: boolean = false
-  flagActiveSC: boolean = false
-  flagAddDB: boolean = false
-  flagAddSC: boolean = false
+  flag: Mode = Mode.SHOW_DB
   DB: JudgeDB = {} as JudgeDB
   script: JudgeScript = {} as JudgeScript
 
@@ -145,41 +149,33 @@ export default class SManageJudgePoint extends Vue {
   }
 
   addScript() {
-    this.flagAddDB = false
-    this.flagAddSC = true
-    this.flagActiveDB = false
-    this.flagActiveSC = false
+    this.flag = Mode.ADD_SC
   }
 
   addDB() {
-    this.flagAddDB = true
-    this.flagAddSC = false
-    this.flagActiveDB = false
-    this.flagActiveSC = false
+    this.flag = Mode.ADD_DB
   }
 
   showScript(s: JudgeScript) {
-    this.flagAddDB = false
-    this.flagAddSC = false
-    this.flagActiveDB = false
-    this.flagActiveSC = true
+    this.flag = Mode.SHOW_SC
     this.script = s
   }
 
   showDB(d: JudgeDB) {
-    this.flagAddDB = false
-    this.flagAddSC = false
-    this.flagActiveDB = true
-    this.flagActiveSC = false
+    this.flag = Mode.SHOW_DB
     this.DB = d
   }
 
-  submitDB() {
-
+  async submitDB() {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.putDB(this.create_DB)
+    SUtil.alertIfSuccess(msg, 'success.upload', this)
   }
 
-  submitSC() {
-
+  async submitSC() {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.putScript(this.create_SC)
+    SUtil.alertIfSuccess(msg, 'success.upload', this)
   }
 }
 </script>
@@ -237,7 +233,7 @@ export default class SManageJudgePoint extends Vue {
           line-height: 31px;
         }
 
-        .s-vs--item__active{
+        .s-vs--item__active {
           background-color: #2d94377f;
         }
 

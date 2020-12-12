@@ -1,7 +1,7 @@
 <template>
   <div class="s-flex" style="flex-grow: 1">
-    <div style="width: 240px; margin: 12px auto;position: relative">
-      <v-virtual-scroll height="636" item-height="60" width="320" :items="roles">
+    <div style="width: 300px; margin: 12px auto;position: relative">
+      <v-virtual-scroll height="636" item-height="60" width="300" :items="roles">
         <template v-slot:default="{item}">
           <v-list-item @click="manageRole(item)" dense :class="{'s-item__active':item===role}">
             {{ item }}
@@ -15,12 +15,12 @@
         </v-icon>
       </v-btn>
     </div>
-    <s-split-select :active.sync="activeUsers" :inactive.sync="inactiveUsers" :is-dialog="false" :default-i-f="role"
-      @inactive-search="searchUserI" :filter="userFilter" style="box-shadow: none;width: 200px" :key="role"
-      @active-search="searchUserA"
+    <s-split-select :active.sync="activeUsers" :inactive.sync="inactiveUsers" :is-dialog="false"
+                    @inactivate="inactivate"
+                    :filter="()=>true" style="box-shadow: none;width: 200px" :key="role" @activate="activate"
     >
       <template v-slot:aSearch>
-        <s-search-user-sheet :search-form="activeUF" :role="false"/>
+        <s-search-user-sheet :search-form="activeUF" :role="false" @search="searchUserA"/>
       </template>
       <template v-slot:active="{entity}">
         <v-list-item two-line>
@@ -30,12 +30,16 @@
 
           <v-list-item-content>
             <v-list-item-title>{{ entity.username }}</v-list-item-title>
-            <v-list-item-subtitle>{{ entity.role }}</v-list-item-subtitle>
+            <v-list-item-subtitle style="color: var(--v-warning-base);font-weight: 700">
+              {{ entity.role }}
+              <br>
+              {{ entity.groupList.join(' ') }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
       <template v-slot:iSearch>
-        <s-search-user-sheet :search-form="inactiveUF" :not-role="false"/>
+        <s-search-user-sheet :search-form="inactiveUF" :not-role="false" @search="searchUserI"/>
       </template>
       <template v-slot:inactive="{entity}">
         <v-list-item two-line>
@@ -44,12 +48,15 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ entity.username }}</v-list-item-title>
-            <v-list-item-subtitle>{{ entity.role }}</v-list-item-subtitle>
+            <v-list-item-subtitle style="color: var(--v-warning-base);font-weight: 700">
+              {{ entity.role }}
+              <br>
+              {{ entity.groupList.join(' ') }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
-      <v-card-title style="padding-bottom: 0">{{$t('select.user')}} ({{ $t('warning.l50') }})</v-card-title>
-      <v-btn color="success" absolute right top>{{ $t('submit') }}</v-btn>
+      <v-card-title style="padding-bottom: 0">{{ $t('select.user') }} ({{ $t('warning.l50') }})</v-card-title>
     </s-split-select>
   </div>
 </template>
@@ -62,6 +69,7 @@ import {User} from "@/ts/user";
 import {mapState} from "vuex";
 import {SearchUserForm} from "@/ts/forms";
 import SSearchUserSheet from "@/components/General/SSearchUserSheet.vue";
+import {Alert} from "@/ts/entities";
 
 @Component({
   components: {SSearchUserSheet, SSplitSelect},
@@ -76,7 +84,7 @@ export default class SManageRoleSheet extends Vue {
   inactiveUF: SearchUserForm = new SearchUserForm()
   role: string = ''
 
-  created() {
+  refresh() {
     this.manageRole(this.roles[0])
   }
 
@@ -85,22 +93,48 @@ export default class SManageRoleSheet extends Vue {
   }
 
   async manageRole(r: string) {
-    this.role = r
     this.activeUF.role = r
     this.activeUsers = []
     this.inactiveUF.notRole = r
     this.inactiveUsers = []
+    await Promise.all([this.searchUserA(), this.searchUserI()])
+    this.role = r
   }
 
-  userFilter(u: User, str: string) {
-    str = str.toUpperCase()
-    return u.username.toUpperCase().includes(str) || `${u.ID}`.includes(str) || u.role.toUpperCase().includes(str)
+  async searchUserI() {
+    this.inactiveUsers = await this.$api.searchUser(this.inactiveUF)
   }
 
-  async searchUserI(filter: string) {
+  async searchUserA() {
+    this.activeUsers = await this.$api.searchUser(this.activeUF)
   }
 
-  async searchUserA(filter: string) {
+  async activate(u: User) {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    let form = {} as { [key: string]: number[] }
+    form[this.role] = [u.ID]
+    const msg = await this.$api.grant(form)
+    if (msg.toUpperCase().trim() === 'SUCCESS') {
+      this.$alert(new Alert({
+        type: 'success',
+        info: this.$t('success.submit').toString()
+      }))
+      await this.manageRole(this.role)
+    }
+  }
+
+  async inactivate(u: User) {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    let form = {} as { [key: string]: number[] }
+    form['ROLE_STUDENT'] = [u.ID]
+    const msg = await this.$api.grant(form)
+    if (msg.toUpperCase().trim() === 'SUCCESS') {
+      this.$alert(new Alert({
+        type: 'success',
+        info: this.$t('success.submit').toString()
+      }))
+      await this.manageRole(this.role)
+    }
   }
 }
 </script>

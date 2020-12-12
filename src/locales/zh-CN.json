@@ -46,6 +46,7 @@
   "upload": "确认上传",
   "cancel": "取消",
   "OK": "确认",
+  "delete": "删除",
   "security": {
     "t-weak": "弱爆了",
     "weak": "弱",
@@ -68,7 +69,7 @@
     "v-code": "验证码",
     "nickname": "昵称",
     "n-pwd": "新密码",
-    "recover": "恢复最近的登录状态",
+    "recover": "恢复上次登录时的状态",
     "score": "我的得分"
   },
   "error": {
@@ -81,13 +82,15 @@
     "t-large": "太大了 (最大5MB)"
   },
   "warning": {
+    "warn": "注意! 危险操作",
     "no-code": "还没有交过代码！",
     "l50": "只显示前50条结果"
   },
   "success": {
     "v-code": "验证码已发送，请注意查收",
     "upload": "上传成功",
-    "submit": "提交成功"
+    "submit": "提交成功",
+    "delete": "删除成功"
   },
   "assignment": {
     "searchA": "ID",
@@ -153,6 +156,7 @@
     "content2": "仍在测试阶段，请联系11811407@mail.sustech.edu.cn反映问题"
   },
   "create": {
+    "leave": "现页面的修改不会被保存",
     "title": "标题",
     "description": "描述",
     "start-time": "开始时间",
@@ -160,7 +164,9 @@
     "status": "状态",
     "operation": "操作",
     "group": "创建群组",
+    "announcement": "创建公告",
     "keyword": "关键字",
+    "edit": "编辑",
     "problem": {
       "&": "问题",
       "type": "类型",
@@ -172,7 +178,8 @@
       "db": "数据库",
       "bes": "前置SQL",
       "afs": "后置SQL",
-      "ans": "答案"
+      "ans": "答案",
+      "edit": "编辑判题点"
     },
     "assignment": {
       "&": "作业"

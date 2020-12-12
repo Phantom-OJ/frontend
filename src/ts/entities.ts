@@ -1,5 +1,7 @@
 import {Entity} from "@/ts/interfaces"
 import {API} from "@/ts/api";
+import {AnnouncementForm} from "@/ts/forms";
+import {Group} from "@/ts/user";
 
 export class Announcement implements Entity {
   ID: number
@@ -27,6 +29,14 @@ export class Announcement implements Entity {
       lastModified: new Date(a.lastModified.getTime())
     })
   }
+
+  toForm(): AnnouncementForm {
+    return {
+      createDate: Date.now(),
+      description: this.description,
+      title: this.title
+    }
+  }
 }
 
 
@@ -34,7 +44,7 @@ export class Problem implements Entity {
   ID: number
   description: string
   title: string
-  aid: number
+  assignmentId: number
   fullScore: number
   spaceLimit: number
   timeLimit: number
@@ -44,17 +54,15 @@ export class Problem implements Entity {
   recentCode?: string
   tagList: Array<Tag>
   indexInAssignment: number
-  sampleOut: string
   solved: SolveState
 
-  constructor({id, description, title, indexInAssignment, sampleOut, aid, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved}: any) {
+  constructor({id, description, title, indexInAssignment, assignmentId, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved}: any) {
     this.ID = id
     this.description = description ?? ''
     this.title = title
     this.indexInAssignment = indexInAssignment
     this.recentCode = recentCode
-    this.sampleOut = sampleOut
-    this.aid = aid
+    this.assignmentId = assignmentId
     this.fullScore = fullScore
     this.spaceLimit = spaceLimit
     this.timeLimit = timeLimit
@@ -73,16 +81,20 @@ export class Assignment implements Entity {
   startTime: Date
   endTime: Date
   status: string
+  fullScore: number
   problemList?: Array<Problem>
+  groupList:Group[]
 
-  constructor({id, description, title, startTime, endTime, status, problemList}: any) {
+  constructor({id, description, title, startTime, endTime, status, fullScore, problemList, groupList}: any) {
     this.ID = id
     this.description = description ?? ''
     this.title = title
+    this.fullScore = fullScore
     this.startTime = new Date(startTime)
     this.endTime = new Date(endTime)
     this.status = status
     this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value)) ?? []
+    this.groupList = (groupList as any[])?.map(e=>new Group(e))??[]
   }
 }
 

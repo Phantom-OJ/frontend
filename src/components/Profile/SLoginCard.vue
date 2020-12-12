@@ -73,11 +73,15 @@ export default class SLoginCard extends Vue {
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
       this.$i18n.locale = user.lang
       let leave = sessionStorage.getItem('leave')
+      console.log(parseInt(user.state.time), parseInt(leave!))
       if (user.stateSave && ((!!leave && parseInt(user.state.time) >= parseInt(leave)) || !leave)) {
         SUtil.recover(user.state, this)
       }
-      console.log(this.$route.query['then'])
-      await router.push((this.$route.query['then'] ?? '/') as string)
+      if (this.$route.query['then'].toString().includes('/login')) {
+        await this.$router.push('/')
+      } else {
+        await this.$router.push(this.$route.query['then'].toString() ?? '/')
+      }
     } catch (e) {
       this.waitForRes = false
       SUtil.alertAPIException(e, this)

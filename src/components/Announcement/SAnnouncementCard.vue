@@ -29,6 +29,12 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-btn v-if="permitAdd" fab absolute @click="$router.push('/administrate#3')" class="s-add-btn"
+           color="secondary">
+      <v-icon>
+        mdi-plus-thick
+      </v-icon>
+    </v-btn>
   </v-card>
 </template>
 
@@ -45,6 +51,7 @@ import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from '@/ts/utils'
 import {EntityContainer} from "@/ts/entity-container";
 import SMarkdown from "@/components/General/SMarkdown.vue";
+import {Permission} from "@/ts/user";
 
 @Component({
   components: {SMarkdown, STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
@@ -61,6 +68,10 @@ export default class SAnnouncementCard extends Vue {
   loading: boolean = false
   dialog: boolean = false
   announce: Announcement = {} as Announcement
+
+  get permitAdd(){
+    return this.$store.state.isAuthenticated&&this.$store.state.user.hasPermission(Permission.ALLOWANCE.MANAGE_THE_ANNOUNCEMENT)
+  }
 
   created() {
     this.loadAnnouncements()

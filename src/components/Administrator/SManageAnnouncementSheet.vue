@@ -91,7 +91,6 @@ export default class SManageAnnouncementSheet extends Vue {
     this.announcements = (await this.$api.searchAnnouncementPage({
       start: 1, end: 1e9, filter: {}
     })).entities
-    this.manageAnnouncement(this.announcements[0])
   }
 
   manageAnnouncement(a: Announcement) {

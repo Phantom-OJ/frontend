@@ -202,6 +202,10 @@ export class API {
     return (data as any[])?.map(e => new JudgeScript(e)) ?? []
   }
 
+  async homeStat():Promise<{date:string, total:number, ac:number}[]>{
+    return (await this.cRequest('get','home/statistics')).data??[]
+  }
+
   async putDB(form: DBForm): Promise<string> {
     return (await this.cRequest('post', 'upload/judgedb', form)).msg
   }

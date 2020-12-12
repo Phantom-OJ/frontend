@@ -73,7 +73,6 @@ export default class SLoginCard extends Vue {
       this.$store.commit('setUser', {user: user, isAuthenticated: true})
       this.$i18n.locale = user.lang
       let leave = sessionStorage.getItem('leave')
-      console.log(parseInt(user.state.time), parseInt(leave!))
       if (user.stateSave && ((!!leave && parseInt(user.state.time) >= parseInt(leave)) || !leave)) {
         SUtil.recover(user.state, this)
       }

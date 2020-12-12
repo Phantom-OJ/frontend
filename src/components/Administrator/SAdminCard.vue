@@ -67,7 +67,18 @@ import SManageAnnouncementSheet from "@/components/Administrator/SManageAnnounce
 export default class SAdminCard extends Vue {
   readonly user!: User
   readonly keyInState = 'admin'
-  tab: number = 0
+
+  get tab(){
+    return parseInt(this.$route.hash.slice(1)||'0')
+  }
+
+  set tab(v:number){
+    //@ts-ignore
+    this.$router.replace({
+      ...this.$route,
+      hash: `#${v}`
+    })
+  }
 
   created() {
     this.load()

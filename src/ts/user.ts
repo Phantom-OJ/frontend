@@ -39,11 +39,11 @@ export class Permission {
 
   static ALLOWANCE = Object.freeze({
     forName: (s: string) => s,
-    values: () => ['view all submissions', 'provide the solution', 'publish the announcement', 'view all groups', 'view all assignments',
+    values: () => ['view all submissions', 'provide the solution', 'manage the announcement', 'view all groups', 'view all assignments',
       'view all codes', 'create groups', 'create assignment', 'modify assignment', 'view judge details', 'grant other users', 'view all permissions'],
     VIEW_ALL_SUBMISSIONS: 'view all submissions',
     PROVIDE_THE_SOLUTION: 'provide the solution',
-    PUBLISH_THE_ANNOUNCEMENT: 'publish the announcement',
+    MANAGE_THE_ANNOUNCEMENT: 'manage the announcement',
     VIEW_ALL_GROUPS: 'view all groups',
     VIEW_ALL_ASSIGNMENTS: 'view all assignments',
     VIEW_ALL_CODES: 'view all codes',

@@ -3,7 +3,6 @@
     <img class="mydiv" id="phantom1" src="@/assets/load.png" alt="loading..."/>
     <img class="mydiv" id="phantom2" src="@/assets/load.png" alt="loading..."/>
     <img class="mydiv" id="phantom3" src="@/assets/load.png" alt="loading..."/>
-    <canvas ref="threeCanvas" id="s-loading-canvas"/>
   </div>
 </template>
 
@@ -11,13 +10,11 @@
 // @ts-nocheck
 import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
-import {mapState} from "vuex";
 
-@Component({
-  computed: {...mapState(['width_height'])}
-})
+@Component({})
 export default class SLoading extends Vue {
-  interval:number=-1
+  interval: number = -1
+
   mounted() {
     this.show()
   }
@@ -48,44 +45,60 @@ export default class SLoading extends Vue {
 </script>
 
 <style scoped lang="scss">
-  #phantom1
-  {
-    width: 100px;
-    height: 100px;
-    left: 100%;
-    bottom: 60%;
-  }
-  #phantom2
-  {
-    width: 60px;
-    height: 60px;
-    left: 109%;
-    bottom: 60%;
-  }
-  #phantom3
-  {
-    width: 40px;
-    height: 40px;
-    left: 115%;
-    bottom: 60%;
-  }
+#phantom1 {
+  width: 100px;
+  height: 100px;
+  left: 100%;
+  bottom: 60%;
+}
 
-  .mydiv{
-    position: absolute;
-    animation:rotateImg 5s;
-    animation-iteration-count:infinite;
+#phantom2 {
+  width: 60px;
+  height: 60px;
+  left: 109%;
+  bottom: 60%;
+}
 
-    -webkit-animation:rotateImg 5s;
-    -webkit-animation-iteration-count: infinite;
-  }
+#phantom3 {
+  width: 40px;
+  height: 40px;
+  left: 115%;
+  bottom: 60%;
+}
 
-  @keyframes rotateImg {
-    0% {transform : rotate(360deg);}
-    100% {transform : rotate(0deg);}
-  }
+.mydiv {
+  position: absolute;
+  animation: rotateImg 5s;
+  animation-iteration-count: infinite;
 
-  @-webkit-keyframes rotateImg {
-    0%{-webkit-transform : rotate(360deg);}
-    100%{-webkit-transform : rotate(0deg);}
+  -webkit-animation: rotateImg 5s;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@keyframes rotateImg {
+  0% {
+    transform: rotate(360deg);
   }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes rotateImg {
+  0% {
+    -webkit-transform: rotate(360deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
+}
+
+@-moz-keyframes rotateImg {
+  0% {
+    -moz-transform: rotate(360deg);
+  }
+  100% {
+    -moz-transform: rotate(0deg);
+  }
+}
 </style>

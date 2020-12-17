@@ -44,8 +44,6 @@ vue-ace-editor
 
 tag 颜色
 
-loading 界面
-
 [finished] *signup 数据验证，发验证码*
 
 [finished] *重构API，写declare 单例化, 淦死所有Map*
@@ -54,7 +52,7 @@ loading 界面
 
 [finished] *代码行号*
 
-代码编辑器功能栏
+[finished] 代码编辑器功能栏
 
 [finished] 个人界面
 
@@ -81,3 +79,5 @@ btn可以自定义loader 是slot
 [finished] 题目显示现在的提交状态
 
 [finished] 得分
+
+loading 界面

@@ -56,7 +56,7 @@
                 :stop-click-propagate="false"
               ></s-tag>
             </template>
-            <v-card-title style="padding-bottom: 0">{{$t('select.tag')}}</v-card-title>
+            <v-card-title style="padding-bottom: 0">{{ $t('select.tag') }}</v-card-title>
           </s-split-select>
         </v-dialog>
         <v-select :label="$t('create.problem.type')" v-model="problem_.type" :items="TYPE"></v-select>
@@ -77,21 +77,9 @@
             <th>{{ j.judgeDatabaseId }}</th>
             <th>{{ j.dialect }}</th>
             <th>
-              <v-dialog v-model="jpDialog">
-                <template v-slot:activator="{on, attrs}">
-                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" v-on="on" v-bind="attrs">
-                    mdi-pencil
-                  </v-icon>
-                </template>
-                <v-card style="padding: 36px 24px 36px 24px">
-                  <s-manage-judge-point-sheet :judge-point.sync="j" :is-create="isCreate"/>
-                  <v-btn absolute text top right @click="jpDialog=false">
-                    <v-icon>
-                      mdi-close
-                    </v-icon>
-                  </v-btn>
-                </v-card>
-              </v-dialog>
+              <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="jpShow=j">
+                mdi-pencil
+              </v-icon>
               <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="deleteJ(j)">
                 mdi-delete
               </v-icon>
@@ -104,6 +92,17 @@
             </v-icon>
           </v-btn>
         </v-simple-table>
+
+        <v-dialog v-model="jpDialog">
+          <v-card style="padding: 36px 24px 36px 24px">
+            <s-manage-judge-point-sheet :judge-point.sync="jpShow" :is-create="isCreate"/>
+            <v-btn absolute text top right @click="jpDialog=false">
+              <v-icon>
+                mdi-close
+              </v-icon>
+            </v-btn>
+          </v-card>
+        </v-dialog>
       </div>
       <div v-if="!des_sol" class="s-right s-flex">
         <v-textarea :label="$t('create.description')" color="primary" hide-details v-model="problem_.description"
@@ -159,10 +158,20 @@ export default class SManagerProblemSheet extends Vue {
   inactiveTF: string = ''
   tagDialog: boolean = false
   jpDialog: boolean = false
+  jpShow_: JudgePointForm = {} as JudgePointForm
 
-  @Watch('activeTags',{immediate:true})
-  setTagList(){
-    this.problem_.tagList = this.activeTags.map(e=>e.ID)
+  get jpShow(){
+    return this.jpShow_
+  }
+
+  set jpShow(v:JudgePointForm){
+    this.jpShow_ = v
+    this.jpDialog = true
+  }
+
+  @Watch('activeTags', {immediate: true})
+  setTagList() {
+    this.problem_.tagList = this.activeTags.map(e => e.ID)
   }
 
   created() {
@@ -209,8 +218,8 @@ export default class SManagerProblemSheet extends Vue {
 
   addJ() {
     this.problem_.judgePointList.push({
-      id:-1,
-      dialect:'pgsql',
+      id: -1,
+      dialect: 'pgsql',
       beforeSql: '',
       afterSql: '',
       judgeScriptId: 1,

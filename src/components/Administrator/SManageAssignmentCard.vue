@@ -177,6 +177,8 @@ export default class SManageAssignmentCard extends Vue {
         endTime: new Date(`${this.endDate} ${this.endTime}`).getTime()
       })
       SUtil.alertIfSuccess(msg, 'success.upload', this)
+      this.$store.commit('setProblemInfo',{filter:{...this.$store.state.problemInfo.filter}})
+      this.$store.commit('setAssignmentInfo',{filter:{...this.$store.state.assignmentInfo.filter}})
     }else{
       // const msg = await this.$api.modifyAssignment(this.aid,{
       //

@@ -17,7 +17,11 @@ import {ProblemForm} from "@/ts/forms";
 })
 export default class SManageProblem extends Vue {
 
-  problemForm:ProblemForm
+  problemForm:ProblemForm={} as ProblemForm
+
+  created() {
+    //TODO
+  }
 
   get pid(){
     return parseInt(this.$route.params.pid)

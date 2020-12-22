@@ -4,7 +4,7 @@
                         @click="$store.commit('setSideNav', !$store.state.sideNav)"
     />
     <v-avatar id="logo-img">
-      <v-img src="../../assets/slogo.png"/>
+      <v-img src="@/assets/cute_phantom.jpg"/>
     </v-avatar>
     <label id="logo-text" class="ellipsis-col">
       Phantom-OJ

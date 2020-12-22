@@ -113,19 +113,19 @@ const routes: Array<RouteConfig> = [{
   component: () => import('@/views/SManageAssignment.vue'),
   beforeEnter: requireAuthenticatedEnter
 }, {
+  path: '/modify/assignment/:aid/problem/:pid',
+  name: 'modify-problem',
+  component: () => import('@/views/SManageProblem.vue'),
+  beforeEnter: requireAuthenticatedEnter
+}, {
   path: '/modify/assignment/:aid',
   name: 'modify-assignment',
   component: () => import('@/views/SManageAssignment.vue'),
   beforeEnter: requireAuthenticatedEnter
 }, {
-  path: '/modify/problem/:pid',
-  name: 'modify-problem',
-  component: () => void 0,
-  beforeEnter: requireAuthenticatedEnter
-}, {
   path: '/modify/judge-points/:pid',
   name: 'modify-judge-points',
-  component: () => void 0,
+  component: () => import('@/views/SManageAssignment.vue'),
   beforeEnter: requireAuthenticatedEnter
 }, {
   path: '/administrate',

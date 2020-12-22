@@ -84,7 +84,8 @@
   "warning": {
     "warn": "注意! 危险操作",
     "no-code": "还没有交过代码！",
-    "l50": "只显示前50条结果"
+    "l50": "只显示前50条结果",
+    "extra-submit": "只有在弹窗内点击提交才能添加/修改成功"
   },
   "success": {
     "v-code": "验证码已发送，请注意查收",
@@ -96,7 +97,8 @@
     "searchA": "ID",
     "searchB": "作业名",
     "subtitle": "生活在语法树上，永远热爱大地",
-    "require": "应交"
+    "require": "应交",
+    "download score": "下载分数表"
   },
   "problem": {
     "searchA": "ID",

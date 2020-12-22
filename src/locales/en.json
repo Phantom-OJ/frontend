@@ -82,9 +82,10 @@
     "t-large": "Too large (max 5 MB)"
   },
   "warning": {
-    "warn": "I hope you know what you're doing",
+    "warn": "I hope you sure what you're doing",
     "no-code": "No submitted code",
-    "l50": "Only show top 50 results"
+    "l50": "Only show top 50 results",
+    "extra-submit": "Only click submit in dialog can add/modify successfully"
   },
   "success": {
     "v-code": "Send verify code successfully",
@@ -96,7 +97,8 @@
     "searchA": "ID",
     "searchB": "Name",
     "subtitle": "True mastery of any skill takes a lifetime",
-    "require": "Require"
+    "require": "Require",
+    "download score": "Download the scores"
   },
   "problem": {
     "searchA": "ID",

@@ -96,7 +96,10 @@
         <v-dialog v-model="jpDialog">
           <v-card style="padding: 36px 24px 36px 24px">
             <s-manage-judge-point-sheet :judge-point.sync="jpShow" :is-create="isCreate"/>
-            <v-btn absolute text top right @click="jpDialog=false">
+            <v-btn v-if="!isCreate" absolute text top right @click="submitJP">
+              {{ $t('submit') }}
+            </v-btn>
+            <v-btn v-else absolute text top right @click="jpDialog=false">
               <v-icon>
                 mdi-close
               </v-icon>
@@ -127,7 +130,7 @@ import SDateTimePicker from "@/components/General/SDateTimePicker.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SCodemirror from "@/components/General/SCodemirror.vue";
-import {Tag} from "@/ts/entities";
+import {Alert, Tag} from "@/ts/entities";
 import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import STag from "@/components/General/STag.vue";
 import SManageJudgePointSheet from "@/components/Administrator/SManageJudgePointSheet.vue";
@@ -160,11 +163,17 @@ export default class SManagerProblemSheet extends Vue {
   jpDialog: boolean = false
   jpShow_: JudgePointForm = {} as JudgePointForm
 
-  get jpShow(){
+  get jpShow() {
     return this.jpShow_
   }
 
-  set jpShow(v:JudgePointForm){
+  set jpShow(v: JudgePointForm) {
+    if (!this.isCreate) {
+      this.$alert(new Alert({
+        type: 'warning',
+        info: this.$t('warning.extra-submit').toString()
+      }))
+    }
     this.jpShow_ = v
     this.jpDialog = true
   }
@@ -185,7 +194,6 @@ export default class SManagerProblemSheet extends Vue {
     } else {
       this.problemChanged()
     }
-
   }
 
   @Watch('problem_.id')
@@ -212,11 +220,35 @@ export default class SManagerProblemSheet extends Vue {
     return this.activeTags.map(t => t.keyword).join(' ')
   }
 
-  deleteJ(j: JudgePointForm) {
-    this.problem_.judgePointList.remove(j)
+  async submitJP() {
+    if (this.jpShow.id > 0) { // modify
+      const msg = await this.$api.modifyJudgePoint(this.jpShow.id, this.jpShow)
+      SUtil.alertIfSuccess(msg, 'success.submit', this)
+      this.$emit('refresh')
+    } else { // add
+      const msg = await this.$api.addJudgePoint(this.jpShow)
+      SUtil.alertIfSuccess(msg, 'success.upload', this)
+      this.$emit('refresh')
+    }
+  }
+
+  async deleteJ(j: JudgePointForm) {
+    if (this.isCreate) {
+      this.problem_.judgePointList.remove(j)
+    } else {
+      const msg = await this.$api.deleteJudgePoint(this.jpShow.id)
+      SUtil.alertIfSuccess(msg, 'success.delete', this)
+      this.$emit('refresh')
+    }
   }
 
   addJ() {
+    if (!this.isCreate) {
+      this.$alert(new Alert({
+        type: 'warning',
+        info: this.$t('warning.extra-submit').toString()
+      }))
+    }
     this.problem_.judgePointList.push({
       id: -1,
       dialect: 'pgsql',

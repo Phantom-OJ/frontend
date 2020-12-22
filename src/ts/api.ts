@@ -7,7 +7,8 @@ import {
   Code,
   Grade,
   JudgeDB,
-  JudgeScript, JudgeState, PollingResponse,
+  JudgeScript,
+  PollingResponse,
   Problem,
   ProblemStatSet,
   Record,
@@ -18,11 +19,12 @@ import {APIException} from "@/ts/exceptions";
 import {
   AnnouncementForm,
   AssignmentForm,
-  DBForm,
+  DBForm, JudgePointForm,
   LoginForm,
   ModifyPasswordForm,
   ModifyUserForm,
   PageSearchForm,
+  ProblemForm,
   ResetForm,
   ScriptForm,
   SearchUserForm,
@@ -202,8 +204,8 @@ export class API {
     return (data as any[])?.map(e => new JudgeScript(e)) ?? []
   }
 
-  async homeStat():Promise<{date:string, total:number, ac:number}[]>{
-    return (await this.cRequest('get','home/statistics')).data??[]
+  async homeStat(): Promise<{ date: string, total: number, ac: number }[]> {
+    return (await this.cRequest('get', 'home/statistics')).data ?? []
   }
 
   async putDB(form: DBForm): Promise<string> {
@@ -217,6 +219,38 @@ export class API {
 
   async putAssignment(form: AssignmentForm): Promise<string> {
     return (await this.cRequest('post', 'upload/assignment', form)).msg
+  }
+
+  async getAssignmentForm(ID: number): Promise<AssignmentForm> {
+    return (await this.cRequest('get', `modify/assignment/${ID}`)).data
+  }
+
+  async modifyAssignment(ID: number, form: AssignmentForm): Promise<string> {
+    return (await this.cRequest('post', `modify/assignment/${ID}`, form)).msg
+  }
+
+  async deleteAssignment(ID: number): Promise<string> {
+    return (await this.cRequest('delete', `modify/assignment/${ID}`)).msg
+  }
+
+  async modifyProblem(ID: number, form: ProblemForm): Promise<string> {
+    return (await this.cRequest('post', `modify/problem/${ID}`, form)).msg
+  }
+
+  async deleteProblem(ID: number): Promise<string> {
+    return (await this.cRequest('delete', `modify/problem/${ID}`)).msg
+  }
+
+  async addJudgePoint(form:JudgePointForm):Promise<string>{
+    return (await this.cRequest('put', 'modify/judgepoint', form)).msg
+  }
+
+  async modifyJudgePoint(ID:number, form:JudgePointForm):Promise<string>{
+    return (await this.cRequest('post',`modify/judgepoint/${ID}`, form)).msg
+  }
+
+  async deleteJudgePoint(ID:number):Promise<string>{
+    return (await this.cRequest('delete', `modify/judgepoint/${ID}`)).msg
   }
 
   async searchAssignmentPage(form: PageSearchForm): Promise<SEntityCollection<Assignment>> {
@@ -283,8 +317,8 @@ export class API {
     return await this.request('post', `problem/${ID}/submit`, form)
   }
 
-  async polling(ID:number):Promise<PollingResponse>{
-    const data = (await this.cRequest('get',`polling/${ID}`)).data
+  async polling(ID: number): Promise<PollingResponse> {
+    const data = (await this.cRequest('get', `polling/${ID}`)).data
     return new PollingResponse(data)
   }
 

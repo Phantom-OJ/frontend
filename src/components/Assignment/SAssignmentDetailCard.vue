@@ -167,7 +167,7 @@ export default class SAssignmentDetailCard extends Vue {
   }
 
   async loadAssignment(force = false) {
-    if (this.loading || force) {
+    if (!this.assignment || force) {
       this.loading = true
       let detailAssignment = await this.$api.queryAssignment(this.aid)
       this.$store.commit('setAssignmentInfo', {detailAssignment})

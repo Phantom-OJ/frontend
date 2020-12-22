@@ -313,3 +313,16 @@ export class PollingResponse {
     return this.state === JudgeState.ERROR
   }
 }
+
+export class Score{
+  id:number
+  score:number
+  username:string
+
+
+  constructor({id, score, username}:any) {
+    this.id = id;
+    this.score = score;
+    this.username = username;
+  }
+}

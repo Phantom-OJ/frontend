@@ -92,6 +92,7 @@
             </v-icon>
           </v-btn>
         </v-simple-table>
+        <v-btn v-if="!this.isCreate" @click="submit" color="success" style="margin-top: 16px">{{ $t('submit') }}</v-btn>
 
         <v-dialog v-model="jpDialog">
           <v-card style="padding: 36px 24px 36px 24px">
@@ -262,6 +263,12 @@ export default class SManagerProblemSheet extends Vue {
 
   get permitSolution() {
     return this.user.hasPermission(Permission.ALLOWANCE.PROVIDE_THE_SOLUTION)
+  }
+
+  async submit(){
+    const msg = await this.$api.modifyProblem(this.problem_.id, this.problem_)
+    SUtil.alertIfSuccess(msg, 'success.submit', this)
+    this.$emit('refresh')
   }
 }
 </script>

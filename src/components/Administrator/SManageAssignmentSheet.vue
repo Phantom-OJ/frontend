@@ -17,7 +17,7 @@
     <v-treeview :items="assignments" item-key="ID" item-text="title" item-children="problemList" open-on-click
                 class="ass-tree">
       <template v-slot:label="{item, leaf}">
-        <div class="s-flex" v-if="leaf">
+        <div class="s-flex" v-if="leaf" @click="flag_ass_prob=false;problem=item">
           <span style="font-size: 20px;">
             {{ item.title }}
           </span>
@@ -28,7 +28,7 @@
             mdi-delete-off
           </v-icon>
         </div>
-        <div class="s-flex" v-else>
+        <div class="s-flex" v-else @click="flag_ass_prob=true;assignment=item">
           <v-card-title style="font-size: 24px;">
             {{ item.title }}
           </v-card-title>
@@ -44,6 +44,25 @@
         </div>
       </template>
     </v-treeview>
+    <v-dialog v-model="flag_down_dialog">
+      <v-card>
+        <v-radio-group>
+          <v-radio label="JSON" value="JSON"/>
+          <v-radio label="CSV" value="CSV"/>
+        </v-radio-group>
+        <v-btn color="success" @click="download_">
+          {{ $t('download') }}
+        </v-btn>
+      </v-card>
+    </v-dialog>
+    <v-scale-transition v-if="!flag_down_dialog">
+      <div v-if="flag_ass_prob" class="s-flex" style="flex-direction: column">
+
+      </div>
+      <div v-else class="s-flex" style="flex-direction: column">
+
+      </div>
+    </v-scale-transition>
   </div>
 </template>
 
@@ -56,7 +75,10 @@ import {EntityContainer} from "@/ts/entity-container";
 import {Assignment, Problem} from "@/ts/entities";
 import {Filter} from "@/ts/interfaces";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+//@ts-ignore
+import FileSaver from 'file-saver';
 
+const Json2csvParser: any = require('json2csv').Parser
 @Component({
   components: {STooltipIcon},
   computed: {...mapState(['assignmentInfo'])}
@@ -67,7 +89,12 @@ export default class SManageAssignmentSheet extends Vue {
 
   loading: boolean = false
   assignments: Assignment[] = []
+  assignment: Assignment = {} as Assignment
+  problem: Problem = {} as Problem
   max: number = 0
+  flag_ass_prob: boolean = true
+  flag_down_dialog: boolean = false
+  fileType: string = 'JSON'
   filter: Filter = {
     id: '',
     name: ''
@@ -114,7 +141,20 @@ export default class SManageAssignmentSheet extends Vue {
 
   downScore(e: Event, ass: Assignment) {
     e.stopPropagation()
+    this.assignment = ass
+    this.flag_down_dialog = true
+  }
 
+  async download_() {
+    if (this.fileType === 'JSON') {
+      FileSaver.saveAs(new Blob([
+        JSON.stringify(await this.$api.queryScores(this.assignment.ID))
+      ], {type: 'text/json'}), `${this.assignment.ID}_AT_${new Date().toISOString()}.json`)
+    } else {
+      FileSaver.saveAs(new Blob([
+        new Json2csvParser().parse(await this.$api.queryScores(this.assignment.ID))
+      ], {type: 'text/plain'}), `${this.assignment.ID}_AT_${new Date().toISOString()}.csv`)
+    }
   }
 
   editAss(e: Event, ass: Assignment) {

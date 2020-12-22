@@ -12,6 +12,7 @@ import {
   Problem,
   ProblemStatSet,
   Record,
+  Score,
   Tag,
   VCodeMode
 } from "@/ts/entities";
@@ -19,7 +20,8 @@ import {APIException} from "@/ts/exceptions";
 import {
   AnnouncementForm,
   AssignmentForm,
-  DBForm, JudgePointForm,
+  DBForm,
+  JudgePointForm,
   LoginForm,
   ModifyPasswordForm,
   ModifyUserForm,
@@ -217,6 +219,11 @@ export class API {
     return (data as any[])?.map(e => new JudgeDB(e)) ?? []
   }
 
+  async queryScores(ID: number): Promise<Score[]> {
+    const data = (await this.cRequest('post', `assignment/${ID}/scores`)).data
+    return (data as any[])?.map(e => new Score(e)) ?? []
+  }
+
   async putAssignment(form: AssignmentForm): Promise<string> {
     return (await this.cRequest('post', 'upload/assignment', form)).msg
   }
@@ -241,15 +248,15 @@ export class API {
     return (await this.cRequest('delete', `modify/problem/${ID}`)).msg
   }
 
-  async addJudgePoint(form:JudgePointForm):Promise<string>{
+  async addJudgePoint(form: JudgePointForm): Promise<string> {
     return (await this.cRequest('put', 'modify/judgepoint', form)).msg
   }
 
-  async modifyJudgePoint(ID:number, form:JudgePointForm):Promise<string>{
-    return (await this.cRequest('post',`modify/judgepoint/${ID}`, form)).msg
+  async modifyJudgePoint(ID: number, form: JudgePointForm): Promise<string> {
+    return (await this.cRequest('post', `modify/judgepoint/${ID}`, form)).msg
   }
 
-  async deleteJudgePoint(ID:number):Promise<string>{
+  async deleteJudgePoint(ID: number): Promise<string> {
     return (await this.cRequest('delete', `modify/judgepoint/${ID}`)).msg
   }
 

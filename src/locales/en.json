@@ -141,16 +141,29 @@
       }
     },
     "step2": {
-      "title": "View assignments"
+      "title": "View assignments",
+      "content": {
+        "s1": "(1) Click the assignment in the navigation bar",
+        "s2": "(2) Click \"DESCRIP.\" to view description",
+        "s3": "(3) Click \"PROB.\" to view problems",
+        "s4": "(4) Click \"REC.\" to view records"
+      }
     },
     "step3": {
-      "title": "Start coding!"
+      "title": "Start coding!",
+      "content": {
+        "s1": "(1) Go in the corresponding problem",
+        "s2": "(2) Check the requirements here",
+        "s3": "(3) Remember to select the correct dialect!",
+        "s4": "(4) Paste your code here",
+        "s5": "(5) Click submit, wait for AC！"
+      }
     },
     "step4": {
       "title": "View submission results"
     },
     "button-prev": "previous",
-    "button-back": "back",
+    "button-back": "back to first page",
     "button-cont": "continue",
     "title2": "2. Caution for Code Submission",
     "content2": "Still testing, please contact to 11811407@mail.sustech.edu.cn if there's any problem"

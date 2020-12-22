@@ -47,8 +47,8 @@
               <v-slide-x-transition>
                 <v-img
                   class="help-img"
-                  :max-height="(width_height.width<750)? width_height.width * 0.6 * 0.6 : 270"
-                  :max-width="(width_height.width<750)? width_height.width * 0.6 : 450"
+                  :max-height="(width_height.width<900)? width_height.width * 0.6 * 0.6 : 324"
+                  :max-width="(width_height.width<900)? width_height.width * 0.6 : 540"
                   :src="$t('help.step1.img')"
                 ></v-img>
               </v-slide-x-transition>
@@ -69,7 +69,21 @@
 
           <v-stepper-content step="2">
             <v-card class="step">
-
+              <v-slide-x-transition>
+                <v-img
+                  class="help-img"
+                  :max-height="(width_height.width<900)? width_height.width * 0.6 * 0.51 : 275.4"
+                  :max-width="(width_height.width<900)? width_height.width * 0.6 : 540"
+                  src="@/assets/step1_2.png"
+                ></v-img>
+              </v-slide-x-transition>
+              <div class="help-item-content">
+                <h2>{{$t("help.step2.title")}}</h2>
+                <br>
+                <p v-for="item in step2Content" :key="item">
+                  {{ item }}
+                </p>
+              </div>
             </v-card>
 
             <div class="step-button">
@@ -80,7 +94,21 @@
 
           <v-stepper-content step="3">
             <v-card class="step">
-
+              <v-slide-x-transition>
+                <v-img
+                  class="help-img"
+                  :max-height="(width_height.width<900)? width_height.width * 0.6 * 0.48 : 260"
+                  :max-width="(width_height.width<900)? width_height.width * 0.6 : 540"
+                  src="@/assets/step1_3.png"
+                ></v-img>
+              </v-slide-x-transition>
+              <div class="help-item-content">
+                <h2>{{$t("help.step3.title")}}</h2>
+                <br>
+                <p v-for="item in step3Content" :key="item">
+                  {{ item }}
+                </p>
+              </div>
             </v-card>
 
             <div class="step-button">
@@ -135,6 +163,12 @@ export default class SHelpCard extends Vue{
   }
   get step1Content(){
     return ["1","2","3","4","5"].map(i => this.$t(`help.step1.content.s${i}`))
+  }
+  get step2Content(){
+    return ["1","2","3","4"].map(i => this.$t(`help.step2.content.s${i}`))
+  }
+  get step3Content(){
+    return ["1","2","3","4","5"].map(i => this.$t(`help.step3.content.s${i}`))
   }
 }
 </script>

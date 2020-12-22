@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-mathjax :formula="formula" :safe="false" class="s-markdown"/>
+    <vue-mathjax :formula="formula" :safe="false" class="s-markdown" :options="options"/>
   </div>
 </template>
 
@@ -16,6 +16,15 @@ export default class SMarkdown extends Vue {
   })
   readonly markdown!: string
 
+  readonly options = {
+    tex2jax: {
+      inlineMath: [['$', '$']],
+      displayMath: [['$$', '$$']],
+      processEscapes: true,
+      processEnvironments: true
+    }
+  }
+
   get formula(): string {
     return this.$xss(this.$m2h(this.markdown))
   }
@@ -23,7 +32,7 @@ export default class SMarkdown extends Vue {
 </script>
 
 <style lang="scss">
-  .s-markdown {
+.s-markdown {
 
-  }
+}
 </style>

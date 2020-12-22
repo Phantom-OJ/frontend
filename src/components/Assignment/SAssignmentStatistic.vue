@@ -1,5 +1,6 @@
 <template>
-  <div class="s-flex s-statistics-root space-around">
+  <s-loading v-if="loading" class="s-tab-loading"/>
+  <div v-else class="s-flex s-statistics-root space-around">
     <v-simple-table style="flex-grow: 1;padding: 12px 26px;">
       <thead>
       <tr>
@@ -31,10 +32,13 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import {AssignmentStat} from "@/ts/entities";
 import {SUtil} from "@/ts/utils";
+import SLoading from "@/components/General/SLoading.vue";
 
 const Chart = require('chart.js')
 
-@Component({})
+@Component({
+  components: {SLoading}
+})
 export default class SAssignmentStatistic extends Vue {
   statistic: AssignmentStat[] = []
   loading: boolean = false

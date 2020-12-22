@@ -83,7 +83,7 @@ export class Assignment implements Entity {
   status: string
   fullScore: number
   problemList?: Array<Problem>
-  groupList:Group[]
+  groupList: Group[]
 
   constructor({id, description, title, startTime, endTime, status, fullScore, problemList, groupList}: any) {
     this.ID = id
@@ -94,7 +94,7 @@ export class Assignment implements Entity {
     this.endTime = new Date(endTime)
     this.status = status
     this.problemList = (<Array<any>>problemList)?.map(value => new Problem(value)) ?? []
-    this.groupList = (groupList as any[])?.map(e=>new Group(e))??[]
+    this.groupList = (groupList as any[])?.map(e => new Group(e)) ?? []
   }
 }
 
@@ -291,3 +291,25 @@ export enum VCodeMode {REGISTER, RESET_PASSWORD}
 
 export enum SolveState {WA, AC, NO_SUBMIT}
 
+export enum JudgeState {COMPLETE, JUDGING, ERROR}
+
+export class PollingResponse {
+  state: JudgeState
+  recordId: number
+  description: string
+
+
+  constructor({messageId, recordId, description}: any) {
+    this.state = messageId;
+    this.recordId = recordId;
+    this.description = description;
+  }
+
+  get isComplete(){
+    return this.state === JudgeState.COMPLETE
+  }
+
+  get hasError(){
+    return this.state === JudgeState.ERROR
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <v-progress-circular v-if="loading" indeterminate color="secondary" class="detail-card-loading" :size="400"/>
+  <s-loading v-if="loading" class="s-card-loading"/>
   <v-card v-else class="detail-card">
     <div v-if="width_height.width>10200" class="detail-card-title-box--vertical">
       <v-tabs v-model="tab" background-color="white" color="secondary" vertical
@@ -100,7 +100,8 @@
         </s-entry-list>
       </v-tab-item>
       <v-tab-item>
-        <s-record-list :records="records"/>
+        <s-loading v-if="recordsLoading" class="s-tab-loading"/>
+        <s-record-list v-else :records="records"/>
       </v-tab-item>
       <v-tab-item v-if="showStatistics">
         <s-assignment-statistic/>
@@ -132,9 +133,10 @@ import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from "@/ts/utils";
 import SAssignmentStatistic from "@/components/Assignment/SAssignmentStatistic.vue";
 import {Permission} from "@/ts/user";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
-  components: {SAssignmentStatistic, STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
+  components: {SLoading, SAssignmentStatistic, STooltipIcon, SMarkdown, SEntryList, SRecordList, STag},
   computed: {...mapState(['width_height', 'assignmentInfo'])}
 })
 export default class SAssignmentDetailCard extends Vue {
@@ -165,8 +167,8 @@ export default class SAssignmentDetailCard extends Vue {
   }
 
   async loadAssignment(force = false) {
-    this.loading = !this.assignment
     if (this.loading || force) {
+      this.loading = true
       let detailAssignment = await this.$api.queryAssignment(this.aid)
       this.$store.commit('setAssignmentInfo', {detailAssignment})
       this.loading = false

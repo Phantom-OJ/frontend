@@ -7,7 +7,7 @@ import {
   Code,
   Grade,
   JudgeDB,
-  JudgeScript,
+  JudgeScript, JudgeState, PollingResponse,
   Problem,
   ProblemStatSet,
   Record,
@@ -279,9 +279,13 @@ export class API {
     return new User(data)
   }
 
-  async submitCode(ID: number, form: CodeForm): Promise<boolean> {
-    const data = (await this.request('post', `problem/${ID}/submit`, form))
-    return data as unknown as boolean
+  async submitCode(ID: number, form: CodeForm): Promise<SResponse> {
+    return await this.request('post', `problem/${ID}/submit`, form)
+  }
+
+  async polling(ID:number):Promise<PollingResponse>{
+    const data = (await this.cRequest('get',`polling/${ID}`)).data
+    return new PollingResponse(data)
   }
 
   async queryCode(ID: number): Promise<Code> {

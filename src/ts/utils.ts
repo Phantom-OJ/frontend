@@ -49,6 +49,7 @@ export class SUtil {
   }
 
   static recordIcon(result: string): string {
+    result = result.trim().toUpperCase()
     switch (result) {
       case 'AC':
         return 'mdi-check'
@@ -66,6 +67,7 @@ export class SUtil {
   }
 
   static recordBoxStyle(result: string): string {
+    result = result.trim().toUpperCase()
     switch (result) {
       case 'AC':
         // return `background-color: var(--v-success-lighten1);`
@@ -82,6 +84,7 @@ export class SUtil {
   }
 
   static recordColor(result: string): string {
+    result = result.trim().toUpperCase()
     switch (result) {
       case 'AC':
         return 'success'

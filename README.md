@@ -40,9 +40,9 @@ https://material.iconhelper.cn/
 
 [finished] *beaconAPI*
 
-vue-ace-editor
+[cancel] vue-ace-editor
 
-tag 颜色
+[cancel] tag 颜色
 
 [finished] *signup 数据验证，发验证码*
 
@@ -58,7 +58,7 @@ tag 颜色
 
 管理员
 
-轮询结果
+[finished] 轮询结果
 
 [finished] 作业界面的题目列表美化
 
@@ -80,4 +80,6 @@ btn可以自定义loader 是slot
 
 [finished] 得分
 
-loading 界面
+[finished] loading 界面
+
+修改题目，导出分数

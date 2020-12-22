@@ -1,5 +1,5 @@
 <template>
-  <s-loading v-if="loading"/>
+  <s-loading v-if="loading" class="detail-card"/>
   <v-card v-else class="detail-card">
     <div class="profile-container">
       <div class="profile-left-menu" :style="`width:${width_height.width/5+20}px`">
@@ -72,8 +72,8 @@ export default class SProfileCard extends Vue {
     to: './security'
   }]
 
-  get items(){
-    return this.isSelf?this.items_:this.items_.slice(0, 1)
+  get items() {
+    return this.isSelf ? this.items_ : this.items_.slice(0, 1)
   }
 
   created() {

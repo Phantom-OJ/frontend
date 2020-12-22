@@ -16,7 +16,8 @@
         </div>
       </div>
     </s-refreshable-card-title>
-    <s-entity-list :entities="assignments" path="assignment">
+    <s-loading v-if="loading" class="s-list-loading"/>
+    <s-entity-list v-else :entities="assignments" path="assignment">
       <template v-slot:default="{entity:assignment}">
         <v-col id="ID" :cols="2" class="ellipsis-col">
           {{ assignment.ID }}
@@ -60,9 +61,10 @@ import {EntityContainer} from "@/ts/entity-container";
 import {SUtil} from "@/ts/utils";
 import {Permission} from "@/ts/user";
 import SEntityList from "@/components/General/SEntityList.vue";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
-  components: {SEntityList, SRefreshableCardTitle, SPagination},
+  components: {SLoading, SEntityList, SRefreshableCardTitle, SPagination},
   computed: {
     ...mapState(['width_height', 'assignmentInfo'])
   }
@@ -153,7 +155,7 @@ export default class SAssignmentCard extends Vue {
 
   commitFilter() {
     const f = this.assignmentInfo.filter
-    if(this.searchID !== f.id||this.searchName !== f.name) {
+    if (this.searchID !== f.id || this.searchName !== f.name) {
       let filter: Filter = {
         id: this.searchID,
         name: this.searchName

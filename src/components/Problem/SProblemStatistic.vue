@@ -1,5 +1,6 @@
 <template>
-  <div class="s-flex s-statistics-root space-around">
+  <s-loading v-if="loading" style="width: 100%;min-height: 600px"/>
+  <div v-else class="s-flex s-statistics-root space-around">
     <v-responsive aspect-ratio="1" class="s-statistics-chart">
       <canvas ref="chart1"/>
     </v-responsive>
@@ -17,11 +18,12 @@ import {SUtil} from "@/ts/utils";
 import {LabelDataList} from "@/ts/interfaces";
 import STag from "@/components/General/STag.vue";
 import {mapState} from "vuex";
+import SLoading from "@/components/General/SLoading.vue";
 
 const Chart = require('chart.js')
 
 @Component({
-  components: {STag},
+  components: {SLoading, STag},
   computed: {
     ...mapState(['width_height'])
   }
@@ -83,9 +85,9 @@ export default class SProblemStatistic extends Vue {
           animateRotate: true,
           animateScale: true
         },
-        title:{
-          display:true,
-          text:this.cType[0]
+        title: {
+          display: true,
+          text: this.cType[0]
         }
       }
     })
@@ -110,9 +112,9 @@ export default class SProblemStatistic extends Vue {
           animateRotate: true,
           animateScale: true
         },
-        title:{
-          display:true,
-          text:this.cType[1]
+        title: {
+          display: true,
+          text: this.cType[1]
         }
       }
     })

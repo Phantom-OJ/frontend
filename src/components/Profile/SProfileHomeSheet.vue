@@ -1,5 +1,6 @@
 <template>
-  <div class="s-profile-home" style="width: 100%;padding:12px 24px;">
+  <s-loading v-if="loading" style="width: 100%;min-height: 700px"/>
+  <div v-else class="s-profile-home" style="width: 100%;padding:12px 24px;">
     <div class="s-flex s-statistics-root space-around">
       <v-responsive aspect-ratio="1" class="s-statistics-chart">
         <canvas ref="chart1"/>
@@ -34,16 +35,19 @@ import {Component} from 'vue-property-decorator'
 import {SUtil} from "@/ts/utils";
 import {Grade, ProblemStatSet} from "@/ts/entities";
 import {LabelDataList} from "@/ts/interfaces";
+import SLoading from "@/components/General/SLoading.vue";
 
 const Chart = require('chart.js')
 
-@Component({})
+@Component({
+  components: {SLoading}
+})
 export default class SProfileHomeSheet extends Vue {
   private readonly s_cType: Array<string> = ['problem.result', 'problem.dialect']
   readonly keyInState = 'profile-home'
   search: string = ''
   loading: boolean = false
-  grades:Grade[]=[]
+  grades: Grade[] = []
   statistic!: ProblemStatSet
   labelData: LabelDataList = {
     labels: [],
@@ -58,11 +62,11 @@ export default class SProfileHomeSheet extends Vue {
 
   get headers(): { text: string, value: string }[] {
     return [{
-      text: this.$t('create.title').toString(),value:'title'
-    },{
-      text: this.$t('profile.score').toString(),value:'score'
-    },{
-      text: this.$t('problem.score').toString(), value:'fullScore'
+      text: this.$t('create.title').toString(), value: 'title'
+    }, {
+      text: this.$t('profile.score').toString(), value: 'score'
+    }, {
+      text: this.$t('problem.score').toString(), value: 'fullScore'
     }]
   }
 
@@ -104,7 +108,7 @@ export default class SProfileHomeSheet extends Vue {
     this.draw()
   }
 
-  async loadGrade(){
+  async loadGrade() {
     this.grades = await this.$api.queryUserGrade(this.uid)
   }
 

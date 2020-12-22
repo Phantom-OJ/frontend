@@ -1,5 +1,6 @@
 <template>
-  <v-card class="detail-card">
+  <s-loading v-if="loading" class="s-card-loading"/>
+  <v-card v-else class="detail-card">
     <div class="detail-card-title-box" :style="`padding-left: ${width_height.width/80+4}px`">
       <div class="s-record-title-box" style="">
         <div class="ellipsis-col detail-card-title"
@@ -40,7 +41,7 @@
         <div class="s-record-tool">
           <v-btn fab color="info" @click="flagShowProblem=!flagShowProblem">
             <s-tooltip-icon :text="$t('problem.show-des')" direction="top">
-              {{flagShowProblem?'mdi-eye-off-outline':'mdi-eye-outline'}}
+              {{ flagShowProblem ? 'mdi-eye-off-outline' : 'mdi-eye-outline' }}
             </s-tooltip-icon>
           </v-btn>
           <v-btn fab color="accent" @click="edit">
@@ -66,9 +67,10 @@ import SRecordDescription from "@/components/Record/SRecordDescription.vue";
 import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
-  components: {STooltipIcon, SMarkdown, SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
+  components: {SLoading, STooltipIcon, SMarkdown, SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
   computed: {
     ...mapState(['width_height', 'recordInfo'])
   }
@@ -79,8 +81,8 @@ export default class SRecordDetailCard extends Vue {
 
   loading: boolean = false
   private cnt: number = 1
-  problem:Problem ={} as Problem
-  flagShowProblem:boolean=false
+  problem: Problem = {} as Problem
+  flagShowProblem: boolean = false
 
   created() {
     this.loadRecord(true)
@@ -102,19 +104,19 @@ export default class SRecordDetailCard extends Vue {
         }
       })
     }
-    if(this.$store.state.problemInfo.get(this.record?.problemID)){
+    if (this.$store.state.problemInfo.get(this.record?.problemID)) {
       this.problem = this.$store.state.problemInfo.get(this.record?.problemID)
-    }else{
+    } else {
       this.problem = await this.$api.queryProblem(this.record!.problemID)
-      this.$store.commit('setProblemInfo',{detailProblem:this.problem})
+      this.$store.commit('setProblemInfo', {detailProblem: this.problem})
     }
   }
 
   edit() {
     this.$router.push({
-      path:`/problem/${this.record?.problemID}#1`,
-      params:{
-        code:this.record?.code??''
+      path: `/problem/${this.record?.problemID}#1`,
+      params: {
+        code: this.record?.code ?? ''
       }
     })
   }
@@ -140,8 +142,8 @@ export default class SRecordDetailCard extends Vue {
     return this.recordInfo.get(this.rid)
   }
 
-  get description(){
-    return this.problem.description??''
+  get description() {
+    return this.problem.description ?? ''
   }
 }
 </script>
@@ -173,8 +175,9 @@ export default class SRecordDetailCard extends Vue {
   bottom: 60px;
   right: 40px;
   z-index: 10000;
-  &>*{
-    margin-top:10px;
+
+  & > * {
+    margin-top: 10px;
   }
 }
 </style>
@@ -187,7 +190,7 @@ export default class SRecordDetailCard extends Vue {
   flex-grow: 3;
 }
 
-.show-problem{
+.show-problem {
   width: 48%;
 }
 </style>

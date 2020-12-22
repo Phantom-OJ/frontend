@@ -18,7 +18,8 @@
         </div>
       </div>
     </s-refreshable-card-title>
-    <s-entry-list :entities="problems" path="problem">
+    <s-loading v-if="loading" class="s-list-loading"/>
+    <s-entry-list v-else :entities="problems" path="problem">
       <template v-slot="{entity:problem}">
         <v-col cols="2" class="ellipsis-col">
           <v-icon :color="solveStateColor(problem.solved)">
@@ -69,9 +70,10 @@ import SRefreshableCardTitle from "@/components/General/SRefreshableCardTitle.vu
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import {SUtil} from '@/ts/utils'
 import {EntityContainer} from "@/ts/entity-container";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
-  components: {STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
+  components: {SLoading, STooltipIcon, SRefreshableCardTitle, SEntryList, STag, SPagination},
   computed: {
     ...mapState(['width_height', 'problemInfo'])
   }

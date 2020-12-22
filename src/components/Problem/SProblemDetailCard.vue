@@ -1,5 +1,5 @@
 <template>
-  <s-loading v-if="loading"/>
+  <s-loading v-if="loading" class="s-card-loading"/>
   <v-card v-else class="detail-card">
     <div class="detail-card-title-box">
       <div class="detail-card-title ellipsis-col">
@@ -57,14 +57,21 @@
       </v-tab-item>
       <v-tab-item class="s-flex">
         <s-markdown v-if="flagShowProblem" :markdown="problem.description" class="description"/>
-        <s-code-editor :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor" @pull="pullCode"
+        <s-loading v-if="polling" style="width: 100%;min-height: 640px;">
+          <div class="block-mid" style="font-size: 26px;text-align: center;">
+            {{ pollingMessage }}
+          </div>
+        </s-loading>
+        <s-code-editor v-else :code.sync="code" :lang.sync="lang" @submit="submit" :disabled="disableEditor"
+                       @pull="pullCode"
                        @show-des="flagShowProblem=!flagShowProblem" :style="`width:${flagShowProblem?'48%':'100%'}`"/>
       </v-tab-item>
       <v-tab-item>
         <s-problem-statistic/>
       </v-tab-item>
       <v-tab-item>
-        <s-record-list :records="records"/>
+        <s-loading v-if="recordsLoading" class="s-tab-loading"/>
+        <s-record-list v-else :records="records"/>
       </v-tab-item>
       <v-tab-item v-if="!!problem.solution">
         <s-markdown :markdown="problem.solution" class="description"/>
@@ -101,6 +108,7 @@ import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
 import SLoading from "@/components/General/SLoading.vue";
 import {EntityContainer} from "@/ts/entity-container";
 import {Permission} from "@/ts/user";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {SLoading, SCodeEditor, STooltipIcon, SProblemStatistic, SMarkdown, SRecordList},
@@ -119,6 +127,8 @@ export default class SProblemDetailCard extends Vue {
   flagShowProblem: boolean = false
   lang: string = 'pgsql'
   code: string = ''
+  polling: boolean = false
+  pollingMessage: string = 'Pending...'
   private cnt = 1
 
   created() {
@@ -209,23 +219,38 @@ export default class SProblemDetailCard extends Vue {
   async submit() {
     this.disableEditor = true
     try {
-      const re = (await this.$api.submitCode(this.pid, {
+      const re = await this.$api.submitCode(this.pid, {
         code: this.code,
         dialect: this.lang,
         submitTime: Date.now()
-      }))
+      })
       this.$alert(new Alert({
         type: 'success',
-        info: re.toString()
+        info: re.msg
       }))
-      await this.$router.push('/record/all')//TODO
+      this.polling = true
+      let pollingRes = await this.$api.polling(re.data)
+      while (!pollingRes.isComplete) {
+        if (pollingRes.hasError) {
+          this.$alert(new Alert({
+            type: 'error',
+            info: pollingRes.description
+          }))
+        }
+        this.pollingMessage = pollingRes.description
+        await SUtil.sleep(500)
+        pollingRes = await this.$api.polling(re.data)
+      }
+      this.polling = false
+      await this.$router.push(`/record/${pollingRes.recordId}`)
     } catch (e) {
       this.$alert(new Alert({
         type: 'error',
         info: e.info ?? e.toString(),
         time: 8000
       }))
-      await this.$router.push('/record/all')//TODO
+      this.polling = false
+      this.disableEditor = false
     }
   }
 

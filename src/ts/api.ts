@@ -248,8 +248,8 @@ export class API {
     return (await this.cRequest('delete', `modify/problem/${ID}`)).msg
   }
 
-  async addJudgePoint(form: JudgePointForm): Promise<string> {
-    return (await this.cRequest('put', 'modify/judgepoint', form)).msg
+  async addJudgePoint(ID:number, form: JudgePointForm): Promise<string> {
+    return (await this.cRequest('put', `modify/judgepoint/${ID}`, form)).msg
   }
 
   async modifyJudgePoint(ID: number, form: JudgePointForm): Promise<string> {

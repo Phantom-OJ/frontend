@@ -43,7 +43,7 @@
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <v-card class="step">
+            <v-sheet class="step">
               <v-slide-x-transition>
                 <v-img
                   class="help-img"
@@ -59,7 +59,7 @@
                   {{ item }}
                 </p>
               </div>
-            </v-card>
+            </v-sheet>
 
             <div class="step-button">
               <v-btn color="primary" @click="e1 = 1" :disabled="true">{{$t("help.button-prev")}}</v-btn>
@@ -68,7 +68,7 @@
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <v-card class="step">
+            <v-sheet class="step">
               <v-slide-x-transition>
                 <v-img
                   class="help-img"
@@ -84,7 +84,7 @@
                   {{ item }}
                 </p>
               </div>
-            </v-card>
+            </v-sheet>
 
             <div class="step-button">
               <v-btn color="primary" @click="e1 = 1">{{$t("help.button-prev")}}</v-btn>
@@ -93,7 +93,7 @@
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <v-card class="step">
+            <v-sheet class="step">
               <v-slide-x-transition>
                 <v-img
                   class="help-img"
@@ -109,7 +109,7 @@
                   {{ item }}
                 </p>
               </div>
-            </v-card>
+            </v-sheet>
 
             <div class="step-button">
               <v-btn color="primary" @click="e1 = 2">{{$t("help.button-prev")}}</v-btn>
@@ -118,9 +118,9 @@
           </v-stepper-content>
 
           <v-stepper-content step="4">
-            <v-card class="step">
+            <v-sheet class="step">
 
-            </v-card>
+            </v-sheet>
 
             <div class="step-button">
               <v-btn color="primary" @click="e1 = 3">{{$t("help.button-prev")}}</v-btn>
@@ -183,7 +183,8 @@ export default class SHelpCard extends Vue{
   .step{
     padding: 10px;
     margin-bottom: 10px;
-    background-color: aliceblue;
+    /*background-color: aliceblue;*/
+    background-color: white;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

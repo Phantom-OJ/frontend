@@ -234,7 +234,7 @@ export default class SManagerProblemSheet extends Vue {
       SUtil.alertIfSuccess(msg, 'success.submit', this)
       this.$emit('refresh')
     } else { // add
-      const msg = await this.$api.addJudgePoint(this.jpShow)
+      const msg = await this.$api.addJudgePoint(this.problem_.id, this.jpShow)
       SUtil.alertIfSuccess(msg, 'success.upload', this)
       this.$emit('refresh')
     }

@@ -97,6 +97,7 @@ export default class STag extends Vue {
   overflow: hidden;
   color: #f8f8ff;
   display: inline-block;
+  background-color: var(--bgcolor-stop);
   @include linear-gradient(var(--bgcolor-start), var(--bgcolor-stop));
 
   i {

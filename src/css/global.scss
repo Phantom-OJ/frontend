@@ -554,3 +554,12 @@ button.s-submit-btn {
   width: 100%;
   min-height: 746px;
 }
+
+.detail-card-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.v-slide-group__content {
+  flex-wrap: wrap !important;
+}

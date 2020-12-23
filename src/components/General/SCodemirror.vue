@@ -1,6 +1,6 @@
 <template>
   <div class="s-codemirror">
-    <v-codemirror v-model="_code" :merge="false" name="skyland" :options="s_options" @ready="ready"/>
+    <v-codemirror v-model="_code" :merge="false" name="skyland" :options="s_options" @ready="ready" style="width: 100%"/>
   </div>
 </template>
 
@@ -75,6 +75,8 @@ export default class SCodemirror extends Vue {
   .s-codemirror {
     min-height: $cm-height;
     touch-action: none;
+    width: 100%;
+    position: relative;
 
     .CodeMirror {
       .CodeMirror-scroll {

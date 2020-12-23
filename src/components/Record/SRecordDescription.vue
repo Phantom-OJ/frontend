@@ -53,7 +53,7 @@
         </template>
         <div>
           <v-row align="center" class="s-record-point" justify="space-around">
-            <s-record-result-box extra-classes="" :result="point.result"/>
+            <s-record-result-box :result="point.result"/>
             <v-col style="max-width: 260px">
               <v-row>
                 <v-col cols="6">
@@ -71,7 +71,7 @@
               </v-row>
             </v-col>
           </v-row>
-          <p style="text-align: center;font-size: 24px;background-color: rgba(0,0,0,0.12);border-radius: 4px;">{{point.description}}</p>
+          <p style="text-align: center;font-size: 24px;background-color: rgba(0,0,0,0.12);border-radius: 4px;margin-right: 12px">{{point.description}}</p>
         </div>
       </v-timeline-item>
     </v-timeline>
@@ -127,10 +127,8 @@ export default class SRecordDescription extends Vue {
 }
 </style>
 <style lang="scss">
-.s-record-points {
+.s-record-point {
   width: 60%;
-  min-width: 380px;
   margin: 10px auto;
-
 }
 </style>

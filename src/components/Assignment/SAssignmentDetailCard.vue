@@ -242,12 +242,7 @@ export default class SAssignmentDetailCard extends Vue {
   }
 }
 </script>
-
 <style scoped lang="scss">
-.detail-card-tabs {
-  display: inline-block;
-}
-
 .v-list.list {
   padding-top: 0;
 }

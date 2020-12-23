@@ -194,8 +194,7 @@
       "db": "Database",
       "bes": "Before SQL",
       "afs": "After SQL",
-      "ans": "answer",
-      "edit": "Edit Judge Points"
+      "ans": "answer"
     },
     "assignment": {
       "&": "Assignment"

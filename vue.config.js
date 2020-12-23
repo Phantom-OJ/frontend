@@ -20,10 +20,10 @@ module.exports = {
       '/api':{
         // target:'https://starsky.ink:12222'
         // target:'http://localhost:8080/'
-        // target:'http://10.17.59.3:8080/'
+        target:'http://10.17.59.3:8080/'
         // target:'http://192.168.137.1:8080/'
         // target:'http://10.17.29.111:8080/'
-        target:'http://10.21.105.115:8080/'
+        // target:'http://10.21.105.115:8080/'
       },
       '/resources':{
         target:'https://starsky.ink:12222'

@@ -315,13 +315,13 @@ export class PollingResponse {
 }
 
 export class Score{
-  id:number
+  userID:number
   score:number
   username:string
 
 
   constructor({id, score, username}:any) {
-    this.id = id;
+    this.userID = id;
     this.score = score;
     this.username = username;
   }

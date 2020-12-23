@@ -42,7 +42,7 @@
           <s-manage-announcement-sheet ref="announcement"/>
         </v-tab-item>
         <v-tab-item class="s-flex s-admin-tab" eager>
-          <s-manage-assignment-sheet ref="assignment" />
+          <s-manage-assignment-sheet ref="assignment"/>
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -66,18 +66,19 @@ import SManageAssignmentSheet from "@/components/Administrator/SManageAssignment
   components: {
     SManageAssignmentSheet,
     SManageAnnouncementSheet,
-    SManagePermissionSheet, SManageGroupSheet, SManageRoleSheet, SSplitSelect, SRefreshableCardTitle},
+    SManagePermissionSheet, SManageGroupSheet, SManageRoleSheet, SSplitSelect, SRefreshableCardTitle
+  },
   computed: {...mapState(['groups', 'user', 'permissions', 'roles'])}
 })
 export default class SAdminCard extends Vue {
   readonly user!: User
   readonly keyInState = 'admin'
 
-  get tab(){
-    return parseInt(this.$route.hash.slice(1)||'0')
+  get tab() {
+    return parseInt(this.$route.hash.slice(1) || '0')
   }
 
-  set tab(v:number){
+  set tab(v: number) {
     //@ts-ignore
     this.$router.replace({
       ...this.$route,
@@ -105,7 +106,9 @@ export default class SAdminCard extends Vue {
     await Promise.all([this.$store.dispatch('loadGroups', force), this.$store.dispatch('loadPermissions', force),
       this.$store.dispatch('loadTags', force), this.$store.dispatch('loadDBs', force), this.$store.dispatch('loadScripts', force)])
     //@ts-ignore
-    this.$refs.group.refresh();this.$refs.role.refresh();this.$refs.permission.refresh();this.$refs.announcement.refresh();
+    this.$refs.group.refresh();this.$refs.role.refresh();this.$refs.permission.refresh();
+    //@ts-ignore
+    this.$refs.announcement.refresh();this.$refs.assignment.refresh();
   }
 
   beforeDestroy() {

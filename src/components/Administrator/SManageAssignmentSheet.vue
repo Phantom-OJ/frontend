@@ -1,68 +1,65 @@
 <template>
-  <div class="s-card-loading">
-    <div class="search">
-      <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
-                    type="text" dense v-model="filter.id"/>
-      <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchB`)"
-                    type="text" dense v-model="filter.name"/>
-      <div>
-        <v-btn class="search-btn" @click="loadAssignments(true)">filter</v-btn>
-        <v-btn text style="padding: 8px;margin-left: 5px;min-width: 32px;" @click="clear">
-          <v-icon class="icon-color-2">
-            mdi-close
-          </v-icon>
-        </v-btn>
+  <div class="s-card-loading  s-mas">
+    <div>
+      <div class="search">
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchA`)"
+                      type="text" dense v-model="filter.id"/>
+        <v-text-field color="secondary" outlined hide-details class="search-input" :label="$t(`assignment.searchB`)"
+                      type="text" dense v-model="filter.name"/>
+        <div>
+          <v-btn class="search-btn" @click="loadAssignments(true)">filter</v-btn>
+          <v-btn text style="padding: 8px;margin-left: 5px;min-width: 32px;" @click="clear">
+            <v-icon class="icon-color-2">
+              mdi-close
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
-    </div>
-    <v-treeview :items="assignments" item-key="ID" item-text="title" item-children="problemList" open-on-click
-                class="ass-tree">
-      <template v-slot:label="{item, leaf}">
-        <div class="s-flex" v-if="leaf" @click="flag_ass_prob=false;problem=item">
+      <v-treeview :items="assignments" item-key="ID" item-text="title" item-children="problemList" open-on-click
+                  class="ass-tree">
+        <template v-slot:label="{item, leaf}">
+          <div class="s-flex" v-if="leaf" @click="flag_ass_prob=false;problem=item">
           <span style="font-size: 20px;">
             {{ item.title }}
           </span>
-          <v-icon @click="e=>editProb(e, item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon @click="e=>deleteProb(e, item)">
-            mdi-delete-off
-          </v-icon>
-        </div>
-        <div class="s-flex" v-else @click="flag_ass_prob=true;assignment=item">
-          <v-card-title style="font-size: 24px;">
-            {{ item.title }}
+            <v-icon @click="e=>editProb(e, item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon @click="e=>deleteProb(e, item)">
+              mdi-delete-off
+            </v-icon>
+          </div>
+          <div class="s-flex" v-else @click="flag_ass_prob=true;assignment=item">
+            <v-card-title style="font-size: 24px;">
+              {{ item.title }}
+            </v-card-title>
+            <s-tooltip-icon :size="20" :text="$t('assignment.download score')" @click="e=>downScore(e, item)">
+              mdi-transfer-down
+            </s-tooltip-icon>
+            <v-icon @click="e=>editAss(e,item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon @click="e=>deleteAss(e,item)">
+              mdi-delete-off
+            </v-icon>
+          </div>
+        </template>
+      </v-treeview>
+      <v-dialog v-model="flag_down_dialog" max-width="400">
+        <v-card>
+          <v-card-title>
+            {{ assignment.title }}
           </v-card-title>
-          <s-tooltip-icon :size="20" :text="$t('assignment.download score')" @click="e=>downScore(e, item)">
-            mdi-transfer-down
-          </s-tooltip-icon>
-          <v-icon @click="e=>editAss(e,item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon @click="e=>deleteAss(e,item)">
-            mdi-delete-off
-          </v-icon>
-        </div>
-      </template>
-    </v-treeview>
-    <v-dialog v-model="flag_down_dialog">
-      <v-card>
-        <v-radio-group>
-          <v-radio label="JSON" value="JSON"/>
-          <v-radio label="CSV" value="CSV"/>
-        </v-radio-group>
-        <v-btn color="success" @click="download_">
-          {{ $t('download') }}
-        </v-btn>
-      </v-card>
-    </v-dialog>
-    <v-scale-transition v-if="!flag_down_dialog">
-      <div v-if="flag_ass_prob" class="s-flex" style="flex-direction: column">
-
-      </div>
-      <div v-else class="s-flex" style="flex-direction: column">
-
-      </div>
-    </v-scale-transition>
+          <v-radio-group v-model="fileType" row style="margin-top: 4px;margin-left: 16px;">
+            <v-radio label="JSON" value="JSON"/>
+            <v-radio label="CSV" value="CSV"/>
+          </v-radio-group>
+          <v-btn color="success" @click="download_" style="margin-bottom: 12px;margin-left: 16px;">
+            {{ $t('download') }}
+          </v-btn>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
@@ -149,11 +146,11 @@ export default class SManageAssignmentSheet extends Vue {
     if (this.fileType === 'JSON') {
       FileSaver.saveAs(new Blob([
         JSON.stringify(await this.$api.queryScores(this.assignment.ID))
-      ], {type: 'text/json'}), `${this.assignment.ID}_AT_${new Date().toISOString()}.json`)
+      ], {type: 'text/json'}), `${this.assignment.title}_AT_${new Date().toISOString()}.json`)
     } else {
       FileSaver.saveAs(new Blob([
         new Json2csvParser().parse(await this.$api.queryScores(this.assignment.ID))
-      ], {type: 'text/plain'}), `${this.assignment.ID}_AT_${new Date().toISOString()}.csv`)
+      ], {type: 'text/plain'}), `${this.assignment.title}_AT_${new Date().toISOString()}.csv`)
     }
   }
 
@@ -170,12 +167,15 @@ export default class SManageAssignmentSheet extends Vue {
       await this.loadAssignments(true)
     }
   }
+
+  refresh(){
+    this.loadAssignments(true)
+  }
 }
 </script>
 
 <style lang="scss">
 .ass-tree {
-  width: 50%;
   min-width: 360px;
   padding-left: 24px;
 
@@ -195,5 +195,10 @@ export default class SManageAssignmentSheet extends Vue {
 .search {
   width: 600px;
   min-width: 300px;
+  padding-left: 28px;
+}
+
+.s-mas {
+  display: flex;
 }
 </style>

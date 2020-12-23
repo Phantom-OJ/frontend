@@ -80,14 +80,9 @@
 
     <v-scale-transition>
       <div v-if="showEdit&&tab%4===0" class="s-problem-tool">
-        <v-btn fab color="info" @click="$router.push(`/modify/problem/${pid}`)" width="72" height="72">
+        <v-btn fab color="info" @click="$router.push(`/modify/assignment/${problem.assignmentId}/problem/${pid}`)" width="72" height="72">
           <s-tooltip-icon :text="$t('create.edit')" direction="top" :size="32">
             mdi-pencil
-          </s-tooltip-icon>
-        </v-btn>
-        <v-btn fab color="accent" @click="$router.push(`/modify/judge-points/${pid}`)" width="72" height="72">
-          <s-tooltip-icon :text="$t('create.judge-point.edit')" direction="top" :size="32">
-            mdi-playlist-edit
           </s-tooltip-icon>
         </v-btn>
       </div>

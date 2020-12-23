@@ -220,7 +220,7 @@ export class API {
   }
 
   async queryScores(ID: number): Promise<Score[]> {
-    const data = (await this.cRequest('post', `assignment/${ID}/scores`)).data
+    const data = (await this.cRequest('get', `assignment/${ID}/scores`)).data
     return (data as any[])?.map(e => new Score(e)) ?? []
   }
 

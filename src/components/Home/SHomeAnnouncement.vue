@@ -7,7 +7,7 @@
     </v-card-title>
     <hr/>
     <v-card-text class="s-card-container home-card">
-      <ul class="s-card-list">
+      <ul class="s-card-list lang-en">
         <li
           v-for="(a,index) in announcements"
           :key="index"

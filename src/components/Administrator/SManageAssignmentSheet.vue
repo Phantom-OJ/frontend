@@ -48,6 +48,11 @@
           </div>
         </template>
       </v-treeview>
+      <v-btn fab color="secondary" style="margin-left: 480px" @click="$router.push(`/create/assignment`)">
+        <v-icon>
+          mdi-plus
+        </v-icon>
+      </v-btn>
       <v-dialog v-model="flag_down_dialog" max-width="400">
         <v-card>
           <v-card-title>
@@ -104,7 +109,7 @@ export default class SManageAssignmentSheet extends Vue {
   }
 
   async loadAssignments(force: boolean = false) {
-    let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, 10)
+    let {start, end} = SUtil.rangeToLoad(this.assignmentInfo.pageIndex, 20)
     if (this.assignments.length <= 0 || force) {
       this.loading = true
       let entityCollection = await this.$api.searchAssignmentPage({

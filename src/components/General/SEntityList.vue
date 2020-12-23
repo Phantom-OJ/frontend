@@ -1,5 +1,5 @@
 <template>
-  <v-list class="list problem-list">
+  <v-list class="list problem-list lang-en">
     <transition-group name="slide-x-reverse-transition">
       <div
         v-for="entity in entities_"

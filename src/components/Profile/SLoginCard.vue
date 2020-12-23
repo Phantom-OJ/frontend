@@ -33,6 +33,7 @@
           color="primary"
           @click="login"
           :loading="waitForRes"
+          autofocus
         >
           {{ $t('nav-user.login') }}
         </v-btn>

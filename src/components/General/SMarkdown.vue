@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow: auto">
+  <div style="overflow: auto" class="lang-en">
     <vue-mathjax :formula="formula" :safe="false" class="s-markdown" :options="options"/>
   </div>
 </template>

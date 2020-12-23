@@ -193,9 +193,9 @@ export class SUtil {
     }
   }
 
-  static recover(_state: State, vue: Vue) {
+  static async recover(_state: State, vue: Vue) {
     if (!_state.route) return
-    if(!window.confirm(vue.$t('profile.recover').toString())) return
+    if(!(await vue.$confirm(vue.$t('profile.recover').toString()))) return
     vue.$store.commit('setProblemInfo', _state.problemInfo)
     vue.$store.commit('setAssignmentInfo', _state.assignmentInfo)
     vue.$store.commit('setRecordInfo', _state.recordInfo)

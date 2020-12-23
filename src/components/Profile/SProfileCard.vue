@@ -2,42 +2,91 @@
   <s-loading v-if="loading" class="detail-card"/>
   <v-card v-else class="detail-card">
     <div class="profile-container">
-      <div class="profile-left-menu" :style="`width:${width_height.width/5+20}px`">
-        <v-avatar :size="width_height.width/5+20">
-          <img :src="user.avatar" :alt="user.nickname">
-        </v-avatar>
-        <h3 style="font-weight: 600;font-size: 32px">
-          {{ user.nickname }}
-        </h3>
-        <p style="font-size: 22px;margin-bottom: 18px;" class="ellipsis-col">
-          {{ user.username }}
-        </p>
-        <p style="font-size: 16px;font-weight: 100;margin-bottom: 26px" class="ellipsis-col">
-          {{ user.role }}
-          <br v-if="user.role.length>0">
-          {{ $t('profile.group') }}: {{ user.groupList.map(g => g.description).join(', ') }}
-        </p>
-        <v-btn
-          v-for="(item, index) in items"
-          :key="index"
-          text
-          :to="item.to"
-          class="profile-menu-btn ellipsis-col"
-        >
-          <v-icon class="profile-menu-btn-icon">
-            {{ item.icon }}
-          </v-icon>
-          {{ $t(item.title) }}
-        </v-btn>
+      <v-navigation-drawer
+        v-if="width_height.width>=1000"
+        hide-overlay
+        permanent
+        :width="Math.max(width_height.width/5+40, 300)"
+      >
+        <div class="profile-left-menu" :style="`width:${Math.max(width_height.width/5+20, 300)}px;`">
+          <v-avatar :size="Math.max(width_height.width/5+20, 236)">
+            <img :src="user.avatar" :alt="user.nickname">
+          </v-avatar>
+          <h3 style="font-weight: 600;font-size: 32px">
+            {{ user.nickname }}
+          </h3>
+          <p style="font-size: 22px;margin-bottom: 18px;" class="ellipsis-col">
+            {{ user.username }}
+          </p>
+          <p style="font-size: 16px;font-weight: 100;margin-bottom: 26px" class="ellipsis-col">
+            {{ user.role }}
+            <br v-if="user.role.length>0">
+            {{ $t('profile.group') }}: {{ user.groupList.map(g => g.description).join(', ') }}
+          </p>
+          <v-btn
+            v-for="(item, index) in items"
+            :key="index"
+            text
+            :to="item.to"
+            class="profile-menu-btn ellipsis-col"
+          >
+            <v-icon class="profile-menu-btn-icon">
+              {{ item.icon }}
+            </v-icon>
+            {{ $t(item.title) }}
+          </v-btn>
+        </div>
+      </v-navigation-drawer>
+      <v-navigation-drawer
+        v-else
+        v-model="drawer"
+        absolute
+        width="300"
+      >
+        <div class="profile-left-menu" style="width:300px;padding:32px;">
+          <v-avatar :size="236">
+            <img :src="user.avatar" :alt="user.nickname">
+          </v-avatar>
+          <h3 style="font-weight: 600;font-size: 32px">
+            {{ user.nickname }}
+          </h3>
+          <p style="font-size: 22px;margin-bottom: 18px;" class="ellipsis-col">
+            {{ user.username }}
+          </p>
+          <p style="font-size: 16px;font-weight: 100;margin-bottom: 26px" class="ellipsis-col">
+            {{ user.role }}
+            <br v-if="user.role.length>0">
+            {{ $t('profile.group') }}: {{ user.groupList.map(g => g.description).join(', ') }}
+          </p>
+          <v-btn
+            v-for="(item, index) in items"
+            :key="index"
+            text
+            :to="item.to"
+            class="profile-menu-btn ellipsis-col"
+          >
+            <v-icon class="profile-menu-btn-icon">
+              {{ item.icon }}
+            </v-icon>
+            {{ $t(item.title) }}
+          </v-btn>
+        </div>
+      </v-navigation-drawer>
+      <v-btn v-if="width_height.width<1000" text absolute left top @click="drawer = !drawer">
+        <v-icon>
+          mdi-format-list-bulleted
+        </v-icon>
+      </v-btn>
+      <div style="flex-grow: 10">
+        <router-view :user="user"/>
       </div>
-      <router-view :user="user"/>
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Prop} from 'vue-property-decorator'
+import {Component, Prop, Watch} from 'vue-property-decorator'
 import SAvatar from "@/components/Root/SAppBarAvatar.vue";
 import {User} from "@/ts/user";
 import SLoading from "@/components/General/SLoading.vue";
@@ -55,6 +104,7 @@ export default class SProfileCard extends Vue {
   readonly readonly!: boolean
   readonly width_height!: { width: number }
 
+  drawer: boolean = false
   s_readonly = false
   user_: User | boolean = false
   loading: boolean = true
@@ -74,6 +124,11 @@ export default class SProfileCard extends Vue {
 
   get items() {
     return this.isSelf ? this.items_ : this.items_.slice(0, 1)
+  }
+
+  @Watch('width_height.width')
+  widthChange(){
+    this.drawer = true
   }
 
   created() {
@@ -154,14 +209,6 @@ export default class SProfileCard extends Vue {
         }
         .v-btn__content {
           width: 85%;
-        }
-      }
-      @media screen and (max-width: 900px) {
-        & {
-          padding-left: 5%;
-        }
-        .v-btn__content {
-          width: 95%;
         }
       }
       margin: 6px 0;

@@ -82,7 +82,7 @@ export default class SProfileSecuritySheet extends Vue {
   padding-top: 32px;
   margin: 0 auto;
   width: 25%;
-  min-width: 220px;
+  min-width: 200px;
 }
 
 </style>

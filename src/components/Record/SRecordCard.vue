@@ -66,7 +66,7 @@ export default class SRecordCard extends Vue {
   }
 
   async loadRecords(force: boolean = false) {
-    if (this.recordInfo.search || force) {
+    if (this.recordInfo.search || force || (!this.s_searchAssignment && !this.s_searchProblem && !this.s_searchUser)) {
       let {start, end} = SUtil.rangeToLoad(this.recordInfo.pageIndex, this.itemNum)
       this.loading = true
       let entityCollection = await this.$api.searchRecordPage({

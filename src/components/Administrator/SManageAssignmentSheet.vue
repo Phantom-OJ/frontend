@@ -124,7 +124,6 @@ export default class SManageAssignmentSheet extends Vue {
 
   editProb(e: Event, prob: Problem) {
     e.stopPropagation()
-    console.log(prob)
     this.$router.push(`/modify/assignment/${prob.assignmentId}/problem/${prob.ID}`)
   }
 

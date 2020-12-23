@@ -23,9 +23,9 @@
           <br>
           <div class="s-vs">
             <v-virtual-scroll
-              :bench="2"
-              :items="scripts"
+              :items="scripts_"
               item-height="44"
+              height="408"
             >
               <template v-slot:default="{ item }">
                 <div :key="item.ID"
@@ -53,9 +53,8 @@
           <br>
           <div class="s-vs">
             <v-virtual-scroll
-              :bench="2"
-              :items="dbs"
-              item-height="44"
+              :items="dbs_"
+              item-height="44" height="408"
             >
               <template v-slot:default="{ item }">
                 <div :key="item.ID"
@@ -99,7 +98,7 @@
 
 <script lang="ts">
 import {Vue} from '@/ts/extension'
-import {Component, Prop, PropSync} from 'vue-property-decorator'
+import {Component, Prop, PropSync, Watch} from 'vue-property-decorator'
 import {DBForm, JudgePointForm, ScriptForm} from "@/ts/forms";
 import SCodemirror from "@/components/General/SCodemirror.vue";
 import {JudgeDB, JudgeScript} from "@/ts/entities";
@@ -145,7 +144,7 @@ export default class SManageJudgePoint extends Vue {
   create_SC: ScriptForm = {
     id: 0,
     keyword: '',
-    script: 'def mzynb():'
+    script: 'def deprecated():'
   }
 
   addScript() {
@@ -159,11 +158,13 @@ export default class SManageJudgePoint extends Vue {
   showScript(s: JudgeScript) {
     this.flag = Mode.SHOW_SC
     this.script = s
+    this.judgePoint_.judgeScriptId = s.ID
   }
 
   showDB(d: JudgeDB) {
     this.flag = Mode.SHOW_DB
     this.DB = d
+    this.judgePoint_.judgeDatabaseId = d.ID
   }
 
   async submitDB() {
@@ -178,11 +179,27 @@ export default class SManageJudgePoint extends Vue {
     this.$store.dispatch('loadDBs', true)
   }
 
+  @Watch('judgePoint_', {immediate: true})
+  jpChange() {
+    if (!this.judgePoint_ || !this.judgePoint_.id) return
+    this.script = this.scripts.find(s => s.ID === this.judgePoint_.judgeScriptId)!
+    this.DB = this.dbs.find(d => d.ID === this.judgePoint_.judgeDatabaseId)!
+    this.$forceUpdate()
+  }
+
   async submitSC() {
     if (!window.confirm(this.$t('warning.warn').toString())) return
     const msg = await this.$api.putScript(this.create_SC)
     this.refresh()
     SUtil.alertIfSuccess(msg, 'success.upload', this)
+  }
+
+  get dbs_() {
+    return this.dbs.filter(d => d.keyword.includes(this.searchDB))
+  }
+
+  get scripts_() {
+    return this.scripts.filter(s => s.keyword.includes(this.searchScript))
   }
 }
 </script>

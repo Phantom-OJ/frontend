@@ -108,6 +108,10 @@ export class API {
     }
   }
 
+  async rejudgeProblem(ID:number):Promise<string>{
+    return (await this.cRequest('post',`rejudge/${ID}`)).msg
+  }
+
   async modifyProfile(form: ModifyUserForm): Promise<User> {
     return new User((await this.cRequest('post', 'modify/basic', form)).data)
   }

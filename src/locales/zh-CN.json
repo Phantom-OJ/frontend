@@ -117,7 +117,8 @@
     "last-code": "拉取上次提交代码",
     "result": "提交结果",
     "dialect": "提交语言",
-    "show-des": "显示题目描述"
+    "show-des": "显示题目描述",
+    "rejudge": "重判题目"
   },
   "record": {
     "searchA": "作业",

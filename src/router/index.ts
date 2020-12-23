@@ -3,6 +3,7 @@ import VueRouter, {NavigationGuardNext, Route, RouteConfig} from 'vue-router'
 import SHome from '@/views/SHome.vue'
 import SLogin from '@/views/SLogin.vue'
 import vuex from '@/store/index'
+import {Permission} from "@/ts/user";
 
 Vue.use(VueRouter)
 
@@ -111,7 +112,15 @@ const routes: Array<RouteConfig> = [{
   path: '/create/assignment',
   name: 'create-assignment',
   component: () => import('@/views/SManageAssignment.vue'),
-  beforeEnter: requireAuthenticatedEnter
+  beforeEnter: function (to: Route, from: Route, next: Function) {
+    if(!vuex.state.isAuthenticated){
+      next('/login')
+    }else if (vuex.state.user.hasPermission(Permission.ALLOWANCE.CREATE_ASSIGNMENT)) {
+      next()
+    } else {
+      next('/forbidden')
+    }
+  }
 }, {
   path: '/modify/assignment/:aid/problem/:pid',
   name: 'modify-problem',
@@ -127,10 +136,12 @@ const routes: Array<RouteConfig> = [{
   name: 'administrate',
   component: () => import('@/views/SAdmin.vue'),
   beforeEnter: function (to: Route, from: Route, next: Function) {
-    if (vuex.state.isAuthenticated && vuex.state.user.permissionList.length > 0) {
+    if(!vuex.state.isAuthenticated){
+      next('/login')
+    }else if (vuex.state.user.hasPermission(Permission.ALLOWANCE.GRANT_OTHER_USERS)) {
       next()
     } else {
-      next('/')
+      next('/forbidden')
     }
   }
 }, {

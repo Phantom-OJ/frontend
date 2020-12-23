@@ -219,13 +219,16 @@ export default class SProblemDetailCard extends Vue {
         dialect: this.lang,
         submitTime: Date.now()
       })
+      if(re.msg.trim().toUpperCase()!=='SUCCESS'){
+        return
+      }
       this.$alert(new Alert({
         type: 'success',
         info: re.msg
       }))
       this.polling = true
       let pollingRes = await this.$api.polling(re.data)
-      while (!pollingRes.isComplete) {
+      while (!pollingRes.isComplete&&this.polling) {
         if (pollingRes.hasError) {
           this.$alert(new Alert({
             type: 'error',
@@ -233,7 +236,7 @@ export default class SProblemDetailCard extends Vue {
           }))
         }
         this.pollingMessage = pollingRes.description
-        await SUtil.sleep(500)
+        await SUtil.sleep(1500)
         pollingRes = await this.$api.polling(re.data)
       }
       this.polling = false
@@ -261,6 +264,7 @@ export default class SProblemDetailCard extends Vue {
   }
 
   beforeDestroy() {
+    this.polling = false
     const _ = {
       code: this.code,
       lang: this.lang

@@ -48,6 +48,7 @@
   "OK": "OK",
   "delete": "Delete",
   "download": "Download",
+  "confirm": "Please confirm",
   "security": {
     "t-weak": "Too weak",
     "weak": "weak",

@@ -11,10 +11,10 @@
         </v-avatar>
         <div style="margin: 0 0 0 20px">
           <p class="title-text">
-            {{ (!!user.nickname)?user.nickname:$t('profile.not-login')}}
+            {{ (!!user.nickname) ? user.nickname : $t('profile.not-login') }}
           </p>
           <p class="title-text">
-            {{ (!!user.groupList)?user.groupList.join(', '):''}}
+            {{ (!!user.groupList) ? user.groupList.join(', ') : '' }}
           </p>
         </div>
       </v-card-title>
@@ -28,11 +28,11 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{btn.icon}}
+                {{ btn.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content class="nav-content">
-              {{$t(btn.text)}}
+              {{ $t(btn.text) }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -41,11 +41,11 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{navUser.login.icon}}
+                {{ navUser.login.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content class="nav-content">
-              {{$t(navUser.login.text)}}
+              {{ $t(navUser.login.text) }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -54,11 +54,11 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{navUser.signUp.icon}}
+                {{ navUser.signUp.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content class="nav-content">
-              {{$t(navUser.signUp.text)}}
+              {{ $t(navUser.signUp.text) }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -67,11 +67,11 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{navUser.profile.icon}}
+                {{ navUser.profile.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content class="nav-content">
-              {{$t(navUser.profile.text)}}
+              {{ $t(navUser.profile.text) }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -80,13 +80,13 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{navUser.signOut.icon}}
+                {{ navUser.signOut.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content
               class="nav-content"
             >
-              {{$t(navUser.signOut.text)}}
+              {{ $t(navUser.signOut.text) }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -95,11 +95,11 @@
           >
             <v-list-item-icon>
               <v-icon class="icon-color-0">
-                {{navUser.admin.icon}}
+                {{ navUser.admin.icon }}
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content class="nav-content">
-              {{$t(navUser.admin.text)}}
+              {{ $t(navUser.admin.text) }}
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -114,7 +114,7 @@ import {Vue} from '@/ts/extension'
 import {Component} from 'vue-property-decorator'
 import SAvatar from "@/components/Root/SAppBarAvatar.vue"
 import {mapState} from "vuex"
-import {User} from "@/ts/user";
+import {Permission, User} from "@/ts/user";
 
 @Component({
   components: {SAvatar},
@@ -123,8 +123,8 @@ import {User} from "@/ts/user";
   }
 })
 export default class SNavBar extends Vue {
-  readonly user!:User
-  readonly isAuthenticated!:boolean
+  readonly user!: User
+  readonly isAuthenticated!: boolean
 
   get hideNav() {
     return this.$store.state.sideNav
@@ -134,22 +134,22 @@ export default class SNavBar extends Vue {
     this.$store.commit('setSideNav', v)
   }
 
-  async signOut(){
+  async signOut() {
     await this.$api.logOut()
-    this.$store.commit('setUser',{isAuthenticated:false})
+    this.$store.commit('setUser', {isAuthenticated: false})
     await this.$router.push('/')
   }
 
-  get isAdmin(){
-    return this.isAuthenticated&&this.user.permissionList.length>0
+  get isAdmin() {
+    return this.isAuthenticated && this.user.hasPermission(Permission.ALLOWANCE.GRANT_OTHER_USERS)
   }
 }
 </script>
 
 <style scoped lang="scss">
 
-  .nav-content {
-    margin-right: 30px;
-  }
+.nav-content {
+  margin-right: 30px;
+}
 
 </style>

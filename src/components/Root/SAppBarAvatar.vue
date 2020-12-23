@@ -64,7 +64,7 @@
 import {Vue} from '@/ts/extension'
 import {mapState} from "vuex";
 import {Component, Prop} from 'vue-property-decorator'
-import {User} from "@/ts/user";
+import {Permission, User} from "@/ts/user";
 
 @Component({
   computed: mapState(['user', 'navUser', 'isAuthenticated'])
@@ -89,7 +89,7 @@ export default class SAvatar extends Vue {
   }
 
   get isAdmin() {
-    return this.user.permissionList.length > 0
+    return this.user.hasPermission(Permission.ALLOWANCE.GRANT_OTHER_USERS)
   }
 }
 </script>

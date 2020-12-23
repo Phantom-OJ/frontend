@@ -15,7 +15,7 @@ export default new Vuetify({
         accent: '#3165e5',
         error: '#ff5722',
         warning: '#ff9800',
-        info: '#8c75d4',
+        info: '#734bee',
         success: '#4caf50'
       }
     }

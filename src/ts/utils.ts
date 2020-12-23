@@ -61,8 +61,10 @@ export class SUtil {
         return 'mdi-memory'
       case 'RE':
         return 'mdi-bug'
-      default:
+      case 'SE':
         return 'mdi-help'
+      default:
+        return 'mdi-timelapse'
     }
   }
 
@@ -78,8 +80,10 @@ export class SUtil {
       case 'MLE':
       case 'RE':
         return `background: radial-gradient(var(--v-warning-base),var(--v-warning-lighten1));`
-      default:
+      case 'SE':
         return `background: radial-gradient(var(--v-accent-base),var(--v-accent-lighten1));`
+      default:
+        return `background: radial-gradient(var(--v-info-base), var(--v-info-lighten1))`
     }
   }
 
@@ -189,9 +193,9 @@ export class SUtil {
     }
   }
 
-  static recover(_state: State, vue: Vue) {
+  static async recover(_state: State, vue: Vue) {
     if (!_state.route) return
-    if(!window.confirm(vue.$t('profile.recover').toString())) return
+    if(!(await vue.$confirm(vue.$t('profile.recover').toString()))) return
     vue.$store.commit('setProblemInfo', _state.problemInfo)
     vue.$store.commit('setAssignmentInfo', _state.assignmentInfo)
     vue.$store.commit('setRecordInfo', _state.recordInfo)

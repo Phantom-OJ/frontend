@@ -68,6 +68,7 @@ import SRecordResultBox from "@/components/Record/SRecordResultBox.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import STooltipIcon from "@/components/General/STooltipIcon.vue";
 import SLoading from "@/components/General/SLoading.vue";
+import {SUtil} from "@/ts/utils";
 
 @Component({
   components: {SLoading, STooltipIcon, SMarkdown, SRecordResultBox, SRecordDescription, SCodemirror, SCodeEditor},
@@ -80,12 +81,24 @@ export default class SRecordDetailCard extends Vue {
   readonly recordInfo!: EntityContainer<Record>
 
   loading: boolean = false
+  polling: boolean = false
   private cnt: number = 1
   problem: Problem = {} as Problem
   flagShowProblem: boolean = false
 
   created() {
     this.loadRecord(true)
+    this.polling_()
+  }
+
+  async polling_() {
+    this.polling = this.record?.result.trim().toUpperCase() === 'PENDING'
+    while (this.polling) {
+      const re = await this.$api.polling(this.record!.ID)
+      this.polling = this.polling&&!re.isComplete
+      await SUtil.sleep(1500)
+    }
+    await this.loadRecord(true)
   }
 
   async loadRecord(force = false) {
@@ -144,6 +157,10 @@ export default class SRecordDetailCard extends Vue {
 
   get description() {
     return this.problem.description ?? ''
+  }
+
+  beforeDestroy() {
+    this.polling = false
   }
 }
 </script>

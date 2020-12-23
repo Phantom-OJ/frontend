@@ -8,6 +8,7 @@ import {API} from './api'
 declare module 'vue/types/vue' {
   interface Vue {
     $alert(alert: Alert): void
+    $confirm(content:string):Promise<boolean>
     $api: API
     beforeCreate():void
     created():void

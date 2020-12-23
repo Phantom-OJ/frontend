@@ -3,6 +3,7 @@
     <s-nav-bar/>
     <s-app-bar/>
     <s-alert ref="alert"/>
+    <s-confirm ref="confirm"/>
     <v-main>
       <v-slide-x-reverse-transition>
         <router-view/>
@@ -22,9 +23,10 @@ import SAlert from "@/components/General/SAlert.vue";
 import {API} from "@/ts/api";
 import phantomIcon from '@/ts/phantom-icon'
 import {SUtil} from "@/ts/utils";
+import SConfirm from "@/components/General/SConfirm.vue";
 
 @Component({
-  components: {SAlert, SFooter, SNavBar, SAppBar}
+  components: {SConfirm, SAlert, SFooter, SNavBar, SAppBar}
 })
 export default class App extends Vue {
   /**
@@ -35,12 +37,13 @@ export default class App extends Vue {
    */
   beforeMount() {
     //@ts-ignore dev TODO
-    window.vue = this
     window.state = {}
     Vue.prototype.$api = API.getInstance()
     Vue.prototype.$alert = (alert) => {
       (this.$refs.alert as any).add(alert)
     }
+    Vue.prototype.$confirm = (content: string) => (this.$refs.confirm as any).confirm(content)
+
     Vue.prototype.$api.$vue = this
 
     console.log(phantomIcon)

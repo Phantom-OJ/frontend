@@ -1,6 +1,5 @@
 <template>
-  <s-loading v-if="loading" class="s-tab-loading"/>
-  <div v-else class="s-flex s-statistics-root space-around">
+  <div class="s-flex s-statistics-root space-around">
     <v-simple-table style="flex-grow: 1;padding: 12px 26px;">
       <thead>
       <tr>
@@ -21,6 +20,7 @@
       </tr>
       </tbody>
     </v-simple-table>
+    <s-loading v-if="loading" class="s-tab-loading"/>
     <v-responsive aspect-ratio="1" class="s-statistics-chart">
       <canvas ref="chart"/>
     </v-responsive>

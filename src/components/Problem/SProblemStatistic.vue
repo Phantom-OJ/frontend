@@ -1,6 +1,6 @@
 <template>
-  <s-loading v-if="loading" style="width: 100%;min-height: 600px"/>
-  <div v-else class="s-flex s-statistics-root space-around">
+  <div class="s-flex s-statistics-root space-around">
+    <s-loading v-if="loading" style="width: 100%;min-height: 600px"/>
     <v-responsive aspect-ratio="1" class="s-statistics-chart">
       <canvas ref="chart1"/>
     </v-responsive>
@@ -64,6 +64,7 @@ export default class SProblemStatistic extends Vue {
   }
 
   draw() {
+    console.log('??')
     let data
     this.labelData = SUtil.genLabelDataFromStat(this.statistic.resultSet)
     data = {

@@ -228,7 +228,10 @@ export default class SAssignmentDetailCard extends Vue {
 
   clickTag(tag: string) {
     this.$store.commit('setProblemInfo', {
-      filter: tag
+      filter: {
+        ...this.$store.state.problemInfo.filter,
+        tag:tag
+      }
     })
     this.$router.push('/problem/all')
   }

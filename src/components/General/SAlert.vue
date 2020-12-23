@@ -47,7 +47,7 @@ export default class SAlert extends Vue {
     width: 20%;
     min-width: 160px;
     right: 20px;
-    z-index: 100;
+    z-index: 222;
     opacity: 0.75;
   }
 </style>

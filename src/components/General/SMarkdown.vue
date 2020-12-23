@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow: auto">
     <vue-mathjax :formula="formula" :safe="false" class="s-markdown" :options="options"/>
   </div>
 </template>
@@ -26,7 +26,8 @@ export default class SMarkdown extends Vue {
   }
 
   get formula(): string {
-    return this.$xss(this.$m2h(this.markdown))
+    return this.$m2h(this.markdown)
+    // return this.$xss(this.$m2h(this.markdown))
   }
 }
 </script>

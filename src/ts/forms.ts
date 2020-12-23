@@ -27,7 +27,7 @@ export interface PageSearchForm {
 }
 
 export interface AssignmentForm {
-  id:number
+  id: number
   title: string
   description: string
   startTime: number
@@ -39,7 +39,7 @@ export interface AssignmentForm {
 }
 
 export interface ProblemForm {
-  id:number
+  id: number
   title: string
   description: string
   status: string
@@ -49,56 +49,63 @@ export interface ProblemForm {
   solution: string
   indexInAssignment: number
   tagList: number[]
-  judgePointList:JudgePointForm[]
+  judgePointList: JudgePointForm[]
   type: string
 }
 
-export interface JudgePointForm{
-  id:number
-  dialect:string
-  beforeSql:string
-  afterSql:string
-  judgeScriptId:number
-  answer:string
-  judgeDatabaseId:number
+export interface JudgePointForm {
+  id: number
+  dialect: string
+  beforeSql: string
+  afterSql: string
+  judgeScriptId: number
+  answer: string
+  judgeDatabaseId: number
 }
 
-export interface ModifyUserForm{
-  lang:string
-  stateSave:boolean
-  nickname:string
+export interface ModifyUserForm {
+  lang: string
+  stateSave: boolean
+  nickname: string
 }
 
-export interface ModifyPasswordForm{
-  newPassword:string
-  oldPassword:string
+export interface ModifyPasswordForm {
+  newPassword: string
+  oldPassword: string
 }
 
-export interface DBForm{
-  id:number
-  keyword:string
-  databaseUrl:string
-  dialect:string
+export interface DBForm {
+  id: number
+  keyword: string
+  databaseUrl: string
+  dialect: string
 }
 
-export interface AnnouncementForm{
-  createDate:number
-  description:string
-  title:string
+export interface AnnouncementForm {
+  createDate: number
+  description: string
+  title: string
 }
 
-export interface ScriptForm{
-  id:number
-  keyword:string
-  script:string
+export interface ScriptForm {
+  id: number
+  keyword: string
+  script: string
 }
 
-export class SearchUserForm{
-  username:string=''
-  group:number=0
-  notGroup:number=0
-  role:string=''
-  notRole:string=''
+export interface TagForm {
+  id: number
+  keyword: string
+  description: string
+  valid: boolean
+}
+
+export class SearchUserForm {
+  username: string = ''
+  group: number = 0
+  notGroup: number = 0
+  role: string = ''
+  notRole: string = ''
 }
 
 export const STATUS = Object.freeze({

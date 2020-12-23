@@ -131,9 +131,5 @@ export default class SRecordDescription extends Vue {
   width: 60%;
   min-width: 400px;
   margin: 10px auto;
-
-  .s-record-point {
-    background-color: var(--v-info-lighten5);
-  }
 }
 </style>

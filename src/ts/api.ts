@@ -30,7 +30,7 @@ import {
   ResetForm,
   ScriptForm,
   SearchUserForm,
-  SignUpForm
+  SignUpForm, TagForm
 } from "@/ts/forms";
 import {SUtil} from "@/ts/utils";
 import {Group, Permission, User} from "@/ts/user";
@@ -77,7 +77,6 @@ export class API {
       return await this.request(method, url, data)
     } catch (error) {
       if (error instanceof APIException) {
-        console.log(error)
         switch (error.code) {
           case 401:
             this.$vue.$store.commit('setUser', {isAuthenticated: false})
@@ -204,6 +203,10 @@ export class API {
   async allTags(): Promise<Tag[]> {
     let data = (await this.cRequest('get', 'require/tag')).data
     return (data as any[])?.map(e => new Tag(e)) ?? []
+  }
+
+  async putTag(form:TagForm):Promise<string>{
+    return (await this.cRequest('put', 'upload/tag', form)).msg
   }
 
   async putScript(form: ScriptForm): Promise<string> {

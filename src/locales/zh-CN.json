@@ -176,6 +176,7 @@
   "create": {
     "leave": "现页面的修改不会被保存",
     "title": "标题",
+    "tag": "创建标签",
     "description": "描述",
     "start-time": "开始时间",
     "end-time": "结束时间",

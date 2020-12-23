@@ -79,14 +79,14 @@
     </v-tabs-items>
 
     <v-scale-transition>
-      <div v-if="showEdit&&tab%4===0" class="s-problem-tool">
+      <div v-if="showEdit||showRejudge&&tab%4===0" class="s-problem-tool">
         <v-btn fab color="info" @click="$router.push(`/modify/assignment/${problem.assignmentId}/problem/${pid}`)"
-               width="72" height="72">
+               width="72" height="72" v-if="showEdit">
           <s-tooltip-icon :text="$t('create.edit')" direction="top" :size="32">
             mdi-pencil
           </s-tooltip-icon>
         </v-btn>
-        <v-btn fab color="warning" @click="rejudge" width="72" height="72">
+        <v-btn fab color="warning" @click="rejudge" width="72" height="72" v-if="showRejudge">
           <s-tooltip-icon :text="$t('problem.rejudge')" direction="top" :size="32">
             mdi-restart-alert
           </s-tooltip-icon>
@@ -145,6 +145,10 @@ export default class SProblemDetailCard extends Vue {
     return this.$store.state.isAuthenticated && this.$store.state.user.hasPermission(Permission.ALLOWANCE.MODIFY_ASSIGNMENT)
   }
 
+  get showRejudge(){
+    return this.$store.state.isAuthenticated && this.$store.state.user.hasPermission(Permission.ALLOWANCE.REJUDGE)
+  }
+
   mounted() {
     if (this.$route.query.recover) {
       if (!window.state?.[this.keyInState]) return
@@ -175,7 +179,7 @@ export default class SProblemDetailCard extends Vue {
       hash: `#${v}`
     })
     if (v === 3) { // 记录页面
-      this.loadRecords()
+      this.loadRecords(true)
     }
   }
 
@@ -214,6 +218,8 @@ export default class SProblemDetailCard extends Vue {
       this.loading = false
       // trigger the problem from mapTable
       this.cnt++
+      this.disableEditor = this.problem?.status.trim().toUpperCase() === 'CLOSED'
+        && !this.$store.state.user.hasPermission(Permission.ALLOWANCE.TEST_CODE)
     }
   }
 

@@ -1,16 +1,15 @@
 <template>
   <div class="s-editor">
     <v-toolbar class="elevation-0 s-flex" dense width="100%">
-      <!--        <span class="s-editor-title">{{$t('problem.code-editor')}}</span>-->
       <v-select :items="languages" v-model="s_lang" class="s-editor-lang" :disabled="disabled" height="40"
                 dense color="secondary" :label="$t('problem.lang')" hide-details/>
       <v-spacer/>
       <s-tooltip-icon direction="top" icon-class="icon-color-0 mr12" :text="$t('problem.last-code')" :size="30"
-                      @click="pull">
+                      @click="pull" :disabled="disabled">
         mdi-alpha-c-box
       </s-tooltip-icon>
       <s-tooltip-icon direction="top" icon-class="icon-color-0" :text="$t('problem.show-des')" :size="30"
-                      @click="showDes">
+                      @click="showDes" :disabled="disabled">
         {{ !flagShowDes ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
       </s-tooltip-icon>
       <v-btn @click="submit" color="secondary" :disabled="disabled" height="40" class="s-editor-submit">

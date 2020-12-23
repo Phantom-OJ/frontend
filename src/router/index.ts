@@ -113,8 +113,9 @@ const routes: Array<RouteConfig> = [{
   name: 'create-assignment',
   component: () => import('@/views/SManageAssignment.vue'),
   beforeEnter: function (to: Route, from: Route, next: Function) {
+    console.log(vuex.state.user)
     if(!vuex.state.isAuthenticated){
-      next('/login')
+      next('/login?then=/create/assignment')
     }else if (vuex.state.user.hasPermission(Permission.ALLOWANCE.CREATE_ASSIGNMENT)) {
       next()
     } else {
@@ -137,7 +138,7 @@ const routes: Array<RouteConfig> = [{
   component: () => import('@/views/SAdmin.vue'),
   beforeEnter: function (to: Route, from: Route, next: Function) {
     if(!vuex.state.isAuthenticated){
-      next('/login')
+      next('/login?then=/administrate')
     }else if (vuex.state.user.hasPermission(Permission.ALLOWANCE.GRANT_OTHER_USERS)) {
       next()
     } else {

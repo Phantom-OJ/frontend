@@ -176,6 +176,7 @@
   "create": {
     "leave": "Changes in current page will not be saved",
     "title": "Title",
+    "tag": "Create Tag",
     "description": "Description",
     "start-time": "Start Time",
     "end-time": "End Time",

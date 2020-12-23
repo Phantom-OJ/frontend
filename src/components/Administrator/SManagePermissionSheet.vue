@@ -100,7 +100,7 @@ export default class SManagePermissionSheet extends Vue {
   }
 
   async submitNewRole() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.putPermission({
       ...this.roleForm, id: 0
     })
@@ -114,7 +114,7 @@ export default class SManagePermissionSheet extends Vue {
   }
 
   async activate(item: string) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.putPermission({
       role: this.role, allowance: item, id: 0
     })
@@ -123,7 +123,7 @@ export default class SManagePermissionSheet extends Vue {
   }
 
   async inactivate(item: string) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.delPermission(this.originPermissions(this.role).find(p => p.allowance === item)?.id ?? -1)
     SUtil.alertIfSuccess(msg, 'success.delete', this)
     await this.$store.dispatch('loadPermissions', true)

@@ -131,7 +131,7 @@ export default class SManageAssignmentSheet extends Vue {
 
   async rejudgeProb(e: Event, prob: Problem) {
     e.stopPropagation()
-    if(!window.confirm(this.$t('warning.warn').toString())) return
+    if(!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.rejudgeProblem(prob.ID)
     SUtil.alertIfSuccess(msg, 'success.submit', this)
   }
@@ -143,7 +143,7 @@ export default class SManageAssignmentSheet extends Vue {
 
   async deleteProb(e: Event, prob: Problem) {
     e.stopPropagation()
-    if (window.confirm(this.$t('warning.warn').toString())) {
+    if (await this.$confirm(this.$t('warning.warn').toString())) {
       const msg = await this.$api.deleteProblem(prob.ID)
       SUtil.alertIfSuccess(msg, 'success.delete', this)
     }
@@ -174,7 +174,7 @@ export default class SManageAssignmentSheet extends Vue {
 
   async deleteAss(e: Event, ass: Assignment) {
     e.stopPropagation()
-    if (window.confirm(this.$t('warning.warn').toString())) {
+    if (await this.$confirm(this.$t('warning.warn').toString())) {
       const msg = await this.$api.deleteAssignment(ass.ID)
       SUtil.alertIfSuccess(msg, 'success.delete', this)
       await this.loadAssignments(true)

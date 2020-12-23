@@ -135,13 +135,13 @@ export default class SManageGroupSheet extends Vue {
   }
 
   async activate(u: User) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.addUser2Group(this.group.ID, u.ID)
     SUtil.alertIfSuccess(msg, 'success.submit', this)
   }
 
   async inactivate(u: User) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.deleteUserFromGroup(this.group.ID, u.ID)
     SUtil.alertIfSuccess(msg, 'success.delete', this)
   }

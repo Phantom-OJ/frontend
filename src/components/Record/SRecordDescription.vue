@@ -129,7 +129,8 @@ export default class SRecordDescription extends Vue {
 <style lang="scss">
 .s-record-points {
   width: 60%;
-  min-width: 400px;
+  min-width: 380px;
   margin: 10px auto;
+
 }
 </style>

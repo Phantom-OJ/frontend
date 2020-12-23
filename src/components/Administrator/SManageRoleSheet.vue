@@ -110,7 +110,7 @@ export default class SManageRoleSheet extends Vue {
   }
 
   async activate(u: User) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     let form = {} as { [key: string]: number[] }
     form[this.role] = [u.ID]
     const msg = await this.$api.grant(form)
@@ -124,7 +124,7 @@ export default class SManageRoleSheet extends Vue {
   }
 
   async inactivate(u: User) {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     let form = {} as { [key: string]: number[] }
     form['ROLE_STUDENT'] = [u.ID]
     const msg = await this.$api.grant(form)

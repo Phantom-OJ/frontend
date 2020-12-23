@@ -109,7 +109,7 @@ export default class SManageAnnouncementSheet extends Vue {
   }
 
   async submitModifyAnnouncement() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.modifyAnnouncement(this.announcement.ID, this.announcement.toForm())
     SUtil.alertIfSuccess(msg, 'success.submit', this)
   }
@@ -120,7 +120,7 @@ export default class SManageAnnouncementSheet extends Vue {
   }
 
   async submitDelAnnouncement() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.delAnnouncement(this.deletedAnnouncement.ID)
     SUtil.alertIfSuccess(msg, 'success.delete', this)
   }

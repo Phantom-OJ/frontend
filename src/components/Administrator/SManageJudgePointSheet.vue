@@ -168,7 +168,7 @@ export default class SManageJudgePoint extends Vue {
   }
 
   async submitDB() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.putDB(this.create_DB)
     this.refresh()
     SUtil.alertIfSuccess(msg, 'success.upload', this)
@@ -188,7 +188,7 @@ export default class SManageJudgePoint extends Vue {
   }
 
   async submitSC() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.putScript(this.create_SC)
     this.refresh()
     SUtil.alertIfSuccess(msg, 'success.upload', this)

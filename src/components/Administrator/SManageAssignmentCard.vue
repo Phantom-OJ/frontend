@@ -174,7 +174,7 @@ export default class SManageAssignmentCard extends Vue {
   }
 
   async submit() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     if (this.isCreate) {
       const msg = await this.$api.putAssignment({
         ...this.assignment,
@@ -302,11 +302,11 @@ export default class SManageAssignmentCard extends Vue {
     this.sortProblems()
   }
 
-  editProb(prob: ProblemForm) {
+  async editProb(prob: ProblemForm) {
     if (this.isCreate) {
       this.tab = prob.indexInAssignment
-    } else if (window.confirm(this.$t('create.leave').toString())) {
-      this.$router.push(`/modify/assignment/${this.assignment.id}/problem/${prob.id}`)
+    } else if (await this.$confirm(this.$t('create.leave').toString())) {
+      await this.$router.push(`/modify/assignment/${this.assignment.id}/problem/${prob.id}`)
     }
   }
 
@@ -317,7 +317,7 @@ export default class SManageAssignmentCard extends Vue {
       this.assignment.uploadProblemFormList.forEach((p, i) => {
         p.indexInAssignment = i + 1
       })
-    } else if (window.confirm(this.$t('warning.warn').toString())) {
+    } else if (await this.$confirm(this.$t('warning.warn').toString())) {
       const msg = await this.$api.deleteProblem(prob.id)
       SUtil.alertIfSuccess(msg, 'success.delete', this)
       await this.loadAssignment()

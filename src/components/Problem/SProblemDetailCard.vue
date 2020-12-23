@@ -246,11 +246,13 @@ export default class SProblemDetailCard extends Vue {
             type: 'error',
             info: pollingRes.description
           }))
+          return
         }
         this.pollingMessage = pollingRes.description
         await SUtil.sleep(1500)
         pollingRes = await this.$api.polling(re.data)
       }
+      if(!this.polling) return
       this.polling = false
       await this.$router.push(`/record/${pollingRes.recordId}`)
     } catch (e) {
@@ -276,7 +278,7 @@ export default class SProblemDetailCard extends Vue {
   }
 
   async rejudge() {
-    if (!window.confirm(this.$t('warning.warn').toString())) return
+    if (!(await this.$confirm(this.$t('warning.warn').toString()))) return
     const msg = await this.$api.rejudgeProblem(this.pid)
     SUtil.alertIfSuccess(msg, 'success.submit', this)
   }

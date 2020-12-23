@@ -269,6 +269,7 @@ export default class SManagerProblemSheet extends Vue {
   }
 
   async submitJP() {
+    if(!(await this.$confirm(this.$t('warning.warn').toString()))) return
     if (this.jpShow.id > 0) { // modify
       const msg = await this.$api.modifyJudgePoint(this.jpShow.id, this.jpShow)
       SUtil.alertIfSuccess(msg, 'success.submit', this)

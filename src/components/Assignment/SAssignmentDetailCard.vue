@@ -27,7 +27,7 @@
     </div>
     <!--    not use -->
     <div v-else class="detail-card-title-box">
-      <div class="detail-card-title ellipsis-col">
+      <div class="detail-card-title">
         <v-card-title class="detail-card-title-main">
           {{ assignment.title }}
           <v-card-subtitle>

@@ -51,28 +51,29 @@
             {{ point.judgePointIndex }}
           </span>
         </template>
-        <div>
-          <v-row align="center" class="s-record-point" justify="space-around">
-            <s-record-result-box :result="point.result"/>
-            <v-col style="max-width: 260px">
-              <v-row>
-                <v-col cols="6">
-                  <v-icon class="icon-color-0">
-                    mdi-database
-                  </v-icon>
-                  {{ `${point.space}MB` }}
-                </v-col>
-                <v-col cols="6">
-                  <v-icon class="icon-color-0">
-                    mdi-timer-sand
-                  </v-icon>
-                  {{ `${point.time}ms` }}
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-          <p style="text-align: center;font-size: 24px;background-color: rgba(0,0,0,0.12);border-radius: 4px;margin-right: 12px">{{point.description}}</p>
-        </div>
+        <v-row align="center" class="s-record-point" justify="space-around">
+          <s-record-result-box :result="point.result"/>
+          <v-col style="max-width: 260px">
+            <v-row>
+              <v-col cols="6">
+                <v-icon class="icon-color-0">
+                  mdi-database
+                </v-icon>
+                {{ `${point.space}MB` }}
+              </v-col>
+              <v-col cols="6">
+                <v-icon class="icon-color-0">
+                  mdi-timer-sand
+                </v-icon>
+                {{ `${point.time}ms` }}
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <p
+          style="text-align: center;font-size: 24px;background-color: rgba(0,0,0,0.12);border-radius: 4px;margin-right: 12px">
+          {{ point.description }}
+        </p>
       </v-timeline-item>
     </v-timeline>
   </div>
@@ -108,6 +109,11 @@ export default class SRecordDescription extends Vue {
   padding-bottom: 52px;
 }
 
+.s-record-points {
+  width: 60%;
+  margin: 10px auto;
+}
+
 .s-record-des-window {
   min-height: 300px;
 
@@ -117,6 +123,7 @@ export default class SRecordDescription extends Vue {
     min-width: 300px;
     max-width: 420px;
     margin: 10px auto;
+    padding: 0 10px;
     @media screen and (max-width: 600px) {
       .col.col-4 {
         padding-left: 6px !important;
@@ -127,8 +134,8 @@ export default class SRecordDescription extends Vue {
 }
 </style>
 <style lang="scss">
-.s-record-point {
-  width: 60%;
-  margin: 10px auto;
-}
+//.s-record-point {
+//  width: 60%;
+//  margin: 10px auto;
+//}
 </style>

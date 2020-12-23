@@ -39,7 +39,7 @@ export default class SProfileSecuritySheet extends Vue {
         newPassword: this.password,
         oldPassword: this.oldPWD
       })
-      if (msg.toUpperCase().trim() === 'SUCCESS') {
+      if (msg.toUpperCase().trim().includes('SUCCESS')) {
         this.$store.commit('setUser', {isAuthenticated: false})
         this.$alert(new Alert({
           type: 'success',

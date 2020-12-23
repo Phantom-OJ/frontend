@@ -123,7 +123,7 @@ export default class SSignUpCard extends Vue {
       }))
       return false
     }
-    if (this.confirmed) {
+    if (!this.confirmed) {
       this.$alert(new Alert({
         type: 'error',
         info: this.$t('error.confirm').toString()

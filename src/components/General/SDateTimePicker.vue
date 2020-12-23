@@ -1,7 +1,7 @@
 <template>
-  <v-menu :close-on-content-click="false" min-width="0" right>
+  <v-menu :close-on-content-click="false" min-width="0" right :disabled="disable">
     <template v-slot:activator="{on, attrs}">
-      <v-text-field :label="label" :color="textColor" hide-details
+      <v-text-field :label="label" :color="textColor" hide-details :disabled="disable"
                     :value="`${s_date} ${s_time}`" type="datetime" :class="['s-date-time-picker--text', sClass]">
         <template v-slot:append>
           <v-icon v-on="on" v-bind="attrs">
@@ -47,6 +47,11 @@ export default class SDateTimePicker extends Vue {
     required:true
   })
   readonly label!:string
+  @Prop({
+    type:Boolean,
+    default:false
+  })
+  readonly disable!:boolean
 }
 </script>
 

@@ -41,6 +41,9 @@
         <v-tab-item class="s-flex s-admin-tab" eager>
           <s-manage-announcement-sheet ref="announcement"/>
         </v-tab-item>
+        <v-tab-item class="s-flex s-admin-tab" eager>
+          <s-manage-assignment-sheet ref="assignment" />
+        </v-tab-item>
       </v-tabs-items>
     </div>
   </v-card>
@@ -57,9 +60,11 @@ import SManageRoleSheet from "@/components/Administrator/SManageRoleSheet.vue";
 import SManageGroupSheet from "@/components/Administrator/SManageGroupSheet.vue";
 import SManagePermissionSheet from "@/components/Administrator/SManagePermissionSheet.vue";
 import SManageAnnouncementSheet from "@/components/Administrator/SManageAnnouncementSheet.vue";
+import SManageAssignmentSheet from "@/components/Administrator/SManageAssignmentSheet.vue";
 
 @Component({
   components: {
+    SManageAssignmentSheet,
     SManageAnnouncementSheet,
     SManagePermissionSheet, SManageGroupSheet, SManageRoleSheet, SSplitSelect, SRefreshableCardTitle},
   computed: {...mapState(['groups', 'user', 'permissions', 'roles'])}
@@ -110,7 +115,7 @@ export default class SAdminCard extends Vue {
   }
 
   get items() {
-    return ['profile.group', 'record.searchU', 'admin.permission', 'nav-bar.announcement'].map(s => this.$t(s))
+    return ['profile.group', 'record.searchU', 'admin.permission', 'nav-bar.announcement', 'record.searchA'].map(s => this.$t(s))
   }
 }
 </script>

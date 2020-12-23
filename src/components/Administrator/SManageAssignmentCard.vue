@@ -1,16 +1,19 @@
 <template>
-  <v-card class="top-tabs-card">
+  <s-loading v-if="loading" class="s-card-loading"/>
+  <v-card v-else class="top-tabs-card">
     <v-sheet class="s-top-tabs">
       <v-tabs :height="40" v-model="tab">
         <v-tab>
           {{ $t('create.description') }}
         </v-tab>
-        <v-tab
-          v-for="problem in assignment.uploadProblemFormList"
-          :key="problem.indexInAssignment"
-        >
-          {{ `${$t('create.problem.&')}. ${problem.indexInAssignment}` }}
-        </v-tab>
+        <template v-if="isCreate">
+          <v-tab
+            v-for="problem in assignment.uploadProblemFormList"
+            :key="problem.indexInAssignment"
+          >
+            {{ `${$t('create.problem.&')}. ${problem.indexInAssignment}` }}
+          </v-tab>
+        </template>
       </v-tabs>
     </v-sheet>
     <v-tabs-items v-model="tab">
@@ -21,7 +24,7 @@
                           class="s-ca-form--title"/>
             <div class="s-flex" style="justify-content: space-between">
               <s-date-time-picker :date.sync="startDate" :time.sync="startTime" s-class="s-ca-form--start-time"
-                                  :label="$t('create.start-time')"/>
+                                  :label="$t('create.start-time')" :disable="!isCreate"/>
               <s-date-time-picker :date.sync="endDate" :time.sync="endTime" s-class="s-ca-form--end-time"
                                   :label="$t('create.end-time')"/>
             </div>
@@ -73,8 +76,9 @@
                 <th>{{ p.title }}</th>
                 <th>{{ p.fullScore }}</th>
                 <th>{{ p.status }}</th>
-                <th v-if="isCreate">
-                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="upProb(p)">
+                <th>
+                  <v-icon v-if="isCreate" class="icon-color-1 cursor-hand-hover table-icon" size="20"
+                          @click="upProb(p)">
                     mdi-arrow-up-bold
                   </v-icon>
                   <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="editProb(p)">
@@ -84,14 +88,9 @@
                     mdi-delete
                   </v-icon>
                 </th>
-                <th v-else>
-                  <v-icon class="icon-color-1 cursor-hand-hover table-icon" size="20" @click="editProb(p)">
-                    mdi-pencil
-                  </v-icon>
-                </th>
               </tr>
               </tbody>
-              <v-btn v-if="isCreate" fab absolute @click="addProblem" class="s-add-btn" color="secondary">
+              <v-btn fab absolute @click="addProblem" class="s-add-btn" color="secondary">
                 <v-icon>
                   mdi-plus-thick
                 </v-icon>
@@ -106,12 +105,15 @@
           </div>
         </v-form>
       </v-tab-item>
-      <v-tab-item
-        v-for="problem in assignment.uploadProblemFormList"
-        :key="problem.indexInAssignment"
-      >
-        <s-manager-problem-sheet :problem.sync="problem" :is-create="isCreate"/>
-      </v-tab-item>
+
+      <template v-if="isCreate">
+        <v-tab-item
+          v-for="problem in assignment.uploadProblemFormList"
+          :key="problem.indexInAssignment"
+        >
+          <s-manager-problem-sheet :problem.sync="problem" :is-create="isCreate"/>
+        </v-tab-item>
+      </template>
     </v-tabs-items>
   </v-card>
 </template>
@@ -127,9 +129,11 @@ import SSplitSelect from "@/components/General/SSplitSelect.vue";
 import SManagerProblemSheet from "@/components/Administrator/SManageProblemSheet.vue";
 import {mapState} from "vuex";
 import {SUtil} from "@/ts/utils";
+import {Alert} from "@/ts/entities";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
-  components: {SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker},
+  components: {SLoading, SManagerProblemSheet, SSplitSelect, SMarkdown, SDateTimePicker},
   computed: {...mapState(['groups'])}
 })
 export default class SManageAssignmentCard extends Vue {
@@ -162,6 +166,7 @@ export default class SManageAssignmentCard extends Vue {
   activeGF: string = ''
   inactiveGroups: Group[] = []
   inactiveGF: string = ''
+  loading: boolean = false
 
   @Watch('activeGroups', {immediate: true})
   setGroupList() {
@@ -170,19 +175,24 @@ export default class SManageAssignmentCard extends Vue {
 
   async submit() {
     if (!window.confirm(this.$t('warning.warn').toString())) return
-    if(this.isCreate) {
+    if (this.isCreate) {
       const msg = await this.$api.putAssignment({
         ...this.assignment,
         startTime: new Date(`${this.startDate} ${this.startTime}`).getTime(),
         endTime: new Date(`${this.endDate} ${this.endTime}`).getTime()
       })
       SUtil.alertIfSuccess(msg, 'success.upload', this)
-      this.$store.commit('setProblemInfo',{filter:{...this.$store.state.problemInfo.filter}})
-      this.$store.commit('setAssignmentInfo',{filter:{...this.$store.state.assignmentInfo.filter}})
-    }else{
-      // const msg = await this.$api.modifyAssignment(this.aid,{
-      //
-      // })
+      this.$store.commit('setProblemInfo', {filter: {...this.$store.state.problemInfo.filter}})
+      this.$store.commit('setAssignmentInfo', {filter: {...this.$store.state.assignmentInfo.filter}})
+    } else {
+      const msg = await this.$api.modifyAssignment(this.aid, {
+        ...this.assignment,
+        startTime: new Date(`${this.startDate} ${this.startTime}`).getTime(),
+        endTime: new Date(`${this.endDate} ${this.endTime}`).getTime()
+      })
+      SUtil.alertIfSuccess(msg, 'success.submit', this)
+      this.$store.commit('setProblemInfo', {filter: {...this.$store.state.problemInfo.filter}})
+      this.$store.commit('setAssignmentInfo', {filter: {...this.$store.state.assignmentInfo.filter}})
     }
   }
 
@@ -196,15 +206,24 @@ export default class SManageAssignmentCard extends Vue {
   }
 
   async loadAssignment() {
-    // this.assignment
-    // this.activeGroups = await this.$api.queryActiveGroups(this.aid) TODO
+    this.loading = true
+    this.assignment = await this.$api.getAssignmentForm(this.aid)
+    this.activeGroups = this.assignment.groupList.map(e => this.groups.find(g => g.ID === e)!)
     this.inactiveGroups = SUtil.differenceByID(this.groups, this.activeGroups)
+    const start = new Date(this.assignment.startTime)
+    this.startDate = start.toISOString().substring(0, 10)
+    this.startTime = `${start.getHours().format(2)}:${start.getMinutes().format(2)}`
+    const end = new Date(this.assignment.endTime)
+    this.endDate = end.toISOString().substring(0, 10)
+    this.endTime = `${end.getHours().format(2)}:${end.getMinutes().format(2)}`
+    this.loading = false
   }
 
   mounted() {
     if (this.$route.query.recover) {
       if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
+        if (stateKey === 'loading') continue
         if (window.state[this.keyInState].hasOwnProperty(stateKey)) {
           //@ts-ignore
           this[stateKey] = window.state[this.keyInState][stateKey]
@@ -250,6 +269,12 @@ export default class SManageAssignmentCard extends Vue {
       tagList: [0],
       judgePointList: []
     })
+    if (!this.isCreate) {
+      this.$alert(new Alert({
+        type: 'warning',
+        info: this.$t('warning.extra-submit').toString()
+      }))
+    }
   }
 
   sortProblems() {
@@ -272,12 +297,18 @@ export default class SManageAssignmentCard extends Vue {
     }
   }
 
-  deleteProb(prob: ProblemForm) {
-    const idx = prob.indexInAssignment
-    this.assignment.uploadProblemFormList = this.assignment.uploadProblemFormList.filter(p => p.indexInAssignment !== idx)
-    this.assignment.uploadProblemFormList.forEach((p, i) => {
-      p.indexInAssignment = i + 1
-    })
+  async deleteProb(prob: ProblemForm) {
+    if (this.isCreate) {
+      const idx = prob.indexInAssignment
+      this.assignment.uploadProblemFormList = this.assignment.uploadProblemFormList.filter(p => p.indexInAssignment !== idx)
+      this.assignment.uploadProblemFormList.forEach((p, i) => {
+        p.indexInAssignment = i + 1
+      })
+    } else if (window.confirm(this.$t('warning.warn').toString())) {
+      const msg = await this.$api.deleteProblem(prob.id)
+      SUtil.alertIfSuccess(msg, 'success.delete', this)
+      await this.loadAssignment()
+    }
   }
 }
 </script>

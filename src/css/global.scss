@@ -276,6 +276,7 @@ button.v-btn.s-add-btn {
       .detail-card-tabs {
         width: auto;
         flex-grow: 1;
+        justify-content: flex-end;
 
         .v-slide-group__content, .v-tabs-bar__content {
           .v-tab {
@@ -346,7 +347,7 @@ button.v-btn.s-add-btn {
 
 .search {
   width: 300px;
-  min-width: 300px;
+  min-width: 260px;
   margin-left: 0;
   display: flex;
   align-items: center;
@@ -402,6 +403,7 @@ button.v-btn.s-add-btn {
 .refresh.v-btn {
   position: absolute;
   right: 16px;
+  top: 36px;
   min-width: 36px !important;
   padding: 8px !important;
 }

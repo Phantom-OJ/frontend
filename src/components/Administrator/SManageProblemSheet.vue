@@ -427,6 +427,7 @@ $mp-cm-height: 300px;
         //width: 1px;
         position: absolute;
         right: 0;
+        bottom: 0;
       }
     }
 

@@ -29,7 +29,7 @@
     </div>
     <s-split-select
       v-else :active.sync="activeUsers" :inactive.sync="inactiveUsers" :is-dialog="false"
-      style="box-shadow: none;width: 200px" @activate="activate" @inactivate="inactivate"
+      style="box-shadow: none;width: 200px" @activate="activate" @inactivate="inactivate" prevent-default
     >
       <template v-slot:aSearch>
         <s-search-user-sheet :search-form.sync="activeUF" :group="false" @search="searchUserA"/>

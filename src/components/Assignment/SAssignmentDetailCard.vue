@@ -155,6 +155,7 @@ export default class SAssignmentDetailCard extends Vue {
 
   created() {
     this.loadAssignment()
+    this.loadRecords()
     this.intervals.push(window.setInterval(() => this.now = new Date(), 60000))
   }
 
@@ -203,8 +204,8 @@ export default class SAssignmentDetailCard extends Vue {
       ...this.$route,
       hash: `#${v}`
     })
-    if (v === 3) {
-      this.loadRecords()
+    if (v === 2) {
+      this.loadRecords(true)
     }
   }
 

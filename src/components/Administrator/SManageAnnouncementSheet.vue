@@ -1,6 +1,6 @@
 <template>
   <div class="s-flex s-manage-announce" style="flex-grow: 1">
-    <div style="width: 240px; margin: 12px auto;position: relative;">
+    <div style="width: 320px; margin: 12px auto;position: relative;">
       <v-virtual-scroll height="636" item-height="60" width="320" :items="announcements">
         <template v-slot:default="{item}">
           <v-list-item @click="manageAnnouncement(item)" dense :class="{'s-item__active':item.ID===announcement.ID}">
@@ -8,7 +8,7 @@
             <v-icon style="margin: 2px 8px;">
               mdi-bullhorn
             </v-icon>
-            <v-list-item-content>
+            <v-list-item-content class="ellipsis-col">
               {{ item.title }}
             </v-list-item-content>
             <v-icon @click="e => delAnnouncement(item, e)">

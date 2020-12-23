@@ -16,7 +16,7 @@
       </v-btn>
     </div>
     <s-split-select :active.sync="activeUsers" :inactive.sync="inactiveUsers" :is-dialog="false"
-                    @inactivate="inactivate"
+                    @inactivate="inactivate" prevent-default
                     :filter="()=>true" style="box-shadow: none;width: 200px" :key="role" @activate="activate"
     >
       <template v-slot:aSearch>

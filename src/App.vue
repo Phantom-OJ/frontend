@@ -35,7 +35,6 @@ export default class App extends Vue {
    */
   beforeMount() {
     //@ts-ignore dev TODO
-    window.vue = this
     window.state = {}
     Vue.prototype.$api = API.getInstance()
     Vue.prototype.$alert = (alert) => {

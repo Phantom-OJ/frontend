@@ -77,12 +77,17 @@ export class API {
       return await this.request(method, url, data)
     } catch (error) {
       if (error instanceof APIException) {
+        console.log(error)
         switch (error.code) {
           case 401:
             this.$vue.$store.commit('setUser', {isAuthenticated: false})
             await this.$vue.$router.push(`/login?then=${this.$vue.$route.path}`)
             break
           case 403:
+            if (url.includes('require')) {
+              SUtil.alertAPIException(error, this.$vue)
+              break
+            }
             await this.$vue.$router.replace({
               name: 'forbidden'
             })
@@ -321,7 +326,7 @@ export class API {
   }
 
   async submitCode(ID: number, form: CodeForm): Promise<SResponse> {
-    return await this.request('post', `problem/${ID}/submit`, form)
+    return await this.cRequest('post', `problem/${ID}/submit`, form)
   }
 
   async polling(ID: number): Promise<PollingResponse> {

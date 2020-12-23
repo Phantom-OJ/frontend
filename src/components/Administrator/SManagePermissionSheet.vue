@@ -23,7 +23,8 @@
     </div>
     <s-split-select
       v-else :active.sync="activePermissions" :inactive.sync="inactivePermissions" :is-dialog="false"
-      style="box-shadow: none;width: 200px"
+      style="box-shadow: none;width: 200px" prevent-default @activate="activate"
+      @inactivate="inactivate"
     >
       <template v-slot:active="{entity}">
         <div class="s-permission">
@@ -42,7 +43,6 @@
         </div>
       </template>
       <v-card-title style="padding-bottom: 0">{{ $t('select.permission') }}</v-card-title>
-      <v-btn color="success" absolute right top @click="submitModify">{{ $t('submit') }}</v-btn>
     </s-split-select>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default class SManagePermissionSheet extends Vue {
   roleForm: { allowance: string, role: string } = {} as { allowance: string, role: string }
   role: string = ''
 
-  refresh(){
+  refresh() {
     this.manageRole(this.roles[0])
   }
 
@@ -86,7 +86,7 @@ export default class SManagePermissionSheet extends Vue {
     this.flagAddRole = false
   }
 
-  originPermissions(r:string):Permission[]{
+  originPermissions(r: string): Permission[] {
     return this.permissions.filter(p => p.role === r)
   }
 
@@ -100,6 +100,7 @@ export default class SManagePermissionSheet extends Vue {
   }
 
   async submitNewRole() {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
     const msg = await this.$api.putPermission({
       ...this.roleForm, id: 0
     })
@@ -108,27 +109,24 @@ export default class SManagePermissionSheet extends Vue {
         type: 'success',
         info: this.$t('success.submit').toString()
       }))
-      await this.$store.dispatch('loadPermissions',true)
+      await this.$store.dispatch('loadPermissions', true)
     }
   }
 
-  async submitModify() {
-    if(!window.confirm(this.$t('warning.warn').toString())) return
-    let ori = this.originPermissions(this.role)
-    let put = SUtil.difference(this.activePermissions, ori.map(p=>p.allowance))
-    let del = ori.filter(i => this.activePermissions.find(j => j === i.allowance) === void 0)
-    let promises:Promise<string>[] = put
-      .map(async e => await this.$api.putPermission({role: this.role, allowance: e, id: 0}))
-      .concat(del.map(async e=> await this.$api.delPermission(e.id??-1)))
-    let msg = await Promise.all(promises)
+  async activate(item: string) {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.putPermission({
+      role: this.role, allowance: item, id: 0
+    })
+    SUtil.alertIfSuccess(msg, 'success.submit', this)
+    await this.$store.dispatch('loadPermissions', true)
+  }
 
-    if(msg.every(m=>m.toUpperCase().trim()==='SUCCESS')){
-      this.$alert(new Alert({
-        type: 'success',
-        info: this.$t('success.submit').toString()
-      }))
-      await this.$store.dispatch('loadPermissions',true)
-    }
+  async inactivate(item: string) {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.delPermission(this.originPermissions(this.role).find(p => p.allowance === item)?.id ?? -1)
+    SUtil.alertIfSuccess(msg, 'success.delete', this)
+    await this.$store.dispatch('loadPermissions', true)
   }
 }
 </script>

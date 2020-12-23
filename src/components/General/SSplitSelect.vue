@@ -48,13 +48,18 @@ export default class SSplitSelect extends Vue {
     type:Boolean,
     default:true
   })
-  isDialog!:boolean
+  readonly isDialog!:boolean
   @Prop()
-  activeFilter?:any
+  readonly activeFilter?:any
   @Prop()
-  inactiveFilter?:any
+  readonly inactiveFilter?:any
   @Prop()
-  filter?:(i:any, j:any)=>boolean
+  readonly filter?:(i:any, j:any)=>boolean
+  @Prop({
+    type:Boolean,
+    default:false
+  })
+  readonly preventDefault!:boolean
 
   get activeItems(){
     if(!this.filter) return this.s_active
@@ -68,12 +73,14 @@ export default class SSplitSelect extends Vue {
 
   @Emit()
   activate(entity: any) {
+    if(this.preventDefault) return
     this.s_inactive.remove(entity)
     this.s_active.push(entity)
   }
 
   @Emit()
   inactivate(entity: any) {
+    if(this.preventDefault) return
     this.s_inactive.push(entity)
     this.s_active.remove(entity)
   }

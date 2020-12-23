@@ -30,12 +30,17 @@ a {
   src: url("./assets/fonts/HYQuanTangShiJ.ttf");
 }
 
+@font-face {
+  font-family: PF;
+  src: url("./assets/fonts/苹方黑体-细-简.ttf");
+}
+
 .lang-zh-CN {
-  font-family: HYQuan, serif;
+  font-family: PF, HYQuan, serif;
 }
 
 .lang-en {
-  font-family: "Segoe UI", Helvetica, serif;
+  font-family: PF, "Segoe UI", Helvetica, serif;
 
   div, p, span, i {
     letter-spacing: 0.5px;
@@ -545,7 +550,7 @@ button.s-submit-btn {
   min-height: 555px;
 }
 
-.s-card-loading{
+.s-card-loading {
   width: 100%;
   min-height: 746px;
 }

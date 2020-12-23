@@ -61,8 +61,10 @@ export class SUtil {
         return 'mdi-memory'
       case 'RE':
         return 'mdi-bug'
-      default:
+      case 'SE':
         return 'mdi-help'
+      default:
+        return 'mdi-timelapse'
     }
   }
 
@@ -78,8 +80,10 @@ export class SUtil {
       case 'MLE':
       case 'RE':
         return `background: radial-gradient(var(--v-warning-base),var(--v-warning-lighten1));`
-      default:
+      case 'SE':
         return `background: radial-gradient(var(--v-accent-base),var(--v-accent-lighten1));`
+      default:
+        return `background: radial-gradient(var(--v-info-base), var(--v-info-lighten1))`
     }
   }
 

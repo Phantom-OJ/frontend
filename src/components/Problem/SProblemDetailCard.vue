@@ -80,9 +80,15 @@
 
     <v-scale-transition>
       <div v-if="showEdit&&tab%4===0" class="s-problem-tool">
-        <v-btn fab color="info" @click="$router.push(`/modify/assignment/${problem.assignmentId}/problem/${pid}`)" width="72" height="72">
+        <v-btn fab color="info" @click="$router.push(`/modify/assignment/${problem.assignmentId}/problem/${pid}`)"
+               width="72" height="72">
           <s-tooltip-icon :text="$t('create.edit')" direction="top" :size="32">
             mdi-pencil
+          </s-tooltip-icon>
+        </v-btn>
+        <v-btn fab color="warning" @click="rejudge" width="72" height="72">
+          <s-tooltip-icon :text="$t('problem.rejudge')" direction="top" :size="32">
+            mdi-restart-alert
           </s-tooltip-icon>
         </v-btn>
       </div>
@@ -219,7 +225,7 @@ export default class SProblemDetailCard extends Vue {
         dialect: this.lang,
         submitTime: Date.now()
       })
-      if(re.msg.trim().toUpperCase()!=='SUCCESS'){
+      if (re.msg.trim().toUpperCase() !== 'SUCCESS') {
         return
       }
       this.$alert(new Alert({
@@ -228,7 +234,7 @@ export default class SProblemDetailCard extends Vue {
       }))
       this.polling = true
       let pollingRes = await this.$api.polling(re.data)
-      while (!pollingRes.isComplete&&this.polling) {
+      while (!pollingRes.isComplete && this.polling) {
         if (pollingRes.hasError) {
           this.$alert(new Alert({
             type: 'error',
@@ -261,6 +267,12 @@ export default class SProblemDetailCard extends Vue {
         info: this.$t('warning.no-code').toString()
       }))
     }
+  }
+
+  async rejudge() {
+    if (!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.rejudgeProblem(this.pid)
+    SUtil.alertIfSuccess(msg, 'success.submit', this)
   }
 
   beforeDestroy() {

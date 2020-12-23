@@ -18,18 +18,21 @@
       <v-treeview :items="assignments" item-key="ID" item-text="title" item-children="problemList" open-on-click
                   class="ass-tree">
         <template v-slot:label="{item, leaf}">
-          <div class="s-flex" v-if="leaf" @click="flag_ass_prob=false;problem=item">
+          <div class="s-flex" v-if="leaf" @click="problem=item">
           <span style="font-size: 20px;">
             {{ item.title }}
           </span>
             <v-icon @click="e=>editProb(e, item)">
               mdi-pencil
             </v-icon>
+            <s-tooltip-icon :text="$t('problem.rejudge')" @click="e=>rejudgeProb(e, item)" direction="top">
+              mdi-restart-alert
+            </s-tooltip-icon>
             <v-icon @click="e=>deleteProb(e, item)">
               mdi-delete-off
             </v-icon>
           </div>
-          <div class="s-flex" v-else @click="flag_ass_prob=true;assignment=item">
+          <div class="s-flex" v-else @click="assignment=item">
             <v-card-title style="font-size: 24px;">
               {{ item.title }}
             </v-card-title>
@@ -89,7 +92,6 @@ export default class SManageAssignmentSheet extends Vue {
   assignment: Assignment = {} as Assignment
   problem: Problem = {} as Problem
   max: number = 0
-  flag_ass_prob: boolean = true
   flag_down_dialog: boolean = false
   fileType: string = 'JSON'
   filter: Filter = {
@@ -120,6 +122,13 @@ export default class SManageAssignmentSheet extends Vue {
       id: '',
       name: ''
     }
+  }
+
+  async rejudgeProb(e: Event, prob: Problem) {
+    e.stopPropagation()
+    if(!window.confirm(this.$t('warning.warn').toString())) return
+    const msg = await this.$api.rejudgeProblem(prob.ID)
+    SUtil.alertIfSuccess(msg, 'success.submit', this)
   }
 
   editProb(e: Event, prob: Problem) {
@@ -167,7 +176,7 @@ export default class SManageAssignmentSheet extends Vue {
     }
   }
 
-  refresh(){
+  refresh() {
     this.loadAssignments(true)
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent v-model="flagDialog" max-width="320">
+  <v-dialog persistent v-model="flagDialog" max-width="320" @keydown.enter="yes">
     <v-card>
       <v-card-title>
         {{ $t('confirm') }}
@@ -7,11 +7,11 @@
       <v-card-text>
         {{ content }}
       </v-card-text>
-      <v-card-actions style="margin: 16px; display: flex;justify-content: flex-end;padding-bottom: 16px;">
-        <v-btn color="success" @click="yes">
+      <v-card-actions style="margin: 16px 16px 0 0; display: flex;justify-content: flex-end;">
+        <v-btn color="success" @click="yes" style="margin-bottom: 16px" autofocus>
           {{ $t('OK') }}
         </v-btn>
-        <v-btn color="accent" @click="no">
+        <v-btn color="accent" @click="no" style="margin-bottom: 16px">
           {{ $t('cancel') }}
         </v-btn>
       </v-card-actions>
@@ -26,7 +26,7 @@ import {Component} from 'vue-property-decorator'
 @Component({})
 export default class SConfirm extends Vue {
 
-  result: Promise<boolean> = new Promise<boolean>(resolve1 => void 0)
+  result: Promise<boolean> = new Promise<boolean>(() => void 0)
   resolve: (value: boolean) => void = () => void 0
   flagDialog: boolean = false
   content: string = ''

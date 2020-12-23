@@ -74,7 +74,8 @@ export default class SProfileHomeSheet extends Vue {
     this.loadGrade()
   }
 
-  mounted() {
+  async mounted() {
+    await this.loadStatisticSet()
     if (this.$route.query.recover) {
       if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
@@ -88,7 +89,7 @@ export default class SProfileHomeSheet extends Vue {
     const c2: any = this.$refs.chart2
     this.chartContexts[0] = c1.getContext('2d')
     this.chartContexts[1] = c2.getContext('2d')
-    this.loadStatisticSet()
+    this.draw()
   }
 
   beforeDestroy() {
@@ -105,7 +106,6 @@ export default class SProfileHomeSheet extends Vue {
     this.loading = true
     this.statistic = await this.$api.queryUserStatSet(this.uid)
     this.loading = false
-    this.draw()
   }
 
   async loadGrade() {

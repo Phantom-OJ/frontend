@@ -98,8 +98,10 @@ export class SUtil {
       case 'MLE':
       case 'RE':
         return 'warning'
-      default:
+      case 'SE':
         return 'accent'
+      default:
+        return 'info'
     }
   }
 
@@ -114,8 +116,10 @@ export class SUtil {
       case 'MLE':
       case 'RE':
         return '#ff9800'
-      default:
+      case 'SE':
         return '#3165e5'
+      default:
+        return '#734bee'
     }
   }
 

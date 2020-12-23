@@ -158,9 +158,7 @@ import {mapState} from "vuex";
 export default class SHelpCard extends Vue{
   e1:number=1
   readonly width_height!:{width:number, height:number}
-  created() {
-    console.log(this.$t('help.step1.content'))
-  }
+
   get step1Content(){
     return ["1","2","3","4","5"].map(i => this.$t(`help.step1.content.s${i}`))
   }

@@ -46,6 +46,7 @@ export class Problem implements Entity {
   title: string
   assignmentId: number
   fullScore: number
+  status:string
   spaceLimit: number
   timeLimit: number
   numberSubmit: number
@@ -56,7 +57,7 @@ export class Problem implements Entity {
   indexInAssignment: number
   solved: SolveState
 
-  constructor({id, description, title, indexInAssignment, assignmentId, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved}: any) {
+  constructor({id, description, title, indexInAssignment, assignmentId, fullScore, recentCode, spaceLimit, timeLimit, tagList, numberSubmit, numberSolve, solution, solved, status}: any) {
     this.ID = id
     this.description = description ?? ''
     this.title = title
@@ -71,6 +72,7 @@ export class Problem implements Entity {
     this.solution = solution
     this.tagList = (tagList as Array<any>)?.map(e => new Tag(e)) ?? []
     this.solved = solved ?? SolveState.NO_SUBMIT
+    this.status = status
   }
 }
 

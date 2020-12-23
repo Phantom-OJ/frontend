@@ -64,7 +64,6 @@ export default class SProblemStatistic extends Vue {
   }
 
   draw() {
-    console.log('??')
     let data
     this.labelData = SUtil.genLabelDataFromStat(this.statistic.resultSet)
     data = {

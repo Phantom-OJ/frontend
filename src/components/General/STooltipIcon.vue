@@ -5,13 +5,14 @@
     :right="is('right')"
     :left="is('left')"
     :transition="transition"
+    :disabled="disabled"
   >
     <template v-slot:activator="{on,attrs}">
       <v-icon v-on="on" v-bind="attrs" :class="iconClass" :size="size" @click="click">
         <slot/>
       </v-icon>
     </template>
-    {{text}}
+    {{ text }}
   </v-tooltip>
 </template>
 
@@ -34,29 +35,35 @@ export default class STooltipIcon extends Vue {
   readonly transition!: string
 
   @Prop({
-    type:String,
-    default:'icon-color-0'
+    type: String,
+    default: 'icon-color-0'
   })
-  readonly iconClass!:string
+  readonly iconClass!: string
 
   @Prop({
-    type:String,
-    required:true
+    type: String,
+    required: true
   })
-  readonly text!:string
+  readonly text!: string
 
   @Prop({
-    type:Number,
-    default:24
+    type: Number,
+    default: 24
   })
-  readonly size!:number
+  readonly size!: number
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  readonly disabled!: boolean
 
   is(direction: string) {
     return this.direction.toLowerCase() === direction
   }
 
   @Emit()
-  click(){
+  click() {
 
   }
 }

@@ -46,6 +46,7 @@
               <s-tag
                 :tag="entity"
                 :stop-click-propagate="false"
+                :key="entity.keyword"
               ></s-tag>
             </template>
             <template v-slot:iSearch>
@@ -55,9 +56,15 @@
               <s-tag
                 :tag="entity"
                 :stop-click-propagate="false"
+                :key="entity.keyword"
               ></s-tag>
             </template>
-            <v-card-title style="padding-bottom: 0">{{ $t('select.tag') }}</v-card-title>
+            <v-card-title style="padding-bottom: 0;display: inline-block">{{ $t('select.tag') }}</v-card-title>
+            <v-btn fab color="secondary" :width="44" :height="44" @click="tagAddDialog = true">
+              <v-icon>
+                mdi-plus
+              </v-icon>
+            </v-btn>
           </s-split-select>
         </v-dialog>
         <v-select :label="$t('create.problem.type')" v-model="problem_.type" :items="TYPE"></v-select>
@@ -94,7 +101,22 @@
           </v-btn>
         </v-simple-table>
         <v-btn v-if="!this.isCreate" @click="submit" color="success" style="margin-top: 16px">{{ $t('submit') }}</v-btn>
-
+        <v-dialog v-model="tagAddDialog" max-width="460">
+          <v-card>
+            <v-card-title>
+              {{ $t('create.tag') }}
+            </v-card-title>
+            <div style="margin: 12px 24px">
+              <v-text-field v-model="tagAdd_.keyword" :label="$t('create.keyword')" hide-details/>
+              <v-text-field v-model="tagAdd_.description" :label="$t('create.description')" hide-details/>
+            </div>
+            <div class="s-flex" style="justify-content: flex-end;padding-right: 16px;margin-top: 16px">
+              <v-btn color="success" @click="submitAddTag" style="margin-bottom: 16px">
+                {{ $t('submit') }}
+              </v-btn>
+            </div>
+          </v-card>
+        </v-dialog>
         <v-dialog v-if="jpDialog" v-model="jpDialog">
           <v-card style="padding: 36px 24px 36px 24px">
             <s-manage-judge-point-sheet :judge-point.sync="jpShow" :is-create="isCreate"/>
@@ -116,8 +138,7 @@
       </div>
       <div v-else class="s-right s-flex">
         <v-textarea :label="$t('create.problem.solution')" color="primary" hide-details v-model="problem_.solution"
-                    class="s-mp-form--description inline-block" filled auto-grow height="706"
-                    :disabled="!permitSolution"/>
+                    class="s-mp-form--description inline-block" filled auto-grow :disabled="!permitSolution"/>
         <s-markdown :markdown="problem_.solution" class="s-mp-form--description__show"/>
       </div>
     </v-form>
@@ -127,7 +148,7 @@
 <script lang="ts">
 import {Vue} from '@/ts/extension'
 import {Component, Prop, PropSync, Watch} from 'vue-property-decorator'
-import {JudgePointForm, ProblemForm, STATUS, TYPE} from "@/ts/forms";
+import {JudgePointForm, ProblemForm, STATUS, TagForm, TYPE} from "@/ts/forms";
 import SDateTimePicker from "@/components/General/SDateTimePicker.vue";
 import SMarkdown from "@/components/General/SMarkdown.vue";
 import SCodeEditor from "@/components/Problem/SCodeEditor.vue";
@@ -158,7 +179,7 @@ export default class SManagerProblemSheet extends Vue {
   @Prop({type: Boolean, required: true})
   isCreate!: boolean
 
-  loading:boolean = false
+  loading: boolean = false
   des_sol: boolean = false
   activeTags: Tag[] = []
   activeTF: string = ''
@@ -166,6 +187,13 @@ export default class SManagerProblemSheet extends Vue {
   inactiveTF: string = ''
   tagDialog: boolean = false
   jpDialog: boolean = false
+  tagAddDialog: boolean = false
+  tagAdd_: TagForm = {
+    id: -1,
+    keyword: '',
+    description: '',
+    valid: true
+  }
   jpShow_: JudgePointForm = {} as JudgePointForm
 
   get jpShow() {
@@ -181,6 +209,20 @@ export default class SManagerProblemSheet extends Vue {
     }
     this.jpShow_ = v
     this.jpDialog = true
+  }
+
+  async submitAddTag() {
+    const msg = await this.$api.putTag(this.tagAdd_)
+    await this.loadTags(true)
+    this.problemChanged()
+    SUtil.alertIfSuccess(msg, 'success.upload', this)
+    this.tagAddDialog = false
+    this.tagAdd_ = {
+      id: -1,
+      keyword: '',
+      description: '',
+      valid: true
+    }
   }
 
   @Watch('activeTags')
@@ -205,11 +247,9 @@ export default class SManagerProblemSheet extends Vue {
 
   @Watch('problem_.id')
   problemChanged() {
-    if (!this.problem_||!this.problem_.id) return
-    if ((this.problem_.id ?? -1) > 0) {
-      this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
-      this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
-    }
+    if (!this.problem_ || !this.problem_.id) return
+    this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
+    this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
   }
 
   async loadScripts() {
@@ -220,8 +260,8 @@ export default class SManagerProblemSheet extends Vue {
     return this.$store.dispatch('loadDBs')
   }
 
-  async loadTags() {
-    return this.$store.dispatch('loadTags')
+  async loadTags(force: boolean = false) {
+    return this.$store.dispatch('loadTags', force)
   }
 
   get activeTagNames() {

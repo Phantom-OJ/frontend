@@ -64,7 +64,7 @@ https://material.iconhelper.cn/
 
 @copyright
 
-btn可以自定义loader 是slot
+[cancel] btn可以自定义loader 是slot
 
 [finished] recorddetail 重新请求
 
@@ -82,4 +82,4 @@ btn可以自定义loader 是slot
 
 [finished] loading 界面
 
-修改题目，导出分数
+[finished] 修改题目，导出分数

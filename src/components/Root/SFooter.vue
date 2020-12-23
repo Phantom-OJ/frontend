@@ -8,23 +8,26 @@
         text
       >
         <v-icon>
-          {{btn.icon}}
+          {{ btn.icon }}
         </v-icon>
-        {{$t(btn.title)}}
+        {{ $t(btn.title) }}
         <v-dialog v-model="btn.showDialog" width="500">
           <v-card>
             <v-card-title>
-              {{$t(btn.title)}}
+              {{ $t(btn.title) }}
             </v-card-title>
             <v-card-text>
-              {{$t(btn.content)}}
+              {{ $t(btn.content) }}
             </v-card-text>
           </v-card>
         </v-dialog>
       </v-btn>
       <v-col cols="12">
-        <a id="for-record">
-        Phantom SQL Online Judge</a>
+        <div id="for-record">
+          <a @click="$router.push('/')" style="color: black;">
+            Phantom SQL Online Judge
+          </a> @<a href="https://github.com/Phantom-OJ" target="_blank" style="color: var(--v-secondary-darken1)">Phantom-OJ</a>
+        </div>
       </v-col>
     </v-row>
   </v-footer>
@@ -51,16 +54,16 @@ export default class SFooter extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "../../css/variable";
+@import "../../css/variable";
 
-  #s-footer {
-    width: $app-width;
-    margin: 0 auto;
-  }
+#s-footer {
+  width: $app-width;
+  margin: 0 auto;
+}
 
-  #for-record{
-    color: black;
-    display: block;
-    text-align: center;
-  }
+#for-record {
+  color: black;
+  display: block;
+  text-align: center;
+}
 </style>

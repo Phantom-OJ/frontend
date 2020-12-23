@@ -206,7 +206,7 @@ export default class SManagerProblemSheet extends Vue {
   @Watch('problem_.id')
   problemChanged() {
     if (!this.problem_||!this.problem_.id) return
-    if ((this.problem_.id ?? -1) > 0 && !this.isCreate) {
+    if ((this.problem_.id ?? -1) > 0) {
       this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
       this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
     }

@@ -182,6 +182,7 @@ export default class SManageAssignmentCard extends Vue {
         endTime: new Date(`${this.endDate} ${this.endTime}`).getTime()
       })
       SUtil.alertIfSuccess(msg, 'success.upload', this)
+      window.localStorage.removeItem(this.keyInState)
       this.$store.commit('setProblemInfo', {filter: {...this.$store.state.problemInfo.filter}})
       this.$store.commit('setAssignmentInfo', {filter: {...this.$store.state.assignmentInfo.filter}})
     } else {
@@ -199,7 +200,7 @@ export default class SManageAssignmentCard extends Vue {
   async created() {
     await this.$store.dispatch('loadGroups')
     if (this.isCreate) {
-      this.inactiveGroups.push(...this.groups)
+      this.inactiveGroups = SUtil.differenceByID(this.groups, this.activeGroups)
     } else {
       await this.loadAssignment()
     }
@@ -220,7 +221,7 @@ export default class SManageAssignmentCard extends Vue {
   }
 
   mounted() {
-    if (this.$route.query.recover) {
+    if (this.$route.query.recover && this.isCreate) {
       if (!window.state?.[this.keyInState]) return
       for (let stateKey in window.state[this.keyInState]) {
         if (stateKey === 'loading') continue
@@ -229,12 +230,24 @@ export default class SManageAssignmentCard extends Vue {
           this[stateKey] = window.state[this.keyInState][stateKey]
         }
       }
+    } else if (this.isCreate) {
+      if (!window.localStorage.getItem(this.keyInState)) return;
+      const data = JSON.parse(window.localStorage.getItem(this.keyInState)!)
+      const set = new Set(['loading', 'activeGroups', 'activeGF', 'inactiveGroups', 'inactiveGF'])
+      for (let stateKey in data) {
+        if (!data.hasOwnProperty(stateKey) || set.has(stateKey)) continue
+        //@ts-ignore
+        this[stateKey] = data[stateKey]
+      }
     }
   }
 
   beforeDestroy() {
     window.state[this.keyInState] = {
       ...this.$data
+    }
+    if (this.isCreate) {
+      window.localStorage.setItem(this.keyInState, JSON.stringify(this.$data))
     }
   }
 

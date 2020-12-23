@@ -3,10 +3,10 @@
     <v-app-bar-nav-icon v-if="showIcon" id="nav-icon"
                         @click="$store.commit('setSideNav', !$store.state.sideNav)"
     />
-    <v-avatar id="logo-img">
+    <v-avatar id="logo-img" class="cursor-hand-hover" @click="$router.push('/')">
       <v-img src="@/assets/cute_phantom.jpg"/>
     </v-avatar>
-    <label id="logo-text" class="ellipsis-col">
+    <label id="logo-text" class="ellipsis-col cursor-hand-hover" @click="$router.push('/')">
       Phantom-OJ
     </label>
     <v-spacer></v-spacer>

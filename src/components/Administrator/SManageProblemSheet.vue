@@ -1,5 +1,6 @@
 <template>
-  <v-sheet>
+  <s-loading v-if="loading" class="s-card-loading"/>
+  <v-sheet v-else>
     <v-form class="s-mp-form s-flex">
       <div class="s-left">
         <v-text-field :label="$t('create.title')" color="primary" hide-details v-model="problem_.title"
@@ -94,7 +95,7 @@
         </v-simple-table>
         <v-btn v-if="!this.isCreate" @click="submit" color="success" style="margin-top: 16px">{{ $t('submit') }}</v-btn>
 
-        <v-dialog v-model="jpDialog">
+        <v-dialog v-if="jpDialog" v-model="jpDialog">
           <v-card style="padding: 36px 24px 36px 24px">
             <s-manage-judge-point-sheet :judge-point.sync="jpShow" :is-create="isCreate"/>
             <v-btn v-if="!isCreate" absolute top right @click="submitJP" color="warning">
@@ -138,9 +139,11 @@ import SManageJudgePointSheet from "@/components/Administrator/SManageJudgePoint
 import {mapState} from "vuex";
 import {Permission, User} from "@/ts/user";
 import {SUtil} from "@/ts/utils";
+import SLoading from "@/components/General/SLoading.vue";
 
 @Component({
   components: {
+    SLoading,
     SManageJudgePointSheet, STag, SSplitSelect, SCodemirror, SCodeEditor, SMarkdown, SDateTimePicker
   },
   computed: mapState(['user', 'tags'])
@@ -155,6 +158,7 @@ export default class SManagerProblemSheet extends Vue {
   @Prop({type: Boolean, required: true})
   isCreate!: boolean
 
+  loading:boolean = false
   des_sol: boolean = false
   activeTags: Tag[] = []
   activeTF: string = ''
@@ -189,19 +193,20 @@ export default class SManagerProblemSheet extends Vue {
   }
 
   async init() {
+    this.loading = true
     await Promise.all([this.loadScripts(), this.loadDBs(), this.loadTags()])
     if (this.isCreate) {
       this.inactiveTags.push(...this.tags)
     } else {
       this.problemChanged()
     }
+    this.loading = false
   }
 
   @Watch('problem_.id')
   problemChanged() {
-    if (!this.problem_) return
+    if (!this.problem_||!this.problem_.id) return
     if ((this.problem_.id ?? -1) > 0 && !this.isCreate) {
-      console.log('debug')
       this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
       this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
     }

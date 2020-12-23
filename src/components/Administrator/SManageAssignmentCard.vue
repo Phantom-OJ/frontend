@@ -293,7 +293,7 @@ export default class SManageAssignmentCard extends Vue {
     if (this.isCreate) {
       this.tab = prob.indexInAssignment
     } else if (window.confirm(this.$t('create.leave').toString())) {
-      this.$router.push(`/modify/problem/${prob.id}`)
+      this.$router.push(`/modify/assignment/${this.assignment.id}/problem/${prob.id}`)
     }
   }
 

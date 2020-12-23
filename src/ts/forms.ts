@@ -111,9 +111,9 @@ export const STATUS = Object.freeze({
 })
 
 export const TYPE = Object.freeze({
-  SELECT: 'SELECT',
-  TRIGGER: 'TRIGGER',
+  SELECT: 'select',
+  TRIGGER: 'trigger',
   values() {
-    return Object.freeze(['SELECT', 'TRIGGER'])
+    return Object.freeze(['select', 'trigger'])
   }
 })

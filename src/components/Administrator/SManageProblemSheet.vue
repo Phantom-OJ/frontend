@@ -97,7 +97,7 @@
         <v-dialog v-model="jpDialog">
           <v-card style="padding: 36px 24px 36px 24px">
             <s-manage-judge-point-sheet :judge-point.sync="jpShow" :is-create="isCreate"/>
-            <v-btn v-if="!isCreate" absolute text top right @click="submitJP">
+            <v-btn v-if="!isCreate" absolute top right @click="submitJP" color="warning">
               {{ $t('submit') }}
             </v-btn>
             <v-btn v-else absolute text top right @click="jpDialog=false">
@@ -179,7 +179,7 @@ export default class SManagerProblemSheet extends Vue {
     this.jpDialog = true
   }
 
-  @Watch('activeTags', {immediate: true})
+  @Watch('activeTags')
   setTagList() {
     this.problem_.tagList = this.activeTags.map(e => e.ID)
   }
@@ -199,7 +199,9 @@ export default class SManagerProblemSheet extends Vue {
 
   @Watch('problem_.id')
   problemChanged() {
+    if (!this.problem_) return
     if ((this.problem_.id ?? -1) > 0 && !this.isCreate) {
+      console.log('debug')
       this.activeTags = this.problem_.tagList.map(id => this.tags.find(j => id === j.ID)!)
       this.inactiveTags = SUtil.differenceByID(this.tags, this.activeTags)
     }
@@ -244,12 +246,6 @@ export default class SManagerProblemSheet extends Vue {
   }
 
   addJ() {
-    if (!this.isCreate) {
-      this.$alert(new Alert({
-        type: 'warning',
-        info: this.$t('warning.extra-submit').toString()
-      }))
-    }
     this.problem_.judgePointList.push({
       id: -1,
       dialect: 'pgsql',
@@ -259,13 +255,16 @@ export default class SManagerProblemSheet extends Vue {
       answer: '',
       judgeDatabaseId: 1
     })
+    if (!this.isCreate) {
+      this.jpShow = this.problem_.judgePointList[this.problem_.judgePointList.length - 1]
+    }
   }
 
   get permitSolution() {
     return this.user.hasPermission(Permission.ALLOWANCE.PROVIDE_THE_SOLUTION)
   }
 
-  async submit(){
+  async submit() {
     const msg = await this.$api.modifyProblem(this.problem_.id, this.problem_)
     SUtil.alertIfSuccess(msg, 'success.submit', this)
     this.$emit('refresh')

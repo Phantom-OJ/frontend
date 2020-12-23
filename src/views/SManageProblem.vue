@@ -2,7 +2,7 @@
   <div class="page-detail-root">
     <s-loading v-if="loading" class="s-card-loading"/>
     <v-card v-else class="detail-card">
-      <s-manage-problem-sheet :is-create="false" @refresh="refresh"/>
+      <s-manage-problem-sheet :is-create="false" @refresh="refresh" :problem="problemForm"/>
     </v-card>
   </div>
 </template>

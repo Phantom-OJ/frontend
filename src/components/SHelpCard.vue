@@ -33,12 +33,6 @@
             {{$t("help.step3.title")}}
           </v-stepper-step>
 
-          <v-divider></v-divider>
-
-          <v-stepper-step step="4">
-            {{$t("help.step4.title")}}
-          </v-stepper-step>
-
         </v-stepper-header>
 
         <v-stepper-items>
@@ -113,19 +107,7 @@
 
             <div class="step-button">
               <v-btn color="primary" @click="e1 = 2">{{$t("help.button-prev")}}</v-btn>
-              <v-btn color="primary" @click="e1 = 4">{{$t("help.button-cont")}}</v-btn>
-            </div>
-          </v-stepper-content>
-
-          <v-stepper-content step="4">
-            <v-sheet class="step">
-
-            </v-sheet>
-
-            <div class="step-button">
-              <v-btn color="primary" @click="e1 = 3">{{$t("help.button-prev")}}</v-btn>
               <v-btn color="primary" @click="e1 = 1">{{$t("help.button-back")}}</v-btn>
-              <v-btn color="primary" @click="e1 = 4" :disabled="true">{{$t("help.button-cont")}}</v-btn>
             </div>
           </v-stepper-content>
         </v-stepper-items>

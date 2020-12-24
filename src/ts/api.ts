@@ -38,7 +38,7 @@ import {Vue} from "@/ts/extension";
 import {notLogin} from "@/store/testData";
 
 Axios.defaults.withCredentials = true
-Axios.defaults.timeout = 20000
+Axios.defaults.timeout = 30000
 
 
 /**
@@ -62,6 +62,12 @@ export class API {
       // @ts-ignore
       return (await Axios[method](`/api/${url}`, data)).data
     } catch (e) {
+      if(e.message.includes('timeout')){
+        throw new APIException({
+          status:'timeout',
+          statusText:''
+        },url)
+      }
       throw new APIException(e.response, url)
     }
   }
